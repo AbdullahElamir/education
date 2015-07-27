@@ -1,0 +1,62 @@
+extends layout
+block contentStyle
+block navBar
+block cPanel
+block footer
+block content
+  .container.font
+    .row
+      .col-md-6.col-md-offset-3
+        .panel.panel-login
+          .panel-heading
+            .row
+              .col-xs-6
+                a#register-form-link(href="#") تسجيل
+              .col-xs-6
+                a#login-form-link.active(href="#") دخول
+            hr
+          .panel-body
+            .row
+              .col-lg-12
+                form#login-form(action="", method="post", role="form", style="display: block;")
+                  .form-group
+                    input#username.form-control(type="text", name="username", tabindex="1", placeholder="اسم المستخدم", value="")
+                  .form-group
+                    input#password.form-control(type="password", name="password", tabindex="2", placeholder="كلمة المرور")
+                  .form-group.text-center
+                    label(for="remember")  ذكرني
+                    | 
+                    input#remember(type="checkbox", tabindex="3", name="remember")
+                  .form-group
+                    .row
+                      .col-sm-6.col-sm-offset-3
+                        input#login-submit.form-control.btn.btn-login(type="submit", name="login-submit", tabindex="4", value="تسجيل الدخول")
+                  .form-group
+                    .row
+                      .col-lg-12
+                        .text-center
+                          a#forget-form-link.forgot-password(href="#", tabindex="5") هل نسيت كلمة المرور؟
+                form#register-form(action="", method="post", role="form", style="display: none;")
+                  .form-group
+                    input#username.form-control(type="text", name="username", tabindex="1", placeholder="اسم المستخدم", value="")
+                  .form-group
+                    input#email.form-control(type="email", name="email", tabindex="1", placeholder="البريد الالكتروني", value="")
+                  .form-group
+                    input#password.form-control(type="password", name="password", tabindex="2", placeholder="كلمة المرور")
+                  .form-group
+                    input#confirm-password.form-control(type="password", name="confirm-password", tabindex="2", placeholder="تأكيد كلمة المرور")
+                  .form-group
+                    .row
+                      .col-sm-6.col-sm-offset-3
+                        input#register-submit.form-control.btn.btn-register(type="submit", name="register-submit", tabindex="4", value="سجل الان")
+                form#forget-form(action="", method="post", role="form", style="display: none;")
+                  .col-xs-12#form-heder !استعادة كلمة المرور
+                  .form-group
+                    input#email.form-control(type="text", name="email", tabindex="1", placeholder="ادخل البريد الالكتروني", value="")
+                  .form-group
+                    .row
+                      .col-sm-6.col-sm-offset-3
+                        input#forget-submit.form-control.btn.btn-register(type="submit", name="forget-submit", tabindex="2", value="استعادة")
+  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/authentication.js')
