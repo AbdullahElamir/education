@@ -3,15 +3,148 @@ html
   head
     title= title
     link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/bootstrap-rtl.min.css')
     block contentStyle
-      link(rel='stylesheet', href='/css/navbar.css')
-      link(rel='stylesheet', href='/css/style.css')
+      link(rel='stylesheet', href='/css/navbarStyle.css')
+      link(rel='stylesheet', href='/css/cPanelStyle.css')
     block authenticationStyle
-      link(rel='stylesheet', href='/css/authentication.css')
+      link(rel='stylesheet', href='/css/authenticationStyle.css')
+    link(rel='stylesheet', href='/css/bootstrap-select.min.css')
+    link(rel='stylesheet', href='/css/customStyle.css')
   body
     block navBar
-      .container-fulid
-        nav.navbar.navbar-default.font(role="navigation")
+      //- .container-fulid
+      //-   nav.navbar.navbar-default.font(role="navigation")
+      //-     // Brand and toggle get grouped for better mobile display
+      //-     .navbar-header
+      //-       button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+      //-         span.sr-only Toggle navigation
+      //-         span.icon-bar
+      //-         span.icon-bar
+      //-         span.icon-bar
+      //-       a.navbar-brand(href="http://www.jquery2dotnet.com") الدراسة والامتحانات
+      //-     // Collect the nav links, forms, and other content for toggling
+      //-     #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      //-       ul.nav.navbar-nav
+      //-         li.active
+      //-           a(href="#")
+      //-             | لوحة التحكم
+      //-             | 
+      //-             span.glyphicon.glyphicon-home
+      //-         li
+      //-           a(href="#")
+      //-             | التقويم
+      //-             | 
+      //-             span.glyphicon.glyphicon-calendar
+      //-         li.dropdown
+      //-           a.dropdown-toggle(href="#", data-toggle="dropdown")
+      //-             b.caret
+      //-             | إضافات
+      //-             | 
+      //-             span.glyphicon.glyphicon-list-alt
+      //-           ul.dropdown-menu
+      //-             li
+      //-               a(href="http://www.jquery2dotnet.com") Action
+      //-             li
+      //-               a(href="http://www.jquery2dotnet.com") Another action
+      //-             li
+      //-               a(href="#") Something else here
+      //-             li.divider
+      //-             li
+      //-               a(href="#") Separated link
+      //-             li.divider
+      //-             li
+      //-               a(href="#") One more separated link
+      //-         li.dropdown
+      //-           a.dropdown-toggle(href="#", data-toggle="dropdown")
+      //-             b.caret
+      //-             | بحث
+      //-             | 
+      //-             span.glyphicon.glyphicon-search
+      //-           ul.dropdown-menu(style="min-width: 275px;")
+      //-             li
+      //-               .row
+      //-                 .col-md-12
+      //-                   form.navbar-form.navbar-left(role="search")
+      //-                     .input-group
+      //-                       span.input-group-btn
+      //-                         button.btn.btn-primary(type="button")
+      //-                           | !اذهب
+      //-                       input.form-control(type="text", placeholder="بحث",style="direction: rtl;padding-bottom: 0px;")      
+      //-       ul.nav.navbar-nav.navbar-right
+      //-         li.dropdown
+      //-           a.dropdown-toggle(href="#", data-toggle="dropdown")
+      //-             span.label.label-primary 42
+      //-             | الدردشة
+      //-             | 
+      //-             span.glyphicon.glyphicon-comment
+      //-           ul.dropdown-menu
+      //-             li
+      //-               a(href="#")
+      //-                 span.label.label-warning 7:00 AM
+      //-                 | Hi :)
+      //-             li
+      //-               a(href="#")
+      //-                 span.label.label-warning 8:00 AM
+      //-                 | How are you?
+      //-             li
+      //-               a(href="#")
+      //-                 span.label.label-warning 9:00 AM
+      //-                 | What are you doing?
+      //-             li.divider
+      //-             li
+      //-               a.text-center(href="#") View All
+      //-         li.dropdown
+      //-           a.dropdown-toggle(href="#", data-toggle="dropdown")
+      //-             span.label.label-info 32
+      //-             | البريد الوارد
+      //-             | 
+      //-             span.glyphicon.glyphicon-envelope
+      //-           ul.dropdown-menu
+      //-             li
+      //-               a(href="#")
+      //-                 | مقتطف المفضلة
+      //-                 | 
+      //-                 span.label.label-warning 4:00 AM
+      //-             li
+      //-               a(href="#")
+      //-                 | التسويق عبر البريد الإلكتروني
+      //-                 | 
+      //-                 span.label.label-warning 4:30 AM
+      //-             li
+      //-               a(href="#")
+      //-                 | تركز اشتراك تصميم البريد الإلكتروني
+      //-                 | 
+      //-                 span.label.label-warning 5:00 AM
+      //-             li.divider
+      //-             li
+      //-               a.text-center(href="#") اظهار الكل
+      //-         li.dropdown
+      //-           a.dropdown-toggle(href="#", data-toggle="dropdown")
+      //-             b.caret
+      //-             | المسؤول
+      //-             | 
+      //-             span.glyphicon.glyphicon-user
+      //-           ul.dropdown-menu
+      //-             li
+      //-               a(href="#")
+      //-                 | البيانات الشخصية
+      //-                 | 
+      //-                 span.glyphicon.glyphicon-user
+      //-             li
+      //-               a(href="#")
+      //-                 | الاعدادات
+      //-                 | 
+      //-                 span.glyphicon.glyphicon-cog
+      //-             li.divider
+      //-             li
+      //-               a(href="/")
+      //-                 | تسجيل الخروج
+      //-                 | 
+      //-                 span.glyphicon.glyphicon-off
+      //-     // /.navbar-collapse
+      .container-fulid.font
+        nav.navbar.navbar-default(role="navigation")
           // Brand and toggle get grouped for better mobile display
           .navbar-header
             button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
@@ -25,20 +158,17 @@ html
             ul.nav.navbar-nav
               li.active
                 a(href="#")
-                  | لوحة التحكم
-                  | 
                   span.glyphicon.glyphicon-home
+                  |  لوحة التحكم
               li
                 a(href="#")
-                  | التقويم
-                  | 
                   span.glyphicon.glyphicon-calendar
+                  |  التقويم
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  b.caret
-                  | إضافات
-                  | 
                   span.glyphicon.glyphicon-list-alt
+                  |  أدوات
+                  b.caret
                 ul.dropdown-menu
                   li
                     a(href="http://www.jquery2dotnet.com") Action
@@ -54,148 +184,44 @@ html
                     a(href="#") One more separated link
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  b.caret
-                  | بحث
-                  | 
                   span.glyphicon.glyphicon-search
+                  |  بحث
+                  b.caret
                 ul.dropdown-menu(style="min-width: 275px;")
                   li
                     .row
                       .col-md-12
                         form.navbar-form.navbar-left(role="search")
                           .input-group
+                            input.form-control(type="text", placeholder="بحث",style="padding-bottom: 0px;")
                             span.input-group-btn
                               button.btn.btn-primary(type="button")
-                                | !اذهب
-                            input.form-control(type="text", placeholder="بحث",style="direction: rtl;padding-bottom: 0px;")      
+                                | اذهب!
             ul.nav.navbar-nav.navbar-right
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  span.label.label-primary 42
-                  | الدردشة
-                  | 
-                  span.glyphicon.glyphicon-comment
-                ul.dropdown-menu
-                  li
-                    a(href="#")
-                      span.label.label-warning 7:00 AM
-                      | Hi :)
-                  li
-                    a(href="#")
-                      span.label.label-warning 8:00 AM
-                      | How are you?
-                  li
-                    a(href="#")
-                      span.label.label-warning 9:00 AM
-                      | What are you doing?
-                  li.divider
-                  li
-                    a.text-center(href="#") View All
-              li.dropdown
-                a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  span.label.label-info 32
-                  | البريد الوارد
-                  | 
-                  span.glyphicon.glyphicon-envelope
-                ul.dropdown-menu
-                  li
-                    a(href="#")
-                      | مقتطف المفضلة
-                      | 
-                      span.label.label-warning 4:00 AM
-                  li
-                    a(href="#")
-                      | التسويق عبر البريد الإلكتروني
-                      | 
-                      span.label.label-warning 4:30 AM
-                  li
-                    a(href="#")
-                      | تركز اشتراك تصميم البريد الإلكتروني
-                      | 
-                      span.label.label-warning 5:00 AM
-                  li.divider
-                  li
-                    a.text-center(href="#") اظهار الكل
-              li.dropdown
-                a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  b.caret
-                  | المسؤول
-                  | 
                   span.glyphicon.glyphicon-user
+                  |  اسم المستخدم
+                  b.caret
                 ul.dropdown-menu
                   li
                     a(href="#")
-                      | البيانات الشخصية
-                      | 
                       span.glyphicon.glyphicon-user
+                      |  الملف الشخصي
                   li
                     a(href="#")
-                      | الاعدادات
-                      | 
                       span.glyphicon.glyphicon-cog
+                      |  الاعدادات
                   li.divider
                   li
-                    a(href="/")
-                      | تسجيل الخروج
-                      | 
+                    a(href="#")
                       span.glyphicon.glyphicon-off
+                      |  خروج
           // /.navbar-collapse
-    block cPanel
-      .container#container
+    block navcPanel
+      .container
         .row
-          .col-sm-6.col-sm-offset-1.col-md-6.col-md-offset-1
-            .panel.panel-primary.font
-              .panel-heading
-                h3.panel-title#panel-title
-                  span.glyphicon.glyphicon-bookmark
-                  | 
-                  | لوحة التحكم
-              .panel-body
-                .row
-                  .col-xs-6.col-md-6
-                    a.btn.btn-danger.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-list-alt
-                      br
-                      | تطبيقات
-                    | 
-                    a.btn.btn-warning.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-bookmark
-                      br
-                      | الإشارات
-                    | 
-                    a.btn.btn-primary.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-signal
-                      br
-                      | تقارير
-                    | 
-                    a.btn.btn-primary.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-comment
-                      br
-                      | تعليقات
-                  .col-xs-6.col-md-6
-                    a.btn.btn-success.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-user
-                      br
-                      | مستخدمين
-                    | 
-                    a.btn.btn-info.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-file
-                      br
-                      | ملاحظات
-                    | 
-                    a.btn.btn-primary.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-picture
-                      br
-                      | صور
-                    | 
-                    a.btn.btn-primary.btn-lg(href="#", role="button")
-                      span.glyphicon.glyphicon-tag
-                      br
-                      | العلامات
-                a.btn.btn-success.btn-lg.btn-block(href="http://www.jquery2dotnet.com/", role="button")
-                  span.glyphicon.glyphicon-globe
-                  | موقع
-          .col-sm-3.col-md-3
+          .col-sm-2.col-md-2
             #accordion.panel-group
               .panel.panel-default
                 .panel-heading.font
@@ -296,8 +322,62 @@ html
                         td
                           span.glyphicon.glyphicon-shopping-cart
                           a(href="http://www.jquery2dotnet.com")  سلة الشراء
+          block cPanel  
+            .col-sm-6.col-md-6.col-md-offset-2
+              .panel.panel-primary.font
+                .panel-heading
+                  h3.panel-title#panel-title
+                    span.glyphicon.glyphicon-bookmark
+                    | 
+                    | لوحة التحكم
+                .panel-body
+                  .row
+                    .col-xs-6.col-md-6
+                      a.btn.btn-danger.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-list-alt
+                        br
+                        | تطبيقات
+                      | 
+                      a.btn.btn-warning.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-bookmark
+                        br
+                        | الإشارات
+                      | 
+                      a.btn.btn-primary.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-signal
+                        br
+                        | تقارير
+                      | 
+                      a.btn.btn-primary.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-comment
+                        br
+                        | تعليقات
+                    .col-xs-6.col-md-6
+                      a.btn.btn-success.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-user
+                        br
+                        | مستخدمين
+                      | 
+                      a.btn.btn-info.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-file
+                        br
+                        | ملاحظات
+                      | 
+                      a.btn.btn-primary.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-picture
+                        br
+                        | صور
+                      | 
+                      a.btn.btn-primary.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-tag
+                        br
+                        | العلامات
+                  a.btn.btn-success.btn-lg.btn-block(href="http://www.jquery2dotnet.com/", role="button")
+                    span.glyphicon.glyphicon-globe
+                    | موقع
+    block content
     block footer
       footer.footer
         .container
           p.text-muted Place sticky footer content here.
-    block content
+    
