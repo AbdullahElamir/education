@@ -1,6 +1,7 @@
 extends layout
-block contentStyle
+block cPanel-and-navbarCPanal-style
 block navBar
+block navcPanel
 block cPanel
 block footer
 block content
@@ -11,9 +12,9 @@ block content
           .panel-heading
             .row
               .col-xs-6
-                a#register-form-link(href="#") تسجيل
-              .col-xs-6
                 a#login-form-link.active(href="#") دخول
+              .col-xs-6
+                a#register-form-link(href="#") تسجيل
             hr
           .panel-body
             .row
