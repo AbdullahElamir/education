@@ -20,6 +20,11 @@ router.get('/newSemester', function(req, res) {
   res.render('newSemester', { title: 'New Semester' });
 });
 
+router.post('/newSemester', function(req, res) {
+  ormMgr.add('semester',req.body,function(result){
+  	
+  });
+});
 router.get('/locations', function(req, res) {
   res.render('locations', { title: 'View Locations' });
 });

@@ -14,6 +14,18 @@ exports.ormMgr = {
     });
   },
 
+  add : function(table,body,cb){   
+    var AuthorCollection = new lightOrm.Collection(table);
+    var knygaModel = AuthorCollection.createModel(body);
+    knygaModel.create(function(err) {
+      if(!err){
+        cb(true);
+      }else{
+        cb(false);
+      }
+    });
+  },
+
   update : function(table,id,body,cb){
     var AuthorCollection = new lightOrm.Collection(table);
     AuthorCollection.findOne({
