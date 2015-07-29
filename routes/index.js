@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var ormMgr = require('../app/orm').ormMgr;
 
 /* GET home page. */
+
 router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
