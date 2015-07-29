@@ -12,7 +12,7 @@ exports.ormMgr = {
       //Get all attributes
       cb(model.getAll());
     });
-  },
+  },   
 
   add : function(table,body,cb){   
     var AuthorCollection = new lightOrm.Collection(table);

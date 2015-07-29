@@ -7,7 +7,7 @@ var ormMgr = require('../app/orm').ormMgr;
 router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
-
+   
 router.get('/cPanel', function(req, res) {
   res.render('cPanel', { title: 'Control Panel' });
 });
@@ -22,7 +22,7 @@ router.get('/newSemester', function(req, res) {
 
 router.post('/newSemester', function(req, res) {
   ormMgr.add('semester',req.body,function(result){
-  	
+
   });
 });
 router.get('/locations', function(req, res) {
