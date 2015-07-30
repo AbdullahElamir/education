@@ -1,0 +1,52 @@
+extends layout
+block authenticationStyle
+block content
+block cPanel
+  .container.font
+    .row
+      .col-md-6.col-md-offset-2
+        form.form(action="", method="post", accept-charset="utf-8", role="form")
+          legend  إضافة محاضر جديد 
+          .row
+            .input-group(style="margin: 10px;")
+              label.h4.input-group-addon اسم المحاضر
+              input.form-control#name(name="name", type="text", placeholder="اسم المحاضر")
+              span.input-group-addon(style="border-left: 0; border-right: 0;") المؤهل العلمي
+              input.form-control#qualification(name="qualification", type="text", placeholder="المؤهل العلمي")
+          .row
+            .input-group(style="margin: 10px;")
+              label.h4.input-group-addon تاريخ الميلاد
+              input.form-control#birth_date(name="birth_date", type="date", placeholder="")
+              span.input-group-addon(style="border-left: 0; border-right: 0;") التخصص
+              input.form-control#specialization(name="specialization", type="text", placeholder="التخصص")
+          .row
+            .input-group(style="margin: 10px;")
+              label.h4.input-group-addon الجنس
+              select.form-control.selectpicker#gender(name="gender",title="الرجاء اختيار الجنس...",style="padding-top: 0px;")
+                option(value="0") ذكر
+                option(value="1") انثي
+              span.input-group-addon(style="border-left: 0; border-right: 0;") عنولن الاقامة
+              input.form-control#physical_address(name="physical_address", type="text", placeholder="عنولن الاقامة")
+          .row
+            .input-group(style="margin: 10px;")
+              label.h4.input-group-addon رقم الهاتف
+              input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
+              span.input-group-addon(style="border-left: 0; border-right: 0;") مكان الميلاد
+              input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
+          .row  
+            .input-group(style="margin: 10px;")
+              label.h4.input-group-addon القسم
+              select.form-control.selectpicker#department_iddepartment(name="department_iddepartment",title="الرجاء اختيار القسم...",style="padding-top: 0px;",data-live-search="true")
+                option(value="0") قسم1
+                option(value="1") قسم2
+              span.input-group-addon(style="border-left: 0; border-right: 0;") الجنسية
+              select.form-control.selectpicker#nationality(name="nationality",title="الرجاء اختيار الجنسية...",style="padding-top: 0px;",data-live-search="true")
+                option(value="0") جنسية1
+                option(value="1") جنسية2
+          hr
+        .col-md-2.col-md-offset-5
+          button.btn.btn-primary.btn-lg(type="submit")
+            | إضافة
+  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')

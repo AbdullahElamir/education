@@ -5,15 +5,15 @@ block cPanel
   .container.font
     .row
       .col-md-10
-        legend  عرض القاعات الدراسية
+        legend  عرض الاقسام
         .table-responsive
           table#mytable.table.table-bordred.table-striped.text-right
             thead
               th
                 input#checkall(type="checkbox")
-              th اسم القاعة
-              th كمية الاستعاب
-              th حالة القاعة
+              th اسم القسم
+              th Department Name
+              th حالة القسم
               th تعديل
               th الغاء
             tbody
@@ -21,8 +21,8 @@ block cPanel
                 td
                   input.checkthis(type="checkbox")
                 td 17 فبراير
-                td 27
-                td متوفرة
+                td A
+                td شاغر
                 td
                   p(data-placement="top", data-toggle="tooltip", title="Edit")
                     button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
@@ -35,8 +35,8 @@ block cPanel
                 td
                   input.checkthis(type="checkbox")
                 td شهيد الواجب
-                td 50
-                td غير متوفرة
+                td B
+                td غير شاغر
                 td
                   p(data-placement="top", data-toggle="tooltip", title="Edit")
                     button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
@@ -69,7 +69,7 @@ block cPanel
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align تعديل فصل دراسي
+          h4#Heading.modal-title.custom_align تعديل قسم
         .modal-body
           .form-group
             input.form-control(type="text", placeholder="Mohsin")
@@ -89,11 +89,11 @@ block cPanel
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align الغاء هذا الفصل
+          h4#Heading.modal-title.custom_align إلغاء قسم
         .modal-body
           .alert.alert-danger
             span.glyphicon.glyphicon-warning-sign
-            |  هل تريد فعلا الغاء هذا الفصل الدراسي ؟
+            |  هل انت متأكد من إلغاء هذا القسم؟
         .modal-footer
           button.btn.btn-success(type="button")
             span.glyphicon.glyphicon-ok-sign

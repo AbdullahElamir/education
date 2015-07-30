@@ -34,4 +34,16 @@ router.get('/newDepartment', function(req, res) {
   res.render('newDepartment', { title: 'New Department' });
 });
 
+router.get('/divisions', function(req, res) {
+  res.render('divisions', { title: 'View divisions' });
+});
+
+router.get('/newDivision', function(req, res) {
+  res.render('newDivision', { title: 'New Division' });
+});
+
+router.get('/facultyMember', function(req, res) {
+  res.render('facultyMember', { title: 'New Faculty Member' });
+});
+
 module.exports = router;
