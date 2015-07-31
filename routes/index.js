@@ -22,7 +22,7 @@ router.get('/newSemester', function(req, res) {
 
 router.post('/newSemester', function(req, res) {
   ormMgr.add('semester',req.body,function(result){
-    console.log("im in newSemester");
+    // console.log("im in newSemester");
   });
 });
 router.get('/locations', function(req, res) {
@@ -48,12 +48,27 @@ router.get('/newDepartment', function(req, res) {
   res.render('newDepartment', { title: 'New Department' });
 });
 
+router.post('/newDepartment', function(req, res) {
+  req.body['user_iduser']=1;//req,session.id
+  ormMgr.add('department',req.body,function(result){
+    res.redirect("/newDepartment");
+  });
+});
 router.get('/divisions', function(req, res) {
   res.render('divisions', { title: 'View divisions' });
 });
 
 router.get('/newDivision', function(req, res) {
-  res.render('newDivision', { title: 'New Division' });
+  ormMgr.getAll('department',function(result){
+    res.render('newDivision', { title: 'New Division',departments:result });
+  });
+});
+
+router.post('/newDivision', function(req, res) {
+  req.body['user_iduser']=1;//req,session.id
+  ormMgr.add('division',req.body,function(result){
+    res.redirect("/newDivision");
+  });
 });
 
 router.get('/facultyMembers', function(req, res) {
