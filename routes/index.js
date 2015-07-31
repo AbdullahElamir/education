@@ -22,7 +22,7 @@ router.get('/newSemester', function(req, res) {
 
 router.post('/newSemester', function(req, res) {
   ormMgr.add('semester',req.body,function(result){
-
+    console.log("im in newSemester");
   });
 });
 router.get('/locations', function(req, res) {
@@ -31,6 +31,13 @@ router.get('/locations', function(req, res) {
 
 router.get('/newLocation', function(req, res) {
   res.render('newLocation', { title: 'New Location' });
+});
+
+router.post('/newLocation', function(req, res) {
+  req.body['user_iduser']=1;//req,session.id
+  ormMgr.add('location',req.body,function(result){
+    res.redirect("/newLocation");
+  });
 });
 
 router.get('/departments', function(req, res) {
