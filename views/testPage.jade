@@ -1,0 +1,138 @@
+extends layout
+block authenticationStyle
+block content
+block cPanel
+  .container.font
+    .row
+      .col-md-10
+        legend  إضافة طالب جديد 
+        form.form.form-inline.form-multiline(role="form")
+          legend Form legend
+          .form-group
+            label(for="InputFieldA") Field A
+            input#InputFieldA.form-control(type="text", placeholder="InputFieldA")
+          .form-group
+            label(for="InputFieldB") Very Long Label For Field B
+            input#InputFieldB.form-control(type="text", placeholder="InputFieldB")
+          .form-group
+            label(for="InputFieldC") F. C
+            input#InputFieldC.form-control(type="text", placeholder="InputFieldC")
+          .form-group
+            label(for="InputFieldD") Very Long Label For Field D
+            input#InputFieldD.form-control(type="text", placeholder="InputFieldD")
+          .form-group
+            label(for="InputFieldE") Very Long Label For Field E
+            input#InputFieldE.form-control(type="text", placeholder="InputFieldE")
+          .form-group
+            label(for="InputFieldF") Field F
+            input#InputFieldF.form-control(type="text", placeholder="InputFieldF")
+          .form-group
+            button.btn.btn-default(type="submit") Submit Button
+
+        //- .stepwizard
+        //-   .stepwizard-row.setup-panel
+        //-     .stepwizard-step
+        //-       a.btn.btn-primary.btn-circle(href="#step-1", type="button") 1
+        //-       p بيانات اسم الطالب
+        //-     .stepwizard-step
+        //-       a.btn.btn-default.btn-circle(href="#step-2", type="button", disabled="disabled") 2
+        //-       p بيانات الطالب
+        //-     .stepwizard-step
+        //-       a.btn.btn-default.btn-circle(href="#step-3", type="button", disabled="disabled") 3
+        //-       p بيانات الطالب
+        //-     .stepwizard-step
+        //-       a.btn.btn-default.btn-circle(href="#step-4", type="button", disabled="disabled") 3
+        //-       p بيانات الطالب
+        //-     .stepwizard-step
+        //-       a.btn.btn-default.btn-circle(href="#step-5", type="button", disabled="disabled") 3
+        //-       p بيانات الطالب
+        //- form(role="form")
+        //-   #step-1.row.setup-content
+        //-     .col-xs-12
+        //-       .col-md-12
+        //-         //- .col-md-4
+        //-         //-   .h3  بيانات اسم الطالب
+        //-         //- .col-md-4.col-md-offset-4
+        //-         //-   .h3 Data student's name
+        //-         legend
+        //-         .form-group
+        //-           label.control-label First Name
+        //-           input.form-control(type="text", maxlength="100", placeholder="Enter First Name")
+        //-           label.control-label Last Name
+        //-           input.form-control(type="text", maxlength="100", placeholder="Enter Last Name")
+        //-         button.btn.btn-primary.nextBtn.btn-lg.pull-left(type="button") Next
+        //-   #step-2.row.setup-content
+        //-     .col-xs-12
+        //-       .col-md-12
+        //-         h3  Step 2
+        //-         .form-group
+        //-           label.control-label Company Name
+        //-           input.form-control(type="text", maxlength="200", required="required", placeholder="Enter Company Name")
+        //-         .form-group
+        //-           label.control-label Company Address
+        //-           input.form-control(type="text", maxlength="200", required="required", placeholder="Enter Company Address")
+        //-         button.btn.btn-primary.nextBtn.btn-lg.pull-left(type="button") Next
+        //-   #step-3.row.setup-content
+        //-     .col-xs-12
+        //-       .col-md-12
+        //-         h3  Step 2
+        //-         .form-group
+        //-           label.control-label Company Name
+        //-           input.form-control(type="text", maxlength="200", required="required", placeholder="Enter Company Name")
+        //-         .form-group
+        //-           label.control-label Company Address
+        //-           input.form-control(type="text", maxlength="200", required="required", placeholder="Enter Company Address")
+        //-         button.btn.btn-primary.nextBtn.btn-lg.pull-left(type="button") Next
+        //-   #step-4.row.setup-content
+        //-     .col-xs-12
+        //-       .col-md-12
+        //-         h3  Step 2
+        //-         .form-group
+        //-           label.control-label Company Name
+        //-           input.form-control(type="text", maxlength="200", required="required", placeholder="Enter Company Name")
+        //-         .form-group
+        //-           label.control-label Company Address
+        //-           input.form-control(type="text", maxlength="200", required="required", placeholder="Enter Company Address")
+        //-         button.btn.btn-primary.nextBtn.btn-lg.pull-left(type="button") Next
+        //-   #step-5.row.setup-content
+        //-     .col-xs-12
+        //-       .col-md-12
+        //-         h3  Step 3
+        //-         button.btn.btn-success.btn-lg.pull-left(type="submit") Finish!
+  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  //- script.
+  //-   $(document).ready(function () {
+  //-     var navListItems = $('div.setup-panel div a'), allWells = $('.setup-content'), allNextBtn = $('.nextBtn');
+  //-     allWells.hide();
+  //-     navListItems.click(function (e) {
+  //-       e.preventDefault();
+  //-       var $target = $($(this).attr('href')),
+  //-       $item = $(this);
+  //-       if (!$item.hasClass('disabled')) {
+  //-         navListItems.removeClass('btn-primary').addClass('btn-default');
+  //-         $item.addClass('btn-primary');
+  //-         allWells.hide();
+  //-         $target.show();
+  //-         $target.find('input:eq(0)').focus();
+  //-       }
+  //-     });
+  //-     allNextBtn.click(function(){
+  //-       var curStep = $(this).closest(".setup-content"),
+  //-       curStepBtn = curStep.attr("id"),
+  //-       nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+  //-       curInputs = curStep.find("input[type='text'],input[type='url']"),
+  //-       isValid = true;
+  //-     $(".form-group").removeClass("has-error");
+  //-     for(var i=0; i<curInputs.length; i++){
+  //-       if (!curInputs[i].validity.valid){
+  //-           isValid = false;
+  //-           $(curInputs[i]).closest(".form-group").addClass("has-error");
+  //-         }
+  //-       }
+  //-       if (isValid)
+  //-         nextStepWizard.removeAttr('disabled').trigger('click');
+  //-     });
+  //-     $('div.setup-panel div a.btn-primary').trigger('click');
+  //-   });

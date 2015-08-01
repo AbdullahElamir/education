@@ -57,4 +57,16 @@ router.get('/newFacultyMember', function(req, res) {
   res.render('newFacultyMember', { title: 'New Faculty Member' });
 });
 
+router.get('/students', function(req, res) {
+  res.render('students', { title: 'View Students' });
+});
+
+router.get('/newStudent', function(req, res) {
+  res.render('newStudent', { title: 'New Student' });
+});
+
+router.get('/testPage', function(req, res) {
+  res.render('testPage', { title: 'HTML Test Page' });
+});
+
 module.exports = router;

@@ -25,13 +25,14 @@ block content
                   .form-group
                     input#password.form-control(type="password", name="password", tabindex="2", placeholder="كلمة المرور")
                   .form-group.text-center
-                    label(for="remember")  ذكرني
+                    input#remember(type="checkbox", tabindex="3", name="remember")                    
                     | 
-                    input#remember(type="checkbox", tabindex="3", name="remember")
+                    label(for="remember")  ذكرني
                   .form-group
                     .row
-                      .col-sm-6.col-sm-offset-3
-                        input#login-submit.form-control.btn.btn-login(type="submit", name="login-submit", tabindex="4", value="تسجيل الدخول")
+                      .col-lg-12
+                        .text-center
+                          input#login-submit.form-control.btn.btn-login(type="submit", name="login-submit", tabindex="4", value="تسجيل الدخول")
                   .form-group
                     .row
                       .col-lg-12
@@ -48,16 +49,21 @@ block content
                     input#confirm-password.form-control(type="password", name="confirm-password", tabindex="2", placeholder="تأكيد كلمة المرور")
                   .form-group
                     .row
-                      .col-sm-6.col-sm-offset-3
-                        input#register-submit.form-control.btn.btn-register(type="submit", name="register-submit", tabindex="4", value="سجل الان")
+                      .col-lg-12
+                        .text-center
+                          input#register-submit.form-control.btn.btn-register(type="submit", name="register-submit", tabindex="4", value="سجل الان")
                 form#forget-form(action="", method="post", role="form", style="display: none;")
                   .col-xs-12#form-heder !استعادة كلمة المرور
                   .form-group
-                    input#email.form-control(type="text", name="email", tabindex="1", placeholder="ادخل البريد الالكتروني", value="")
+                    .row
+                      .col-xs-12
+                        .text-center
+                          input#email.form-control(type="text", name="email", tabindex="1", placeholder="ادخل البريد الالكتروني", value="")
                   .form-group
                     .row
-                      .col-sm-6.col-sm-offset-3
-                        input#forget-submit.form-control.btn.btn-register(type="submit", name="forget-submit", tabindex="2", value="استعادة")
+                      .col-lg-12
+                        .text-center
+                          input#forget-submit.form-control.btn.btn-danger(type="submit", name="forget-submit", tabindex="2", value="استعادة")
   script(src='/js/jquery-1.11.2.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/authentication.js')

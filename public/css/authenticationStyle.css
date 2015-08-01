@@ -100,8 +100,8 @@ body {
   border-color: #1CA347;
 }
 #username, #email, #password, #confirm-password{ 
-  padding-bottom: 0px;
   text-align: center;
+  line-height: 30px;
 }
 /*LOGIN LOGIN END*/
 /*FONT STYLE START*/
