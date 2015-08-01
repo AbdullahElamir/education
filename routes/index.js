@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 });
    
 router.get('/cPanel', function(req, res) {
-  res.render('cPanel', { title: 'Control Panel' });
+  res.render('cPanel', { title: 'Control Panel', active: 'active' });
 });
 
 router.get('/semesters', function(req, res) {
@@ -25,6 +25,7 @@ router.post('/newSemester', function(req, res) {
     // console.log("im in newSemester");
   });
 });
+
 router.get('/locations', function(req, res) {
   res.render('locations', { title: 'View Locations' });
 });
@@ -54,6 +55,7 @@ router.post('/newDepartment', function(req, res) {
     res.redirect("/newDepartment");
   });
 });
+
 router.get('/divisions', function(req, res) {
   res.render('divisions', { title: 'View divisions' });
 });
