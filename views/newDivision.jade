@@ -5,7 +5,7 @@ block cPanel
   .container.font
     .row
       .col-md-6.col-md-offset-2
-        form.form(action="r", method="post", accept-charset="utf-8", role="form")
+        form.form(action="newDivision", method="post", accept-charset="utf-8", role="form")
           legend  إضافة شعبة جديدة
           .row
             .col-xs-6.col-md-4.col-md-offset-1
@@ -22,9 +22,8 @@ block cPanel
               label.h4 تندرج تحت قسم
             .col-xs-6.col-md-4.col-md-offset-1
               select.form-control.selectpicker#department_iddepartment(title="اختر اسم القسم...",name="department_iddepartment",data-live-search="true")
-                option قسم1
-                option قسم2
-                option قسم3
+                for department in departments
+                  option(value="#{department.data.id}")|#{department.data.name}
           hr
           button.btn.btn-lg.btn-primary.btn-block(type="submit")
             | إضافة
