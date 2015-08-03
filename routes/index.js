@@ -12,6 +12,10 @@ router.get('/cPanel', function(req, res) {
   res.render('cPanel', { title: 'Control Panel', active: 'active' });
 });
 
+router.get('/cPanelTest', function(req, res) {
+  res.render('cPanelTest', { title: 'Control Panel', active: 'active' });
+});
+
 router.get('/semesters', function(req, res) {
   res.render('semesters', { title: 'View Semesters' });
 });
