@@ -67,7 +67,7 @@ router.get('/newDivision', function(req, res) {
 });
 
 router.post('/newDivision', function(req, res) {
-  req.body['user_iduser']=1;//req,session.id
+  req.body['user_iduser']=1;//req.session.id
   ormMgr.add('division',req.body,function(result){
     res.redirect("/newDivision");
   });
