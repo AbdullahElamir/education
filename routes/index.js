@@ -93,4 +93,11 @@ router.get('/testPage', function(req, res) {
   res.render('testPage', { title: 'HTML Test Page' });
 });
 
+router.get('/newUser', function(req, res) {
+    res.render('newUser', { title: 'New User'});
+  });
+router.get('/users', function(req, res) {
+  res.render('users', { title: 'users' });
+});
+
 module.exports = router;
