@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var models  = require('../models');
 
 /* GET home page. */
 
@@ -53,10 +54,15 @@ router.get('/newDepartment', function(req, res) {
 });
 
 router.post('/newDepartment', function(req, res) {
-  req.body['user_iduser']=1;//req,session.id
-  ormMgr.add('department',req.body,function(result){
-    res.redirect("/newDepartment");
+  console.log("departments");
+  req.body.UserId=1;//req,session.id
+  models.Department.create(req.body).then(function() {
+    res.redirect('/departments');
   });
+  // req.body['user_iduser']=1;//req,session.id
+  // ormMgr.add('department',req.body,function(result){
+  //   res.redirect("/newDepartment");
+  // });
 });
 
 router.get('/divisions', function(req, res) {
@@ -70,7 +76,7 @@ router.get('/newDivision', function(req, res) {
 });
 
 router.post('/newDivision', function(req, res) {
-  req.body['user_iduser']=1;//req,session.id
+  req.body['user_iduser']=1;//req.session.id
   ormMgr.add('division',req.body,function(result){
     res.redirect("/newDivision");
   });

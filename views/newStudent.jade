@@ -41,7 +41,7 @@ block cPanel
               span.input-group-addon(style="border-left: 0; border-right: 0;") مكان الميلاد
               input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
               span.input-group-addon(style="border-left: 0; border-right: 0;") تاريخ الميلاد
-              input.form-control#birth_date(name="birth_date", type="date", placeholder="تاريخ الميلاد")
+              input.form-control.date#birth_date(name="birth_date", type="text", placeholder="تاريخ الميلاد")
           //- .row
           //-   .col-xs-3.col-md-3
           //-     .input-group(style="margin: 10px;left: 14px;")
@@ -92,7 +92,7 @@ block cPanel
               span.input-group-addon(style="border-left: 0; border-right: 0;") تخصيص اخر شهادة
               input.form-control#cust_last_cert(name="cust_last_cert", type="text", placeholder="تخصيص اخر شهادة")
               span.input-group-addon(style="border-left: 0; border-right: 0;") تاريخ الحصول علي الشهادة
-              input.form-control#date_cert(name="date_cert", type="date", placeholder="")
+              input.form-control#date_cert(name="date_cert", type="text", placeholder="تاريخ الحصول علي الشهادة")
           .row
             .input-group(style="margin: 10px;")
               label.input-group-addon مكان الحصول علي الشهادة
@@ -109,6 +109,21 @@ block cPanel
             | تسجيل / Register
     br
     br
-  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
+  script.
+    $(function () {
+      $('#birth_date').datetimepicker({
+        viewMode: 'years',
+        format: 'YYYY'
+      });
+      $('#date_cert').datetimepicker({
+        viewMode: 'years',
+        format: 'DD-MM-YYYY',
+        locale: 'ar-sa'
+      });
+    });
+    
