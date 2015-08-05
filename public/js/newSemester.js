@@ -1,21 +1,21 @@
 $(document).ready(function(){
-  $.notify({
-    message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-  },{
-    type: 'success',
-    allow_dismiss: true,
-    showProgressbar: false,
-    placement: {
-      from: 'top',
-      align: 'center'
-    },
-    mouse_over: null,
-    newest_on_top: true,
-    animate: {
-      enter: 'animated flipInY',
-      exit: 'animated flipOutX'
-    },
-  });
+  // $.notify({
+  //   message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
+  // },{
+  //   type: 'success',
+  //   allow_dismiss: true,
+  //   showProgressbar: false,
+  //   placement: {
+  //     from: 'top',
+  //     align: 'center'
+  //   },
+  //   mouse_over: null,
+  //   newest_on_top: true,
+  //   animate: {
+  //     enter: 'animated flipInY',
+  //     exit: 'animated flipOutX'
+  //   },
+  // });
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
