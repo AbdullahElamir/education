@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var ormMgr = require('../app/orm').ormMgr;
 
 /* GET home page. */
 
