@@ -99,6 +99,14 @@ body {
   background-color: #1CA347;
   border-color: #1CA347;
 }
+.btn-danger {
+  outline: none;
+  font-size: 14px;
+  height: auto;
+  font-weight: normal;
+  padding: 14px 0;
+  text-transform: uppercase;
+}
 #username, #email, #password, #confirm-password{ 
   text-align: center;
   line-height: 30px;

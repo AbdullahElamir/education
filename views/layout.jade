@@ -10,6 +10,10 @@ html
     block authenticationStyle
       link(rel='stylesheet', href='/css/authenticationStyle.css')
     link(rel='stylesheet', href='/css/bootstrap-select.min.css')
+    link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
+    link(rel='stylesheet', href='css/animate.min.css')
+    //- link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='css/sweet-alert.css')
     link(rel='stylesheet', href='/css/customStyle.css')
   body
     block navBar
@@ -91,7 +95,7 @@ html
     block navcPanel
       .container
         .row
-          .col-sm-2.col-md-2
+          .col-xs-12.col-md-2
             #accordion.panel-group
               .panel.panel-default
                 .panel-heading.font

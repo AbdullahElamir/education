@@ -1,0 +1,160 @@
+extends layout
+block authenticationStyle
+block content
+block cPanel
+  .container.font
+    .row
+      .col-md-10
+        .panel.panel-default
+          .panel-heading
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#h3.panel-title عرض المحاضرين
+              .col-xs-5.col-md-6.col-md-offset-1
+                .input-group
+                  input.form-control(type='text', placeholder='بحث...')
+                  .input-group-btn
+                    button.btn.btn-default
+                      i.glyphicon.glyphicon-search
+              .pull-left(style="margin-left: 10px;")
+                a.btn.btn-success(href='/newFacultyMember', role='button',data-toggle='modal')
+                  span.glyphicon.glyphicon-plus
+                  |  إضافة محاضر/ة
+          .table-responsive
+            table#mytable.table.table-bordred.table-striped.text-right
+              thead
+                th
+                  input#checkall(type="checkbox")
+                th اسم المحاضر/ة
+                th المؤهل العلمي
+                th التخصص
+                th الجنس
+                th القسم
+                th الجنسية
+                th.text-center تعديل
+                th.text-center إلغاء
+              tbody
+                tr
+                  td
+                    input.checkthis(type="checkbox")
+                  td 17 فبراير
+                  td A
+                  td شاغر
+                  td C
+                  td C
+                  td C
+                  td.text-center
+                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
+                        span.glyphicon.glyphicon-pencil
+                  td.text-center
+                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
+                        span.glyphicon.glyphicon-trash
+          ul.pagination.pull-right
+            li.disabled
+              a(href="#")
+                span.glyphicon.glyphicon-chevron-right
+            li.active
+              a(href="#") 1
+            li
+              a(href="#") 2
+            li
+              a(href="#") 3
+            li
+              a(href="#") 4
+            li
+              a(href="#") 5
+            li
+              a(href="#")
+                span.glyphicon.glyphicon-chevron-left
+  #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align تعديل محاضر/ة
+        .modal-body
+          .col-md-6.col-md-offset-2
+          form.form(action="", method="post", accept-charset="utf-8", role="form")
+            .row
+              .input-group(style="margin: 10px;")
+                label.h4.input-group-addon اسم المحاضر
+                input.form-control#name(name="name", type="text", placeholder="اسم المحاضر")
+                span.input-group-addon(style="border-left: 0; border-right: 0;") المؤهل العلمي
+                input.form-control#qualification(name="qualification", type="text", placeholder="المؤهل العلمي")
+            .row
+              .input-group(style="margin: 10px;")
+                label.h4.input-group-addon تاريخ الميلاد
+                input.form-control#birth_date(name="birth_date", type="text", placeholder="تاريخ الميلاد")
+                span.input-group-addon(style="border-left: 0; border-right: 0;") التخصص
+                input.form-control#specialization(name="specialization", type="text", placeholder="التخصص")
+            .row
+              .input-group(style="margin: 10px;")
+                label.h4.input-group-addon الجنس
+                select.form-control.selectpicker#gender(name="gender",title="الرجاء اختيار الجنس...",style="padding-top: 0px;")
+                  option(value="0") ذكر
+                  option(value="1") انثي
+                span.input-group-addon(style="border-left: 0; border-right: 0;") عنولن الاقامة
+                input.form-control#physical_address(name="physical_address", type="text", placeholder="عنولن الاقامة")
+            .row
+              .input-group(style="margin: 10px;")
+                label.h4.input-group-addon رقم الهاتف
+                input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
+                span.input-group-addon(style="border-left: 0; border-right: 0;") مكان الميلاد
+                input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
+            .row  
+              .input-group(style="margin: 10px;")
+                label.h4.input-group-addon القسم
+                select.form-control.selectpicker#department_iddepartment(name="department_iddepartment",title="الرجاء اختيار القسم...",style="padding-top: 0px;",data-live-search="true")
+                  option(value="0") قسم1
+                  option(value="1") قسم2
+                span.input-group-addon(style="border-left: 0; border-right: 0;") الجنسية
+                select.form-control.selectpicker#nationality(name="nationality",title="الرجاء اختيار الجنسية...",style="padding-top: 0px;",data-live-search="true")
+                  option(value="0") جنسية1
+                  option(value="1") جنسية2
+        .modal-footer
+          button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
+            span.glyphicon.glyphicon-ok-sign
+            |  تعديل
+      // /.modal-content
+    // /.modal-dialog
+  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align إلغء شعبة
+        .modal-body
+          .alert.alert-danger
+            span.glyphicon.glyphicon-warning-sign
+            |  هل انت متأكد من إلغاء هذه الشعبة؟
+        .modal-footer
+          button.btn.btn-success(type="button")
+            span.glyphicon.glyphicon-ok-sign
+            |  نعم
+          button.btn.btn-default(type="button", data-dismiss="modal")
+            span.glyphicon.glyphicon-remove
+            |  لا
+      // /.modal-content
+    // /.modal-dialog
+  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script.
+    $(document).ready(function(){
+      $("#mytable #checkall").click(function () {
+        if ($("#mytable #checkall").is(':checked')) {
+            $("#mytable input[type=checkbox]").each(function () {
+              $(this).prop("checked", true);
+            });
+        } else {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+          }
+      });
+        $("[data-toggle=tooltip]").tooltip();
+    });

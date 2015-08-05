@@ -1,0 +1,23 @@
+{
+  "development": {
+    "dialect": "mysql",
+    "username": "root",
+    "password": "102030",
+    "database": "education",
+    "host": "localhost"
+  },
+  "test": {
+    "username": "root",
+    "password": "102030",
+    "database": "education_test",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "102030",
+    "database": "education_production",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}

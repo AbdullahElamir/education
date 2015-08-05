@@ -5,110 +5,279 @@ block cPanel
   .container.font
     .row
       .col-md-10
-        form.form(action="", method="post", accept-charset="utf-8", role="form")
+        form#newStudent(action="", method="post", accept-charset="utf-8", role="form")
           legend  تسجيل طالب/ة جديد
             .pull-left  Register new student
           h4.text-center بيانات اسم الطالب / Data student's name
-          .row 
-            .input-group(style="margin: 10px;")
-              label.input-group-addon اسم الطالب/ة
-              input.form-control#first_name(name="first_name", type="text", placeholder="اسم الطالب/ة")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") اسم اﻷب
-              input.form-control#father_name(name="father_name", type="text", placeholder="اسم اﻷب")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") اسم الجد
-              input.form-control#grand_name(name="grand_name", type="text", placeholder="اسم الجد")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") اللقب
-              input.form-control#last_name(name="last_name", type="text", placeholder="اللقب")
-          .row
-            .input-group(style="margin: 10px;")
-              input.form-control#last_namelast_name_en(name="last_name_en", type="text", placeholder="Surname", dir="ltr")
-              label.input-group-addon Surname
-              input.form-control#grand_name_en(name="grand_name_en", type="text", placeholder="Grandfather Name", dir="ltr")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") Grandfather Name
-              input.form-control#father_name_en(name="father_name_en", type="text", placeholder="Father Name", dir="ltr")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") Father Name
-              input.form-control#first_name_en(name="first_name_en", type="text", placeholder="Student Name", dir="ltr")
-              label.input-group-addon Student Name
+          hr
+          .form-group
+            .row
+              .col-xs-3.col-md-3
+                label اسم الطالب/ة
+                input#first_name.form-control(type="text", name="first_name", placeholder="اسم الطالب/ة")
+              .col-xs-3.col-md-3
+                label اسم اﻷب
+                input#father_name.form-control(type="text", name="father_name", placeholder="اسم اﻷب")
+              .col-xs-3.col-md-3
+                label اسم الجد
+                input#grand_name.form-control(type="text", name="grand_name", placeholder="اسم الجد")
+              .col-xs-3.col-md-3
+                label اللقب
+                input#last_name.form-control(type="text", name="last_name", placeholder="اللقب")
+          .form-group(style="margin-bottom: 25px;")
+            .row
+              .col-xs-3.col-md-3
+                label.pull-left Surname
+                input#last_name_en.form-control(type="text", name="last_name_en", placeholder="Surname", dir="ltr")
+              .col-xs-3.col-md-3
+                label.pull-left Grandfather name
+                input#grand_name_en.form-control(type="text", name="grand_name_en", placeholder="Grandfather name", dir="ltr")
+              .col-xs-3.col-md-3
+                label.pull-left Father name
+                input#father_name_en.form-control(type="text", name="father_name_en", placeholder="Father name", dir="ltr")
+              .col-xs-3.col-md-3
+                label.pull-left Student name
+                input#first_name_en.form-control(type="text", name="first_name_en", placeholder="Student name", dir="ltr")
           hr
           h4.text-center البيانات الاساسية / Basic information
-          .row 
-            .input-group(style="margin: 10px;")
-              label.input-group-addon اسم اﻷم
-              input.form-control#mother_name(name="mother_name", type="text", placeholder="اسم اﻷم")
-              .input-group-addon(style="padding: 0px;width: 0px;")
-              input.form-control#mother_name_en(name="mother_name_en", type="text", placeholder="Mother Name", dir="ltr")
-              span.input-group-addon(style="border-left: 10%; border-right: 0;") Mother Name
-              span.input-group-addon(style="border-left: 0; border-right: 0;") مكان الميلاد
-              input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") تاريخ الميلاد
-              input.form-control#birth_date(name="birth_date", type="date", placeholder="تاريخ الميلاد")
-          //- .row
-          //-   .col-xs-3.col-md-3
-          //-     .input-group(style="margin: 10px;left: 14px;")
-          //-       label.input-group-addon اسم اﻷم
-          //-       input.form-control#first_name(name="first_name", type="text", placeholder="اسم اﻷم")
-          //-   .col-xs-3.col-md-3
-          //-     .input-group(style="margin: 10px;left: 65px;")
-          //-       input.form-control#father_name(name="father_name", type="text", placeholder="Mother Name", dir="ltr")    
-          //-       span.input-group-addon(style="border-left: 0; border-right: 0;") .Mother N  
-          //-   .col-xs-3.col-md-3
-          //-     .input-group(style="margin: 10px;")
-          //-       label.input-group-addon اسم اﻷم
-          //-       input.form-control#first_name(name="first_name", type="text", placeholder="اسم اﻷم")
-          //-   .col-xs-3.col-md-3
-          //-     .input-group(style="margin: 10px;")
-          //-       input.form-control#father_name(name="father_name", type="text", placeholder="Mother Name")    
-          //-       span.input-group-addon(style="border-left: 0; border-right: 0;") Mother Name
-          .row
-            .input-group(style="margin: 10px;")
-              label.h4.input-group-addon الجنسية
-              select.form-control.selectpicker#nationality(name="nationality",title="الرجاء اختيار الجنسية  .",style="padding-top: 0px;",data-live-search="true")
-                option(value="0") جنسية1
-                option(value="1") جنسية2
-              span.input-group-addon(style="border-left: 0; border-right: 0;") الجنس
-              select.form-control.selectpicker#gender(name="gender",title="أختر الجنس  .",style="padding-top: 0px;")
-                option(value="0") ذكر
-                option(value="1") انثي
-              span.input-group-addon(style="border-left: 0; border-right: 0;") رقم ورقة العائلة
-              input.form-control#no_paper_family(name="no_paper_family", type="text", placeholder="رقم ورقة العائلة")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") رقم قيد العائلة
-              input.form-control#no_reg_family(name="no_reg_family", type="text", placeholder="رقم قيد العائلة")
+          hr
+          .form-group            
+            .row
+              .col-xs-3.col-md-3
+                label اسم اﻷم
+                input#mother_name.form-control(type="text", name="mother_name", placeholder="اسم اﻷم")
+              .col-xs-3.col-md-3
+                label.pull-left Mother name
+                input#mother_name_en.form-control(type="text", name="mother_name_en", placeholder="Mother name", dir="ltr")
+              .col-xs-3.col-md-3
+                label مكان الميلاد
+                input#place_birth.form-control(type="text", name="place_birth", placeholder="مكان الميلاد")
+              .col-xs-3.col-md-3
+                label سنة الميلاد
+                input#birth_date.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
+          .form-group
+            .row
+              .col-xs-3.col-md-3
+                label الجنسية
+                select.form-control.selectpicker#nationality(name="nationality", data-live-search="true")
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
+                  option(value="0") جنسية1
+                  option(value="1") جنسية2
+              .col-xs-3.col-md-3
+                label الجنس
+                select.form-control.selectpicker#gender(name="gender",title="الرجاء اختيار الجنس...",style="padding-top: 0px;")
+                  option(value="0") ذكر
+                  option(value="1") انثي
+              .col-xs-3.col-md-3
+                label رقم ورقة العائلة
+                input#no_paper_family.form-control(type="text", name="no_paper_family", placeholder="رقم ورقة العائلة")
+              .col-xs-3.col-md-3
+                label رقم قيد العائلة
+                input#no_reg_family.form-control(type="text", name="no_reg_family", placeholder="رقم قيد العائلة")
           hr
           h4.text-center البيانات الثانوية / Secondary data
-          .row
-            .input-group(style="margin: 10px;")
-              label.input-group-addon عنوان اﻹقامة
-              input.form-control#physical_address(name="physical_address", type="text", placeholder="عنوان اﻹقامة")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") السجل المدني
-              input.form-control#civil_reg(name="civil_reg", type="text", placeholder="السجل المدني")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") رقم الهاتف
-              input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") مكان عمل اﻷب
-              input.form-control#father_work_place(name="father_work_place", type="text", placeholder="مكان عمل اﻷب")
-          .row
-            .input-group(style="margin: 10px;")
-              label.input-group-addon اخر شهادة
-              input.form-control#last_cert(name="last_cert", type="text", placeholder="عنوان اﻹقامة")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") تخصيص اخر شهادة
-              input.form-control#cust_last_cert(name="cust_last_cert", type="text", placeholder="تخصيص اخر شهادة")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") تاريخ الحصول علي الشهادة
-              input.form-control#date_cert(name="date_cert", type="date", placeholder="")
-          .row
-            .input-group(style="margin: 10px;")
-              label.input-group-addon مكان الحصول علي الشهادة
-              input.form-control#place_cert(name="place_cert", type="text", placeholder="مكان الحصول علي الشهادة")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") رقم الجلوس
-              input.form-control#set_number(name="set_number", type="text", placeholder="رقم الجلوس")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") معدل الطالب
-              input.form-control#student_rate(name="student_rate", type="text", placeholder="معدل الطالب")
-              span.input-group-addon(style="border-left: 0; border-right: 0;") الرقم الوطني
-              input.form-control#nid(name="nid", type="text", placeholder="الرقم الوطني")
           hr
-        .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
-          button.btn.btn-primary.btn-lg(type="submit")
-            | تسجيل / Register
+          .form-group
+            .row
+              .col-xs-3.col-md-3
+                label عنوان اﻹقامة
+                input#physical_address.form-control(type="text", name="physical_address", placeholder="عنوان اﻹقامة")
+              .col-xs-3.col-md-3
+                label السجل المدني
+                input#civil_reg.form-control(type="text", name="civil_reg", placeholder="السجل المدني")
+              .col-xs-3.col-md-3
+                label رقم الهاتف
+                input#phone.form-control(type="text", name="phone", placeholder="رقم الهاتف")
+              .col-xs-3.col-md-3
+                label مكان عمل اﻷب
+                input#father_work_place.form-control(type="text", name="father_work_place", placeholder="مكان عمل اﻷب")
+          .form-group
+            .row
+              .col-xs-3.col-md-3
+                label الرقم الوطني
+                input#nid.form-control(type="text", name="nid", placeholder="الرقم الوطني")
+              .col-xs-3.col-md-3
+                label اخر شهادة
+                input#last_cert.form-control(type="text", name="last_cert", placeholder="اخر شهادة")
+              .col-xs-3.col-md-3
+                label تخصيص اخر شهادة
+                input#cust_last_cert.form-control(type="text", name="cust_last_cert", placeholder="تخصيص اخر شهادة")
+              .col-xs-3.col-md-3
+                label تاريخ الحصول علي الشهادة
+                input#date_cert.form-control(type="text", name="date_cert", placeholder="تاريخ الحصول علي الشهادة")
+          .form-group
+            .row
+              .col-xs-5.col-md-3.col-md-offset-2
+                label مكان الحصول علي الشهادة
+                input#place_cert.form-control(type="text", name="place_cert", placeholder="مكان الحصول علي الشهادة")
+              .col-xs-4.col-md-3
+                label رقم الجلوس
+                input#set_number.form-control(type="text", name="set_number", placeholder="رقم الجلوس")
+              .col-xs-3.col-md-2
+                label معدل الطالب
+                input#student_rate.form-control(type="text", name="student_rate", placeholder="معدل الطالب")
+          hr
+          .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
+            button.btn.btn-primary.btn-lg(type="submit")
+              | تسجيل / Register
     br
     br
-  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/newStudent.js')
+  script.
+    $(function () {
+      $('#birth_date').datetimepicker({
+        viewMode: 'years',
+        format: 'YYYY'
+      });
+      $('#date_cert').datetimepicker({
+        viewMode: 'years',
+        format: 'DD-MM-YYYY',
+        locale: 'ar-sa'
+      });
+    });
+//- extends layout
+//- block authenticationStyle
+//- block content
+//- block cPanel
+//-   .container.font
+//-     .row
+//-       .col-md-10
+//-         form.form.form-inline#newStudent(action="", method="post", accept-charset="utf-8", role="form")
+//-           legend  تسجيل طالب/ة جديد
+//-             .pull-left  Register new student
+//-           h4.text-center بيانات اسم الطالب / Data student's name
+//-           .row 
+//-             label.control-label
+//-               strong AB :
+//-             input.form-control#father_name1(name="father_name1", type="text")
+//-             label.control-label 
+//-               strong BIS:
+//-             input.form-control(type="text")
+//-             .input-group(style="margin: 10px;")
+//-               label.input-group-addon اسم الطالب/ة
+//-               input.form-control#first_name(name="first_name", type="text", placeholder="اسم الطالب/ة")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") اسم اﻷب
+//-               input.form-control#father_name(name="father_name", type="text", placeholder="اسم اﻷب")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") اسم الجد
+//-               input.form-control#grand_name(name="grand_name", type="text", placeholder="اسم الجد")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") اللقب
+//-               input.form-control#last_name(name="last_name", type="text", placeholder="اللقب")
+//-           .row
+//-             .input-group(style="margin: 10px;")
+//-               input.form-control#last_namelast_name_en(name="last_name_en", type="text", placeholder="Surname", dir="ltr")
+//-               label.input-group-addon Surname
+//-               input.form-control#grand_name_en(name="grand_name_en", type="text", placeholder="Grandfather Name", dir="ltr")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") Grandfather Name
+//-               input.form-control#father_name_en(name="father_name_en", type="text", placeholder="Father Name", dir="ltr")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") Father Name
+//-               input.form-control#first_name_en(name="first_name_en", type="text", placeholder="Student Name", dir="ltr")
+//-               label.input-group-addon Student Name
+//-           hr
+//-           h4.text-center البيانات الاساسية / Basic information
+//-           .row 
+//-             .input-group(style="margin: 10px;")
+//-               label.input-group-addon اسم اﻷم
+//-               input.form-control#mother_name(name="mother_name", type="text", placeholder="اسم اﻷم")
+//-               .input-group-addon(style="padding: 0px;width: 0px;")
+//-               input.form-control#mother_name_en(name="mother_name_en", type="text", placeholder="Mother Name", dir="ltr")
+//-               span.input-group-addon(style="border-left: 10%; border-right: 0;") Mother Name
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") مكان الميلاد
+//-               input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") تاريخ الميلاد
+//-               input.form-control.date#birth_date(name="birth_date", type="text", placeholder="تاريخ الميلاد")
+//-           //- .row
+//-           //-   .col-xs-3.col-md-3
+//-           //-     .input-group(style="margin: 10px;left: 14px;")
+//-           //-       label.input-group-addon اسم اﻷم
+//-           //-       input.form-control#first_name(name="first_name", type="text", placeholder="اسم اﻷم")
+//-           //-   .col-xs-3.col-md-3
+//-           //-     .input-group(style="margin: 10px;left: 65px;")
+//-           //-       input.form-control#father_name(name="father_name", type="text", placeholder="Mother Name", dir="ltr")    
+//-           //-       span.input-group-addon(style="border-left: 0; border-right: 0;") .Mother N  
+//-           //-   .col-xs-3.col-md-3
+//-           //-     .input-group(style="margin: 10px;")
+//-           //-       label.input-group-addon اسم اﻷم
+//-           //-       input.form-control#first_name(name="first_name", type="text", placeholder="اسم اﻷم")
+//-           //-   .col-xs-3.col-md-3
+//-           //-     .input-group(style="margin: 10px;")
+//-           //-       input.form-control#father_name(name="father_name", type="text", placeholder="Mother Name")    
+//-           //-       span.input-group-addon(style="border-left: 0; border-right: 0;") Mother Name
+//-           .row
+//-             .input-group(style="margin: 10px;")
+//-               label.h4.input-group-addon الجنسية
+//-               select.form-control.selectpicker#nationality(name="nationality",title="الرجاء اختيار الجنسية  .",style="padding-top: 0px;",data-live-search="true")
+//-                 option(value="0") جنسية1
+//-                 option(value="1") جنسية2
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") الجنس
+//-               select.form-control.selectpicker#gender(name="gender",title="أختر الجنس  .",style="padding-top: 0px;")
+//-                 option(value="0") ذكر
+//-                 option(value="1") انثي
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") رقم ورقة العائلة
+//-               input.form-control#no_paper_family(name="no_paper_family", type="text", placeholder="رقم ورقة العائلة")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") رقم قيد العائلة
+//-               input.form-control#no_reg_family(name="no_reg_family", type="text", placeholder="رقم قيد العائلة")
+//-           hr
+//-           h4.text-center البيانات الثانوية / Secondary data
+//-           .row
+//-             .input-group(style="margin: 10px;")
+//-               label.input-group-addon عنوان اﻹقامة
+//-               input.form-control#physical_address(name="physical_address", type="text", placeholder="عنوان اﻹقامة")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") السجل المدني
+//-               input.form-control#civil_reg(name="civil_reg", type="text", placeholder="السجل المدني")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") رقم الهاتف
+//-               input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") مكان عمل اﻷب
+//-               input.form-control#father_work_place(name="father_work_place", type="text", placeholder="مكان عمل اﻷب")
+//-           .row
+//-             .input-group(style="margin: 10px;")
+//-               label.input-group-addon اخر شهادة
+//-               input.form-control#last_cert(name="last_cert", type="text", placeholder="عنوان اﻹقامة")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") تخصيص اخر شهادة
+//-               input.form-control#cust_last_cert(name="cust_last_cert", type="text", placeholder="تخصيص اخر شهادة")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") تاريخ الحصول علي الشهادة
+//-               input.form-control#date_cert(name="date_cert", type="text", placeholder="تاريخ الحصول علي الشهادة")
+//-           .row
+//-             .input-group(style="margin: 10px;")
+//-               label.input-group-addon مكان الحصول علي الشهادة
+//-               input.form-control#place_cert(name="place_cert", type="text", placeholder="مكان الحصول علي الشهادة")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") رقم الجلوس
+//-               input.form-control#set_number(name="set_number", type="text", placeholder="رقم الجلوس")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") معدل الطالب
+//-               input.form-control#student_rate(name="student_rate", type="text", placeholder="معدل الطالب")
+//-               span.input-group-addon(style="border-left: 0; border-right: 0;") الرقم الوطني
+//-               input.form-control#nid(name="nid", type="text", placeholder="الرقم الوطني")
+//-           hr
+//-           .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+//-             button.btn.btn-primary.btn-lg(type="submit")
+//-               | تسجيل / Register
+//-     br
+//-     br
+//-   script(src='/js/jquery-2.1.1.min.js')
+//-   script(src='/js/bootstrap.min.js')
+//-   script(src='/js/bootstrap-select.min.js')
+//-   script(src='/js/moment-with-locales.min.js')
+//-   script(src='/js/bootstrap-datetimepicker.min.js')
+//-   script.
+//-     $(function () {
+//-       $('#birth_date').datetimepicker({
+//-         viewMode: 'years',
+//-         format: 'YYYY'
+//-       });
+//-       $('#date_cert').datetimepicker({
+//-         viewMode: 'years',
+//-         format: 'DD-MM-YYYY',
+//-         locale: 'ar-sa'
+//-       });
+//-     });
+//-   script(src='/js/jquery.validate.min.js')
+//-   script(src='/js/bootstrap-notify.min.js')
+//-   script(src='/js/newStudent.js')
+//-     
