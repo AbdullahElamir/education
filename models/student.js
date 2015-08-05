@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     set_number: DataTypes.INTEGER,
     student_rate: DataTypes.FLOAT(),
     nid: DataTypes.TEXT(),
-    status : DataTypes.INTEGER(150)
+    status :{type: DataTypes.INTEGER(150),defaultValue:1}
   }, {
     classMethods: {
       associate: function(models) {

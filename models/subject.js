@@ -13,11 +13,11 @@ module.exports = function(sequelize, DataTypes) {
     final_theor: DataTypes.FLOAT(),
     final_practical: DataTypes.FLOAT(),
     sub_type: DataTypes.INTEGER(13),
-    status: DataTypes.INTEGER(13)
+    status :{type: DataTypes.INTEGER(150),defaultValue:1}
   }, {
     classMethods: {
       associate: function(models) {
-        Subject.belongsTo(models.Department, {
+        Subject.belongsTo(models.User,models.Department, {
           onDelete: "CASCADE",
           foreignKey: {
             allowNull: false
