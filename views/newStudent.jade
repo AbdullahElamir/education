@@ -8,23 +8,24 @@ block cPanel
         form#newStudent(action="", method="post", accept-charset="utf-8", role="form")
           legend  تسجيل طالب/ة جديد
             .pull-left  Register new student
-          h4.text-center بيانات اسم الطالب / Data student's name
+          span.pull-right(style="position:absolute;color:red;") (⭐) حقول اجبارية
+          h4.text-center بيانات اسم الطالب - Data student's name
           hr
           .form-group
             .row
               .col-xs-3.col-md-3
-                label اسم الطالب/ة
+                label (⭐) اسم الطالب/ة
                 input#first_name.form-control(type="text", name="first_name", placeholder="اسم الطالب/ة")
               .col-xs-3.col-md-3
-                label اسم اﻷب
+                label (⭐) اسم اﻷب
                 input#father_name.form-control(type="text", name="father_name", placeholder="اسم اﻷب")
               .col-xs-3.col-md-3
-                label اسم الجد
+                label (⭐) اسم الجد
                 input#grand_name.form-control(type="text", name="grand_name", placeholder="اسم الجد")
               .col-xs-3.col-md-3
-                label اللقب
+                label (⭐) اللقب
                 input#last_name.form-control(type="text", name="last_name", placeholder="اللقب")
-          .form-group(style="margin-bottom: 25px;")
+          .form-group
             .row
               .col-xs-3.col-md-3
                 label.pull-left Surname
@@ -39,87 +40,88 @@ block cPanel
                 label.pull-left Student name
                 input#first_name_en.form-control(type="text", name="first_name_en", placeholder="Student name", dir="ltr")
           hr
-          h4.text-center البيانات الاساسية / Basic information
+          h4.text-center البيانات الاساسية - Basic information
           hr
           .form-group            
             .row
               .col-xs-3.col-md-3
-                label اسم اﻷم
+                label (⭐) اسم اﻷم
                 input#mother_name.form-control(type="text", name="mother_name", placeholder="اسم اﻷم")
               .col-xs-3.col-md-3
                 label.pull-left Mother name
                 input#mother_name_en.form-control(type="text", name="mother_name_en", placeholder="Mother name", dir="ltr")
               .col-xs-3.col-md-3
-                label مكان الميلاد
+                label (⭐) مكان الميلاد
                 input#place_birth.form-control(type="text", name="place_birth", placeholder="مكان الميلاد")
               .col-xs-3.col-md-3
-                label سنة الميلاد
+                label (⭐) سنة الميلاد
                 input#birth_date.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
           .form-group
             .row
               .col-xs-3.col-md-3
-                label الجنسية
+                label (⭐) الجنسية
                 select.form-control.selectpicker#nationality(name="nationality", data-live-search="true")
                   option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
                   option(value="0") جنسية1
                   option(value="1") جنسية2
               .col-xs-3.col-md-3
-                label الجنس
-                select.form-control.selectpicker#gender(name="gender",title="الرجاء اختيار الجنس...",style="padding-top: 0px;")
+                label (⭐) الجنس
+                select.form-control.selectpicker#gender(name="gender")
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار الجنس...
                   option(value="0") ذكر
                   option(value="1") انثي
               .col-xs-3.col-md-3
-                label رقم ورقة العائلة
+                label (⭐) رقم ورقة العائلة
                 input#no_paper_family.form-control(type="text", name="no_paper_family", placeholder="رقم ورقة العائلة")
               .col-xs-3.col-md-3
-                label رقم قيد العائلة
+                label (⭐) رقم قيد العائلة
                 input#no_reg_family.form-control(type="text", name="no_reg_family", placeholder="رقم قيد العائلة")
           hr
-          h4.text-center البيانات الثانوية / Secondary data
+          h4.text-center البيانات الثانوية - Secondary data
           hr
           .form-group
             .row
               .col-xs-3.col-md-3
-                label عنوان اﻹقامة
+                label (⭐) عنوان اﻹقامة
                 input#physical_address.form-control(type="text", name="physical_address", placeholder="عنوان اﻹقامة")
               .col-xs-3.col-md-3
-                label السجل المدني
+                label (⭐) السجل المدني
                 input#civil_reg.form-control(type="text", name="civil_reg", placeholder="السجل المدني")
               .col-xs-3.col-md-3
-                label رقم الهاتف
+                label (⭐) رقم الهاتف
                 input#phone.form-control(type="text", name="phone", placeholder="رقم الهاتف")
               .col-xs-3.col-md-3
-                label مكان عمل اﻷب
+                label (⭐) مكان عمل اﻷب
                 input#father_work_place.form-control(type="text", name="father_work_place", placeholder="مكان عمل اﻷب")
           .form-group
             .row
               .col-xs-3.col-md-3
-                label الرقم الوطني
+                label (⭐) الرقم الوطني
                 input#nid.form-control(type="text", name="nid", placeholder="الرقم الوطني")
               .col-xs-3.col-md-3
-                label اخر شهادة
+                label (⭐) اخر شهادة
                 input#last_cert.form-control(type="text", name="last_cert", placeholder="اخر شهادة")
               .col-xs-3.col-md-3
-                label تخصيص اخر شهادة
+                label (⭐) تخصيص اخر شهادة
                 input#cust_last_cert.form-control(type="text", name="cust_last_cert", placeholder="تخصيص اخر شهادة")
               .col-xs-3.col-md-3
-                label تاريخ الحصول علي الشهادة
+                label (⭐) تاريخ الحصول علي الشهادة
                 input#date_cert.form-control(type="text", name="date_cert", placeholder="تاريخ الحصول علي الشهادة")
           .form-group
             .row
               .col-xs-5.col-md-3.col-md-offset-2
-                label مكان الحصول علي الشهادة
+                label (⭐) مكان الحصول علي الشهادة
                 input#place_cert.form-control(type="text", name="place_cert", placeholder="مكان الحصول علي الشهادة")
               .col-xs-4.col-md-3
-                label رقم الجلوس
+                label (⭐) رقم الجلوس
                 input#set_number.form-control(type="text", name="set_number", placeholder="رقم الجلوس")
               .col-xs-3.col-md-2
-                label معدل الطالب
+                label (⭐) معدل الطالب
                 input#student_rate.form-control(type="text", name="student_rate", placeholder="معدل الطالب")
           hr
           .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
             button.btn.btn-primary.btn-lg(type="submit")
-              | تسجيل / Register
+              | تسجيل - Register
     br
     br
   script(src='/js/jquery-2.1.1.min.js')
