@@ -1,20 +1,22 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Division = sequelize.define("Division", {
-    name: DataTypes.STRING(150),
-    name_en: DataTypes.STRING(150),
+  var Subject = sequelize.define("Subject", {
+    name: DataTypes.STRING(250),
+    qualification: DataTypes.STRING(250),
+    birth_date: DataTypes.DATE(),
+    specialization: DataTypes.STRING(250),
     status :{type: DataTypes.INTEGER(150),defaultValue:1}
   }, {
     classMethods: {
       associate: function(models) {
-        Division.belongsTo(models.User, {
+        Subject.belongsTo(models.User, {
           onDelete: "CASCADE",
           foreignKey: {
             allowNull: false
           }
         });
-        Division.belongsTo(models.Department, {
+        Subject.belongsTo(models.Department, {
           onDelete: "CASCADE",
           foreignKey: {
             allowNull: false
@@ -24,5 +26,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  return Division;
+  return Subject;
 };

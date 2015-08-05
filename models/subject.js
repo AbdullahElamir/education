@@ -17,7 +17,13 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Subject.belongsTo(models.User,models.Department, {
+        Subject.belongsTo(models.User, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+        Subject.belongsTo(models.Department, {
           onDelete: "CASCADE",
           foreignKey: {
             allowNull: false
