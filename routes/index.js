@@ -31,9 +31,12 @@ router.get('/newSemester', function(req, res) {
 });
 
 router.post('/newSemester', function(req, res) {
-  ormMgr.add('semester',req.body,function(result){
-    // console.log("im in newSemester");
+console.log(req.body);
+  req.body.UserId=1;//req,session.id
+  models.Semester.create(req.body).then(function() {
+    res.redirect('/semesters');
   });
+  // 
 });
 
 router.get('/locations', function(req, res) {
