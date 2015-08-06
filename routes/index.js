@@ -70,15 +70,25 @@ router.get('/divisions', function(req, res) {
 });
 
 router.get('/newDivision', function(req, res) {
-  ormMgr.getAll('department',function(result){
-    res.render('newDivision', { title: 'New Division',departments:result });
+  models.Department.findAll().then(function(departments) {
+    console.log(departments);
+    res.render('newDivision', { title: 'New Division',departments:departments });
+
   });
+
+  // ormMgr.getAll('department',function(result){
+  //   res.render('newDivision', { title: 'New Division',departments:result });
+  // });
 });
 
 router.post('/newDivision', function(req, res) {
-  req.body['user_iduser']=1;//req.session.id
-  ormMgr.add('division',req.body,function(result){
-    res.redirect("/newDivision");
+  // req.body['user_iduser']=1;//req.session.id
+  // ormMgr.add('division',req.body,function(result){
+  //   res.redirect("/newDivision");
+  // });
+  req.body.UserId=1;//req,session.id
+  models.Division.create(req.body).then(function() {
+    res.redirect('/newDivision');
   });
 });
 
