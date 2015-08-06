@@ -17,6 +17,12 @@ router.get('/cPanelTest', function(req, res) {
 });
 
 router.get('/semesters', function(req, res) {
+
+  //models.Semester.create({sem_type:1,year:2015,current:1,starting_date:2/3/2011,ending_date:2/2/2011,status:1 ,UserId:1}).then(function() {
+    //console.log("error");
+   // res.redirect('/');
+  //});
+
   res.render('semesters', { title: 'View Semesters' });
 });
 

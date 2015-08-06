@@ -34,23 +34,24 @@ block cPanel
                 th.text-center تعديل
                 th.text-center إلغاء
               tbody
-                tr
-                  td
-                    input.checkthis(type="checkbox")
-                  td 17 فبراير
-                  td A
-                  td شاغر
-                  td C
-                  td C
-                  td C
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-trash
+                - for (var i = 0; i < 10; ++i)
+                  tr
+                    td
+                      input.checkthis(type="checkbox")
+                    td 17 فبراير
+                    td A
+                    td شاغر
+                    td C
+                    td C
+                    td C
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                        button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
+                          span.glyphicon.glyphicon-pencil
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                        button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
+                          span.glyphicon.glyphicon-trash
           ul.pagination.pull-right
             li.disabled
               a(href="#")
@@ -140,8 +141,9 @@ block cPanel
             |  لا
       // /.modal-content
     // /.modal-dialog
-  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script.
     $(document).ready(function(){
