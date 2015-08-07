@@ -6,57 +6,63 @@ block cPanel
     .row
       .col-md-6.col-md-offset-2
         form#newFacultyMember(action="", method="post", accept-charset="utf-8", role="form")
-          legend  اضافة محاضر/ة جديد
-            .pull-left(style="font-size:10px;color:red;") (⭐) حقول اجبارية
+          legend  إضافة محاضر/ة جديد
+            .pull-left
+              a.btn.btn-primary(href='/facultyMembers', role='button')
+                span.glyphicon.glyphicon-th-list
+                span  عرض المحاضرين
           .form-group
             .row
               .col-xs-6.col-md-6
-                label (⭐) اسم المحاضر/ة
+                label اسم المحاضر/ة
                 input#name.form-control(type="text", name="name", placeholder="اسم المحاضر/ة")
               .col-xs-6.col-md-6
-                label (⭐) المؤهل العلمي
+                label المؤهل العلمي
                 input#qualification.form-control(type="text", name="qualification", placeholder="المؤهل العلمي")
           .form-group
             .row
               .col-xs-6.col-md-6
-                label (⭐) التخصص
-                input#specialization.form-control(type="text", name="specialization", placeholder="التخصص")
+                label القسم
+                select.form-control.selectpicker#department_iddepartment(name="department_iddepartment", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
+                  option(value="0") قسم1
+                  option(value="1") قسم2
               .col-xs-6.col-md-6
-                label (⭐) رقم الهاتف
-                input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
+                label التخصص
+                input#specialization.form-control(type="text", name="specialization", placeholder="التخصص")
           .form-group
             .row
               .col-xs-6.col-md-6
-                label (⭐) الجنس
-                select.form-control.selectpicker#gender(name="gender",title="الرجاء اختيار الجنس...")
+                label الجنس
+                select.form-control.selectpicker#gender(name="gender")
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار الجنس...
                   option(value="0") ذكر
                   option(value="1") انثي
               .col-xs-6.col-md-6
-                label (⭐) عنوان اﻹقامة
-                input#physical_address.form-control(type="text", name="physical_address", placeholder="عنوان اﻹقامة")
+                label الجنسية
+                select.form-control.selectpicker#nationality(name="nationality", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
+                  option(value="0") جنسية1
+                  option(value="1") جنسية2
           .form-group
             .row
               .col-xs-6.col-md-6
-                label (⭐) تاريخ الميلاد
+                label تاريخ الميلاد
                 input#birth_date.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
               .col-xs-6.col-md-6
-                label (⭐) مكان الميلاد
+                label مكان الميلاد
                 input.form-control#phone(name="phone", type="text", placeholder="مكان الميلاد")
           .form-group
             .row
               .col-xs-6.col-md-6
-                label (⭐) القسم
-                select.form-control.selectpicker#department_iddepartment(name="department_iddepartment",title="الرجاء اختيار القسم...",style="padding-top: 0px;",data-live-search="true")
-                  option(value="0") قسم1
-                  option(value="1") قسم2
+                label عنوان اﻹقامة
+                input#physical_address.form-control(type="text", name="physical_address", placeholder="عنوان اﻹقامة")
               .col-xs-6.col-md-6
-                label (⭐) الجنسية
-                select.form-control.selectpicker#nationality(name="nationality",title="الرجاء اختيار الجنسية...",style="padding-top: 0px;",data-live-search="true")
-                  option(value="0") جنسية1
-                  option(value="1") جنسية2
+                label رقم الهاتف
+                input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
           hr
-          .col-md-2.col-md-offset-5
-            button.btn.btn-primary.btn-lg(type="submit")
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
               | إضافة
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')

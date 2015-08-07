@@ -10,7 +10,7 @@ block cPanel
             .row
               .pull-right(style="margin-right: 10px;")
                 h3#h3.panel-title عرض الفصول الدراسية
-              .col-xs-7.col-md-6
+              .col-xs-6.col-md-6
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
                   .input-group-btn
@@ -19,11 +19,11 @@ block cPanel
               .pull-left(style="margin-left: 10px;")
                 a.btn.btn-success(href='/newSemester', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
-                  |  إضافة فصل دراسي
+                  span.text-none  إضافة فصل دراسي
               .pull-left(style="margin-left: 10px;")
                 a.btn.btn-primary(href='#', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-print
-                  |  طباعة
+                  span.text-none  طباعة
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead

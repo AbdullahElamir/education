@@ -10,7 +10,7 @@ block cPanel
             .row
               .pull-right(style="margin-right: 10px;")
                 h3#h3.panel-title عرض القاعات الدراسية
-              .col-xs-5.col-md-6.col-md-offset-1
+              .col-xs-6.col-md-6
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
                   .input-group-btn
@@ -19,9 +19,13 @@ block cPanel
               .pull-left(style="margin-left: 10px;")
                 a.btn.btn-success(href='/newLocation', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
-                  |  إضافة قاعة دراسية
+                  span.text-none  إضافة قاعة دراسية
+              .pull-left(style="margin-left: 10px;")
+                a.btn.btn-primary(href='#', role='button',data-toggle='modal')
+                  span.glyphicon.glyphicon-print
+                  span.text-none  طباعة
           .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right
+            table#mytable.table.table-bordred.table-striped
               thead
                 th
                   input#checkall(type="checkbox")

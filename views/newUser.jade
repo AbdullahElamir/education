@@ -7,8 +7,8 @@ block cPanel
       .col-md-6.col-md-offset-2
         form.form(action="newDivision", method="post", accept-charset="utf-8", role="form")
           legend  إضافة مستخدم جديد
-            .pull-left()
-              a.btn.btn-primary(href='/users', role='button',data-toggle='modal')
+            .pull-left
+              a.btn.btn-primary(href='/users', role='button')
                 span.glyphicon.glyphicon-th-list
                 |  عرض المستخدمين
           .row
@@ -48,7 +48,7 @@ block cPanel
               input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
           hr
           .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
-            button.btn.btn-primary.btn-md(type="submit")
+            button.btn.btn-primary(type="submit")
               span.glyphicon.glyphicon-plus
               |  إضافة
     br

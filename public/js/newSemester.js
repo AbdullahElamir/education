@@ -19,7 +19,7 @@ $(document).ready(function(){
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
-      sem_typ:{
+      sem_type:{
         required: true,
       },
       year:{
@@ -36,26 +36,26 @@ $(document).ready(function(){
       },
     },
     messages:{
-      sem_typ:{
-        required: "الرجاء ادخال الصل الدراسي!",
+      sem_type:{
+        required: "الرجاء اختيار الفصل الدراسي!",
       },
       year:{
-        required: "الرجاء اختيار سنة الفصل الدراسي",
+        required: "الرجاء اختيار سنة الفصل الدراسي!",
       },
       current:{
         required: "الرجاء الاجابة بنعم أو لا!",
       },
       starting_date:{
-        required: "الرجاء اختيار تاريخ البداية",
+        required: "الرجاء اختيار تاريخ بداية الفصل!",
       },
       ending_date:{
-        required: "الرجاء اختيار تاريخ النهاية  ",
+        required: "الرجاء اختيار تاريخ نهاية الفصل!",
       },
     },
     // errorElement: 'span',
     errorClass: 'custom-error',
     errorPlacement: function (error, element) {
-      if ($(element).is('select,.datetimepicker')) {
+      if ($(element).is('select')) {
           element.next().after(error);
       } else {
           error.insertAfter(element);

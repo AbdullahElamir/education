@@ -6,31 +6,31 @@ block cPanel
     .row
       .col-md-6.col-md-offset-2
         form.form#newDivision(action="/newDivision", method="post", accept-charset="utf-8", role="form", onsubmit="myFunction()")
-          legend  إضافة شعبة جديدة
-          .row
-            .col-xs-6.col-md-4.col-md-offset-1
-              label.h4 اسم الشعبة
-            .col-xs-6.col-md-5.col-md-offset-1
-              input.form-control#name(type="text", name="name", placeholder="اسم القسم")
-          br
-          .row
-            .col-xs-6.col-md-4.col-md-offset-1
-              label.h4 Division name
-            .col-xs-6.col-md-5.col-md-offset-1
-              input.form-control#name_en(type="text", name="name_en", placeholder="Division name", dir='ltr')
-          br
-          .row
-            .col-xs-6.col-md-4.col-md-offset-1
-              label.h4 تندرج تحت قسم
-            .col-xs-6.col-md-5.col-md-offset-1
-              select.form-control.selectpicker#department_iddepartment(name="DepartmentId",data-live-search="true")
-                option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                for department in departments
-                  option(value="#{department.dataValues.id}")|#{department.dataValues.name}
+          legend  إضافة شعبه جديدة
+            .pull-left
+              a.btn.btn-primary(href='/divisions', role='button')
+                span.glyphicon.glyphicon-th-list
+                span  عرض الشعب
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اسم الشعبة
+                input.form-control#name(type="text", name="name", placeholder="اسم القسم")
+              .col-xs-6.col-md-6
+                label.h4.pull-left Division name
+                input.form-control#name_en(type="text", name="name_en", placeholder="Division name", dir='ltr')
+          .form-group
+            .row
+              .col-xs-6.col-md-6.col-md-offset-3 
+                label.h4 تندرج تحت قسم
+                select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                  for department in departments
+                    option(value="#{department.dataValues.id}")|#{department.dataValues.name}
           br
           hr
-          .col-md-2.col-md-offset-5
-            button.btn.btn-primary.btn-lg.sweetNewDivison(type="submit")
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
               | إضافة
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')

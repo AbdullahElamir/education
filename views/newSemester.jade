@@ -6,47 +6,45 @@ block cPanel
     .row
       .col-md-6.col-md-offset-2
         form.form#newSemester(action="/newSemester", method="post", accept-charset="utf-8", role="form")
-          legend  إضافة فصل دراسي 
-          .row
-            .col-xs-6.col-md-4.col-md-offset-1
-              label.h4 الفصل الدراسي
-            .col-xs-6.col-md-5.col-md-offset-1
-              select.form-control.selectpicker(name="sem_type",style="padding-top: 0px;")
-                option(value="", style='color:grey; display:none;') اختر الفصل الدراسي...
-                option(value="1") ربيعي
-                option(value="2") خريفي
-                option(value="3") صيفي
-          br
-          .row
-            .col-xs-6.col-md-4.col-md-offset-1
-              label.h4 سنة الفصل الدراسي
-            .col-xs-6.col-md-5.col-md-offset-1
-              input.form-control#year(name="year",type="text", placeholder="سنة الفصل الدراسي")
-          br
-          .row
-            .col-xs-6.col-md-5.col-md-offset-1
-              label.h4 هل هذا هو الفصل الحالي 
-            .col-xs-6.col-md-5
-              select.form-control.selectpicker(name="current",style="padding-top: 0px;")
-                option(value="", style='color:grey; display:none;') اختر الاجابة...
-                option(value="1") نعم
-                option(value="2") لا
-          br
-          .row
-            .col-xs-6.col-md-4.col-md-offset-1
-              label.h4 يبدأ الفصل الدراسي
-            .col-xs-6.col-md-5.col-md-offset-1
-              input.form-control#starting_date(type="text", name="starting_date", placeholder="تاريخ بداية الفصل الدراسي")
-          br
-          .row
-            .col-xs-6.col-md-5.col-md-offset-1
-              label.h4 ينتهي الفصل الدراسي
-            .col-xs-6.col-md-5
-              input.form-control#ending_date(type="text", name="ending_date", placeholder="تاريخ نهاية الفصل الدراسي")
+          legend  إضافة فصل دراسي
+            .pull-left
+              a.btn.btn-primary(href='/semesters', role='button')
+                span.glyphicon.glyphicon-th-list
+                span  عرض الفصول الدراسية
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 الفصل الدراسي
+                select.form-control.selectpicker#sem_type(name="sem_type", style="padding-top: 0px;", tabindex="1")
+                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي...
+                  option(value="1") ربيعي
+                  option(value="2") خريفي
+                  option(value="3") صيفي
+              .col-xs-6.col-md-6
+                label.h4 سنة الفصل الدراسي
+                input.form-control#year(name="year",type="text", placeholder="سنة الفصل الدراسي")
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 يبدأ الفصل الدراسي
+                input.form-control#starting_date(type="text", name="starting_date", placeholder="تاريخ بداية الفصل الدراسي")
+              .col-xs-6.col-md-6
+                label.h4 ينتهي الفصل الدراسي
+                input.form-control#ending_date(type="text", name="ending_date", placeholder="تاريخ نهاية الفصل الدراسي")
+          .form-group
+            .row
+              .col-xs-6.col-xs-offset-3.col-md-6.col-md-offset-3
+                label.h4 هل هذا هو الفصل الحالي 
+                select.form-control.selectpicker(name="current",style="padding-top: 0px;")
+                  option(value="", style='color:grey; display:none;') اختر الاجابة...
+                  option(value="1") نعم
+                  option(value="2") لا
           hr
-          .col-md-2.col-md-offset-5
-            button.btn.btn-primary.btn-lg(type="submit")
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
               | إضافة
+    br
+    br
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')

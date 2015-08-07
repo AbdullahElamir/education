@@ -30,14 +30,16 @@ $(document).ready(function(){
         required: "الرجاء ادخال اسم القسم!",
       },
       name_en:{
-        required: "<div style='padding-right:12px;'>!Please enter Department name</div>",
+        required: "!Please enter Department name",
       },
     },
     highlight: function(element) {
-      $(element).closest('.row').addClass('has-error');
+      $(element).closest('.row').removeClass('has-success').addClass('has-error');
+      $('button').attr('disabled' , true);
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error');
+      $(element).closest('.row').removeClass('has-error').addClass('has-success');
+      $('button').attr('disabled' , false);
     },
   });
 });
