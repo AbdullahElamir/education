@@ -10,7 +10,7 @@ block cPanel
             .row
               .pull-right(style="margin-right: 10px;")
                 h3#h3.panel-title عرض المستخدمين
-              .col-xs-5.col-md-6.col-md-offset-1
+              .col-xs-7.col-md-6
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
                   .input-group-btn
@@ -20,6 +20,10 @@ block cPanel
                 a.btn.btn-success(href='/newUser', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   |  إضافة مستخدم جديد
+              .pull-left(style="margin-left: 10px;")
+                a.btn.btn-primary(href='#', role='button',data-toggle='modal')
+                  span.glyphicon.glyphicon-print
+                  |  طباعة
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
@@ -27,7 +31,7 @@ block cPanel
                   input#checkall(type="checkbox")
                 th اسم المستخدم
                 th البريد الالكتروني
-                th الرقم السري
+                th كلمة المرور
                 th رقم الهاتف
                 th.text-center تعديل
                 th.text-center الغاء
@@ -40,11 +44,11 @@ block cPanel
                   td 12345
                   td 092456347
                   td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="Edit")
+                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
                       button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
                         span.glyphicon.glyphicon-pencil
                   td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="Delete")
+                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
                       button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
           ul.pagination.pull-right
@@ -70,14 +74,18 @@ block cPanel
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align تعديل المستخدم
+          h4#Heading.modal-title.custom_align تعديل مستخدم محدد
         .modal-body
           .form-group
-            input.form-control(type="text", placeholder="الاسم")
+            label اسم المستخدم:-
+            | 
+            span فاروق
           .form-group
             input.form-control(type="text", placeholder="البريد الالكتروني")
           .form-group
-            input.form-control(type="text", placeholder="الرقم السري")
+            input.form-control(type="text", placeholder="كلمة المرور")
+          .form-group
+            input.form-control(type="text", placeholder="تأكيد كلمة المرور")
           .form-group
             input.form-control(type="text", placeholder="رقم الهاتف")
         .modal-footer
@@ -92,11 +100,11 @@ block cPanel
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align إلغء المستخدم
+          h4#Heading.modal-title.custom_align إلغء مستخدم محدد
         .modal-body
           .alert.alert-danger
             span.glyphicon.glyphicon-warning-sign
-            |  هل انت متأكد من إلغاء هذه المستخدم؟
+            |  هل انت متأكد من إلغاء هذا المستخدم؟
         .modal-footer
           button.btn.btn-success(type="button")
             span.glyphicon.glyphicon-ok-sign

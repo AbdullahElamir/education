@@ -121,8 +121,13 @@ router.get('/testPage', function(req, res) {
 router.get('/newUser', function(req, res) {
     res.render('newUser', { title: 'New User'});
   });
+
 router.get('/users', function(req, res) {
   res.render('users', { title: 'users' });
+});
+
+router.get('/timelines', function(req, res) {
+  res.render('timelines', { title: 'View Timelines' });
 });
 
 module.exports = router;
