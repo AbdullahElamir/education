@@ -1,13 +1,14 @@
 #h3{
   font-size:20px;
-  font-weight:bold;
+  /*font-weight:bold;*/
   line-height: 30px;
 }
 
 legend{
-  color:#141823;
+  /*color:#141823;*/
+  color:#337ab7;
   font-size:25px;
-  font-weight:bold;
+  /*font-weight:bold;*/
   padding-bottom: 20px;
 }
 input[type="text"]{
@@ -55,3 +56,17 @@ body {
   display: none;
 }
 /*Back To Top Style End*/
+h4.text-center{
+  color:#337ab7;
+}
+label{
+  font-weight: 100;
+}
+/*Test Page Style Start*/
+
+/*Test Page Style End*/
+@media only screen and (max-width:1300px){
+  .text-none{
+    display: none;
+  }
+}

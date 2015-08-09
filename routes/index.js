@@ -17,13 +17,14 @@ router.get('/cPanelTest', function(req, res) {
 });
 
 router.get('/semesters', function(req, res) {
+  models.Semester.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(semester) {
+    res.render('semesters', { title: 'View Semesters',semester:semester });
 
-  models.Semester.create({sem_type:1,year:2015,current:1,starting_date:2/3/2011,ending_date:2/2/2011,status:1 ,UserId:1}).then(function() {
-    //console.log("error");
-   // res.redirect('/');
   });
-
-  //res.render('semesters', { title: 'View Semesters' });
 });
 
 router.get('/newSemester', function(req, res) {
@@ -32,9 +33,12 @@ router.get('/newSemester', function(req, res) {
 });
 
 router.post('/newSemester', function(req, res) {
-  ormMgr.add('semester',req.body,function(result){
-    // console.log("im in newSemester");
+console.log(req.body);
+  req.body.UserId=1;//req,session.id
+  models.Semester.create(req.body).then(function() {
+    res.redirect('/semesters');
   });
+  // 
 });
 
 router.get('/locations', function(req, res) {
@@ -46,9 +50,9 @@ router.get('/newLocation', function(req, res) {
 });
 
 router.post('/newLocation', function(req, res) {
-  req.body['user_iduser']=1;//req,session.id
-  ormMgr.add('location',req.body,function(result){
-    res.redirect("/newLocation");
+  req.body.UserId=1;//req,session.id
+  models.Location.create(req.body).then(function() {
+    res.redirect('/locations');
   });
 });
 
@@ -77,15 +81,25 @@ router.get('/divisions', function(req, res) {
 });
 
 router.get('/newDivision', function(req, res) {
-  ormMgr.getAll('department',function(result){
-    res.render('newDivision', { title: 'New Division',departments:result });
+  models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(departments) {
+    res.render('newDivision', { title: 'New Division',departments:departments });
+
   });
+
 });
 
 router.post('/newDivision', function(req, res) {
-  req.body['user_iduser']=1;//req.session.id
-  ormMgr.add('division',req.body,function(result){
-    res.redirect("/newDivision");
+  // req.body['user_iduser']=1;//req.session.id
+  // ormMgr.add('division',req.body,function(result){
+  //   res.redirect("/newDivision");
+  // });
+  req.body.UserId=1;//req,session.id
+  models.Division.create(req.body).then(function() {
+    res.redirect('/newDivision');
   });
 });
 
@@ -112,8 +126,13 @@ router.get('/testPage', function(req, res) {
 router.get('/newUser', function(req, res) {
     res.render('newUser', { title: 'New User'});
   });
+
 router.get('/users', function(req, res) {
   res.render('users', { title: 'users' });
+});
+
+router.get('/timelines', function(req, res) {
+  res.render('timelines', { title: 'View Timelines' });
 });
 
 module.exports = router;

@@ -10,7 +10,7 @@ block cPanel
             .row
               .pull-right(style="margin-right: 10px;")
                 h3#h3.panel-title عرض الطلبة
-              .col-xs-5.col-md-6.col-md-offset-1
+              .col-xs-7.col-md-7
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
                   .input-group-btn
@@ -19,7 +19,11 @@ block cPanel
               .pull-left(style="margin-left: 10px;")
                 a.btn.btn-success(href='/newFacultyMember', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
-                  |  إضافة طالب/ة
+                  span.text-none  إضافة طالب/ة
+              .pull-left(style="margin-left: 10px;")
+                a.btn.btn-primary(href='#', role='button',data-toggle='modal')
+                  span.glyphicon.glyphicon-print
+                  span.text-none  طباعة
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
@@ -142,8 +146,9 @@ block cPanel
             |  لا
       // /.modal-content
     // /.modal-dialog
-  script(src='/js/jquery-1.11.2.min.js')
+  script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script.
     $(document).ready(function(){

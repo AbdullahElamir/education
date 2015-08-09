@@ -2,7 +2,9 @@ doctype html
 html
   head
     title= title
+    meta(name="viewport", content="width=device-width, user-scalable=no")
     link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
     link(rel='stylesheet', href='/css/bootstrap-rtl.min.css')
     block contentStyle
       link(rel='stylesheet', href='/css/navbarStyle.css')
@@ -11,9 +13,10 @@ html
       link(rel='stylesheet', href='/css/authenticationStyle.css')
     link(rel='stylesheet', href='/css/bootstrap-select.min.css')
     link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
-    link(rel='stylesheet', href='css/animate.min.css')
-    //- link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
-    link(rel='stylesheet', href='css/sweet-alert.css')
+    link(rel='stylesheet', href='/css/animate.min.css')
+    link(rel='stylesheet', href='/css/jquery-ui.min.css')
+    link(rel='stylesheet', href='/css/fullcalendar.min.css')
+    link(rel='stylesheet', href='/css/fullcalendar.print.css', media='print')
     link(rel='stylesheet', href='/css/customStyle.css')
   body
     block navBar
@@ -67,10 +70,10 @@ html
                       .col-md-12
                         form.navbar-form.navbar-left(role="search")
                           .input-group
-                            input.form-control(type="text", placeholder="بحث",style="padding-bottom: 0px;")
+                            input.form-control(type="text", placeholder="بحث")
                             span.input-group-btn
                               button.btn.btn-primary(type="button")
-                                | اذهب!
+                                | بحث!
             ul.nav.navbar-nav.navbar-right
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
@@ -197,7 +200,7 @@ html
                           span.glyphicon.glyphicon-shopping-cart
                           a(href="http://www.jquery2dotnet.com")  سلة الشراء
           block cPanel  
-            .col-sm-6.col-md-6.col-md-offset-2
+            .col-xs-12.col-md-6.col-md-offset-2
               .panel.panel-primary.font
                 .panel-heading
                   h3.panel-title#panel-title
@@ -206,7 +209,7 @@ html
                     | لوحة التحكم
                 .panel-body
                   .row
-                    .col-xs-6.col-md-6
+                    .col-xs-6.col-md-6(style="direction: ltr;")
                       a.btn.btn-danger.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-list-alt
                         br
