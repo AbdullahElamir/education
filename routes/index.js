@@ -22,6 +22,7 @@ router.get('/semesters', function(req, res) {
       status: 1
     }
   }).then(function(semester) {
+    console.log(semester);
     res.render('semesters', { title: 'View Semesters',semester:semester });
 
   });
@@ -56,7 +57,17 @@ router.post('/newLocation', function(req, res) {
 });
 
 router.get('/departments', function(req, res) {
-  res.render('departments', { title: 'View departments' });
+   models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(department) {
+    console.log(department);
+    res.render('departments', { title: 'View departments',dept:department });
+
+  });
+
+  // res.render('departments', { title: 'View departments' });
 });
 
 router.get('/newDepartment', function(req, res) {
