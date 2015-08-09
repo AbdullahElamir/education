@@ -28,6 +28,7 @@ router.get('/semesters', function(req, res) {
 });
 
 router.get('/newSemester', function(req, res) {
+  console.log(req.body);
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in' });
 });
 
