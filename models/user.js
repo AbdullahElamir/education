@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     password: DataTypes.STRING(150),
     salt: DataTypes.STRING(150),
     phone: DataTypes.STRING(150),
-    status :{type: DataTypes.INTEGER(150),defaultValue:1}
+    status :{type: DataTypes.INTEGER(1),defaultValue:1}
   }, {
     classMethods: {
       associate: function(models) {
