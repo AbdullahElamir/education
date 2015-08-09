@@ -23,14 +23,14 @@ router.get('/semesters', function(req, res) {
     }
   }).then(function(semester) {
 
-    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in' });
+    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
 
   });
 });
 
 router.get('/newSemester', function(req, res) {
   console.log(req.body);
-  res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in' });
+  res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
 });
 
 router.post('/newSemester', function(req, res) {
@@ -64,7 +64,7 @@ router.get('/departments', function(req, res) {
     }
   }).then(function(department) {
     console.log(department);
-    res.render('departments', { title: 'View departments',collapseOne: 'collapse in', dept:department, activeSixOne: 'active' });
+    res.render('departments', { title: 'View departments',collapseSix: 'collapse in', dept:department, activeSixOne: 'active' });
 
   });
 });
@@ -121,11 +121,11 @@ router.get('/newFacultyMember', function(req, res) {
 });
 
 router.get('/students', function(req, res) {
-  res.render('students', { title: 'View Students', collapseThree: 'collapse in' });
+  res.render('students', { title: 'View Students', collapseThree: 'collapse in', activeThreeOne: 'active' });
 });
 
 router.get('/newStudent', function(req, res) {
-  res.render('newStudent', { title: 'New Student', collapseThree: 'collapse in' });
+  res.render('newStudent', { title: 'New Student', collapseThree: 'collapse in', activeThreeTwo: 'active' });
 });
 
 router.get('/testPage', function(req, res) {

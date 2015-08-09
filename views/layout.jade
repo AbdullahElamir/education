@@ -19,9 +19,9 @@ html
     link(rel='stylesheet', href='/css/fullcalendar.min.css')
     link(rel='stylesheet', href='/css/fullcalendar.print.css', media='print')
     link(rel='stylesheet', href='/css/customStyle.css')
-  body.animated.fadeIn
+  body.font.animated.fadeIn
     block navBar
-      .container-fulid.font
+      .container-fulid
         nav.navbar.navbar-default(role="navigation")
           // Brand and toggle get grouped for better mobile display
           .navbar-header
@@ -112,11 +112,11 @@ html
                   .panel-body#panel-body
                     table.table
                       tr
-                        td.active
+                        td(class=activeOneOne)
                           span.glyphicon.glyphicon-pencil.text-primary
                           a(href="/semesters", style="font-size:12.6px;").font  عرض الفصول الدراسية
                       tr
-                        td
+                        td(class=activeOneTwo)
                           span.glyphicon.glyphicon-flash.text-success
                           a(href="/newSemester").font  إضافة فصل دراسي
                       //- tr
@@ -139,11 +139,11 @@ html
                   .panel-body#panel-body
                     table.table
                       tr
-                        td
+                        td(class=activeTwoOne)
                           span.glyphicon.glyphicon-pencil.text-primary
                           a(href="#").font  عرض المواد
                       tr
-                        td
+                        td(class=activeTwoTwo)
                           span.glyphicon.glyphicon-flash.text-success
                           a(href="#").font  إضافة مادة
                       //- tr
@@ -166,12 +166,12 @@ html
                   .panel-body#panel-body
                     table.table
                       tr
-                        td
+                        td(class=activeThreeOne)
                           a(href="/students").font  عرض الطلبة
                           | 
                           //- span.label.label-success  $ 320
                       tr
-                        td
+                        td(class=activeThreeTwo)
                           a(href="/newStudent").font  إضافة طالب/ة
                       //- tr
                       //-   td
