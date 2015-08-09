@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     chapter_degree: { type: DataTypes.FLOAT(),defaultValue: null},
     sum_dagree: DataTypes.FLOAT(),
     final_exam: { type: DataTypes.FLOAT(),defaultValue: null},
-    status :{type: DataTypes.INTEGER(150),defaultValue:1}
+    status :{type: DataTypes.INTEGER(1),defaultValue:1}
   },{
     classMethods: {
       associate: function(models) {
