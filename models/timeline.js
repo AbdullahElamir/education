@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
   var Timeline = sequelize.define("Timeline", {
     starting_time:{ type: DataTypes.TIME(),defaultValue: null},
     day: DataTypes.INTEGER(1),
-    ending_time:{ type: DataTypes.TIME(),defaultValue: null}
+    ending_time:{ type: DataTypes.TIME(),defaultValue: null},
+    status :{type: DataTypes.INTEGER(1),defaultValue:1}
   },{
     classMethods: {
       associate: function(models) {

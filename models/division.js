@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   var Division = sequelize.define("Division", {
     name: DataTypes.STRING(150),
     name_en: DataTypes.STRING(150),
-    status :{type: DataTypes.INTEGER(150),defaultValue:1}
+    status :{type: DataTypes.INTEGER(1),defaultValue:1}
   }, {
     classMethods: {
       associate: function(models) {
@@ -19,6 +19,16 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: {
             allowNull: false
           }
+        });
+        Division.belongsTo(models.Subject, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+
+        Division.belongsToMany(models.Subject, {
+          through: 'DivisionSubject'
         });
       }
     }
