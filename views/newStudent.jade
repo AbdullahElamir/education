@@ -5,6 +5,13 @@ block cPanel
   .container.font
     .row
       .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default الطلبة
+          .btn.btn-default.active تسجيل طالب/ة جديد
+        br
+        br
         form#newStudent(action="", method="post", accept-charset="utf-8", role="form")
           legend  تسجيل طالب/ة جديد
             .pull-left

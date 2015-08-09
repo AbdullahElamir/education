@@ -188,10 +188,10 @@ html
                   .panel-body#panel-body
                     table.table
                       tr
-                        td
+                        td(class=activeFourOne)
                           a(href="/facultyMembers").font عرض المحاضرين
                       tr
-                        td
+                        td(class=activeFourTwo)
                           a(href="/newFacultyMember").font إضافة محاضر/ة
                           span.label.label-info 5
                       //- tr
@@ -212,11 +212,11 @@ html
                   .panel-body#panel-body
                     table.table
                       tr
-                        td
+                        td(class=activeFiveOne)
                           span.glyphicon.glyphicon-usd
                           a(href="/Locations", style="font-size:12.7px;")  عرض القاعات الدراسية
                       tr
-                        td
+                        td(class=activeFiveTwo)
                           span.glyphicon.glyphicon-user
                           a(href="/newLocation")  إضافة قاعة دراسية
                       //- tr
@@ -237,28 +237,28 @@ html
                   .panel-body#panel-body
                     table.table
                       tr
-                        td
+                        td(class=activeSixOne)
                           span.glyphicon.glyphicon-usd
-                          a(href="#")  عرض اﻷقسام
+                          a(href="/departments")  عرض اﻷقسام
                       tr
-                        td
+                        td(class=activeSixTwo)
                           span.glyphicon.glyphicon-user
-                          a(href="#")  إضافة قسم
+                          a(href="/newDepartment")  إضافة قسم
                       tr
-                        td
+                        td(class=activeSixThree)
                           span.glyphicon.glyphicon-tasks
-                          a(href="#")  عرض الشعب
+                          a(href="/divisions")  عرض الشعب
                       tr
-                        td
+                        td(class=activeSixFour)
                           span.glyphicon.glyphicon-shopping-cart
-                          a(href="#")  إضافة شعبه
+                          a(href="/newDivision")  إضافة شعبه
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseSeven")
                       span.glyphicon.glyphicon-file
                       |  التقارير
-                #collapseSeven.panel-collapse.collapse(class=collapseSix)
+                #collapseSeven.panel-collapse.collapse(class=collapseSeven)
                   .panel-body#panel-body
                     table.table
                       tr

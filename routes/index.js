@@ -57,11 +57,11 @@ router.post('/newLocation', function(req, res) {
 });
 
 router.get('/departments', function(req, res) {
-  res.render('departments', { title: 'View departments', collapseOne: 'collapse in' });
+  res.render('departments', { title: 'View departments', collapseSix: 'collapse in', activeSixOne: 'active' });
 });
 
 router.get('/newDepartment', function(req, res) {
-  res.render('newDepartment', { title: 'New Department', collapseOne: 'collapse in' });
+  res.render('newDepartment', { title: 'New Department', collapseSix: 'collapse in', activeSixTwo: 'active' });
 });
 
 router.post('/newDepartment', function(req, res) {
@@ -77,7 +77,7 @@ router.post('/newDepartment', function(req, res) {
 });
 
 router.get('/divisions', function(req, res) {
-  res.render('divisions', { title: 'View divisions', collapseOne: 'collapse in' });
+  res.render('divisions', { title: 'View divisions', collapseSix: 'collapse in', activeSixThree: 'active' });
 });
 
 router.get('/newDivision', function(req, res) {
@@ -86,7 +86,7 @@ router.get('/newDivision', function(req, res) {
       status: 1
     }
   }).then(function(departments) {
-    res.render('newDivision', { title: 'New Division', departments: departments, collapseOne: 'collapse in' });
+    res.render('newDivision', { title: 'New Division', departments: departments, collapseSix: 'collapse in', activeSixFour: 'active' });
 
   });
 
