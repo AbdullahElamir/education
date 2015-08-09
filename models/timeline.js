@@ -5,7 +5,6 @@ module.exports = function(sequelize, DataTypes) {
     starting_time:{ type: DataTypes.TIME(),defaultValue: null},
     day: DataTypes.INTEGER(1),
     ending_time:{ type: DataTypes.TIME(),defaultValue: null}
-
   },{
     classMethods: {
       associate: function(models) {
@@ -16,6 +15,18 @@ module.exports = function(sequelize, DataTypes) {
           }
         });
         Timeline.belongsTo(models.Location, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+        Timeline.belongsTo(models.Semester, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+        Timeline.belongsTo(models.Sub_group, {
           onDelete: "CASCADE",
           foreignKey: {
             allowNull: false

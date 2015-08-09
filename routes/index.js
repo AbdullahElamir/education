@@ -22,14 +22,15 @@ router.get('/semesters', function(req, res) {
       status: 1
     }
   }).then(function(semester) {
-    console.log(semester);
-    res.render('semesters', { title: 'View Semesters',semester:semester });
+
+    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in' });
 
   });
 });
 
 router.get('/newSemester', function(req, res) {
-  res.render('newSemester', { title: 'New Semester' });
+  console.log(req.body);
+  res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in' });
 });
 
 router.post('/newSemester', function(req, res) {
@@ -42,11 +43,11 @@ console.log(req.body);
 });
 
 router.get('/locations', function(req, res) {
-  res.render('locations', { title: 'View Locations' });
+  res.render('locations', { title: 'View Locations', collapseFive: 'collapse in' });
 });
 
 router.get('/newLocation', function(req, res) {
-  res.render('newLocation', { title: 'New Location' });
+  res.render('newLocation', { title: 'New Location', collapseFive: 'collapse in' });
 });
 
 router.post('/newLocation', function(req, res) {
@@ -63,15 +64,13 @@ router.get('/departments', function(req, res) {
     }
   }).then(function(department) {
     console.log(department);
-    res.render('departments', { title: 'View departments',dept:department });
+    res.render('departments', { title: 'View departments',collapseOne: 'collapse in',dept:department });
 
   });
-
-  // res.render('departments', { title: 'View departments' });
 });
 
 router.get('/newDepartment', function(req, res) {
-  res.render('newDepartment', { title: 'New Department' });
+  res.render('newDepartment', { title: 'New Department', collapseOne: 'collapse in' });
 });
 
 router.post('/newDepartment', function(req, res) {
@@ -87,7 +86,7 @@ router.post('/newDepartment', function(req, res) {
 });
 
 router.get('/divisions', function(req, res) {
-  res.render('divisions', { title: 'View divisions' });
+  res.render('divisions', { title: 'View divisions', collapseOne: 'collapse in' });
 });
 
 router.get('/newDivision', function(req, res) {
@@ -96,7 +95,7 @@ router.get('/newDivision', function(req, res) {
       status: 1
     }
   }).then(function(departments) {
-    res.render('newDivision', { title: 'New Division',departments:departments });
+    res.render('newDivision', { title: 'New Division', departments: departments, collapseOne: 'collapse in' });
 
   });
 
@@ -114,19 +113,19 @@ router.post('/newDivision', function(req, res) {
 });
 
 router.get('/facultyMembers', function(req, res) {
-  res.render('facultyMembers', { title: 'View Faculty Members' });
+  res.render('facultyMembers', { title: 'View Faculty Members', collapseFour: 'collapse in' });
 });
 
 router.get('/newFacultyMember', function(req, res) {
-  res.render('newFacultyMember', { title: 'New Faculty Member' });
+  res.render('newFacultyMember', { title: 'New Faculty Member', collapseFour: 'collapse in' });
 });
 
 router.get('/students', function(req, res) {
-  res.render('students', { title: 'View Students' });
+  res.render('students', { title: 'View Students', collapseThree: 'collapse in' });
 });
 
 router.get('/newStudent', function(req, res) {
-  res.render('newStudent', { title: 'New Student' });
+  res.render('newStudent', { title: 'New Student', collapseThree: 'collapse in' });
 });
 
 router.get('/testPage', function(req, res) {
@@ -134,11 +133,11 @@ router.get('/testPage', function(req, res) {
 });
 
 router.get('/newUser', function(req, res) {
-    res.render('newUser', { title: 'New User'});
+    res.render('newUser', { title: 'New User', collapseOne: 'collapse in' });
   });
 
 router.get('/users', function(req, res) {
-  res.render('users', { title: 'users' });
+  res.render('users', { title: 'users', collapseOne: 'collapse in' });
 });
 
 router.get('/timelines', function(req, res) {

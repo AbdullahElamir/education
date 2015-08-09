@@ -62,11 +62,67 @@ h4.text-center{
 label{
   font-weight: 100;
 }
-/*Test Page Style Start*/
 
-/*Test Page Style End*/
 @media only screen and (max-width:1300px){
   .text-none{
     display: none;
   }
+}
+
+/** The Magic **/
+.btn-breadcrumb .btn:not(:last-child):after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-right: 10px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  right: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn:not(:last-child):before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-right: 10px solid rgb(173, 173, 173);
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  margin-right: 1px;
+  right: 100%;
+  z-index: 3;
+}
+/** The Spacing **/
+.btn-breadcrumb .btn {
+  padding:6px 24px 6px 12px;
+}
+.btn-breadcrumb .btn:first-child {
+  padding:6px 10px 6px 6px;
+}
+.btn-breadcrumb .btn:last-child {
+  padding:6px 24px 6px 18px;
+}
+
+/** Default button **/
+.btn-breadcrumb .btn.btn-default:not(:last-child):after {
+  border-right: 10px solid #fff;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):before {
+  border-right: 10px solid #ccc;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
+  border-right: 10px solid #ebebeb;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
+  border-right: 10px solid #adadad;
+}
+.btn-breadcrumb > .active, table > tr {
+  background-color: #f5f5f5;
 }
