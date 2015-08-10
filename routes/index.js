@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var models  = require('../models');
+var login = require('../app/login')(router);
+var userHelpers = require('../app/userHelpers');
 
 /* GET home page. */
 
@@ -116,6 +118,12 @@ router.get('/students', function(req, res) {
 
 router.get('/newStudent', function(req, res) {
   res.render('newStudent', { title: 'New Student' });
+});
+
+router.post('/newStudent', function(req, res) {
+  userHelpers.addUser(req.body, function (results){
+    res.redirect('/students');
+  });
 });
 
 router.get('/testPage', function(req, res) {
