@@ -7,10 +7,10 @@ block cPanel
     .row
       .pull-right
         .btn-group.btn-breadcrumb
-            a.btn.btn-default(href="/cPanel")
-              i.glyphicon.glyphicon-home
-            .btn.btn-default القاعات الدراسية 
-            .btn.btn-default.active إضافة قاعة دراسية
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default القاعات الدراسية 
+          .btn.btn-default.active إضافة قاعة دراسية
       .col-md-6.col-md-offset-2
         br
         br
@@ -31,10 +31,11 @@ block cPanel
           br
           hr
           .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
-            button.btn.btn-primary(type="submit")
-              | إضافة
+            button.btn.btn-primary(type="submit") إضافة
     br
     br
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/jquery.validate.min.js')    
+  script(src='/js/newLocation.js')

@@ -51,7 +51,7 @@ router.get('/locations', function(req, res) {
     }
   }).then(function(location) {
     console.log(location);
-    res.render('locations', { title: 'View Locations', loc: location });
+    res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
 
   });
 });
