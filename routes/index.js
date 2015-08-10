@@ -43,7 +43,34 @@ console.log(req.body);
 });
 
 router.get('/locations', function(req, res) {
-  res.render('locations', { title: 'View Locations', collapseFive: 'collapse in' });
+  console.log(req.body);
+   models.Location.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(location) {
+    console.log(location);
+    res.render('locations', { title: 'View Locations', loc: location });
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 });
 
 router.get('/newLocation', function(req, res) {
