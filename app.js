@@ -4,7 +4,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var session = require('express-session');
+var passport = require('passport');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -19,8 +20,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: 'HnecDev',resave: true,saveUninitialized: true}));
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', routes);
 app.use('/users', users);
 

@@ -1,10 +1,20 @@
 extends layout
 block authenticationStyle
+block errorStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
+      .pull-right
+        .btn-group.btn-breadcrumb
+            a.btn.btn-default(href="/cPanel")
+              i.glyphicon.glyphicon-home
+            .btn.btn-default الفصول الدراسية
+            .btn.btn-default.active إضافة فصل الدراسية
       .col-md-6.col-md-offset-2
+        br
+        br  
         form.form#newSemester(action="/newSemester", method="post", accept-charset="utf-8", role="form")
           legend  إضافة فصل دراسي
             .pull-left
@@ -14,15 +24,14 @@ block cPanel
           .form-group
             .row
               .col-xs-6.col-md-6
-                label.h4 الفصل الدراسي
+                label.h4 نظام الدراسة
                 select.form-control.selectpicker#sem_type(name="sem_type", style="padding-top: 0px;", tabindex="1")
                   option(value="", style='color:grey; display:none;') اختر الفصل الدراسي...
-                  option(value="1") ربيعي
-                  option(value="2") خريفي
-                  option(value="3") صيفي
-              .col-xs-6.col-md-6
-                label.h4 سنة الفصل الدراسي
-                input.form-control#year(name="year",type="text", placeholder="سنة الفصل الدراسي")
+                  option(value="1") سنة
+                  option(value="2") فصل
+              .col-xs-6.col-md-6#System
+                label.h4 الفصل الدراسي
+                select.form-control.selectpicker#system(name="system", style="padding-top: 0px;", tabindex="1")
           .form-group
             .row
               .col-xs-6.col-md-6
@@ -33,16 +42,21 @@ block cPanel
                 input.form-control#ending_date(type="text", name="ending_date", placeholder="تاريخ نهاية الفصل الدراسي")
           .form-group
             .row
-              .col-xs-6.col-xs-offset-3.col-md-6.col-md-offset-3
+              .col-xs-6.col-md-6
+                label.h4 سنة الفصل الدراسي
+                input.form-control#year(name="year",type="text", placeholder="سنة الفصل الدراسي")
+              .col-xs-6.col-md-6
                 label.h4 هل هذا هو الفصل الحالي 
                 select.form-control.selectpicker(name="current",style="padding-top: 0px;")
                   option(value="", style='color:grey; display:none;') اختر الاجابة...
                   option(value="1") نعم
                   option(value="2") لا
+          br     
           hr
           .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
             button.btn.btn-primary(type="submit")
-              | إضافة
+              i.fa.fa-plus
+              span  إضافة
     br
     br
   script(src='/js/jquery-2.1.1.min.js')
