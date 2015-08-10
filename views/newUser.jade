@@ -1,11 +1,12 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
       .col-md-6.col-md-offset-2
-        form.form(action="newDivision", method="post", accept-charset="utf-8", role="form")
+        form.form(action="/newStudent", method="post", accept-charset="utf-8", role="form")
           legend  إضافة مستخدم جديد
             .pull-left
               a.btn.btn-primary(href='/users', role='button')
@@ -21,7 +22,7 @@ block cPanel
             .col-xs-6.col-md-4.col-md-offset-1
               label.h4 البريد الالكتروني
             .col-xs-6.col-md-5.col-md-offset-1
-              input.form-control#emil(type="text", name="emil", placeholder="البريد الالكتروني")
+              input.form-control#emil(type="text", name="email", placeholder="البريد الالكتروني")
           br
           .row
             .col-xs-6.col-md-5.col-md-offset-1

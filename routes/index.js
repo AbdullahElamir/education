@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var models  = require('../models');
+var login = require('../app/login')(router);
+var userHelpers = require('../app/userHelpers');
 
 /* GET home page. */
 
@@ -23,14 +25,14 @@ router.get('/semesters', function(req, res) {
     }
   }).then(function(semester) {
 
-    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in' });
+    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
 
   });
 });
 
 router.get('/newSemester', function(req, res) {
   console.log(req.body);
-  res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in' });
+  res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
 });
 
 router.post('/newSemester', function(req, res) {
@@ -43,7 +45,6 @@ console.log(req.body);
 });
 
 router.get('/locations', function(req, res) {
-  console.log(req.body);
    models.Location.findAll({
     where: {
       status: 1
@@ -53,28 +54,10 @@ router.get('/locations', function(req, res) {
     res.render('locations', { title: 'View Locations', loc: location });
 
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 });
 
 router.get('/newLocation', function(req, res) {
-  res.render('newLocation', { title: 'New Location', collapseFive: 'collapse in' });
+  res.render('newLocation', { title: 'New Location', collapseTwo: 'collapse in', activeTwoTwo: 'active' });
 });
 
 router.post('/newLocation', function(req, res) {
@@ -91,13 +74,13 @@ router.get('/departments', function(req, res) {
     }
   }).then(function(department) {
     console.log(department);
-    res.render('departments', { title: 'View departments',collapseOne: 'collapse in',dept:department });
+    res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
 
   });
 });
 
 router.get('/newDepartment', function(req, res) {
-  res.render('newDepartment', { title: 'New Department', collapseOne: 'collapse in' });
+  res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
 });
 
 router.post('/newDepartment', function(req, res) {
@@ -113,7 +96,7 @@ router.post('/newDepartment', function(req, res) {
 });
 
 router.get('/divisions', function(req, res) {
-  res.render('divisions', { title: 'View divisions', collapseOne: 'collapse in' });
+  res.render('divisions', { title: 'View divisions', collapseFour: 'collapse in', activeFourThree: 'active' });
 });
 
 router.get('/newDivision', function(req, res) {
@@ -122,7 +105,7 @@ router.get('/newDivision', function(req, res) {
       status: 1
     }
   }).then(function(departments) {
-    res.render('newDivision', { title: 'New Division', departments: departments, collapseOne: 'collapse in' });
+    res.render('newDivision', { title: 'New Division', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
 
   });
 
@@ -140,19 +123,25 @@ router.post('/newDivision', function(req, res) {
 });
 
 router.get('/facultyMembers', function(req, res) {
-  res.render('facultyMembers', { title: 'View Faculty Members', collapseFour: 'collapse in' });
+  res.render('facultyMembers', { title: 'View Faculty Members', collapseSix: 'collapse in', activeSixOne: 'active' });
 });
 
 router.get('/newFacultyMember', function(req, res) {
-  res.render('newFacultyMember', { title: 'New Faculty Member', collapseFour: 'collapse in' });
+  res.render('newFacultyMember', { title: 'New Faculty Member', collapseSix: 'collapse in', activeSixTwo: 'active' });
 });
 
 router.get('/students', function(req, res) {
-  res.render('students', { title: 'View Students', collapseThree: 'collapse in' });
+  res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
 });
 
 router.get('/newStudent', function(req, res) {
-  res.render('newStudent', { title: 'New Student', collapseThree: 'collapse in' });
+  res.render('newStudent', { title: 'New Student', collapseFive: 'collapse in', activeFiveTwo: 'active' });
+});
+
+router.post('/newStudent', function(req, res) {
+  userHelpers.addUser(req.body, function (results){
+    res.redirect('/students');
+  });
 });
 
 router.get('/testPage', function(req, res) {
