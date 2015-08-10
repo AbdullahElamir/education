@@ -12,6 +12,8 @@ html
       link(rel='stylesheet', href='/css/cPanelStyle.css')
     block authenticationStyle
       link(rel='stylesheet', href='/css/authenticationStyle.css')
+    block errorStyle
+      link(rel='stylesheet', href='/css/errorStyle.css')
     link(rel='stylesheet', href='/css/bootstrap-select.min.css')
     link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
     link(rel='stylesheet', href='/css/animate.min.css')
@@ -113,146 +115,98 @@ html
                     table.table
                       tr
                         td(class=activeOneOne)
-                          span.glyphicon.glyphicon-pencil.text-primary
-                          a(href="/semesters", style="font-size:12.6px;").font  عرض الفصول الدراسية
+                          a(href="/semesters", style="font-size:12px;").font  عرض الفصول الدراسية
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeOneTwo)
-                          span.glyphicon.glyphicon-flash.text-success
                           a(href="/newSemester").font  إضافة فصل دراسي
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-file.text-info
-                      //-     a(href="http://www.jquery2dotnet.com").font  النشرات الإخبارية
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-comment.text-success
-                      //-     a(href="http://www.jquery2dotnet.com").font  تعليقات
-                      //-     | 
-                      //-     span.badge 42
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseTwo")
-                      span.glyphicon.glyphicon-folder-close
-                      |  المواد الدراسية
+                      span.glyphicon.glyphicon-tasks
+                      span(style="font-size:15px;")  القاعات الدراسية
                 #collapseTwo.panel-collapse.collapse(class=collapseTwo)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeTwoOne)
-                          span.glyphicon.glyphicon-pencil.text-primary
-                          a(href="#").font  عرض المواد
+                          a(href="/locations", style="font-size:12px;").font  عرض القاعات الدراسية
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeTwoTwo)
-                          span.glyphicon.glyphicon-flash.text-success
-                          a(href="#").font  إضافة مادة
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-file.text-info
-                      //-     a(href="http://www.jquery2dotnet.com").font  النشرات الإخبارية
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-comment.text-success
-                      //-     a(href="http://www.jquery2dotnet.com").font  تعليقات
-                      //-     | 
-                      //-     span.badge 42
+                          a(href="/newLocation").font  إضافة قاعة دراسية
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseThree")
-                      span.glyphicon.glyphicon-user
-                      |  الطلبة 
+                      span.glyphicon.glyphicon-tasks
+                      span  المواد الدراسية
                 #collapseThree.panel-collapse.collapse(class=collapseThree)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeThreeOne)
-                          a(href="/students").font  عرض الطلبة
-                          | 
-                          //- span.label.label-success  $ 320
+                          a(href="#", style="font-size:13.5px;").font  عرض المواد الدراسية
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeThreeTwo)
-                          a(href="/newStudent").font  إضافة طالب/ة
-                      //- tr
-                      //-   td
-                      //-     a(href="http://www.jquery2dotnet.com").font  الشحنات
-                      //- tr
-                      //-   td
-                      //-     a(href="http://www.jquery2dotnet.com").font  الظرائب
+                          a(href="#").font  إضافة مادة دراسية
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseFour")
-                      span.glyphicon.glyphicon-user
-                      |  المحاضرين
+                      span.glyphicon.glyphicon-tasks
+                      span(style="font-size:15px;")  اﻷقسام والشعب
                 #collapseFour.panel-collapse.collapse(class=collapseFour)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeFourOne)
-                          a(href="/facultyMembers").font عرض المحاضرين
+                          a(href="/departments")  عرض اﻷقسام
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeFourTwo)
-                          a(href="/newFacultyMember").font إضافة محاضر/ة
-                          span.label.label-info 5
-                      //- tr
-                      //-   td
-                      //-     a(href="http://www.jquery2dotnet.com").font استيراد وتصدير
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-trash.text-danger
-                      //-     | 
-                      //-     a.text-danger(href="http://www.jquery2dotnet.com").font حذف المستخدم 
+                          a(href="/newDepartment")  إضافة قسم جديد
+                      tr
+                        td(class=activeFourThree)
+                          a(href="/divisions")  عرض الشعب
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                      tr
+                        td(class=activeFourFour)
+                          a(href="/newDivision")  إضافة شعبه جديدة
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseFive")
-                      span.glyphicon.glyphicon-book
-                      span(style="font-size:15px;")  القاعات الدراسية
+                      span.glyphicon.glyphicon-user
+                      span(style="font-size:15px;")  الطلبة المسجلين
                 #collapseFive.panel-collapse.collapse(class=collapseFive)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeFiveOne)
-                          span.glyphicon.glyphicon-usd
-                          a(href="/Locations", style="font-size:12.7px;")  عرض القاعات الدراسية
+                          a(href="/students", style="font-size:12.6px;")  عرض الطلبة المسجلين
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeFiveTwo)
-                          span.glyphicon.glyphicon-user
-                          a(href="/newLocation")  إضافة قاعة دراسية
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-tasks
-                      //-     a(href="http://www.jquery2dotnet.com")  منتجات
-                      //- tr
-                      //-   td
-                      //-     span.glyphicon.glyphicon-shopping-cart
-                      //-     a(href="http://www.jquery2dotnet.com")  سلة الشراء
+                          a(href="/newStudent")  تسجيل طالب/ة
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseSix")
-                      span.glyphicon.glyphicon-folder-open
-                      span(style="font-size:15px;")  اﻷقسام والشعب
+                      span.glyphicon.glyphicon-user
+                      span  المحاضرين
                 #collapseSix.panel-collapse.collapse(class=collapseSix)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeSixOne)
-                          span.glyphicon.glyphicon-usd
-                          a(href="/departments")  عرض اﻷقسام
+                          a(href="/facultyMembers")  عرض المحاضرين
+                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeSixTwo)
-                          span.glyphicon.glyphicon-user
-                          a(href="/newDepartment")  إضافة قسم
-                      tr
-                        td(class=activeSixThree)
-                          span.glyphicon.glyphicon-tasks
-                          a(href="/divisions")  عرض الشعب
-                      tr
-                        td(class=activeSixFour)
-                          span.glyphicon.glyphicon-shopping-cart
-                          a(href="/newDivision")  إضافة شعبه
+                          a(href="/newFacultyMember")  إضافة محاضر/ة
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title

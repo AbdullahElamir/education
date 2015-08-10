@@ -1,10 +1,19 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
   .container
     .row
+      .pull-right
+        .btn-group.btn-breadcrumb
+            a.btn.btn-default(href="/cPanel")
+              i.glyphicon.glyphicon-home
+            .btn.btn-default اﻷقسام والشعب
+            .btn.btn-default.active إضافة شعبه جديدة
       .col-md-6.col-md-offset-2
+        br
+        br
         form.form#newDivision(action="/newDivision", method="post", accept-charset="utf-8", role="form", onsubmit="myFunction()")
           legend  إضافة شعبه جديدة
             .pull-left
