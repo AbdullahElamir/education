@@ -17,6 +17,10 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
+        Subject.belongsToMany(models.Subject, { 
+          as: 'Prerequisites', 
+          through: 'SubjectHasPrerequisites'
+        });
         Subject.belongsTo(models.User, {
           onDelete: "CASCADE",
           foreignKey: {
