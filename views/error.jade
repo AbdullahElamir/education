@@ -1,6 +1,23 @@
 extends layout
-
+block contentStyle
+block authenticationStyle
+block navBar
+block navcPanel
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+block cPanel
+block footer
+  .container
+    .row
+      .col-xs-12.col-lg-12
+        .error-template
+          h1= message 
+          h1= error.status
+          .error-details
+            pre #{error.stack}
+          .error-actions
+            a.btn.btn-primary.btn-lg(href="/cPanel")
+              span.glyphicon.glyphicon-home
+              |   الرجوع الي الرئيسية
+            a.btn.btn-default.btn-lg(href="http://www.naga.ly", target='_blank')
+              span.glyphicon.glyphicon-envelope
+              |   الاتصال بالدعم

@@ -1,16 +1,24 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
       .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default الفصول الدراسية
+          .btn.btn-default.active عرض الفصول الدراسية
+        br
+        br
         .panel.panel-default
           .panel-heading
             .row
               .pull-right(style="margin-right: 10px;")
                 h3#h3.panel-title عرض الفصول الدراسية
-              .col-xs-6.col-md-6
+              .col-xs-5.col-md-6
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
                   .input-group-btn
@@ -37,14 +45,23 @@ block cPanel
                 th.text-center تعديل
                 th.text-center إلغاء
               tbody
+              for i in semester
                 tr
                   td
                     input.checkthis(type="checkbox")
-                  td ربيع
-                  td 2015
-                  td نعم
-                  td 07-28-2015
-                  td 12-28-2015
+                  td  
+                    if i.sem_type == 1
+                      |ربيعي
+                    else
+                      | خريفي
+                  td  #{i.year.getDate()} / #{i.year.getMonth()+1} / #{i.year.getFullYear()} 
+                  td 
+                    if i.current == 1
+                      | نعم
+                    else 
+                      | لا 
+                  td   #{i.starting_date.getDate()} / #{i.starting_date.getMonth()+1} / #{i.starting_date.getFullYear()} 
+                  td #{i.ending_date.getDate()} / #{i.ending_date.getMonth()+1} / #{i.ending_date.getFullYear()} 
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
                       button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
@@ -53,22 +70,7 @@ block cPanel
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
                       button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
-                tr
-                  td
-                    input.checkthis(type="checkbox")
-                  td خريف
-                  td 2014
-                  td لا
-                  td 07-28-2014
-                  td 12-28-2014
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-trash
+           
           .clearfix
           ul.pagination.pull-right
             li.disabled

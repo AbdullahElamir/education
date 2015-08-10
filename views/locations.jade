@@ -1,10 +1,18 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
       .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default القاعات الدراسية
+          .btn.btn-default.active عرض القاعات الدراسية
+        br
+        br
         .panel.panel-default
           .panel-heading
             .row

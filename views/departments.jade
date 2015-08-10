@@ -1,10 +1,18 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
       .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default اﻷقسام والشعب
+          .btn.btn-default.active عرض اﻷقسام
+        br
+        br
         .panel.panel-default
           .panel-heading
             .row
@@ -38,7 +46,7 @@ block cPanel
                 tr
                   td
                     input.checkthis(type="checkbox")
-                  td 17 فبراير
+                  td #{dept[0].name}
                   td.text-left A
                   td
                   td.text-center
