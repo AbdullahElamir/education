@@ -44,8 +44,16 @@ console.log(req.body);
   // 
 });
 
+
 router.get('/locations',userHelpers.isLogin, function(req, res) {
-  res.render('locations', { title: 'View Locations', collapseTwo: 'collapse in', activeTwoOne: 'active' });
+   models.Location.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(location) {
+    res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+
+  });
 });
 
 router.get('/newLocation',userHelpers.isLogin, function(req, res) {
@@ -143,5 +151,13 @@ router.get('/users',userHelpers.isLogin, function(req, res) {
 router.get('/timelines',userHelpers.isLogin, function(req, res) {
   res.render('timelines', { title: 'View Timelines' });
 });
+
+router.get('/newSubject', function(req, res) {
+  res.render('newSubject', { title: 'New Subject' });
+});
+router.get('/subjects', function(req, res) {
+  res.render('subjects', { title: 'subjects' });
+});
+
 
 module.exports = router;

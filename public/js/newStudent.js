@@ -16,7 +16,7 @@ $(document).ready(function(){
   //     exit: 'animated flipOutX'
   //   },
   // });
-  $("#newStudent").validate({
+  $("#newStudent ,#updateStudent").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
       first_name:{
