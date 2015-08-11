@@ -10,15 +10,15 @@ router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
    
-router.get('/cPanel', function(req, res) {
+router.get('/cPanel',userHelpers.isLogin, function(req, res) {
   res.render('cPanel', { title: 'Control Panel', active: 'active' });
 });
 
-router.get('/cPanelTest', function(req, res) {
+router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
   res.render('cPanelTest', { title: 'Control Panel', active: 'active' });
 });
 
-router.get('/semesters', function(req, res) {
+router.get('/semesters',userHelpers.isLogin, function(req, res) {
   models.Semester.findAll({
     where: {
       status: 1
@@ -30,12 +30,12 @@ router.get('/semesters', function(req, res) {
   });
 });
 
-router.get('/newSemester', function(req, res) {
+router.get('/newSemester',userHelpers.isLogin, function(req, res) {
   console.log(req.body);
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
 });
 
-router.post('/newSemester', function(req, res) {
+router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 console.log(req.body);
   req.body.UserId=1;//req,session.id
   models.Semester.create(req.body).then(function() {
@@ -44,22 +44,22 @@ console.log(req.body);
   // 
 });
 
-router.get('/locations', function(req, res) {
+router.get('/locations',userHelpers.isLogin, function(req, res) {
   res.render('locations', { title: 'View Locations', collapseTwo: 'collapse in', activeTwoOne: 'active' });
 });
 
-router.get('/newLocation', function(req, res) {
+router.get('/newLocation',userHelpers.isLogin, function(req, res) {
   res.render('newLocation', { title: 'New Location', collapseTwo: 'collapse in', activeTwoTwo: 'active' });
 });
 
-router.post('/newLocation', function(req, res) {
+router.post('/newLocation',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   models.Location.create(req.body).then(function() {
     res.redirect('/locations');
   });
 });
 
-router.get('/departments', function(req, res) {
+router.get('/departments',userHelpers.isLogin, function(req, res) {
    models.Department.findAll({
     where: {
       status: 1
@@ -71,27 +71,23 @@ router.get('/departments', function(req, res) {
   });
 });
 
-router.get('/newDepartment', function(req, res) {
+router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
   res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
 });
 
-router.post('/newDepartment', function(req, res) {
+router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
   console.log("departments");
   req.body.UserId=1;//req,session.id
   models.Department.create(req.body).then(function() {
     res.redirect('/departments');
   });
-  // req.body['user_iduser']=1;//req,session.id
-  // ormMgr.add('department',req.body,function(result){
-  //   res.redirect("/newDepartment");
-  // });
 });
 
-router.get('/divisions', function(req, res) {
+router.get('/divisions',userHelpers.isLogin, function(req, res) {
   res.render('divisions', { title: 'View divisions', collapseFour: 'collapse in', activeFourThree: 'active' });
 });
 
-router.get('/newDivision', function(req, res) {
+router.get('/newDivision',userHelpers.isLogin, function(req, res) {
   models.Department.findAll({
     where: {
       status: 1
@@ -103,52 +99,48 @@ router.get('/newDivision', function(req, res) {
 
 });
 
-router.post('/newDivision', function(req, res) {
-  // req.body['user_iduser']=1;//req.session.id
-  // ormMgr.add('division',req.body,function(result){
-  //   res.redirect("/newDivision");
-  // });
+router.post('/newDivision',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   models.Division.create(req.body).then(function() {
     res.redirect('/newDivision');
   });
 });
 
-router.get('/facultyMembers', function(req, res) {
+router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
   res.render('facultyMembers', { title: 'View Faculty Members', collapseSix: 'collapse in', activeSixOne: 'active' });
 });
 
-router.get('/newFacultyMember', function(req, res) {
+router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
   res.render('newFacultyMember', { title: 'New Faculty Member', collapseSix: 'collapse in', activeSixTwo: 'active' });
 });
 
-router.get('/students', function(req, res) {
+router.get('/students',userHelpers.isLogin, function(req, res) {
   res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
 });
 
-router.get('/newStudent', function(req, res) {
+router.get('/newStudent',userHelpers.isLogin, function(req, res) {
   res.render('newStudent', { title: 'New Student', collapseFive: 'collapse in', activeFiveTwo: 'active' });
 });
 
-router.post('/newStudent', function(req, res) {
+router.post('/newStudent', userHelpers.isLogin,function(req, res) {
   userHelpers.addUser(req.body, function (results){
     res.redirect('/students');
   });
 });
 
-router.get('/testPage', function(req, res) {
+router.get('/testPage',userHelpers.isLogin, function(req, res) {
   res.render('testPage', { title: 'HTML Test Page' });
 });
 
-router.get('/newUser', function(req, res) {
+router.get('/newUser',userHelpers.isLogin, function(req, res) {
     res.render('newUser', { title: 'New User', collapseOne: 'collapse in' });
   });
 
-router.get('/users', function(req, res) {
+router.get('/users',userHelpers.isLogin, function(req, res) {
   res.render('users', { title: 'users', collapseOne: 'collapse in' });
 });
 
-router.get('/timelines', function(req, res) {
+router.get('/timelines',userHelpers.isLogin, function(req, res) {
   res.render('timelines', { title: 'View Timelines' });
 });
 

@@ -89,12 +89,12 @@ block cPanel
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align تعديل فصل دراسي
-        .modal-body
-          form.form#updateLocation(action="/updateLocation", method="post", accept-charset="utf-8", role="form")
+        form.form#updateLocation(action="/updateLocation", method="post", accept-charset="utf-8", role="form")
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align تعديل فصل دراسي
+          .modal-body
             .form-group
               .row
                 .col-xs-6.col-md-6
@@ -103,10 +103,11 @@ block cPanel
                 .col-xs-6.col-md-6
                   label كمية استعاب الطلبة
                   input.form-control#quantity(type="text", name="quantity", placeholder="عرض كمية استعاب الطلبة من قاعدة البيانات")
-        .modal-footer
-          button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign
-            |  تعديل
+                  input#locid(type="hidden",name="locid");
+          .modal-footer
+            button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
       // /.modal-content
     // /.modal-dialog
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -146,4 +147,5 @@ block cPanel
           }
       });
         $("[data-toggle=tooltip]").tooltip();
+        
     });
