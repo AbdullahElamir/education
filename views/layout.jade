@@ -22,9 +22,9 @@ html
     link(rel='stylesheet', href='/css/fullcalendar.min.css')
     link(rel='stylesheet', href='/css/fullcalendar.print.css', media='print')
     link(rel='stylesheet', href='/css/customStyle.css')
-  body.animated.fadeIn.font
+  body.animated.fadeIn
     block navBar
-      .container-fulid
+      .container-fulid.font
         nav.navbar.navbar-default(role="navigation")
           // Brand and toggle get grouped for better mobile display
           .navbar-header
@@ -101,7 +101,7 @@ html
                       span.text-info  خروج
           // /.navbar-collapse
     block navcPanel
-      .container
+      .container.font
         .row
           .col-xs-12.col-md-2
             #accordion.panel-group
