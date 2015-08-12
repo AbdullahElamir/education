@@ -6,6 +6,7 @@ html
     meta(name="viewport", content="width=device-width, user-scalable=no")
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/bootstrap-rtl.min.css')
     link(rel='stylesheet', href="/css/bootstrap-toggle.min.css")
     block contentStyle
@@ -17,7 +18,6 @@ html
       link(rel='stylesheet', href='/css/errorStyle.css')
     link(rel='stylesheet', href='/css/bootstrap-select.min.css')
     link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
-    link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/jquery-ui.min.css')
     link(rel='stylesheet', href='/css/fullcalendar.min.css')
     link(rel='stylesheet', href='/css/fullcalendar.print.css', media='print')
@@ -234,7 +234,7 @@ html
                           span.glyphicon.glyphicon-shopping-cart
                           a(href="#")  سلة الشراء
           block cPanel  
-            .col-xs-12.col-md-6.col-md-offset-2
+            .col-xs-12.col-md-8.col-md-offset-1
               .panel.panel-primary.font
                 .panel-heading
                   h3.panel-title#panel-title
@@ -243,7 +243,7 @@ html
                     | لوحة التحكم
                 .panel-body
                   .row
-                    .col-xs-6.col-md-6(style="direction: ltr;")
+                    .col-xs-6.col-md-6
                       a.btn.btn-danger.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-list-alt
                         br
@@ -259,27 +259,77 @@ html
                         br
                         | تقارير
                       | 
+                      a.btn.btn-warning.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-comment
+                        br
+                        | تعليقات
+                      | 
                       a.btn.btn-primary.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-comment
                         br
                         | تعليقات
+                      | 
+                      a.btn.btn-info.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-comment
+                        br
+                        | تعليقات
+                      | 
+                      a.btn.btn-danger.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-list-alt
+                        br
+                        | تطبيقات
+                      | 
+                      a.btn.btn-warning.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-bookmark
+                        br
+                        | الإشارات
+                      | 
+                      a.btn.btn-primary.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-signal
+                        br
+                        | تقارير
                     .col-xs-6.col-md-6
                       a.btn.btn-success.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-user
                         br
                         | مستخدمين
                       | 
-                      a.btn.btn-info.btn-lg(href="#", role="button")
+                      a.btn.btn-warning.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-file
                         br
                         | ملاحظات
                       | 
-                      a.btn.btn-primary.btn-lg(href="#", role="button")
+                      a.btn.btn-danger.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-picture
                         br
                         | صور
                       | 
+                      a.btn.btn-success.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-tag
+                        br
+                        | العلامات
+                      | 
+                      a.btn.btn-danger.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-tag
+                        br
+                        | العلامات
+                      | 
+                      a.btn.btn-warning.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-tag
+                        br
+                        | العلامات
+                      | 
+                      a.btn.btn-info.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-tag
+                        br
+                        | العلامات
+                      | 
                       a.btn.btn-primary.btn-lg(href="#", role="button")
+                        span.glyphicon.glyphicon-tag
+                        br
+                        | العلامات
+                      | 
+                      a.btn.btn-danger.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-tag
                         br
                         | العلامات

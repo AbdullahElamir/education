@@ -38,7 +38,7 @@ block cPanel
                 th
                   input#checkall(type="checkbox")
                 th اسم القاعة
-                th كمية استعاب الطلبة
+                th.text-center كمية استعاب الطلبة
                 th.text-center تعديل
                 th.text-center إلغاء
               tbody
@@ -47,7 +47,7 @@ block cPanel
                   td
                     input.checkthis(type="checkbox")
                   td #{i.name}
-                  td #{i.quantity}
+                  td.text-center #{i.quantity}
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
                       button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
@@ -75,7 +75,7 @@ block cPanel
             li
               a(href="#")
                 span.glyphicon.glyphicon-chevron-left
-  #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+  #edit.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
         form.form#updateLocation(action="/updateLocation", method="post", accept-charset="utf-8", role="form")
@@ -97,31 +97,30 @@ block cPanel
             button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
-      // /.modal-content
-    // /.modal-dialog
-  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+  #delete.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align إلغاء قاعة دراسية محددة
-        .modal-body
-          .alert.alert-danger
-            span.glyphicon.glyphicon-warning-sign
-            |  هل تريد فعلا الغاء هذه القاعة الدراسية ؟
-        .modal-footer
-          button.btn.btn-success(type="button")
-            span.glyphicon.glyphicon-ok-sign
-            |  نعم
-          button.btn.btn-default(type="button", data-dismiss="modal")
-            span.glyphicon.glyphicon-remove
-            |  لا
-      // /.modal-content
-    // /.modal-dialog
+        form.form#deletLocation(action="#", method="post", accept-charset="utf-8", role="form")
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align إلغاء قاعة دراسية محددة
+          .modal-body
+            .alert.alert-danger.h4
+              span.glyphicon.glyphicon-warning-sign
+              |  هل تريد فعلا الغاء هذه القاعة الدراسية ؟
+          .modal-footer
+            button.btn.btn-success(type="button")
+              span.glyphicon.glyphicon-ok-sign
+              |  نعم
+            button.btn.btn-default(type="button", data-dismiss="modal")
+              span.glyphicon.glyphicon-remove
+              |  لا
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/jquery.validate.min.js')    
+  script(src='/js/newLocation.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

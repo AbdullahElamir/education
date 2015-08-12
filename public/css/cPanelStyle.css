@@ -1,7 +1,19 @@
 .panel-body .btn:not(.btn-block) { 
-  width:120px;
+  width:110px;
   margin-bottom:10px; 
 }
+@media only screen and (max-width:488px){
+  .panel-body .btn:not(.btn-block) { 
+    width:190px;
+    margin-bottom:10px; 
+  }
+}
+/*@media only screen and (min-width:489px){
+  .panel-body .btn:not(.btn-block) { 
+    width:190px;
+    margin-bottom:10px; 
+  }
+}*/
 /*NAVBAR STYLE START*/
 /*.navbar-header {float: right;}
 .container>.navbar-header,.container-fluid>.navbar-header,.container>.navbar-collapse,.container-fluid>.navbar-collapse{margin-left:-15px;margin-right:-15px;}
