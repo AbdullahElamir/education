@@ -78,11 +78,10 @@ $(document).ready(function(){
           $('#System').show(300);
           $('#system').empty();
           $('#system').append('<option value="" style="color:grey; display:none;">Please Select Area</option>');
-         // for ( var i = 0; i < result.length;  i++ ) {
+        
             $('#system').append("<option value = '"+1+"'>"+ربيعي+"</option>");
             $('#system').append("<option value = '"+2+"'>"+خريفي+"</option>");
-            $('#system').append("<option value = '"+2+"'>"+صيفي+"</option>");
-         // }
+            $('#system').append("<option value = '"+3+"'>"+صيفي+"</option>");
         });
       }
       });

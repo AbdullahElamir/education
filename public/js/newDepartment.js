@@ -16,6 +16,44 @@ $(document).ready(function(){
   //     exit: 'animated flipOutX'
   //   },
   // });
+
+  //view department edit
+  $('body').on('click', '#Edit', function(){
+    $('#save').val($(this).val());
+    var id = $(this).val();
+    $.get('/editDepartments/'+id,function(department){
+      $('#id_dep').val(id);
+      $('#a').val(department[0].name);
+      $('#b').val(department[0].name_en);
+
+    });
+  });
+  
+  // edit departments
+  // $('body').on('click', '#save', function () {
+  //   $('#formdpet').submit();
+  // });
+
+  // $("#formdpet").submit(function() {
+  //   var id=$('#save').val();
+  //   $.post('/editDept/'+id,function(todo){
+  //      alert(todo[0].name);
+    
+  //   });  
+  // });
+
+  // delete departments
+  $('body').on('click', '#Delete', function(){
+    $('#ok').val($(this).val());
+  });
+
+  $('body').on('click', '#ok', function(){
+    var id=$(this).val();
+    $.get('/deleteDepartment/'+$(this).val(),function(todo){
+      $('[data-id = "'+id+'"]').remove();
+    });
+  });
+
   $("#newDepartment").validate({
     rules:{
       name:{

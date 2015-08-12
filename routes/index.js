@@ -63,9 +63,57 @@ router.get('/departments', function(req, res) {
       status: 1
     }
   }).then(function(department) {
-    console.log(department);
+    // console.log(department);
     res.render('departments', { title: 'View departments',collapseOne: 'collapse in',dept:department });
 
+  });
+});
+
+// view editDepartments
+router.get('/editDepartments/:id', function(req, res) {
+   models.Department.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(department) {
+    res.send(department);
+  });
+});
+// edit department
+router.post('/editDept', function(req, res) {
+  console.log("body");
+  console.log(req.body);
+  console.log("end body");
+  id = req.body.id_dep;
+  delete req.body.id_dep;
+  models.Department.find({
+    where: {
+       id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/departments');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+// delete Department
+router.get('/deleteDepartment/:id', function(req, res) {
+  models.Department.find({
+    where: {
+       id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+        
+    }).then(function (todo) {
+         res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
   });
 });
 
