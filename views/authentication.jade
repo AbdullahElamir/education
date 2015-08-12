@@ -1,4 +1,5 @@
 extends layout
+block errorStyle
 block cPanel-and-navbarCPanal-style
 block navBar
 block navcPanel
@@ -19,7 +20,7 @@ block content
           .panel-body
             .row
               .col-lg-12
-                form#login-form(action="", method="post", role="form", style="display: block;")
+                form#login-form(action="/login", method="post", role="form", style="display: block;")
                   .form-group
                     input#username.form-control(type="text", name="username", tabindex="1", placeholder="اسم المستخدم", value="")
                   .form-group

@@ -1,10 +1,20 @@
 extends layout
 block authenticationStyle
+block errorStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
+      .pull-right
+        .btn-group.btn-breadcrumb
+            a.btn.btn-default(href="/cPanel")
+              i.glyphicon.glyphicon-home
+            .btn.btn-default الفصول الدراسية
+            .btn.btn-default.active إضافة فصل الدراسية
       .col-md-6.col-md-offset-2
+        br
+        br  
         form.form#newSemester(action="/newSemester", method="post", accept-charset="utf-8", role="form")
           legend  إضافة فصل دراسي
             .pull-left
@@ -41,11 +51,12 @@ block cPanel
                   option(value="", style='color:grey; display:none;') اختر الاجابة...
                   option(value="1") نعم
                   option(value="2") لا
-                
+          br     
           hr
           .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
             button.btn.btn-primary(type="submit")
-              | إضافة
+              i.fa.fa-plus
+              span  إضافة
     br
     br
   script(src='/js/jquery-2.1.1.min.js')

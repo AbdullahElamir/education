@@ -16,8 +16,9 @@ $(document).ready(function(){
   //     exit: 'animated flipOutX'
   //   },
   // });
-  $("#newStudent").validate({
+  $("#newStudent ,#updateStudent").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    ignore:[],
     rules:{
       first_name:{
         required: true,
@@ -172,10 +173,26 @@ $(document).ready(function(){
       }
     },
     highlight: function(element) {
-      $(element).closest('.col-xs-3.col-md-3').addClass('has-error');
+      $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.col-xs-3.col-md-3').removeClass('has-error');
+      $(element).closest('.form-group').removeClass('has-error');
     },
+  });
+  $("form").on('submit', function () {
+    var isValid = $(this).valid();
+    if (this.hasChildNodes('.nav.nav-tabs')) {
+      var validator = $(this).validate();
+      $(this).find("input").each(function () {
+        if (!validator.element(this)) {
+          isValid = false;
+          $('a[href=#' + $(this).closest('.tab-pane:not(.active)').attr('id') + ']').tab('show');
+          return false;
+        }
+      });
+    }
+    if (isValid) {
+      // do stuff
+    }
   });
 });
