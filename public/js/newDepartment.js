@@ -54,7 +54,7 @@ $(document).ready(function(){
     });
   });
 
-  $("#newDepartment").validate({
+  $("#newDepartment, #formdpet").validate({
     rules:{
       name:{
         required: true,
@@ -72,12 +72,10 @@ $(document).ready(function(){
       },
     },
     highlight: function(element) {
-      $(element).closest('.row').removeClass('has-success').addClass('has-error');
-      $('button').attr('disabled' , true);
+      $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error').addClass('has-success');
-      $('button').attr('disabled' , false);
+      $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
   });
 });

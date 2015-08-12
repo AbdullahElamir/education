@@ -1,5 +1,6 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
   .container
@@ -84,17 +85,29 @@ block cPanel
           h4#Heading.modal-title.custom_align تعديل مستخدم محدد
         .modal-body
           .form-group
-            label اسم المستخدم:-
-            | 
-            span فاروق
-          .form-group
-            input.form-control(type="text", placeholder="البريد الالكتروني")
-          .form-group
-            input.form-control(type="text", placeholder="كلمة المرور")
-          .form-group
-            input.form-control(type="text", placeholder="تأكيد كلمة المرور")
-          .form-group
-            input.form-control(type="text", placeholder="رقم الهاتف")
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اسم المستخدم
+                input.form-control#name(type="text", name="name",value="فاروق",disabled)
+              .col-xs-6.col-md-6
+                label.h4 رقم الهاتف
+                input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
+            br
+            .row
+              .col-xs-6.col-md-6
+                label.h4 البريد الالكتروني
+                input.form-control#emil(type="text", name="email", placeholder="البريد الالكتروني")
+              .col-xs-6.col-md-6
+                label.h4 تأكيد البريد الالكتروني
+                input.form-control#confirm_emil(type="text", name="confirm_emil", placeholder="تأكيد البريد الالكتروني")
+            br
+            .row
+              .col-xs-6.col-md-6
+                label.h4 الرقم السري
+                input.form-control#password(type="password", name="password", placeholder="الرقم السري")
+              .col-xs-6.col-md-6
+                label.h4 تأكيد الرقم السري
+                input.form-control#confirm_password(type="password", name="confirm_password", placeholder="تأكيد الرقم السري")
         .modal-footer
           button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
