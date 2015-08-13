@@ -29,7 +29,6 @@ router.get('/semesters',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/newSemester',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
 });
 
