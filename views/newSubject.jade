@@ -3,53 +3,52 @@ block authenticationStyle
 block errorStyle  
 block content
 block cPanel
-
-  .container.font
+  .container
     .row
       .col-md-10
-        legend  تسجيل المواد
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default المواد الدراسية
+          .btn.btn-default.active إضافة مادة دراسية جديدة
+        br
+        br
+        legend  إضافة مادة دراسية لنظام محدد
           .pull-left
             a.btn.btn-primary(href='/subjects', role='button')
               span.glyphicon.glyphicon-th-list
-              span  عرض المواد
+              span  عرض المواد الدراسية
       .col-md-10
-        | هل المادة لنظام الفصل ؟     
+        | الرجاء اختيار نظام المادة ؟     
         input#toggle-subject(type='checkbox',data-on="سنة",data-off="فصل", data-toggle='toggle')
         #console-event
         form#Semesters(action="", method="post", accept-charset="utf-8", role="form")  
-          h4.text-center بيانات المادة لنظام الفصل - Data Subject
+          h4.text-center بيانات المادة لنظام "الفصل"
           hr
           .form-group
             .row
               .col-xs-3.col-md-3
-                label
-                  
-                  span  اسم المادة
+                label اسم المادة
                 input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
               .col-xs-3.col-md-3
-                label
-                  
-                label.pull-left subjectName
-                input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="subjectName", dir="ltr")    
-               
+                label.pull-left Subject name
+                input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="Subject name", dir="ltr")
               .col-xs-3.col-md-3
-                label
-                  span  عدد وحدات النظري
+                label عدد وحدات النظري
                 input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")
               .col-xs-3.col-md-3
-                label
-                  span  عدد ساعات النظري
+                label عدد ساعات النظري
                 input#no_th_hour.form-control(type="text", name="no_th_hour", placeholder="عدد ساعات النظري")
           .form-group
             .row
               .col-xs-3.col-md-3
-                label  رمز المادة
+                label رمز المادة
                 input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")
               .col-xs-3.col-md-3
                 label نوع المادة
                 input#sub_type.form-control(type="text", name="sub_type", placeholder="نوع المادة")
               .col-xs-3.col-md-3
-                label عدد وحات العملي
+                label عدد وحدات العملي
                 input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="عدد وحات العملي")
               .col-xs-3.col-md-3
                 label عدد ساعات العملي
@@ -60,25 +59,24 @@ block cPanel
                 label أعمال السنة
                 input#chapter_degree.form-control(type="text", name="chapter_degree", placeholder="أعال السنة")
               .col-xs-3.col-md-3
-                label نهائي النظري
+                label درجة نهائي النظري
                 input#final_theor.form-control(type="text", name="final_theor", placeholder="نهائي النظري")
               .col-xs-3.col-md-3
-                label نهائي العملي
+                label درجة نهائي العملي
                 input#final_practical.form-control(type="text", name="final_practical", placeholder="نهائي العملي")
               .col-xs-3.col-md-3
                 #department_radio 
                   label تندرج تحت قسم
-                  br  
+                  br
                   label.radio-inline
                     input#js_radio(type='radio', name='department')
                     | عامة
-                   
                   label.radio-inline
                     input#radio(type='radio', name='department')
                     | خاصة
                   label.radio-inline
                     input#radio(type='radio', name='department')
-                    | كﻻهما
+                    | كلاهما
                 #department_select
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
@@ -87,63 +85,51 @@ block cPanel
           .form-group 
             .row
               .col-xs-3.col-md-3
-                label 
-                  
+                label
                   span  المواد التمهيدية
                 select.form-control.selectpicker#subject_id(name="SubjectId", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') اختر اسم المواد...
               .col-xs-5.col-md-5
                 table.table.table-bordered
-
                   thead
                     tr
-                      th المواد التمهيدية
+                      th.text-center المواد التمهيدية
                   tbody
                     tr
-                      td رياضة  
+                      td.text-center رياضة  
                     tr
-                      td أحصاء    
-       
+                      td.text-center أحصاء    
           hr
           .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
-            button.btn.btn-primary.btn-lg(type="submit")
-              | تسجيل - Register
-   
-
+            button.btn.btn-primary(type="submit")
+              | إضافة
         form#Year(action="", method="post", accept-charset="utf-8", role="form")
-          h4.text-center بيانات المادة لنظام السنة - Data Subject
+          h4.text-center بيانات المادة لنظام "السنة"
           hr
           .form-group
             .row
               .col-xs-3.col-md-3
-                label
-                  
-                  span  اسم المادة
+                label اسم المادة
                 input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
               .col-xs-3.col-md-3
-                label
-                  
-                label.pull-left subjectName
-                input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="subjectName", dir="ltr")    
-               
+                label.pull-left Subject name
+                input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="Subject name", dir="ltr")
               .col-xs-3.col-md-3
-                label
-                  span  عدد وحدات النظري
+                label عدد وحدات النظري
                 input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")
               .col-xs-3.col-md-3
-                label
-                  span  عدد ساعات النظري
+                label عدد ساعات النظري
                 input#no_th_hour.form-control(type="text", name="no_th_hour", placeholder="عدد ساعات النظري")
           .form-group
             .row
               .col-xs-3.col-md-3
-                label  رمز المادة
+                label رمز المادة
                 input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")
               .col-xs-3.col-md-3
                 label نوع المادة
                 input#sub_type.form-control(type="text", name="sub_type", placeholder="نوع المادة")
               .col-xs-3.col-md-3
-                label عدد وحات العملي
+                label عدد وحدات العملي
                 input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="عدد وحات العملي")
               .col-xs-3.col-md-3
                 label عدد ساعات العملي
@@ -154,24 +140,24 @@ block cPanel
                 label أعمال السنة
                 input#chapter_degree.form-control(type="text", name="chapter_degree", placeholder="أعال السنة")
               .col-xs-3.col-md-3
-                label نهائي النظري
+                label درجة نهائي النظري
                 input#final_theor.form-control(type="text", name="final_theor", placeholder="نهائي النظري")
               .col-xs-3.col-md-3
-                label نهائي العملي
+                label درجة نهائي العملي
                 input#final_practical.form-control(type="text", name="final_practical", placeholder="نهائي العملي")
               .col-xs-3.col-md-3
-                #department_radio
+                #department_radio 
                   label تندرج تحت قسم
-                  br 
+                  br
                   label.radio-inline
                     input#js_radio(type='radio', name='department')
-                    | عامة  
+                    | عامة
                   label.radio-inline
                     input#radio(type='radio', name='department')
                     | خاصة
                   label.radio-inline
                     input#radio(type='radio', name='department')
-                    | كﻻهما
+                    | كلاهما
                 #department_select
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
@@ -180,27 +166,107 @@ block cPanel
           .form-group 
             .row
               .col-xs-3.col-md-3
-                label 
-                  
+                label
                   span  المواد التمهيدية
                 select.form-control.selectpicker#subject_id(name="SubjectId", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') اختر اسم المواد...
               .col-xs-5.col-md-5
                 table.table.table-bordered
-
                   thead
                     tr
-                      th المواد التمهيدية
+                      th.text-center المواد التمهيدية
                   tbody
                     tr
-                      td رياضة  
+                      td.text-center رياضة  
                     tr
-                      td أحصاء    
-                   
+                      td.text-center أحصاء
+          //- .form-group
+          //-   .row
+          //-     .col-xs-3.col-md-3
+          //-       label
+                  
+          //-         span  اسم المادة
+          //-       input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
+          //-     .col-xs-3.col-md-3
+          //-       label
+                  
+          //-       label.pull-left subjectName
+          //-       input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="subjectName", dir="ltr")    
+               
+          //-     .col-xs-3.col-md-3
+          //-       label
+          //-         span  عدد وحدات النظري
+          //-       input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")
+          //-     .col-xs-3.col-md-3
+          //-       label
+          //-         span  عدد ساعات النظري
+          //-       input#no_th_hour.form-control(type="text", name="no_th_hour", placeholder="عدد ساعات النظري")
+          //- .form-group
+          //-   .row
+          //-     .col-xs-3.col-md-3
+          //-       label  رمز المادة
+          //-       input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")
+          //-     .col-xs-3.col-md-3
+          //-       label نوع المادة
+          //-       input#sub_type.form-control(type="text", name="sub_type", placeholder="نوع المادة")
+          //-     .col-xs-3.col-md-3
+          //-       label عدد وحات العملي
+          //-       input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="عدد وحات العملي")
+          //-     .col-xs-3.col-md-3
+          //-       label عدد ساعات العملي
+          //-       input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="عدد ساعات العملي")
+          //- .form-group
+          //-   .row
+          //-     .col-xs-3.col-md-3
+          //-       label أعمال السنة
+          //-       input#chapter_degree.form-control(type="text", name="chapter_degree", placeholder="أعال السنة")
+          //-     .col-xs-3.col-md-3
+          //-       label نهائي النظري
+          //-       input#final_theor.form-control(type="text", name="final_theor", placeholder="نهائي النظري")
+          //-     .col-xs-3.col-md-3
+          //-       label نهائي العملي
+          //-       input#final_practical.form-control(type="text", name="final_practical", placeholder="نهائي العملي")
+          //-     .col-xs-3.col-md-3
+          //-       #department_radio
+          //-         label تندرج تحت قسم
+          //-         br 
+          //-         label.radio-inline
+          //-           input#js_radio(type='radio', name='department')
+          //-           | عامة  
+          //-         label.radio-inline
+          //-           input#radio(type='radio', name='department')
+          //-           | خاصة
+          //-         label.radio-inline
+          //-           input#radio(type='radio', name='department')
+          //-           | كﻻهما
+          //-       #department_select
+          //-         label تندرج تحت قسم
+          //-         select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+          //-           option(value="", style='color:grey; display:none;') اختر اسم القسم...
+          //-             option(value="عام")
+          //- .form-group 
+          //-   .row
+          //-     .col-xs-3.col-md-3
+          //-       label 
+                  
+          //-         span  المواد التمهيدية
+          //-       select.form-control.selectpicker#subject_id(name="SubjectId", data-live-search="true", data-size=5)
+          //-         option(value="", style='color:grey; display:none;') اختر اسم المواد...
+          //-     .col-xs-5.col-md-5
+          //-       table.table.table-bordered
+
+          //-         thead
+          //-           tr
+          //-             th المواد التمهيدية
+          //-         tbody
+          //-           tr
+          //-             td رياضة  
+          //-           tr
+          //-             td أحصاء       
           hr
           .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
-            button.btn.btn-primary.btn-lg(type="submit")
-              | تسجيل - Register
+            button.btn.btn-primary(type="submit")
+              | إضافة
     br
     br
   script(src='/js/jquery-2.1.1.min.js')

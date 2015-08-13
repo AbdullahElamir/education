@@ -1,25 +1,33 @@
 extends layout
 block authenticationStyle
+block errorStyle
 block content
 block cPanel
-  .container.font
+  .container
     .row
       .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default المواد الدراسية
+          .btn.btn-default.active عرض المواد الدراسية
+        br
+        br
         .panel.panel-default
           .panel-heading
             .row
               .pull-right(style="margin-right: 10px;")
-                h3#h3.panel-title عرض ألمواد
-              .col-xs-7.col-md-7
+                h3#h3.panel-title عرض المواد الدراسية
+              .col-xs-6.col-md-6
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
                   .input-group-btn
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newFacultyMember', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/newSubject', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
-                  span.text-none  إضافة طالب/ة
+                  span.text-none  إضافة مادة دراسية
               .pull-left(style="margin-left: 10px;")
                 a.btn.btn-primary(href='#', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-print
@@ -129,11 +137,11 @@ block cPanel
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align إلغء شعبة
+          h4#Heading.modal-title.custom_align إلغاء مادة دراسية محددة
         .modal-body
           .alert.alert-danger
             span.glyphicon.glyphicon-warning-sign
-            |  هل انت متأكد من إلغاء هذه الشعبة؟
+            |  هل انت متأكد من إلغاء هذه المادة ؟
         .modal-footer
           button.btn.btn-success(type="button")
             span.glyphicon.glyphicon-ok-sign

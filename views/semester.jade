@@ -1,0 +1,27 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+block navcPanel
+  .container
+    .row
+      .col-md-12
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/bootstrap-editable.js')
+  script.
+    $(document).ready(function(){
+      $("#mytable #checkall").click(function () {
+        if ($("#mytable #checkall").is(':checked')) {
+            $("#mytable input[type=checkbox]").each(function () {
+              $(this).prop("checked", true);
+            });
+        } else {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+          }
+      });
+        $("[data-toggle=tooltip]").tooltip();
+    });

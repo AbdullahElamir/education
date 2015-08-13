@@ -120,13 +120,13 @@ block cPanel
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align إلغء مستخدم محدد
+          h4#Heading.modal-title.custom_align إلغاء مستخدم محدد
         .modal-body
           .alert.alert-danger
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذا المستخدم؟
         .modal-footer
-          button.btn.btn-success(type="button")
+          button#yes.btn.btn-success(type="button")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")

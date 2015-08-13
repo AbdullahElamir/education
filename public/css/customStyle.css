@@ -139,3 +139,7 @@ label{
 .btn-breadcrumb > .active, table > tr {
   background-color: #f5f5f5;
 }
+
+.alert{
+  margin-bottom: auto;
+}

@@ -9,9 +9,9 @@ var userHelpers = require('../app/userHelpers');
 router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
-   
+
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', active: 'active' });
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -24,9 +24,7 @@ router.get('/semesters',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(semester) {
-
-    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
-
+      res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
   });
 });
 
@@ -35,15 +33,18 @@ router.get('/newSemester',userHelpers.isLogin, function(req, res) {
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
 });
 
+router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
+  res.render('semester', { title: 'Get Semester' });
+});
+
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
-console.log(req.body);
+
   req.body.UserId=1;//req,session.id
+  console.log(req.body);
   models.Semester.create(req.body).then(function() {
     res.redirect('/semesters');
   });
-  // 
 });
-
 
 router.get('/locations',userHelpers.isLogin, function(req, res) {
    models.Location.findAll({
@@ -51,8 +52,7 @@ router.get('/locations',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(location) {
-    res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
-
+      res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
   });
 });
 
@@ -73,10 +73,8 @@ router.get('/departments',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(department) {
-
-    console.log(department);
-    res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
-
+      console.log(department);
+      res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
   });
 });
 
@@ -90,6 +88,7 @@ router.get('/editDepartments/:id', function(req, res) {
     res.send(department);
   });
 });
+
 // edit department
 router.post('/editDept', function(req, res) {
   console.log("body");
@@ -99,7 +98,7 @@ router.post('/editDept', function(req, res) {
   delete req.body.id_dep;
   models.Department.find({
     where: {
-       id: id
+      id: id
     }
     }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
@@ -114,14 +113,13 @@ router.post('/editDept', function(req, res) {
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
     where: {
-       id: req.params.id
+      id: req.params.id
     }
     }).then(function (todo) {
     todo.updateAttributes({
         status: 0
-        
     }).then(function (todo) {
-         res.send(todo);
+        res.send(todo);
     }).catch(function (err) {
         console.log(err);
     });
@@ -151,9 +149,7 @@ router.get('/newDivision',userHelpers.isLogin, function(req, res) {
     }
   }).then(function(departments) {
     res.render('newDivision', { title: 'New Division', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
-
   });
-
 });
 
 router.post('/newDivision',userHelpers.isLogin, function(req, res) {
@@ -190,23 +186,23 @@ router.get('/testPage',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/newUser',userHelpers.isLogin, function(req, res) {
-    res.render('newUser', { title: 'New User', collapseOne: 'collapse in' });
+    res.render('newUser', { title: 'New User', activeUser: 'active' });
   });
 
 router.get('/users',userHelpers.isLogin, function(req, res) {
-  res.render('users', { title: 'users', collapseOne: 'collapse in' });
+  res.render('users', { title: 'View users', activeUser: 'active' });
 });
 
 router.get('/timelines',userHelpers.isLogin, function(req, res) {
   res.render('timelines', { title: 'View Timelines' });
 });
 
-router.get('/newSubject', function(req, res) {
-  res.render('newSubject', { title: 'New Subject' });
-});
 router.get('/subjects', function(req, res) {
-  res.render('subjects', { title: 'subjects' });
+  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' });
 });
 
+router.get('/newSubject', function(req, res) {
+  res.render('newSubject', { title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active' });
+});
 
 module.exports = router;
