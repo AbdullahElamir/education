@@ -6,7 +6,9 @@ html
     meta(name="viewport", content="width=device-width, user-scalable=no")
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/bootstrap-rtl.min.css')
+    link(rel='stylesheet', href="/css/bootstrap-toggle.min.css")
     block contentStyle
       link(rel='stylesheet', href='/css/navbarStyle.css')
       link(rel='stylesheet', href='/css/cPanelStyle.css')
@@ -16,18 +18,17 @@ html
       link(rel='stylesheet', href='/css/errorStyle.css')
     link(rel='stylesheet', href='/css/bootstrap-select.min.css')
     link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
-    link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/jquery-ui.min.css')
     link(rel='stylesheet', href='/css/fullcalendar.min.css')
     link(rel='stylesheet', href='/css/fullcalendar.print.css', media='print')
     link(rel='stylesheet', href='/css/customStyle.css')
-  body.font.animated.fadeIn
+  body.animated.fadeIn
     block navBar
-      .container-fulid
+      .container-fulid.font
         nav.navbar.navbar-default(role="navigation")
           // Brand and toggle get grouped for better mobile display
           .navbar-header
-            button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+            button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-collapse-xs")
               span.sr-only Toggle navigation
               span.icon-bar
               span.icon-bar
@@ -35,9 +36,9 @@ html
             a.navbar-brand(href="#") 
               span.text-muted الدراسة والامتحانات
           // Collect the nav links, forms, and other content for toggling
-          .collapse.navbar-collapse
+          .collapse.navbar-collapse#navbar-collapse-xs
             ul.nav.navbar-nav
-              li(class=active)
+              li(class=activeCPanel)
                 a(href="/cPanel")
                   span.glyphicon.glyphicon-home.text-primary
                   span.text-primary  لوحة التحكم
@@ -45,28 +46,24 @@ html
                 a(href="#")
                   span.glyphicon.glyphicon-calendar.text-success
                   span.text-success  التقويم
-              li.dropdown
+              li.dropdown(class=activeUser)
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
                   span.glyphicon.glyphicon-list-alt.text-info
-                  span.text-info  أدوات
+                  span.text-info  المستخدمين
                   b.caret
                 ul.dropdown-menu
                   li
-                    a(href="http://www.jquery2dotnet.com") Action
-                  li
-                    a(href="http://www.jquery2dotnet.com") Another action
-                  li
-                    a(href="#") Something else here
+                    a(href="/users") عرض المستخدمين
                   li.divider
                   li
-                    a(href="#") Separated link
-                  li.divider
-                  li
-                    a(href="#") One more separated link
+                    a(href="/newUser") إضافة مستخدم جديد
+                  //- li.divider
+                  //- li
+                  //-   a(href="#") صلاحيات المستخدم
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  span.glyphicon.glyphicon-search.text-primary
-                  span.text-primary  بحث
+                  span.glyphicon.glyphicon-search.text-warning
+                  span.text-warning  بحث
                   b.caret
                 ul.dropdown-menu(style="min-width: 275px;")
                   li
@@ -76,7 +73,7 @@ html
                           .input-group
                             input.form-control(type="text", placeholder="بحث")
                             span.input-group-btn
-                              button.btn.btn-primary(type="button")
+                              button.btn.btn-primary(type="submit")
                                 | بحث!
             ul.nav.navbar-nav.navbar-right
               li.dropdown
@@ -100,7 +97,7 @@ html
                       span.text-info  خروج
           // /.navbar-collapse
     block navcPanel
-      .container
+      .container.font
         .row
           .col-xs-12.col-md-2
             #accordion.panel-group
@@ -147,11 +144,11 @@ html
                     table.table
                       tr
                         td(class=activeThreeOne)
-                          a(href="#", style="font-size:13.5px;").font  عرض المواد الدراسية
+                          a(href="/subjects", style="font-size:13.5px;").font  عرض المواد الدراسية
                           span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeThreeTwo)
-                          a(href="#").font  إضافة مادة دراسية
+                          a(href="/newSubject").font  إضافة مادة دراسية
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
@@ -242,7 +239,7 @@ html
                     | لوحة التحكم
                 .panel-body
                   .row
-                    .col-xs-6.col-md-6(style="direction: ltr;")
+                    .col-xs-6.col-md-6
                       a.btn.btn-danger.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-list-alt
                         br
@@ -281,10 +278,10 @@ html
                       a.btn.btn-primary.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-tag
                         br
-                        | العلامات
+                        | العلامات  
                   a.btn.btn-success.btn-lg.btn-block(href="http://www.jquery2dotnet.com/", role="button")
                     span.glyphicon.glyphicon-globe
-                    | موقع
+                    |  موقع
     block content
     block footer
       footer.footer.font

@@ -70,23 +70,10 @@ $(document).ready(function(){
     },
   });
 
-    $('#sem_type').on('change',function() {
-        var id = $('#sem_type').val();
-        if(id==2){
-          $('#system').hide();
-        $.get('/newSemester/',function(){
-          $('#System').show(300);
-          $('#system').empty();
-          $('#system').append('<option value="" style="color:grey; display:none;">Please Select Area</option>');
-         // for ( var i = 0; i < result.length;  i++ ) {
-            $('#system').append("<option value = '"+1+"'>"+ربيعي+"</option>");
-            $('#system').append("<option value = '"+2+"'>"+خريفي+"</option>");
-            $('#system').append("<option value = '"+2+"'>"+صيفي+"</option>");
-         // }
-        });
-      }
-      });
-
-
-
+  $('#sem_type').on('change',function() {
+    var id = $('#sem_type').val();
+    if(id==2){
+      $('#System').show(300);
+    }
+  });
 });

@@ -26,12 +26,16 @@ block cPanel
               .col-xs-6.col-md-6
                 label.h4 نظام الدراسة
                 select.form-control.selectpicker#sem_type(name="sem_type", style="padding-top: 0px;", tabindex="1")
-                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي...
+                  option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
                   option(value="1") سنة
                   option(value="2") فصل
               .col-xs-6.col-md-6#System
                 label.h4 الفصل الدراسي
-                select.form-control.selectpicker#system(name="system", style="padding-top: 0px;", tabindex="1")
+                select.form-control.selectpicker#system(name="system_type", style="padding-top: 0px;", tabindex="1")
+                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي...
+                  option(value="1") ربيعي
+                  option(value="2") خريفي
+                  option(value="3") صيفي
           .form-group
             .row
               .col-xs-6.col-md-6

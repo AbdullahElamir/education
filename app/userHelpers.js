@@ -19,25 +19,12 @@ module.exports = {
       models.User.create(obj).then(function() {
         cb(true);
       });
-      // userMgr.addUser(obj, function(result){
-      //   var obj = {
-      //     template : "newpassword",
-      //     subject : "Your HNEC app credentials",
-      //     locals : {
-      //       email : body.email,
-      //       user : {
-      //         email : body.email,
-      //         password : password
-      //       }
-      //     }
-      //   }
-      //   mailer.send(obj); // here we send an email with user's credintials
-      //   cb(result);  
-      //   //to do list
-      //   //1- if level is 2 "manager" then check if constit has a manager first if not then assign a manager to that constit
-      // });
+      
     });
   },
   /* here we check if the user have root access */
- 
+   isLogin : function (req,res,next) {
+    //if (req.isAuthenticated()) { return next(); }
+    return next();
+  },
 };

@@ -16,7 +16,7 @@ $(document).ready(function(){
   //     exit: 'animated flipOutX'
   //   },
   // });
-  $("#newLocation").validate({
+  $("#newLocation, #updateLocation").validate({
     rules:{
       name:{
         required: true,
@@ -25,7 +25,6 @@ $(document).ready(function(){
         required: true,
         number: true,
         digits: true,
-        range: [1, 9],
       },
     },
     messages:{
@@ -36,7 +35,6 @@ $(document).ready(function(){
         required: "الرجاء ادخال كمية استعاب الطلبة!",
         number: "الرجاء ادخال ارقام فقط!",
         digits: "الررجاء ادخال ارقام صحيحة!",
-        range: "الرجاء ادخال ارقام صحيحة من 1 الي 9 !"
       },
     },
     highlight: function(element) {

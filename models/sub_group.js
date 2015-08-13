@@ -4,7 +4,6 @@ module.exports = function(sequelize, DataTypes) {
   var Sub_group = sequelize.define("Sub_group", {
     sub_group_name: DataTypes.INTEGER(1),
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
-
   },{
     classMethods: {
       associate: function(models) {
