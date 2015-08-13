@@ -163,13 +163,57 @@ router.post('/newDivision',userHelpers.isLogin, function(req, res) {
   });
 });
 
-router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
-  res.render('facultyMembers', { title: 'View Faculty Members', collapseSix: 'collapse in', activeSixOne: 'active' });
-});
+// router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
+//   res.render('facultyMembers', { title: 'View Faculty Members', collapseSix: 'collapse in', activeSixOne: 'active' });
+// });
 
 router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
+  
   res.render('newFacultyMember', { title: 'New Faculty Member', collapseSix: 'collapse in', activeSixTwo: 'active' });
 });
+
+router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
+  console.log(req.body);
+  req.body.UserId=1;//req,session.id
+  models.Faculty_member.create(req.body).then(function() {
+    res.redirect('/newFacultyMembers');
+  });
+});
+
+
+router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
+  console.log('facultyMembers');
+  models.Faculty_member.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(facultyMembers) {
+    console.log(facultyMembers);
+    res.render('facultyMembers', { title: 'View faculty members',collapseFour: 'collapse in', faculty_Members:facultyMembers, activeFourOne: 'active' });
+
+  });
+});
+
+
+// edit department
+  // router.post('/editDept', function(req, res) {
+  //   console.log("body");
+  //   console.log(req.body);
+  //   console.log("end body");
+  //   id = req.body.id_dep;
+  //   delete req.body.id_dep;
+  //   models.Department.find({
+  //     where: {
+  //        id: id
+  //     }
+  //     }).then(function (todo) {
+  //     todo.updateAttributes(req.body).then(function (todo) {
+  //       res.redirect('/departments');
+  //     }).catch(function (err) {
+  //         console.log(err);
+  //     });
+  //   });
+  // });
 
 router.get('/students',userHelpers.isLogin, function(req, res) {
   res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
