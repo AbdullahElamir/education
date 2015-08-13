@@ -50,6 +50,10 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
   });
 });
 
+router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
+  res.render('subGroup', { title: 'Get Sub Group' });
+});
+
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
   req.body.UserId=1;//req,session.id
