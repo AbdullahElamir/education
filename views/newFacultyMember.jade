@@ -14,7 +14,7 @@ block cPanel
       .col-md-6.col-md-offset-2
         br
         br
-        form#newFacultyMember(action="", method="post", accept-charset="utf-8", role="form")
+        form#newFacultyMember(action="/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
           legend  إضافة محاضر/ة جديد
             .pull-left
               a.btn.btn-primary(href='/facultyMembers', role='button')
@@ -32,7 +32,7 @@ block cPanel
             .row
               .col-xs-6.col-md-6
                 label القسم
-                select.form-control.selectpicker#department_iddepartment(name="department_iddepartment", data-live-search="true", data-size=5)
+                select.form-control.selectpicker#DepartmentId(name="DepartmentId", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
                   option(value="0") قسم1
                   option(value="1") قسم2
@@ -60,7 +60,7 @@ block cPanel
                 input#birth_date.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
               .col-xs-6.col-md-6
                 label مكان الميلاد
-                input.form-control#phone(name="phone", type="text", placeholder="مكان الميلاد")
+                input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
           .form-group
             .row
               .col-xs-6.col-md-6
@@ -85,7 +85,7 @@ block cPanel
     $(function () {
       $('#birth_date').datetimepicker({
         viewMode: 'years',
-        format: 'DD-MM-YYYY',
+        format: 'YYYY-MM-DD',
         locale: 'ar-sa'
       });
     });

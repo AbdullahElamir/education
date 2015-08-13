@@ -14,11 +14,15 @@ var models  = require('../models');
 //   ending_date : Sequelize.DATE()
 //   //createdAt updatedAt
 // });
-obj={
-  name:'mmmmm',
-  email:'www'
-}
-models.User.update(obj, {where: {id:1}});
+  obj={
+    name:'mmmmm',
+    email:'www'
+  }
+  models.User.update(obj, {
+    where: {
+      id:1
+    }
+  });
 
 // Semester
 //   .build({ sem_type: 1, year: '2015', current: 2 ,starting_date : 3/4/2015 , ending_date : 2/3/2014 })
