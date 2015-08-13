@@ -34,7 +34,21 @@ router.get('/newSemester',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
-  res.render('semester', { title: 'Get Semester' });
+  models.Semester.findOne({
+    where: {
+      id: req.params.id,
+      status: 1
+    }
+  }).then(function(semester) {
+    models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(departments) {
+      res.render('semester', { title: 'Semester',semester:semester,departments:departments });
+        //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+    });
+  });
 });
 
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
