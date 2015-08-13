@@ -26,11 +26,21 @@ block navcPanel
                 th.text-center تعديل
               tbody
                 tr
-                  td ربيع
-                  td 1 / 1 / 2019
-                  td نعم
-                  td 27 / 10 / 2019
-                  td 29 / 9 / 2018
+                  td 
+                    if semester.sem_type == 1
+                      | ربيعي
+                    else if semester.sem_type == 2
+                      | خريفي
+                    else
+                      | صيفي
+                  td #{semester.year.getDate()} / #{semester.year.getMonth()+1} / #{semester.year.getFullYear()} 
+                  td
+                    if semester.current == 1
+                      | نعم
+                    else 
+                      | لا
+                  td #{semester.starting_date.getDate()} / #{semester.starting_date.getMonth()+1} / #{semester.starting_date.getFullYear()}
+                  td #{semester.ending_date.getDate()} / #{semester.ending_date.getMonth()+1} / #{semester.ending_date.getFullYear()} 
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
                       button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
@@ -48,30 +58,15 @@ block navcPanel
                 th(style="width:25%;")
                 th.text-center تخصيص المادة
               tbody
-                tr
-                  td قسم 1
-                  td.text-left Department 1
-                  td
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      a.btn.btn-primary.btn-xs(href='/semester/5/1', role='button' , value="1")
-                        span.glyphicon.glyphicon-screenshot
-                tr
-                  td قسم 2
-                  td.text-left Department 2
-                  td
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      a.btn.btn-primary.btn-xs(href='/semester/5/2', role='button' , value="2")
-                        span.glyphicon.glyphicon-screenshot
-                tr
-                  td قسم 3
-                  td.text-left Department 3
-                  td
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      a.btn.btn-primary.btn-xs(href='/semester/5/3', role='button' , value="3")
-                        span.glyphicon.glyphicon-screenshot
+                for department in departments
+                  tr
+                    td #{department.name}
+                    td.text-left #{department.name_en}
+                    td
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                        a.btn.btn-primary.btn-xs(href='/semester/#{semester.id}/#{department.id}', role='button' , value="#{department.id}")
+                          span.glyphicon.glyphicon-screenshot
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
