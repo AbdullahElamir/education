@@ -8,18 +8,18 @@ $(document).ready(function(){
       name_en:{
         required: true,
       },
-      department_iddepartment:{
+      DepartmentId:{
         required: true,
       },
     },
     messages:{
       name:{
-        required: "الرجاء ادخال اسم الشعبة!",
+        required: "الرجاء ادخال اسم الشعبه!",
       },
       name_en:{
-        required: "<div style='padding-right:35px;'>!Please enter Division name</div>",
+        required: "!Please enter Division name",
       },
-      department_iddepartment:{
+      DepartmentId:{
         required: "الرجاء اختيار اسم القسم!",
       },
     },
@@ -35,20 +35,12 @@ $(document).ready(function(){
           error.insertAfter(element);
       }
     },
-    // errorElement: 'label',
-    // // errorClass: 'help-block',
-    // errorPlacement: function(error, element) {
-    //   if(element.parent('.form-control').length) {
-    //       error.insertAfter(element.parent());
-    //   } else {
-    //       error.insertAfter(element);
-    //   }
-    // },
     highlight: function(element) {
-      $(element).closest('.row').addClass('has-error');
+      $(element).closest('.form-group').addClass('has-error').removeClass('has-success');
+      $('#name_en-error').addClass("pull-left");
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error');
+      $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
     submitHandler: function(form) {
       $.ajax({
