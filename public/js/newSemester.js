@@ -1,22 +1,5 @@
 $(document).ready(function(){
-   $('#System').hide();
-  // $.notify({
-  //   message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-  // },{
-  //   type: 'success',
-  //   allow_dismiss: true,
-  //   showProgressbar: false,
-  //   placement: {
-  //     from: 'top',
-  //     align: 'center'
-  //   },
-  //   mouse_over: null,
-  //   newest_on_top: true,
-  //   animate: {
-  //     enter: 'animated flipInY',
-  //     exit: 'animated flipOutX'
-  //   },
-  // });
+  $('#system_type').hide();
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -55,11 +38,22 @@ $(document).ready(function(){
     },
     // errorElement: 'span',
     errorClass: 'custom-error',
-    errorPlacement: function (error, element) {
-      if ($(element).is('select')) {
-          element.next().after(error);
-      } else {
-          error.insertAfter(element);
+    // errorPlacement: function (error, element) {
+    //   if ($(element).is('select')) {
+    //       element.next().after(error);
+    //   } else {
+    //       error.insertAfter(element);
+    //   }
+    // },
+    // errorPlacement: function(error, element) {
+    //   element.parent().append(error);
+    // },
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
       }
     },
     highlight: function(element) {
@@ -69,11 +63,13 @@ $(document).ready(function(){
       $(element).closest('.row').removeClass('has-error');
     },
   });
-
   $('#sem_type').on('change',function() {
     var id = $('#sem_type').val();
     if(id==2){
-      $('#System').show(300);
+      $('#system_type').show(300);
+    }
+    else {
+      $('#system_type').hide(300);
     }
   });
 });
