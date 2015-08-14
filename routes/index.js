@@ -96,6 +96,19 @@ router.get('/departments',userHelpers.isLogin, function(req, res) {
 });
 
 // view editDepartments
+
+
+router.get('/getLocation/:id', function(req, res) {
+   models.Location.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(location) {
+    res.send(location);
+  });
+});
+
+
 router.get('/editDepartments/:id', function(req, res) {
    models.Department.findAll({
     where: {
@@ -126,6 +139,30 @@ router.post('/editDept', function(req, res) {
   });
 });
 
+
+
+router.post('/editLocation', function(req, res) {
+  console.log("body");
+  console.log(req.body);
+  id = req.body.locid;
+//  delete req.body.id_dep;
+  models.Location.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/locations');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+
+
+
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
@@ -142,6 +179,27 @@ router.get('/deleteDepartment/:id', function(req, res) {
     });
   });
 });
+
+
+router.get('/deleteLocation/:id', function(req, res) {
+  models.Location.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+
+
 
 router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
   res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });

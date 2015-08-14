@@ -1,4 +1,30 @@
 $(document).ready(function(){
+
+   $('body').on('click', '#Edit', function(){
+    $('#eitLoc').val($(this).val());
+     var id = $(this).val();
+     $.get('/getLocation/'+id,function(location){
+      $('#locid').val(id);
+      $('#name').val(location[0].name);
+      $('#quantity').val(location[0].quantity);
+
+    });
+
+   });
+
+
+     $('body').on('click', '#del', function(){
+    $('#ok').val($(this).val());
+  });
+
+  $('body').on('click', '#ok', function(){
+    var id=$(this).val();
+    $.get('/deleteLocation/'+$(this).val(),function(todo){
+      $('[data-id = "'+id+'"]').remove();
+    });
+  }); 
+
+
   // $.notify({
   //   message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
   // },{
