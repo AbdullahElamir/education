@@ -212,14 +212,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
  
 
 
-
-
-
-
-
-
-
-
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
@@ -240,6 +232,24 @@ router.get('/deleteDepartment/:id', function(req, res) {
 
 router.get('/deleteLocation/:id', function(req, res) {
   models.Location.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+
+router.get('/deleteSubject/:id', function(req, res) {
+  models.Subject.find({
     where: {
       id: req.params.id
     }
@@ -351,15 +361,11 @@ router.get('/deleteFaculityMembers/:id', function(req, res) {
 router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
   models.Faculty_member.findAll({
     include: [{
-        model: models.Department,
-        where: { status: 1 }
+      model: models.Department,
+      where: { status: 1 }
     }]
   }).then(function(facultyMembers) {
-    
-    console.log(facultyMembers[0].Department.name);
-    
-    res.render('facultyMembers', { title: 'View faculty members',collapseFour: 'collapse in', faculty_Members:facultyMembers, activeFourOne: 'active' });
-
+    res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
   });
 });
 
@@ -415,7 +421,18 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/subjects', function(req, res) {
-  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' });
+    models.Subject.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(Subject) {
+  console.log(Subject);
+  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+  });
+
+
+
+  
 });
 
 router.get('/newSubject', function(req, res) {

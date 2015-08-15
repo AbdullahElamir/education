@@ -37,7 +37,7 @@ block cPanel
               thead
                 th
                   input#checkall(type="checkbox")
-                th الفصل الدراسي
+                th النظام الدراسي
                 th السنة الدراسية
                 th هل هذا الفصل الحالي
                 th بداية الفصل الدراسي
@@ -50,10 +50,12 @@ block cPanel
                   td
                     input.checkthis(type="checkbox")
                   td  
+                    if i.sem_type == 0
+                      | سنة
                     if i.sem_type == 1
-                      |ربيعي
-                    else
-                      | خريفي
+                      | فصل "ربيعي"
+                    if i.sem_type == 2
+                      | فصل "خريفي"
                   td  #{i.year.getDate()} / #{i.year.getMonth()+1} / #{i.year.getFullYear()} 
                   td 
                     if i.current == 1

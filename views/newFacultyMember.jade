@@ -14,7 +14,7 @@ block cPanel
       .col-md-6.col-md-offset-2
         br
         br
-        form#addFacultyMember(action="/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
+        form.form#newFacultyMember(action="/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
           legend  إضافة محاضر/ة جديد
             .pull-left
               a.btn.btn-primary(href='/facultyMembers', role='button')
@@ -58,7 +58,10 @@ block cPanel
             .row
               .col-xs-6.col-md-6
                 label تاريخ الميلاد
-                input#birth_date.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                .input-group.date#birth_date
+                  input.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                  span.input-group-addon.success
+                    span.fa.fa-calendar
               .col-xs-6.col-md-6
                 label مكان الميلاد
                 input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
@@ -82,9 +85,12 @@ block cPanel
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/newFacultyMember.js')
   script.
     $(function () {
       $('#birth_date').datetimepicker({
+        useCurrent: false,
         viewMode: 'years',
         format: 'YYYY-MM-DD',
         locale: 'ar-sa'
