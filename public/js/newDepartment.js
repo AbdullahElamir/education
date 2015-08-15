@@ -54,7 +54,7 @@ $(document).ready(function(){
     });
   });
 
-  $("#newDepartment").validate({
+  $("#newDepartment, #formdpet").validate({
     rules:{
       name:{
         required: true,
@@ -71,13 +71,13 @@ $(document).ready(function(){
         required: "!Please enter Department name",
       },
     },
+    errorClass: 'custom-error',
     highlight: function(element) {
-      $(element).closest('.row').removeClass('has-success').addClass('has-error');
-      $('button').attr('disabled' , true);
+      $(element).closest('.form-group').addClass('has-error').removeClass('has-success');
+      $('#name_en-error').addClass("pull-left");
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error').addClass('has-success');
-      $('button').attr('disabled' , false);
+      $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
   });
 });

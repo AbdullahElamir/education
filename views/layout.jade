@@ -28,7 +28,7 @@ html
         nav.navbar.navbar-default(role="navigation")
           // Brand and toggle get grouped for better mobile display
           .navbar-header
-            button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+            button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-collapse-xs")
               span.sr-only Toggle navigation
               span.icon-bar
               span.icon-bar
@@ -36,9 +36,9 @@ html
             a.navbar-brand(href="#") 
               span.text-muted الدراسة والامتحانات
           // Collect the nav links, forms, and other content for toggling
-          .collapse.navbar-collapse
+          .collapse.navbar-collapse#navbar-collapse-xs
             ul.nav.navbar-nav
-              li(class=active)
+              li(class=activeCPanel)
                 a(href="/cPanel")
                   span.glyphicon.glyphicon-home.text-primary
                   span.text-primary  لوحة التحكم
@@ -46,28 +46,24 @@ html
                 a(href="#")
                   span.glyphicon.glyphicon-calendar.text-success
                   span.text-success  التقويم
-              li.dropdown
+              li.dropdown(class=activeUser)
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
                   span.glyphicon.glyphicon-list-alt.text-info
-                  span.text-info  أدوات
+                  span.text-info  المستخدمين
                   b.caret
                 ul.dropdown-menu
                   li
-                    a(href="http://www.jquery2dotnet.com") Action
-                  li
-                    a(href="http://www.jquery2dotnet.com") Another action
-                  li
-                    a(href="#") Something else here
+                    a(href="/users") عرض المستخدمين
                   li.divider
                   li
-                    a(href="#") Separated link
-                  li.divider
-                  li
-                    a(href="#") One more separated link
+                    a(href="/newUser") إضافة مستخدم جديد
+                  //- li.divider
+                  //- li
+                  //-   a(href="#") صلاحيات المستخدم
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
-                  span.glyphicon.glyphicon-search.text-primary
-                  span.text-primary  بحث
+                  span.glyphicon.glyphicon-search.text-warning
+                  span.text-warning  بحث
                   b.caret
                 ul.dropdown-menu(style="min-width: 275px;")
                   li
@@ -77,7 +73,7 @@ html
                           .input-group
                             input.form-control(type="text", placeholder="بحث")
                             span.input-group-btn
-                              button.btn.btn-primary(type="button")
+                              button.btn.btn-primary(type="submit")
                                 | بحث!
             ul.nav.navbar-nav.navbar-right
               li.dropdown
@@ -148,11 +144,11 @@ html
                     table.table
                       tr
                         td(class=activeThreeOne)
-                          a(href="#", style="font-size:13.5px;").font  عرض المواد الدراسية
+                          a(href="/subjects", style="font-size:13.5px;").font  عرض المواد الدراسية
                           span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
                       tr
                         td(class=activeThreeTwo)
-                          a(href="#").font  إضافة مادة دراسية
+                          a(href="/newSubject").font  إضافة مادة دراسية
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
@@ -234,7 +230,7 @@ html
                           span.glyphicon.glyphicon-shopping-cart
                           a(href="#")  سلة الشراء
           block cPanel  
-            .col-xs-12.col-md-8.col-md-offset-1
+            .col-xs-12.col-md-6.col-md-offset-2
               .panel.panel-primary.font
                 .panel-heading
                   h3.panel-title#panel-title
@@ -259,83 +255,33 @@ html
                         br
                         | تقارير
                       | 
-                      a.btn.btn-warning.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-comment
-                        br
-                        | تعليقات
-                      | 
                       a.btn.btn-primary.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-comment
                         br
                         | تعليقات
-                      | 
-                      a.btn.btn-info.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-comment
-                        br
-                        | تعليقات
-                      | 
-                      a.btn.btn-danger.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-list-alt
-                        br
-                        | تطبيقات
-                      | 
-                      a.btn.btn-warning.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-bookmark
-                        br
-                        | الإشارات
-                      | 
-                      a.btn.btn-primary.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-signal
-                        br
-                        | تقارير
                     .col-xs-6.col-md-6
                       a.btn.btn-success.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-user
                         br
                         | مستخدمين
                       | 
-                      a.btn.btn-warning.btn-lg(href="#", role="button")
+                      a.btn.btn-info.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-file
                         br
                         | ملاحظات
                       | 
-                      a.btn.btn-danger.btn-lg(href="#", role="button")
+                      a.btn.btn-primary.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-picture
                         br
                         | صور
                       | 
-                      a.btn.btn-success.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-tag
-                        br
-                        | العلامات
-                      | 
-                      a.btn.btn-danger.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-tag
-                        br
-                        | العلامات
-                      | 
-                      a.btn.btn-warning.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-tag
-                        br
-                        | العلامات
-                      | 
-                      a.btn.btn-info.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-tag
-                        br
-                        | العلامات
-                      | 
                       a.btn.btn-primary.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-tag
                         br
-                        | العلامات
-                      | 
-                      a.btn.btn-danger.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-tag
-                        br
-                        | العلامات
+                        | العلامات  
                   a.btn.btn-success.btn-lg.btn-block(href="http://www.jquery2dotnet.com/", role="button")
                     span.glyphicon.glyphicon-globe
-                    | موقع
+                    |  موقع
     block content
     block footer
       footer.footer.font

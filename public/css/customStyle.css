@@ -24,7 +24,7 @@ legend{
   /*font-weight:bold;*/
   padding-bottom: 20px;
 }
-input[type="text"]{
+input[type="text"],input[type="password"]{
   line-height: 25px;
 }
 /* Sticky footer styles start
@@ -122,7 +122,6 @@ label{
 .btn-breadcrumb .btn:last-child {
   padding:6px 24px 6px 18px;
 }
-
 /** Default button **/
 .btn-breadcrumb .btn.btn-default:not(:last-child):after {
   border-right: 10px solid #fff;
@@ -139,3 +138,19 @@ label{
 .btn-breadcrumb > .active, table > tr {
   background-color: #f5f5f5;
 }
+
+/*Delete Model Style Start*/
+.alert{
+  margin-bottom: auto;
+}
+/*Delete Model Style End*/
+
+/*Panel Collapsed in subGroup.jade Style Start*/
+.clickable{
+    cursor: pointer;   
+}
+#panel-heading span {
+  margin-top: -20px;
+  font-size: 15px;
+}
+/*Panel Collapsed in subGroup.jade Style End*/
