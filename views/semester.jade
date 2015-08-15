@@ -10,15 +10,15 @@ block navcPanel
           .panel-heading(style="padding: 5px 15px;")
             .row
               .pull-right(style="margin-right: 10px;")
-                h3#h3.panel-title عرض الفصول الدراسية
+                h3#h3.panel-title عرض النظام الدراسي
               .pull-left(style="margin-left: 10px;")
                 a.btn.btn-success(href='/semesters', role='button',data-toggle='modal')
-                  span.glyphicon.glyphicon-hand-left
+                  span.glyphicon.glyphicon-arrow-left
                   span  رجوع
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
-                th.text-center الفصل الدراسي
+                th.text-center النظام الدراسي
                 th.text-center السنة الدراسية
                 th.text-center هل هذا الفصل الحالي
                 th.text-center بداية الفصل الدراسي
@@ -105,8 +105,6 @@ block navcPanel
   script(src='/js/backToTop.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
-  
-
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();

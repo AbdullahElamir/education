@@ -45,6 +45,10 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
       }
     }).then(function(departments) {
       var semType="";
+      if(semester.sem_type==0)
+      {
+        semType = "سنة";
+      }
       if(semester.sem_type==1)
       {
         semType = "ربيعي";
