@@ -1,4 +1,20 @@
 $(document).ready(function(){
+
+
+       $('body').on('click', '#del', function(){
+       $('#ok').val($(this).val());
+  });
+
+  $('body').on('click','#ok', function(){
+    var id=$(this).val();
+    $.get('/deleteSubject/'+$(this).val(),function(todo){
+      $('[data-id = "'+id+'"]').remove();
+    });
+  });
+
+
+
+
   $('[id^="department_select"]').hide(0);
   $('[id^="radio"]').change(function() 
   {

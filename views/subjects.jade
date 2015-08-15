@@ -38,29 +38,34 @@ block cPanel
                 th
                   input#checkall(type="checkbox")
                 th أسم المادة
+                th Subject name
                 th رمز المادة
-                th نوع المادة
-                th القسم
-                th المواد تمهدية
+                th عدد الوحدات النظري
+                th عدد الساعات العملي
+                th.text-center عرض
                 th.text-center تعديل
                 th.text-center إلغاء
               tbody
-                tr
+              for i in Sub
+                tr(data-id = '#{i.id}')
                   td
                     input.checkthis(type="checkbox")
-                  td d
-                  td f
-                  td A
-                  td C
-                  td C
-                 
+                  td #{i.name}
+                  td #{i.name_en}
+                  td #{i.code}
+                  td #{i.no_th_unit}
+                  td #{i.no_th_hour}
+                  td.text-center
+                    p(data-placement="top", data-toggle="tooltip", title="عرض")
+                      button.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#show")
+                        span.glyphicon.glyphicon-eye-open
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
+                      button.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
                         span.glyphicon.glyphicon-pencil
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
+                      button#del.btn.btn-danger.btn-xs(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
           ul.pagination.pull-right
             li.disabled
@@ -79,6 +84,76 @@ block cPanel
             li
               a(href="#")
                 span.glyphicon.glyphicon-chevron-left
+  #show.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align عرض بيانات المادة
+        .modal-body
+          form.form(action="", method="post", accept-charset="utf-8", role="form")
+            .form-group
+              .row
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم الطالب/ة
+                  input#first_name.form-control(type="text", name="first_name", placeholder="اسم الطالب/ة", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم اﻷب
+                  input#father_name.form-control(type="text", name="father_name", placeholder="اسم اﻷب", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم الجد
+                  input#grand_name.form-control(type="text", name="grand_name", placeholder="اسم الجد", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اللقب
+                  input#last_name.form-control(type="text", name="last_name", placeholder="اللقب", disabled)
+            .form-group
+              .row
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم الطالب/ة
+                  input#first_name.form-control(type="text", name="first_name", placeholder="اسم الطالب/ة", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم اﻷب
+                  input#father_name.form-control(type="text", name="father_name", placeholder="اسم اﻷب", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم الجد
+                  input#grand_name.form-control(type="text", name="grand_name", placeholder="اسم الجد", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اللقب
+                  input#last_name.form-control(type="text", name="last_name", placeholder="اللقب", disabled)
+            .form-group
+              .row
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم الطالب/ة
+                  input#first_name.form-control(type="text", name="first_name", placeholder="اسم الطالب/ة", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم اﻷب
+                  input#father_name.form-control(type="text", name="father_name", placeholder="اسم اﻷب", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم الجد
+                  input#grand_name.form-control(type="text", name="grand_name", placeholder="اسم الجد", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  اللقب
+                  input#last_name.form-control(type="text", name="last_name", placeholder="اللقب", disabled)
+
+        .modal-footer
+          button.btn.btn-warning.btn-lg(type="button", style="margin-left:25%;width:50%;", data-dismiss="modal")
+            span.glyphicon.glyphicon-eye-close
+            |  إخفاء
+      // /.modal-content
+    // /.modal-dialog
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -143,7 +218,7 @@ block cPanel
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذه المادة ؟
         .modal-footer
-          button.btn.btn-success(type="button")
+          button#ok.btn.btn-success(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
@@ -155,6 +230,7 @@ block cPanel
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js') 
+  script(src='/js/newSubject.js') 
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {
