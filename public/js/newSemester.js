@@ -1,4 +1,23 @@
 $(document).ready(function(){
+  ///semester/#{semester.id}/updateSemester/
+     $('body').on('click', '#del', function(){
+      //alert("ff");
+    $('#ok').val($(this).val());
+  });
+
+  $('body').on('click', '#ok', function(){
+    var id=$(this).val();
+    $.get('/deleteSemesters/'+$(this).val(),function(todo){
+      $('[data-id = "'+id+'"]').remove();
+    });
+  }); 
+
+
+
+
+
+
+
   $('#system_type').hide();
   $.validator.addMethod("systemTypeCheck", function (value, element) {
     var id = $('#sem_type').val();

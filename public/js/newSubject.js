@@ -3,7 +3,10 @@ $(document).ready(function(){
   $('[id^="radio"]').change(function() 
   {
     $('[id^="department_select"]').show(200);
-    $('[id^="department_radio"]').hide(200);
+  })
+  $('#js_radio').change(function() 
+  {
+    $('[id^="department_select"]').hide(200);
   })
   $("#Semesters").show(0); 
   $("#Year").hide(0);
@@ -16,5 +19,14 @@ $(document).ready(function(){
       $("#Semesters").show(200); 
       $("#Year").hide(200);
     }
+    $('body').on('click', '#del', function(){
+      $('#ok').val($(this).val());
+    });
+    $('body').on('click','#ok', function(){
+      var id=$(this).val();
+      $.get('/deleteSubject/'+$(this).val(),function(todo){
+        $('[data-id = "'+id+'"]').remove();
+      });
+    });
   });      
 });

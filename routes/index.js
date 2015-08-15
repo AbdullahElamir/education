@@ -44,7 +44,22 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
         status: 1
       }
     }).then(function(departments) {
-      res.render('semester', { title: 'Semester',semester:semester,departments:departments });
+      var semType="";
+      if(semester.sem_type==1)
+      {
+        semType = "ربيعي";
+      }
+      if(semester.sem_type==2)
+      {
+      semType = "خريفي";
+      }
+      if(semester.sem_type==3)
+      {
+      semType = "صيفي";
+      }
+
+      console.log(semType);
+      res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
         //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
     });
   });
@@ -96,6 +111,19 @@ router.get('/departments',userHelpers.isLogin, function(req, res) {
 });
 
 // view editDepartments
+
+
+router.get('/getLocation/:id', function(req, res) {
+   models.Location.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(location) {
+    res.send(location);
+  });
+});
+
+
 router.get('/editDepartments/:id', function(req, res) {
    models.Department.findAll({
     where: {
@@ -126,6 +154,63 @@ router.post('/editDept', function(req, res) {
   });
 });
 
+
+
+router.post('/editLocation', function(req, res) {
+  console.log("body");
+  console.log(req.body);
+  id = req.body.locid;
+  models.Location.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/locations');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+///semester/#{semester.id}/updateSemester
+
+router.post('/semester/:id/updateSemester', function(req, res) {
+  if(req.body.sem_type == "ربيعي")
+    {
+      req.body.sem_type= 1;
+    } 
+
+    if(req.body.sem_type == "خريفي"){
+    req.body.sem_type = 2;
+    } 
+
+    if(req.body.sem_type == "صيفي")
+    {
+      req.body.sem_type = 3;
+    } 
+
+  console.log(req.body);
+   id = req.params.id;
+  models.Semester.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/semester/'+req.params.id);
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+     });
+     });
+ 
+ 
+ 
+
+
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
@@ -142,6 +227,61 @@ router.get('/deleteDepartment/:id', function(req, res) {
     });
   });
 });
+
+
+router.get('/deleteLocation/:id', function(req, res) {
+  models.Location.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+
+router.get('/deleteSubject/:id', function(req, res) {
+  models.Subject.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+router.get('/deleteSemesters/:id', function(req, res) {
+  models.Semester.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+
+
 
 router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
   res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
@@ -259,7 +399,18 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/subjects', function(req, res) {
-  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' });
+    models.Subject.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(Subject) {
+  console.log(Subject);
+  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+  });
+
+
+
+  
 });
 
 router.get('/newSubject', function(req, res) {
