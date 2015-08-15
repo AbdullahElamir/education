@@ -14,7 +14,7 @@ block cPanel
       .col-md-6.col-md-offset-2
         br
         br
-        form#newFacultyMember(action="/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
+        form#addFacultyMember(action="/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
           legend  إضافة محاضر/ة جديد
             .pull-left
               a.btn.btn-primary(href='/facultyMembers', role='button')
@@ -33,9 +33,10 @@ block cPanel
               .col-xs-6.col-md-6
                 label القسم
                 select.form-control.selectpicker#DepartmentId(name="DepartmentId", data-live-search="true", data-size=5)
-                  option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
-                  option(value="0") قسم1
-                  option(value="1") قسم2
+                  
+                  for department in departments
+                    option(value="#{department.id}") #{department.name}
+                  
               .col-xs-6.col-md-6
                 label التخصص
                 input#specialization.form-control(type="text", name="specialization", placeholder="التخصص")
