@@ -129,6 +129,18 @@ router.get('/getLocation/:id', function(req, res) {
 });
 
 
+
+router.get('/getSubject/:id', function(req, res) {
+   models.Subject.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(subject) {
+    res.send(subject);
+  });
+});
+
+
 router.get('/editDepartments/:id', function(req, res) {
    models.Department.findAll({
     where: {
