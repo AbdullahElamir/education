@@ -4,7 +4,13 @@ $(document).ready(function(){
     $('[id^="radio"]').change(function() 
     {
        $('[id^="department_select"]').show(200);
-       $('[id^="department_radio"]').hide(200);
+       
+     
+    })
+    $('#js_radio').change(function() 
+    {
+       $('[id^="department_select"]').hide(200);
+      
      
     })
     $("#Semesters").show(0); 
