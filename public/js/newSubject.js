@@ -7,7 +7,6 @@ $(document).ready(function(){
      // $('#locid').val(id);
       $('#no_pr_unit').val(subject[0].no_pr_unit);
       $('#no_pr_hour').val(subject[0].no_pr_hour);
-
       $('#chapter_degree').val(subject[0].chapter_degree);
       $('#final_theor').val(subject[0].final_theor);
       $('#final_practical').val(subject[0].final_practical);
@@ -28,12 +27,14 @@ $(document).ready(function(){
 
 
 
-
   $('[id^="department_select"]').hide(0);
   $('[id^="radio"]').change(function() 
   {
     $('[id^="department_select"]').show(200);
-    $('[id^="department_radio"]').hide(200);
+  })
+  $('#js_radio').change(function() 
+  {
+    $('[id^="department_select"]').hide(200);
   })
   $("#Semesters").show(0); 
   $("#Year").hide(0);
@@ -46,5 +47,6 @@ $(document).ready(function(){
       $("#Semesters").show(200); 
       $("#Year").hide(200);
     }
+  
   });      
 });

@@ -3,6 +3,7 @@ var router = express.Router();
 var models  = require('../models');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
+var Sequelize = require('sequelize')
 
 /* GET home page. */
 
@@ -45,6 +46,10 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
       }
     }).then(function(departments) {
       var semType="";
+      if(semester.sem_type==0)
+      {
+        semType = "سنة";
+      }
       if(semester.sem_type==1)
       {
         semType = "ربيعي";
@@ -333,29 +338,50 @@ router.post('/newDivision',userHelpers.isLogin, function(req, res) {
 // });
 
 router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
+  models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(Departments) {
+    res.render('newFacultyMember', { title: 'New Faculty Member', departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+  });
   
-  res.render('newFacultyMember', { title: 'New Faculty Member', collapseSix: 'collapse in', activeSixTwo: 'active' });
 });
 
 router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
   console.log(req.body);
   req.body.UserId=1;//req,session.id
+  // req.body.DepartmentId=5;
   models.Faculty_member.create(req.body).then(function() {
-    res.redirect('/newFacultyMembers');
+    res.redirect('/facultyMembers');
   });
 });
 
+// delete FaculityMembers
+router.get('/deleteFaculityMembers/:id', function(req, res) {
+  models.Faculty_member.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
 
 router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
-  console.log('facultyMembers');
   models.Faculty_member.findAll({
-    where: {
-      status: 1
-    }
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
   }).then(function(facultyMembers) {
-    console.log(facultyMembers);
-    res.render('facultyMembers', { title: 'View faculty members',collapseFour: 'collapse in', faculty_Members:facultyMembers, activeFourOne: 'active' });
-
+    res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
   });
 });
 

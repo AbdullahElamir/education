@@ -1,21 +1,5 @@
 $(document).ready(function(){
-  // $.notify({
-  //   message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-  // },{
-  //   type: 'success',
-  //   allow_dismiss: true,
-  //   showProgressbar: false,
-  //   placement: {
-  //     from: 'top',
-  //     align: 'center'
-  //   },
-  //   mouse_over: null,
-  //   newest_on_top: true,
-  //   animate: {
-  //     enter: 'animated flipInY',
-  //     exit: 'animated flipOutX'
-  //   },
-  // });
+ 
   $("#newStudent ,#updateStudent").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     ignore:[],
@@ -165,11 +149,12 @@ $(document).ready(function(){
     },
     // errorElement: 'label',
     errorClass: 'custom-error',
-    errorPlacement: function (error, element) {
-      if ($(element).is('select')) {
-          element.next().after(error);
-      } else {
-          error.insertAfter(element);
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
       }
     },
     highlight: function(element) {
@@ -194,5 +179,8 @@ $(document).ready(function(){
     if (isValid) {
       // do stuff
     }
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
   });
 });
