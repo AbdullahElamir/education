@@ -149,11 +149,12 @@ $(document).ready(function(){
     },
     // errorElement: 'label',
     errorClass: 'custom-error',
-    errorPlacement: function (error, element) {
-      if ($(element).is('select')) {
-          element.next().after(error);
-      } else {
-          error.insertAfter(element);
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
       }
     },
     highlight: function(element) {
@@ -178,5 +179,8 @@ $(document).ready(function(){
     if (isValid) {
       // do stuff
     }
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
   });
 });

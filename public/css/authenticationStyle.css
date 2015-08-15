@@ -107,15 +107,18 @@ body {
   padding: 14px 0;
   text-transform: uppercase;
 }
-#username, #email, #password, #confirm-password{ 
+#username, #email, #password, #confirmPassword{ 
   text-align: center;
   line-height: 30px;
 }
 /*LOGIN LOGIN END*/
 /*FONT STYLE START*/
+@font-face {
+  font-family: 'droidkufi';
+  src : url("../fonts/DroidKufi-Regular.ttf") format("truetype");
+}
 .font {
-  font-family: 'Droid Arabic Kufi', sans-serif;
-  /*font-family: 'Droid Arabic Naskh', serif;*/
+  font-family: 'droidkufi', sans-serif; 
 }
 #form-heder{
   margin-bottom: 20px;
