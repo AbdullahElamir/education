@@ -1,5 +1,14 @@
 $(document).ready(function(){
   $('#system_type').hide();
+  $.validator.addMethod("systemTypeCheck", function (value, element) {
+    var id = $('#sem_type').val();
+    if(id==1){
+      return value == true;
+    }
+    else {
+      return value == false;
+    }
+  },'الرجاء اختيار الفصل الدراسي!');
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -18,10 +27,13 @@ $(document).ready(function(){
       ending_date:{
         required: true,
       },
+      system_type:{
+        systemTypeCheck: true,
+      }
     },
     messages:{
       sem_type:{
-        required: "الرجاء اختيار الفصل الدراسي!",
+        required: "الرجاء اختيار نظام الدراسي!",
       },
       year:{
         required: "الرجاء اختيار سنة الفصل الدراسي!",
@@ -38,16 +50,6 @@ $(document).ready(function(){
     },
     // errorElement: 'span',
     errorClass: 'custom-error',
-    // errorPlacement: function (error, element) {
-    //   if ($(element).is('select')) {
-    //       element.next().after(error);
-    //   } else {
-    //       error.insertAfter(element);
-    //   }
-    // },
-    // errorPlacement: function(error, element) {
-    //   element.parent().append(error);
-    // },
     errorPlacement: function(error, element) {
       if(element.parent('.input-group').length) {
           error.insertAfter(element.parent());
@@ -65,11 +67,15 @@ $(document).ready(function(){
   });
   $('#sem_type').on('change',function() {
     var id = $('#sem_type').val();
-    if(id==2){
-      $('#system_type').show(300);
+    if(id==1){
+      $('#system_type').show();
     }
     else {
-      $('#system_type').hide(300);
+      $('#system_type').hide();
+      $('.system_type').selectpicker('val', '');
     }
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
   });
 });

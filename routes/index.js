@@ -202,7 +202,7 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
     }
   }).then(function(facultyMembers) {
     console.log(facultyMembers);
-    res.render('facultyMembers', { title: 'View faculty members',collapseFour: 'collapse in', faculty_Members:facultyMembers, activeFourOne: 'active' });
+    res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
 
   });
 });
