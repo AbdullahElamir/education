@@ -7,9 +7,7 @@ $(document).ready(function(){
       $('#locid').val(id);
       $('#name').val(location[0].name);
       $('#quantity').val(location[0].quantity);
-
     });
-
    });
 
 

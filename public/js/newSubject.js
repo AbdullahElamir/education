@@ -1,8 +1,22 @@
 $(document).ready(function(){
 
 
-       $('body').on('click', '#del', function(){
-       $('#ok').val($(this).val());
+  $('body').on('click', '#sh', function(){
+    var id = $(this).val();
+     $.get('/getSubject/'+id,function(subject){
+     // $('#locid').val(id);
+      $('#no_pr_unit').val(subject[0].no_pr_unit);
+      $('#no_pr_hour').val(subject[0].no_pr_hour);
+
+      $('#chapter_degree').val(subject[0].chapter_degree);
+      $('#final_theor').val(subject[0].final_theor);
+      $('#final_practical').val(subject[0].final_practical);
+    });
+
+});
+
+  $('body').on('click', '#del', function(){
+    $('#ok').val($(this).val());
   });
 
   $('body').on('click','#ok', function(){
