@@ -44,7 +44,22 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
         status: 1
       }
     }).then(function(departments) {
-      res.render('semester', { title: 'Semester',semester:semester,departments:departments });
+      var semType="";
+      if(semester.sem_type==1)
+      {
+        semType = "ربيعي";
+      }
+      if(semester.sem_type==2)
+      {
+      semType = "خريفي";
+      }
+      if(semester.sem_type==3)
+      {
+      semType = "صيفي";
+      }
+
+      console.log(semType);
+      res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
         //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
     });
   });
@@ -145,7 +160,6 @@ router.post('/editLocation', function(req, res) {
   console.log("body");
   console.log(req.body);
   id = req.body.locid;
-//  delete req.body.id_dep;
   models.Location.find({
     where: {
       id: id
@@ -158,6 +172,48 @@ router.post('/editLocation', function(req, res) {
     });
   });
 });
+
+
+///semester/#{semester.id}/updateSemester
+
+router.post('/semester/:id/updateSemester', function(req, res) {
+  if(req.body.sem_type == "ربيعي")
+    {
+      req.body.sem_type= 1;
+    } 
+
+    if(req.body.sem_type == "خريفي"){
+    req.body.sem_type = 2;
+    } 
+
+    if(req.body.sem_type == "صيفي")
+    {
+      req.body.sem_type = 3;
+    } 
+
+  console.log(req.body);
+   id = req.params.id;
+  models.Semester.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/semester/'+req.params.id);
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+     });
+     });
+ 
+ 
+ 
+
+
+
+
+
 
 
 
@@ -183,6 +239,22 @@ router.get('/deleteDepartment/:id', function(req, res) {
 
 router.get('/deleteLocation/:id', function(req, res) {
   models.Location.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+router.get('/deleteSemesters/:id', function(req, res) {
+  models.Semester.find({
     where: {
       id: req.params.id
     }
