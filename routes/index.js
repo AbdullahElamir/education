@@ -297,7 +297,15 @@ router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/divisions',userHelpers.isLogin, function(req, res) {
-  res.render('divisions', { title: 'View divisions', collapseFour: 'collapse in', activeFourThree: 'active' });
+  models.Division.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
+  }).then(function(division) {
+   console.log(division); 
+  res.render('divisions', { title: 'View divisions', divisions: division, collapseFour: 'collapse in', activeFourThree: 'active' });
+  });
 });
 
 router.get('/newDivision',userHelpers.isLogin, function(req, res) {
@@ -314,6 +322,22 @@ router.post('/newDivision',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   models.Division.create(req.body).then(function() {
     res.redirect('/newDivision');
+  });
+});
+
+router.get('/deleteDivision/:id', function(req, res) {
+  models.Division.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
   });
 });
 

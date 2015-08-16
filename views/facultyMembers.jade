@@ -51,9 +51,9 @@ block cPanel
                     td #{faculty_Member.specialization}
                     td
                       if faculty_Member.gender == 1
-                        | ذكر
-                      else
                         | أنثى
+                      else
+                        | ذكر
                     td #{faculty_Member.Department.name}
                     td #{faculty_Member.nationality}
                     td.text-center
