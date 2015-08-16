@@ -11,14 +11,14 @@ $(document).ready(function(){
   $("#Semesters").show(0); 
   $("#Year").hide(0);
   $('#toggle-subject').change(function() {
+    var toggle ;
     if ($(this).prop('checked') == true) {
-      $("#Semesters").hide(200);
-      $("#Year").show(200);
+      toggle = 1;
     }
     else {
-      $("#Semesters").show(200); 
-      $("#Year").hide(200);
+      toggle = 0;
     }
+    alert(toggle);
     $('body').on('click', '#del', function(){
       $('#ok').val($(this).val());
     });
