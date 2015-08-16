@@ -128,14 +128,18 @@ router.get('/getLocation/:id', function(req, res) {
   });
 });
 
-
-
+// abdullah Elamir Code
+// select data from 3 table 
 router.get('/getSubject/:id', function(req, res) {
    models.Subject.findAll({
-    where: {
-      id: req.params.id
-    }
+    where: { status: 1 , id: req.params.id},
+       "include" : [
+            {"model" : models.User},
+            { "model" : models.Department}
+        ],   
+
   }).then(function(subject) {
+    console.log(subject);
     res.send(subject);
   });
 });
@@ -188,6 +192,12 @@ router.post('/editLocation', function(req, res) {
         console.log(err);
     });
   });
+});
+
+///editSubject
+
+router.post('/editSubject', function(req, res) {
+  console.log(req.body);
 });
 
 
@@ -438,11 +448,11 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
 
 router.get('/subjects', function(req, res) {
     models.Subject.findAll({
-    where: {
-      status: 1
-    }
+     include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
   }).then(function(Subject) {
-  console.log(Subject);
   res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
   });
 
