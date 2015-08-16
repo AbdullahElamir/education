@@ -46,21 +46,7 @@ block cPanel
                 th.text-center تعديل
                 th.text-center إلغاء
               tbody
-                tr
-                  td k
-                  td k; 
-                  td edit
-                  td btn-default
-                  td width
-                  td ew
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(value="",data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button#del.btn.btn-danger.btn-xs(value="",data-title="Delete", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-trash
+          
               for i in Sub
                 tr(data-id = '#{i.id}')
                   td
@@ -72,11 +58,11 @@ block cPanel
                   td #{i.no_th_hour}
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="عرض")
-                      button.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#show")
+                      button#sh.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#show")
                         span.glyphicon.glyphicon-eye-open
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                      button#ed.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
                         span.glyphicon.glyphicon-pencil
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
@@ -99,10 +85,74 @@ block cPanel
             li
               a(href="#")
                 span.glyphicon.glyphicon-chevron-left
+
+  #show.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align عرض بيانات المادة
+        .modal-body
+          form.form(action="", method="post", accept-charset="utf-8", role="form")
+            .form-group
+              .row
+                .col-xs-3.col-md-3
+                  label
+                    span  عدد الوحدات العملي
+                  input#no_pr_unit.form-control(type="text", name="first_name", placeholder="عدد الوحدات العملي", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  عدد ساعات العملي
+                  input#no_pr_hour.form-control(type="text", name="father_name", placeholder="عدد ساعات العملي", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  درجات امتحانات النصفيات
+                  input#chapter_degree.form-control(type="text", name="grand_name", placeholder="درجات امتحانات النصفيات", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  الدرجة النهائية
+                  input#final_theor.form-control(type="text", name="last_name", placeholder="الدرجة النهائية", disabled)
+            .form-group
+              .row
+                .col-xs-3.col-md-3
+                  label
+                    span  درجة العملي
+                  input#final_practical.form-control(type="text", name="first_name", placeholder="درجة العملي", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  sub Type
+                  input#sub_Type.form-control(type="text", name="father_name", placeholder="sub Type", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  subject_type
+                  input#subject_type.form-control(type="text", name="grand_name", placeholder="subject_type", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  System Type
+                  input#System_Type.form-control(type="text", name="last_name", placeholder="System Type", disabled)
+            .form-group
+              .row
+                .col-xs-3.col-md-3
+                  label
+                    span  اسم القسم
+                  input#department.form-control(type="text", name="first_name", placeholder="اسم القسم", disabled)
+                .col-xs-3.col-md-3
+                  label
+                    span  إســم المستخدم
+                  input#user.form-control(type="text", name="father_name", placeholder="إســم المستخدم", disabled)
+
+
+        .modal-footer
+          button.btn.btn-warning.btn-lg(type="button", style="margin-left:25%;width:50%;", data-dismiss="modal")
+            span.glyphicon.glyphicon-eye-close
+            |  إخفاء
+      // /.modal-content
+    // /.modal-dialog
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog.modal-lg
       .modal-content
-        form#updateSubject(action="/updateStudent", method="post", accept-charset="utf-8", role="form")
+        form#updateSubject(action="/editSubject", method="post", accept-charset="utf-8", role="form")
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
@@ -120,10 +170,12 @@ block cPanel
                 br
                 .form-group
                   .row
+
+                    input#idd.form-control(type="hidden",name="idd")
                     .col-xs-3.col-md-3
                       label
                         span  اسم المادة
-                      input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم الطالب/ة")
+                      input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
                     .col-xs-3.col-md-3
                       label
                         span  Subject Name
@@ -134,8 +186,12 @@ block cPanel
                       input#cod.form-control(type="text", name="cod", placeholder="اسم الجد")
                     .col-xs-3.col-md-3
                       label
-                        span  نوع المادة
-                      input#sub_type.form-control(type="text", name="sub_type", placeholder="اللقب")
+                        span  نــظام الدراسة
+
+                      select.form-control.selectpicker#system_type(name="DepartmentId", data-live-search="true", data-size=5)
+                          option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                            option(value="1")  فصلي
+                            option(value="2")  سنوي
                 .form-group
                   .row
                     .col-xs-3.col-md-3
@@ -145,7 +201,7 @@ block cPanel
                     .col-xs-3.col-md-3
                       label
                         span  عدد وحدات العملي
-                      input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="Grandfather name", dir="ltr")
+                      input#no_prr_unit.form-control(type="text", name="no_pr_unit", placeholder="Grandfather name", dir="ltr")
                     .col-xs-3.col-md-3
                       label
                         span  عدد ساعات النظري
@@ -153,21 +209,21 @@ block cPanel
                     .col-xs-3.col-md-3
                       label
                         span  عدد ساعات العملي
-                      input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="Student name", dir="ltr")
+                      input#no_prr_hour.form-control(type="text", name="no_pr_hour", placeholder="Student name", dir="ltr")
                 .form-group
                   .row
                     .col-xs-3.col-md-3
                       label
                         span  اعمال السنة
-                      input#chapter_degree.form-control(type="text", name="chapter_degree", placeholder="اسم الطالب/ة")
+                      input#chapter_degre.form-control(type="text", name="chapter_degree", placeholder="اسم الطالب/ة")
                     .col-xs-3.col-md-3
                       label
                         span  درجة النهائي النظري
-                      input#final_theor.form-control(type="text", name="final_theor", placeholder="اسم اﻷب")
+                      input#final_theorr.form-control(type="text", name="final_theor", placeholder="اسم اﻷب")
                     .col-xs-3.col-md-3
                       label
                         span  درجة النهائي العملي
-                      input#final_practical.form-control(type="text", name="final_practical", placeholder="اسم الجد")
+                      input#final_practicall.form-control(type="text", name="final_practical", placeholder="اسم الجد")
                     .col-xs-3.col-md-3
                       #department_radio 
                         label تندرج تحت قسم
