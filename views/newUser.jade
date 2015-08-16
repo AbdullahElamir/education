@@ -23,8 +23,8 @@ block cPanel
           .form-group
             .row
               .col-xs-6.col-md-6
-                label.h4 اسم المستخدم
-                input.form-control#name(type="text", name="name", placeholder="اسم المستخدم")
+                label.h4 اﻻسم
+                input.form-control#name(type="text", name="name", placeholder="السم")
               .col-xs-6.col-md-6
                 label.h4 رقم الهاتف
                 input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
@@ -32,10 +32,10 @@ block cPanel
             .row
               .col-xs-6.col-md-6
                 label.h4 البريد الالكتروني
-                input.form-control#emil(type="text", name="email", placeholder="البريد الالكتروني")
+                input.form-control#email(type="text", name="email", placeholder="البريد الالكتروني")
               .col-xs-6.col-md-6
                 label.h4 تأكيد البريد الالكتروني
-                input.form-control#confirm_emil(type="text", name="confirm_emil", placeholder="تأكيد البريد الالكتروني")
+                input.form-control#confirmEmil(type="text", name="confirmEmail", placeholder="تأكيد البريد الالكتروني")
             br
             .row
               .col-xs-6.col-md-6
@@ -43,7 +43,8 @@ block cPanel
                 input.form-control#password(type="password", name="password", placeholder="الرقم السري")
               .col-xs-6.col-md-6
                 label.h4 تأكيد الرقم السري
-                input.form-control#confirm_password(type="password", name="confirm_password", placeholder="تأكيد الرقم السري")
+                input.form-control#confirmPassword(type="password", name="confirmPassword", placeholder="تأكيد الرقم السري")
+            br
             hr
             .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
               button.btn.btn-primary(type="submit")
@@ -54,3 +55,5 @@ block cPanel
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/user.js')
