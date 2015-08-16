@@ -20,12 +20,6 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
           }
         });
-        Division.belongsTo(models.Subject, {
-          onDelete: "CASCADE",
-          foreignKey: {
-            allowNull: false
-          }
-        });
 
         Division.belongsToMany(models.Subject, {
           through: 'DivisionSubject'

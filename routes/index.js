@@ -141,7 +141,57 @@ router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/divisions',userHelpers.isLogin, function(req, res) {
+  
   res.render('divisions', { title: 'View divisions', collapseFour: 'collapse in', activeFourThree: 'active' });
+});
+
+router.get('/division/:id',userHelpers.isLogin, function(req, res) {
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubject` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+).then(function(results){
+  // Each record will now be a instance of Project
+  console.log("-------------------------------");
+  console.log(results);
+  res.render('division', { title: 'View division',year:results[0], collapseFour: 'collapse in', activeFourThree: 'active' });
+});
+//
+
+//   console.log("dddddd");
+//   models.Division.findOne({where:{
+//     id:req.params.id
+//   },
+//   include: [
+//      { model: models.Department, where: { status: 1 },
+//      include:[ {model: models.Subject, where: { status: 1,system_type:1 }}]
+//    }
+//   ]
+// }).then(function(results1) {
+//    models.Division.findOne({where:{
+//     id:req.params.id
+//   },
+//   include: [
+//      { model: models.Department, where: { status: 1 },
+//      include:[ {model: models.Subject, where: { status: 1,system_type:2 }}]
+//    }
+//   ]
+// }).then(function(results2) {
+//   // console.log(req.params.id);
+//   // // console.log(results);
+//   // console.log("=================================================================");
+//   // console.log(results2.Department.Subjects);
+//   if(results2){
+//     re2=results2.Department.Subjects;
+//   }else{
+//     re2=[];
+//   }
+//   if(results1){
+//     re1=results1.Department.Subjects;
+//   }else{
+//     re1=[];
+//   }
+//   res.render('division', { title: 'View division',year:re2,semester:re1, collapseFour: 'collapse in', activeFourThree: 'active' });
+// });
+  
+// });
 });
 
 router.get('/newDivision',userHelpers.isLogin, function(req, res) {
