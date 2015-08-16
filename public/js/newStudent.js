@@ -1,5 +1,5 @@
 $(document).ready(function(){
- 
+  
   $("#newStudent ,#updateStudent").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     ignore:[],
