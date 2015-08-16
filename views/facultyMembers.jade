@@ -45,31 +45,31 @@ block cPanel
                 th.text-center إلغاء
               tbody
                 for faculty_Member in faculty_Members
-                  tr(data-id = '#{faculty_Member.id}')
+                  tr(id="faculty_Member-#{faculty_Member.id}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-gender="#{faculty_Member.gender}",data-nationality="#{faculty_Member.nationality}",data-birth_date="#{faculty_Member.birth_date}",data-place_birth="#{faculty_Member.place_birth}",data-physical_address="#{faculty_Member.physical_address}",data-phone="#{faculty_Member.phone}")
                     td #{faculty_Member.name}
                     td #{faculty_Member.qualification}
                     td #{faculty_Member.specialization}
                     td
                       if faculty_Member.gender == 1
-                        | ذكر
-                      else
                         | أنثى
+                      else
+                        | ذكر
                     td #{faculty_Member.Department.name}
                     td #{faculty_Member.nationality}
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                        button.btn.btn-primary.btn-xs(value='#{faculty_Member.id}',data-title="Edit", data-toggle="modal", data-target="#edit")
+                        button#view.btn.btn-primary.btn-xs.editFacultyMember(data-noname='#{faculty_Member.id}' ,value='#{faculty_Member.id}',data-title="Edit", data-toggle="modal", data-target="#edit", rel='tooltip',data-placement='top')
                           span.glyphicon.glyphicon-pencil
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إلغاء")
                         button#Delete.btn.btn-danger.btn-xs(value='#{faculty_Member.id}',data-title="Delete", data-toggle="modal", data-target="#delete")
                           span.glyphicon.glyphicon-trash
-        nav
-          ul.pagination
+          .clearfix
+          ul.pagination.pull-right
             li.disabled
-              a(href="#", aria-label="Previous")
-                span(aria-hidden="true") &#171;
-            li
+              a(href="#")
+                span.glyphicon.glyphicon-chevron-right
+            li.active
               a(href="#") 1
             li
               a(href="#") 2
@@ -80,35 +80,18 @@ block cPanel
             li
               a(href="#") 5
             li
-              a(href="#", aria-label="Next")
-                span(aria-hidden="true") &#187;
-          //- ul.pagination.pull-right
-          //-   li.disabled
-          //-     a(href="#")
-          //-       span.glyphicon.glyphicon-chevron-right
-          //-   li.active
-          //-     a(href="#") 1
-          //-   li
-          //-     a.disabled(href="#") 2
-          //-   li
-          //-     a(href="#") 3
-          //-   li
-          //-     a(href="#") 4
-          //-   li
-          //-     a(href="#") 5
-          //-   li
-          //-     a(href="#")
-          //-       span.glyphicon.glyphicon-chevron-left
+              a(href="#")
+                span.glyphicon.glyphicon-chevron-left
+  
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align تعديل محاضر/ة
-        .modal-body
-          .col-md-6.col-md-offset-2
-          form.form#editFaculity(role="form")
+      form.form#updateFacultyMember(role="form" , action="/updateFacultyMember/", method="post")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align تعديل محاضر/ة
+          .modal-body
             .form-group
               .row
                 .col-xs-6.col-md-6
@@ -146,7 +129,10 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label تاريخ الميلاد
-                  input#birth_date.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                  .input-group.date#birth_date
+                    input.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                    span.input-group-addon.success
+                      span.fa.fa-calendar
                 .col-xs-6.col-md-6
                   label مكان الميلاد
                   input.form-control#place_birth(name="place_birth", type="text", placeholder="مكان الميلاد")
@@ -158,12 +144,14 @@ block cPanel
                 .col-xs-6.col-md-6
                   label رقم الهاتف
                   input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
-        .modal-footer
-          button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign
-            |  تعديل
-      // /.modal-content
-    // /.modal-dialog
+                  input#id_faculty_Member(name="id" , type="hidden")
+          .modal-footer
+            button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
+  
+
+
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -186,21 +174,32 @@ block cPanel
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/newFacultyMember.js')
   script(src='/js/facultiMembers.js')
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {
         if ($("#mytable #checkall").is(':checked')) {
-            $("#mytable input[type=checkbox]").each(function () {
-              $(this).prop("checked", true);
-            });
-        } else {
-            $("#mytable input[type=checkbox]").each(function () {
-                $(this).prop("checked", false);
-            });
-          }
+          $("#mytable input[type=checkbox]").each(function () {
+            $(this).prop("checked", true);
+          });
+        } 
+        else {
+          $("#mytable input[type=checkbox]").each(function () {
+            $(this).prop("checked", false);
+          });
+        }
       });
-        $("[data-toggle=tooltip]").tooltip();
+      $("[data-toggle=tooltip]").tooltip();
+      $('#birth_date').datetimepicker({
+        useCurrent: false,
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        locale: 'ar-sa'
+      });
     });

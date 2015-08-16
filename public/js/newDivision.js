@@ -8,18 +8,18 @@ $(document).ready(function(){
       name_en:{
         required: true,
       },
-      DepartmentId:{
+      department_iddepartment:{
         required: true,
       },
     },
     messages:{
       name:{
-        required: "الرجاء ادخال اسم الشعبه!",
+        required: "الرجاء ادخال اسم الشعبة!",
       },
       name_en:{
-        required: "!Please enter Division name",
+        required: "<div style='padding-right:35px;'>!Please enter Division name</div>",
       },
-      DepartmentId:{
+      department_iddepartment:{
         required: "الرجاء اختيار اسم القسم!",
       },
     },
@@ -35,12 +35,20 @@ $(document).ready(function(){
           error.insertAfter(element);
       }
     },
+    // errorElement: 'label',
+    // // errorClass: 'help-block',
+    // errorPlacement: function(error, element) {
+    //   if(element.parent('.form-control').length) {
+    //       error.insertAfter(element.parent());
+    //   } else {
+    //       error.insertAfter(element);
+    //   }
+    // },
     highlight: function(element) {
-      $(element).closest('.form-group').addClass('has-error').removeClass('has-success');
-      $('#name_en-error').addClass("pull-left");
+      $(element).closest('.row').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+      $(element).closest('.row').removeClass('has-error');
     },
     submitHandler: function(form) {
       $.ajax({
@@ -54,7 +62,7 @@ $(document).ready(function(){
           $('#name_en').val("");
           $('.selectpicker').selectpicker('val', '');
           $.notify({
-            message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
+            message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة شعبة جديد بنجاح </p>"
             },{
             type: 'success',
             allow_dismiss: true,
