@@ -128,14 +128,18 @@ router.get('/getLocation/:id', function(req, res) {
   });
 });
 
-
-
+// abdullah Elamir Code
+// select data from 3 table 
 router.get('/getSubject/:id', function(req, res) {
    models.Subject.findAll({
-    where: {
-      id: req.params.id
-    }
+    where: { status: 1 , id: req.params.id},
+       "include" : [
+            {"model" : models.User},
+            { "model" : models.Department}
+        ],   
+
   }).then(function(subject) {
+    console.log(subject);
     res.send(subject);
   });
 });
@@ -188,6 +192,12 @@ router.post('/editLocation', function(req, res) {
         console.log(err);
     });
   });
+});
+
+///editSubject
+
+router.post('/editSubject', function(req, res) {
+  console.log(req.body);
 });
 
 
@@ -327,7 +337,7 @@ router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/divisions',userHelpers.isLogin, function(req, res) {
-  models.Division.findAll({
+    models.Division.findAll({
     include: [{
       model: models.Department,
       where: { status: 1 }
@@ -336,6 +346,17 @@ router.get('/divisions',userHelpers.isLogin, function(req, res) {
    console.log(division); 
   res.render('divisions', { title: 'View divisions', divisions: division, collapseFour: 'collapse in', activeFourThree: 'active' });
   });
+});
+
+router.get('/division/:id',userHelpers.isLogin, function(req, res) {
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubject` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+).then(function(results){
+  // Each record will now be a instance of Project
+  console.log("-------------------------------");
+  console.log(results);
+  res.render('division', { title: 'View division',year:results[0], collapseFour: 'collapse in', activeFourThree: 'active' });
+});
+
 });
 
 router.get('/newDivision',userHelpers.isLogin, function(req, res) {
@@ -476,11 +497,11 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
 
 router.get('/subjects', function(req, res) {
     models.Subject.findAll({
-    where: {
-      status: 1
-    }
+     include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
   }).then(function(Subject) {
-  console.log(Subject);
   res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
   });
 
