@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models  = require('../models');
+var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
 var Sequelize = require('sequelize')
@@ -105,13 +106,21 @@ router.post('/newLocation',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/departments',userHelpers.isLogin, function(req, res) {
-   models.Department.findAll({
+  var page = 1;
+    if(url.parse(req.url, true).query.p){
+      page = parseInt(url.parse(req.url, true).query.p);
+    }
+
+   models.Department.findAndCountAll({
     where: {
       status: 1
-    }
+    },
+    limit: 10, 
+    offset: page, 
   }).then(function(department) {
-      console.log(department);
-      res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
+    var pageCount = userHelpers.getPageCount(department.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+      res.render('departments', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
   });
 });
 
