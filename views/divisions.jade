@@ -44,39 +44,24 @@ block cPanel
                 th(style="width:15%;")
                 th.text-center تعديل
                 th.text-center الغاء
-              tbody
-                tr
-                  td
-                    input.checkthis(type="checkbox")
-                  td 17 فبراير
-                  td قسم1
-                  td.text-left B1
-                  td.text-left A1
-                  td
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-trash
-                tr
-                  td
-                    input.checkthis(type="checkbox")
-                  td شهيد الواجب
-                  td قسم2
-                  td.text-left B
-                  td.text-left A
-                  td
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-trash
+              tbody#tbody
+                for Division in divisions
+                  tr(data-id = '#{Division.id}')
+                    td
+                      input.checkthis(type="checkbox")
+                    td #{Division.name}
+                    td #{Division.Department.name}
+                    td.text-left #{Division.Department.name_en}
+                    td.text-left #{Division.name_en}
+                    td
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                        button#Edit.btn.btn-primary.btn-xs(value='#{Division.id}',data-title="Edit", data-toggle="modal", data-target="#edit")
+                          span.glyphicon.glyphicon-pencil
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                        button#Delete.btn.btn-danger.btn-xs(value='#{Division.id}',data-title="Delete", data-toggle="modal", data-target="#delete")
+                          span.glyphicon.glyphicon-trash
           .clearfix
           ul.pagination.pull-right
             li.disabled
@@ -103,14 +88,26 @@ block cPanel
             span.glyphicon.glyphicon-remove(aria-hidden="true")
           h4#Heading.modal-title.custom_align تعديل شعبة
         .modal-body
-          .form-group
-            input.form-control(type="text", placeholder="Mohsin")
-          .form-group
-            input.form-control(type="text", placeholder="Irshad")
-          .form-group
-            textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
+          form#formDivision.form-signin(role="form",name='formDivision')
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  label.h4 اسم الشعبة
+                  input.form-control#name(type="text", name="name", placeholder="اسم القسم")
+                .col-xs-6.col-md-6
+                  label.h4.pull-left Division name
+                  input.form-control#name_en(type="text", name="name_en", placeholder="Division name", dir='ltr')
+            .form-group
+              .row
+                .col-xs-6.col-md-6.col-md-offset-3 
+                  label.h4 تندرج تحت قسم
+                  select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                    option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                      //- for department in departments
+                      //-   option(value="#{department.id}",data-subtext='#{department.name_en}') #{department.name} 
+                  input#id(name="id",type="hidden",value = "1")  
         .modal-footer
-          button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
+          button#save.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
             |  تعديل
       // /.modal-content
@@ -127,7 +124,7 @@ block cPanel
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذه الشعبة؟
         .modal-footer
-          button.btn.btn-success(type="button")
+          button#ok.btn.btn-success(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
@@ -138,6 +135,11 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/bootstrap-select.min.js')  
+  script(src='/js/jquery.validate.min.js')  
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/divisions.js')
+  script(src='/js/helpers.js')  
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {
@@ -151,5 +153,5 @@ block cPanel
             });
           }
       });
-        $("[data-toggle=tooltip]").tooltip();
+      $("[data-toggle=tooltip]").tooltip();
     });

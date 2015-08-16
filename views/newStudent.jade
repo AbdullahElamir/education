@@ -81,7 +81,10 @@ block cPanel
                 label 
                   i.fa.fa-star-o
                   span  سنة الميلاد
-                input#birth_date.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
+                .input-group.date#birth_date
+                  input.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
+                  span.input-group-addon.success
+                    span.fa.fa-calendar
           .form-group
             .row
               .col-xs-3.col-md-3
@@ -157,7 +160,10 @@ block cPanel
                 label 
                   i.fa.fa-star-o
                   span  تاريخ الحصول علي الشهادة
-                input#date_cert.form-control(type="text", name="date_cert", placeholder="تاريخ الحصول علي الشهادة")
+                .input-group.date#date_cert
+                  input.form-control(type="text", name="date_cert", placeholder="تاريخ الشهادة")
+                  span.input-group-addon.success
+                    span.fa.fa-calendar
           .form-group
             .row
               .col-xs-5.col-md-3.col-md-offset-2
@@ -193,10 +199,12 @@ block cPanel
   script.
     $(function () {
       $('#birth_date').datetimepicker({
+        useCurrent: false,
         viewMode: 'years',
         format: 'YYYY'
       });
       $('#date_cert').datetimepicker({
+        useCurrent: false,
         viewMode: 'years',
         format: 'DD-MM-YYYY',
         locale: 'ar-sa'

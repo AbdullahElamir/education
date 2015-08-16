@@ -77,29 +77,31 @@ block cPanel
               a(href="#")
                 span.glyphicon.glyphicon-chevron-left
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-        .modal-dialog
-          form#formdpet.form-signin(role="form" , action="/editDept/", method="post")
-            .modal-content
-              .modal-header
-                button.close(type="button", data-dismiss="modal", aria-hidden="true")
-                  span.glyphicon.glyphicon-remove(aria-hidden="true")
-                h4#Heading.modal-title.custom_align تعديل قسم
-              .modal-body 
-                .form-group
+    .modal-dialog
+      form#formdpet.form-signin(role="form" , action="/editDept/", method="post")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align تعديل قسم
+          .modal-body 
+            .form-group
+              .row
+                .col-xs-6.col-md-6
                   label.h4 اسم القسم
                   input#a.form-control(type="text", placeholder="اسم القسم بالعربي", name="name")
-                .form-group
+                .col-xs-6.col-md-6
                   label.h4.pull-left Department name
-                  input#b.form-control(type="text", placeholder="اسم القسم بالانجليزي", name="name_en")
+                  input#b.form-control(type="text", placeholder="اسم القسم بالانجليزي", name="name_en", dir="ltr")
                   input#id_dep(name="id_dep",type="hidden")
-                //- .form-group
-                //-   textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
-              .modal-footer
-                button#save.btn.btn-warning.btn-lg(style="width: 100%;")
-                  span.glyphicon.glyphicon-ok-sign
-                  |  تعديل
-          // /.modal-content
-        // /.modal-dialog
+            //- .form-group
+            //-   textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
+          .modal-footer
+            button#save.btn.btn-warning.btn-lg(style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
+      // /.modal-content
+    // /.modal-dialog
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -123,7 +125,9 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
-  script(src='/js/newDepartment.js')  
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/department.js')  
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

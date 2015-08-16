@@ -3,15 +3,16 @@ var router = express.Router();
 var models  = require('../models');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
+var Sequelize = require('sequelize')
 
 /* GET home page. */
 
 router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
-   
+
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', active: 'active' });
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -24,26 +25,63 @@ router.get('/semesters',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(semester) {
-
-    res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
-
+      res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
   });
 });
 
 router.get('/newSemester',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
 });
 
+router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
+  models.Semester.findOne({
+    where: {
+      id: req.params.id,
+      status: 1
+    }
+  }).then(function(semester) {
+    models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(departments) {
+      var semType="";
+      if(semester.sem_type==0)
+      {
+        semType = "سنة";
+      }
+      if(semester.sem_type==1)
+      {
+        semType = "ربيعي";
+      }
+      if(semester.sem_type==2)
+      {
+      semType = "خريفي";
+      }
+      if(semester.sem_type==3)
+      {
+      semType = "صيفي";
+      }
+
+      console.log(semType);
+      res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
+        //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+    });
+  });
+});
+
+router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
+  res.render('subGroup', { title: 'Get Sub Group' });
+});
+
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
-console.log(req.body);
+
   req.body.UserId=1;//req,session.id
+  console.log(req.body);
   models.Semester.create(req.body).then(function() {
     res.redirect('/semesters');
   });
-  // 
 });
-
 
 router.get('/locations',userHelpers.isLogin, function(req, res) {
    models.Location.findAll({
@@ -51,8 +89,7 @@ router.get('/locations',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(location) {
-    res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
-
+      res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
   });
 });
 
@@ -73,14 +110,41 @@ router.get('/departments',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(department) {
-
-    console.log(department);
-    res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
-
+      console.log(department);
+      res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
   });
 });
 
 // view editDepartments
+
+
+router.get('/getLocation/:id', function(req, res) {
+   models.Location.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(location) {
+    res.send(location);
+  });
+});
+
+// abdullah Elamir Code
+// select data from 3 table 
+router.get('/getSubject/:id', function(req, res) {
+   models.Subject.findAll({
+    where: { status: 1 , id: req.params.id},
+       "include" : [
+            {"model" : models.User},
+            { "model" : models.Department}
+        ],   
+
+  }).then(function(subject) {
+    console.log(subject);
+    res.send(subject);
+  });
+});
+
+
 router.get('/editDepartments/:id', function(req, res) {
    models.Department.findAll({
     where: {
@@ -90,6 +154,7 @@ router.get('/editDepartments/:id', function(req, res) {
     res.send(department);
   });
 });
+
 // edit department
 router.post('/editDept', function(req, res) {
   console.log("body");
@@ -99,7 +164,7 @@ router.post('/editDept', function(req, res) {
   delete req.body.id_dep;
   models.Department.find({
     where: {
-       id: id
+      id: id
     }
     }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
@@ -110,18 +175,149 @@ router.post('/editDept', function(req, res) {
   });
 });
 
+
+
+router.post('/editLocation', function(req, res) {
+  console.log("body");
+  console.log(req.body);
+  id = req.body.locid;
+  models.Location.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/locations');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+///editSubject
+
+router.post('/editSubject', function(req, res) {
+  console.log(req.body);
+});
+
+
+///semester/#{semester.id}/updateSemester
+
+router.post('/semester/:id/updateSemester', function(req, res) {
+  if(req.body.sem_type == "ربيعي")
+    {
+      req.body.sem_type= 1;
+    } 
+
+    if(req.body.sem_type == "خريفي"){
+    req.body.sem_type = 2;
+    } 
+
+    if(req.body.sem_type == "صيفي")
+    {
+      req.body.sem_type = 3;
+    } 
+
+  console.log(req.body);
+   id = req.params.id;
+  models.Semester.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/semester/'+req.params.id);
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+     });
+     });
+ 
+ 
+ 
+
+
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
     where: {
-       id: req.params.id
+      id: req.params.id
     }
     }).then(function (todo) {
     todo.updateAttributes({
         status: 0
-        
     }).then(function (todo) {
-         res.send(todo);
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+router.get('/deleteLocation/:id', function(req, res) {
+  models.Location.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+
+
+router.get('/deleteSubject/:id', function(req, res) {
+  models.Subject.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+router.get('/deleteSemesters/:id', function(req, res) {
+  models.Semester.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+// updateFacultyMember
+router.post('/updateFacultyMember', function(req, res) {
+  console.log("======================");
+  console.log(req.body);
+  console.log("======================");
+  models.Faculty_member.find({
+    where: {
+      id: req.body.id
+    }
+  }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/facultyMembers');
     }).catch(function (err) {
         console.log(err);
     });
@@ -141,8 +337,15 @@ router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/divisions',userHelpers.isLogin, function(req, res) {
-  
-  res.render('divisions', { title: 'View divisions', collapseFour: 'collapse in', activeFourThree: 'active' });
+    models.Division.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
+  }).then(function(division) {
+   console.log(division); 
+  res.render('divisions', { title: 'View divisions', divisions: division, collapseFour: 'collapse in', activeFourThree: 'active' });
+  });
 });
 
 router.get('/division/:id',userHelpers.isLogin, function(req, res) {
@@ -153,45 +356,7 @@ router.get('/division/:id',userHelpers.isLogin, function(req, res) {
   console.log(results);
   res.render('division', { title: 'View division',year:results[0], collapseFour: 'collapse in', activeFourThree: 'active' });
 });
-//
 
-//   console.log("dddddd");
-//   models.Division.findOne({where:{
-//     id:req.params.id
-//   },
-//   include: [
-//      { model: models.Department, where: { status: 1 },
-//      include:[ {model: models.Subject, where: { status: 1,system_type:1 }}]
-//    }
-//   ]
-// }).then(function(results1) {
-//    models.Division.findOne({where:{
-//     id:req.params.id
-//   },
-//   include: [
-//      { model: models.Department, where: { status: 1 },
-//      include:[ {model: models.Subject, where: { status: 1,system_type:2 }}]
-//    }
-//   ]
-// }).then(function(results2) {
-//   // console.log(req.params.id);
-//   // // console.log(results);
-//   // console.log("=================================================================");
-//   // console.log(results2.Department.Subjects);
-//   if(results2){
-//     re2=results2.Department.Subjects;
-//   }else{
-//     re2=[];
-//   }
-//   if(results1){
-//     re1=results1.Department.Subjects;
-//   }else{
-//     re1=[];
-//   }
-//   res.render('division', { title: 'View division',year:re2,semester:re1, collapseFour: 'collapse in', activeFourThree: 'active' });
-// });
-  
-// });
 });
 
 router.get('/newDivision',userHelpers.isLogin, function(req, res) {
@@ -201,9 +366,7 @@ router.get('/newDivision',userHelpers.isLogin, function(req, res) {
     }
   }).then(function(departments) {
     res.render('newDivision', { title: 'New Division', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
-
   });
-
 });
 
 router.post('/newDivision',userHelpers.isLogin, function(req, res) {
@@ -213,13 +376,94 @@ router.post('/newDivision',userHelpers.isLogin, function(req, res) {
   });
 });
 
-router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
-  res.render('facultyMembers', { title: 'View Faculty Members', collapseSix: 'collapse in', activeSixOne: 'active' });
+router.get('/deleteDivision/:id', function(req, res) {
+  models.Division.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
 });
 
+// router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
+//   res.render('facultyMembers', { title: 'View Faculty Members', collapseSix: 'collapse in', activeSixOne: 'active' });
+// });
+
 router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
-  res.render('newFacultyMember', { title: 'New Faculty Member', collapseSix: 'collapse in', activeSixTwo: 'active' });
+  models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(Departments) {
+    res.render('newFacultyMember', { title: 'New Faculty Member', departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+  });
+  
 });
+
+router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
+  console.log(req.body);
+  req.body.UserId=1;//req,session.id
+  // req.body.DepartmentId=5;
+  models.Faculty_member.create(req.body).then(function() {
+    res.redirect('/facultyMembers');
+  });
+});
+
+// delete FaculityMembers
+router.get('/deleteFaculityMembers/:id', function(req, res) {
+  models.Faculty_member.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
+
+router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
+  models.Faculty_member.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
+  }).then(function(facultyMembers) {
+    res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
+  });
+});
+
+
+// edit department
+  // router.post('/editDept', function(req, res) {
+  //   console.log("body");
+  //   console.log(req.body);
+  //   console.log("end body");
+  //   id = req.body.id_dep;
+  //   delete req.body.id_dep;
+  //   models.Department.find({
+  //     where: {
+  //        id: id
+  //     }
+  //     }).then(function (todo) {
+  //     todo.updateAttributes(req.body).then(function (todo) {
+  //       res.redirect('/departments');
+  //     }).catch(function (err) {
+  //         console.log(err);
+  //     });
+  //   });
+  // });
 
 router.get('/students',userHelpers.isLogin, function(req, res) {
   res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
@@ -240,23 +484,34 @@ router.get('/testPage',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/newUser',userHelpers.isLogin, function(req, res) {
-    res.render('newUser', { title: 'New User', collapseOne: 'collapse in' });
+    res.render('newUser', { title: 'New User', activeUser: 'active' });
   });
 
 router.get('/users',userHelpers.isLogin, function(req, res) {
-  res.render('users', { title: 'users', collapseOne: 'collapse in' });
+  res.render('users', { title: 'View users', activeUser: 'active' });
 });
 
 router.get('/timelines',userHelpers.isLogin, function(req, res) {
   res.render('timelines', { title: 'View Timelines' });
 });
 
-router.get('/newSubject', function(req, res) {
-  res.render('newSubject', { title: 'New Subject' });
-});
 router.get('/subjects', function(req, res) {
-  res.render('subjects', { title: 'subjects' });
+    models.Subject.findAll({
+     include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
+  }).then(function(Subject) {
+  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+  });
+
+
+
+  
 });
 
+router.get('/newSubject', function(req, res) {
+  res.render('newSubject', { title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active' });
+});
 
 module.exports = router;

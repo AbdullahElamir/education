@@ -1,0 +1,122 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+block navcPanel
+  .container.font
+    .row
+      .col-xs-12.col-md-12
+        .panel.panel-default
+          .panel-heading(style="padding: 5px 15px;")
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#h3.panel-title عرض النظام الدراسي
+              .pull-left(style="margin-left: 10px;")
+                a.btn.btn-success(href='/semesters', role='button',data-toggle='modal')
+                  span.glyphicon.glyphicon-arrow-left
+                  span  رجوع
+          .table-responsive
+            table#mytable.table.table-bordred.table-striped.text-right
+              thead
+                th.text-center النظام الدراسي
+                th.text-center السنة الدراسية
+                th.text-center هل هذا الفصل الحالي
+                th.text-center بداية الفصل الدراسي
+                th.text-center نهاية الفصل الدراسي
+                th.text-center تعديل
+              tbody
+                tr
+                  td.text-center 
+                    | #{sem}
+                  td.text-center #{semester.year.getFullYear()} 
+                  td.text-center
+                    if semester.current == 1
+                      | نعم
+                    else 
+                      | لا
+                  td.text-center #{semester.starting_date.getDate()} / #{semester.starting_date.getMonth()+1} / #{semester.starting_date.getFullYear()}
+                  td.text-center #{semester.ending_date.getDate()} / #{semester.ending_date.getMonth()+1} / #{semester.ending_date.getFullYear()} 
+                  td.text-center
+                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                      button#ed.btn.btn-primary.btn-xs(value="#{semester.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                        span.glyphicon.glyphicon-pencil
+        .panel.panel-default
+          .panel-heading(style="padding: 5px 15px;")
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#h3.panel-title اﻷقسام
+          .table-responsive
+            table#mytable.table.table-bordred.table-striped.text-right
+              thead
+                th اسم القسم
+                th.text-left Department Name
+                th(style="width:25%;")
+                th.text-center تخصيص المواد الدراسية
+              tbody
+                for department in departments
+                  tr
+                    td #{department.name}
+                    td.text-left #{department.name_en}
+                    td
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="تخصيص")
+                        a.btn.btn-primary.btn-xs(href='/semester/#{semester.id}/#{department.id}', role='button' , value="#{department.id}")
+                          span.glyphicon.glyphicon-screenshot
+  #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      form.form(action="/semester/#{semester.id}/updateSemester/", method="post",accept-charset="utf-8", role="form")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align تعديل فصل دراسي
+          .modal-body
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable الفصل الدراسي
+                  input.form-control#sem_type(type="text", name="sem_type", value="#{sem}", placeholder="الفصل الدراسي")
+                .col-xs-6.col-md-6 
+                  lable السنة الدراسية
+                  .input-group.date#year
+                    input.form-control(type="text", name="year", value="#{semester.year.getFullYear()}", placeholder="السنة الدراسية")
+                    span.input-group-addon.success
+                      span.fa.fa-calendar
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable تاريخ بداية الفصل الدراسي
+                  .input-group.date#starting_date
+                    input.form-control(type="text", name="starting_date", value="#{semester.starting_date.getFullYear()}-#{semester.starting_date.getMonth()+1}-#{semester.starting_date.getDate()}", placeholder="تاريخ البداية")
+                    span.input-group-addon.success
+                      span.fa.fa-calendar
+                .col-xs-6.col-md-6 
+                  lable تاريخ نهاية الفصل الدراسي
+                  .input-group.date#ending_date
+                    input.form-control(type="text", name="ending_date", value="#{semester.ending_date.getFullYear()}-#{semester.ending_date.getMonth()+1}-#{semester.ending_date.getDate()}", placeholder="تاريخ النهاية")
+                    span.input-group-addon.success
+                      span.fa.fa-calendar
+          .modal-footer
+            button.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
+  script.
+    $(document).ready(function(){
+      $("[data-toggle=tooltip]").tooltip();
+      $('#year').datetimepicker({
+        useCurrent: false,
+        viewMode: 'years',
+        format: 'YYYY'
+      });
+      $('#starting_date,#ending_date').datetimepicker({
+        useCurrent: false,
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        locale: 'ar-sa'
+      });
+    });

@@ -43,18 +43,18 @@ block cPanel
                 th.text-center إلغاء
               tbody
               for i in loc
-                tr
+                tr(data-id = '#{i.id}')
                   td
                     input.checkthis(type="checkbox")
                   td #{i.name}
                   td.text-center #{i.quantity}
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
+                      button#Edit.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal",value="#{i.id}", data-target="#edit")
                         span.glyphicon.glyphicon-pencil
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
+                      button#del.btn.btn-danger.btn-xs(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
                 
           .clearfix
@@ -78,7 +78,7 @@ block cPanel
   #edit.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
-        form.form#updateLocation(action="/updateLocation", method="post", accept-charset="utf-8", role="form")
+        form.form#updateLocation(action="/editLocation/", method="post", accept-charset="utf-8", role="form")
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
@@ -88,13 +88,13 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label اسم القاعة
-                  input.form-control#name(type="text", name="name", placeholder="عرض اسم القاعة من قاعدة البيانات")
+                  input#name.form-control(type="text", name="name", placeholder="عرض اسم القاعة من قاعدة البيانات")
                 .col-xs-6.col-md-6
                   label كمية استعاب الطلبة
-                  input.form-control#quantity(type="text", name="quantity", placeholder="عرض كمية استعاب الطلبة من قاعدة البيانات")
+                  input#quantity.form-control(type="text", name="quantity", placeholder="عرض كمية استعاب الطلبة من قاعدة البيانات")
                   input#locid(type="hidden",name="locid")
           .modal-footer
-            button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+            button#eitLoc.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
   #delete.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -110,7 +110,7 @@ block cPanel
               span.glyphicon.glyphicon-warning-sign
               |  هل تريد فعلا الغاء هذه القاعة الدراسية ؟
           .modal-footer
-            button.btn.btn-success(type="button")
+            button#ok.btn.btn-success(type="button" ,data-dismiss="modal")
               span.glyphicon.glyphicon-ok-sign
               |  نعم
             button.btn.btn-default(type="button", data-dismiss="modal")
@@ -121,19 +121,20 @@ block cPanel
   script(src='/js/backToTop.js')
   script(src='/js/jquery.validate.min.js')    
   script(src='/js/newLocation.js')
+  script(src='/js/location.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {
         if ($("#mytable #checkall").is(':checked')) {
-            $("#mytable input[type=checkbox]").each(function () {
-              $(this).prop("checked", true);
-            });
-        } else {
-            $("#mytable input[type=checkbox]").each(function () {
-                $(this).prop("checked", false);
-            });
-          }
+          $("#mytable input[type=checkbox]").each(function () {
+            $(this).prop("checked", true);
+          });
+        } 
+        else {
+          $("#mytable input[type=checkbox]").each(function () {
+            $(this).prop("checked", false);
+          });
+        }
       });
-        $("[data-toggle=tooltip]").tooltip();
-        
+      $("[data-toggle=tooltip]").tooltip();   
     });

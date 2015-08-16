@@ -12,7 +12,6 @@ module.exports = function(sequelize, DataTypes) {
     chapter_degree: DataTypes.FLOAT(),
     final_theor: DataTypes.FLOAT(),
     final_practical: DataTypes.FLOAT(),
-    sub_type: DataTypes.INTEGER(1),
     subject_type: DataTypes.INTEGER(1),
     system_type: DataTypes.INTEGER(1),
     status :{type: DataTypes.INTEGER(1),defaultValue:1}

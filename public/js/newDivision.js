@@ -62,7 +62,7 @@ $(document).ready(function(){
           $('#name_en').val("");
           $('.selectpicker').selectpicker('val', '');
           $.notify({
-            message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
+            message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة شعبة جديد بنجاح </p>"
             },{
             type: 'success',
             allow_dismiss: true,

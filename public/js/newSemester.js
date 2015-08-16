@@ -1,22 +1,33 @@
 $(document).ready(function(){
-   $('#System').hide();
-  // $.notify({
-  //   message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-  // },{
-  //   type: 'success',
-  //   allow_dismiss: true,
-  //   showProgressbar: false,
-  //   placement: {
-  //     from: 'top',
-  //     align: 'center'
-  //   },
-  //   mouse_over: null,
-  //   newest_on_top: true,
-  //   animate: {
-  //     enter: 'animated flipInY',
-  //     exit: 'animated flipOutX'
-  //   },
-  // });
+  ///semester/#{semester.id}/updateSemester/
+     $('body').on('click', '#del', function(){
+      //alert("ff");
+    $('#ok').val($(this).val());
+  });
+
+  $('body').on('click', '#ok', function(){
+    var id=$(this).val();
+    $.get('/deleteSemesters/'+$(this).val(),function(todo){
+      $('[data-id = "'+id+'"]').remove();
+    });
+  }); 
+
+
+
+
+
+
+
+  $('#system_type').hide();
+  $.validator.addMethod("systemTypeCheck", function (value, element) {
+    var id = $('#sem_type').val();
+    if(id==1){
+      return value == true;
+    }
+    else {
+      return value == false;
+    }
+  },'الرجاء اختيار الفصل الدراسي!');
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -35,10 +46,13 @@ $(document).ready(function(){
       ending_date:{
         required: true,
       },
+      system_type:{
+        systemTypeCheck: true,
+      }
     },
     messages:{
       sem_type:{
-        required: "الرجاء اختيار الفصل الدراسي!",
+        required: "الرجاء اختيار نظام الدراسي!",
       },
       year:{
         required: "الرجاء اختيار سنة الفصل الدراسي!",
@@ -55,11 +69,12 @@ $(document).ready(function(){
     },
     // errorElement: 'span',
     errorClass: 'custom-error',
-    errorPlacement: function (error, element) {
-      if ($(element).is('select')) {
-          element.next().after(error);
-      } else {
-          error.insertAfter(element);
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
       }
     },
     highlight: function(element) {
@@ -69,23 +84,17 @@ $(document).ready(function(){
       $(element).closest('.row').removeClass('has-error');
     },
   });
-
-    $('#sem_type').on('change',function() {
-        var id = $('#sem_type').val();
-        if(id==2){
-          $('#system').hide();
-        $.get('/newSemester/',function(){
-          $('#System').show(300);
-          $('#system').empty();
-          $('#system').append('<option value="" style="color:grey; display:none;">Please Select Area</option>');
-        
-            $('#system').append("<option value = '"+1+"'>"+ربيعي+"</option>");
-            $('#system').append("<option value = '"+2+"'>"+خريفي+"</option>");
-            $('#system').append("<option value = '"+3+"'>"+صيفي+"</option>");
-        });
-      }
-      });
-
-
-
+  $('#sem_type').on('change',function() {
+    var id = $('#sem_type').val();
+    if(id==1){
+      $('#system_type').show();
+    }
+    else {
+      $('#system_type').hide();
+      $('.system_type').selectpicker('val', '');
+    }
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
+  });
 });
