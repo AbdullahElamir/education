@@ -296,9 +296,23 @@ router.get('/deleteSemesters/:id', function(req, res) {
   });
 });
 
-
-
-
+// updateFacultyMember
+router.post('/updateFacultyMember', function(req, res) {
+  console.log("======================");
+  console.log(req.body);
+  console.log("======================");
+  models.Faculty_member.find({
+    where: {
+      id: req.body.id
+    }
+  }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/facultyMembers');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
 
 router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
   res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
