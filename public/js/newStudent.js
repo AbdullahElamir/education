@@ -148,6 +148,7 @@ $(document).ready(function(){
       },
     },
     // errorElement: 'label',
+    
     errorClass: 'custom-error',
     errorPlacement: function(error, element) {
       if(element.parent('.input-group').length) {
