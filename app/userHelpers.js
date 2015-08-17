@@ -27,4 +27,46 @@ module.exports = {
     //if (req.isAuthenticated()) { return next(); }
     return next();
   },
+  getPageCount : function(count){
+    return Math.ceil(count/10);
+  },
+
+  paginate : function(page,pageCount){
+    var pagination={}, pages = [], next={}, previous={};
+    var i = 0, limit = 10, ret ='';
+    //listing pages
+    page =Number(page);
+    pageCount= Number(pageCount);
+    var leftCount = Math.ceil(limit / 2) - 1;
+    var rightCount = limit - leftCount - 1;
+    if (page + rightCount > pageCount)
+      leftCount = limit - (pageCount - page) - 1;
+    if (page - leftCount < 1)
+      leftCount = page - 1;
+    var start = page - leftCount;
+    while (i < limit && i < pageCount) {
+      newContext = { n: start };
+      if (start === page) newContext.active = "active ";
+      pages.push(newContext);
+      start++;
+      i++;
+    }
+    //defining next
+    if (page === 1) {
+      previous = { disabled: "disabled", n: 1 }
+    }
+    else {
+      previous = { n: page - 1 }
+    }
+    //defining next
+    newContext = {};
+    if (page === pageCount) {
+      next = { disabled: "disabled", n: pageCount }
+    }
+    else {
+      next = { n: page + 1 }
+    }
+    pagination = {pages : pages, next : next, previous : previous};
+    return pagination;
+  }
 };

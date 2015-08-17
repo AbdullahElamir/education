@@ -27,32 +27,29 @@ block cPanel
           hr
           .form-group
             .row
-              .col-xs-3.col-md-3
+              .col-xs-4.col-md-4
                 label اسم المادة
                 input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
-              .col-xs-3.col-md-3
+              .col-xs-4.col-md-4
                 label.pull-left Subject name
                 input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="Subject name", dir="ltr")
+              .col-xs-4.col-md-4
+                label رمز المادة
+                input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")           
+          .form-group
+            .row         
               .col-xs-3.col-md-3
                 label عدد وحدات النظري
                 input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")
               .col-xs-3.col-md-3
                 label عدد ساعات النظري
                 input#no_th_hour.form-control(type="text", name="no_th_hour", placeholder="عدد ساعات النظري")
-          .form-group
-            .row
-              .col-xs-3.col-md-3
-                label رمز المادة
-                input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")
-              .col-xs-3.col-md-3
-                label نوع المادة
-                input#sub_type.form-control(type="text", name="sub_type", placeholder="نوع المادة")
               .col-xs-3.col-md-3
                 label عدد وحدات العملي
                 input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="عدد وحات العملي")
               .col-xs-3.col-md-3
                 label عدد ساعات العملي
-                input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="عدد ساعات العملي")
+                input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="عدد ساعات العملي")           
           .form-group
             .row
               .col-xs-3.col-md-3
@@ -87,7 +84,7 @@ block cPanel
               .col-xs-3.col-md-3
                 label
                   span  المواد التمهيدية
-                select.form-control.selectpicker#subject_id(name="SubjectId", data-live-search="true", data-size=5)
+                select.form-control.selectpicker#subjectId(name="subjectId", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') اختر اسم المواد...
               .col-xs-5.col-md-5
                 table.table.table-bordered
