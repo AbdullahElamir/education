@@ -14,6 +14,11 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
           }
         });
+        Department.hasMany(models.Subject,{
+          foreignKey:{
+            allowNull:true
+          }
+        });
       }
     }
   });

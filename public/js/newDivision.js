@@ -8,7 +8,7 @@ $(document).ready(function(){
       name_en:{
         required: true,
       },
-      department_iddepartment:{
+      DepartmentId:{
         required: true,
       },
     },
@@ -17,17 +17,14 @@ $(document).ready(function(){
         required: "الرجاء ادخال اسم الشعبة!",
       },
       name_en:{
-        required: "<div style='padding-right:35px;'>!Please enter Division name</div>",
+        required: "!Please enter Division name",
       },
-      department_iddepartment:{
+      DepartmentId:{
         required: "الرجاء اختيار اسم القسم!",
       },
     },
     // errorElement: 'label',
     errorClass: 'custom-error',
-    // errorElement: "em",
-    // errorLabelContainer: "#messageBox",
-    // wrapper: "li",
     errorPlacement: function (error, element) {
       if ($(element).is('select')) {
           element.next().after(error);
@@ -35,15 +32,6 @@ $(document).ready(function(){
           error.insertAfter(element);
       }
     },
-    // errorElement: 'label',
-    // // errorClass: 'help-block',
-    // errorPlacement: function(error, element) {
-    //   if(element.parent('.form-control').length) {
-    //       error.insertAfter(element.parent());
-    //   } else {
-    //       error.insertAfter(element);
-    //   }
-    // },
     highlight: function(element) {
       $(element).closest('.row').addClass('has-error');
     },
@@ -55,8 +43,6 @@ $(document).ready(function(){
         type: 'POST',
         url: '/newDivision',
         data: $(form).serialize(),
-        // url: reqUrl,
-        // data: reqBody,
         success: function(html) {
           $('#name').val("");
           $('#name_en').val("");
@@ -81,5 +67,8 @@ $(document).ready(function(){
         }
       });
     },
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
   });
 });

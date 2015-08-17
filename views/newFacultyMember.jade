@@ -33,7 +33,7 @@ block cPanel
               .col-xs-6.col-md-6
                 label القسم
                 select.form-control.selectpicker#DepartmentId(name="DepartmentId", data-live-search="true", data-size=5)
-                  
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
                   for department in departments
                     option(value="#{department.id}") #{department.name}
                   
