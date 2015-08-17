@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models  = require('../models');
+var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
 var Sequelize = require('sequelize')
@@ -105,13 +106,20 @@ router.post('/newLocation',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/departments',userHelpers.isLogin, function(req, res) {
-   models.Department.findAll({
+  var page = 1;
+  if(url.parse(req.url, true).query.p){
+    page = parseInt(url.parse(req.url, true).query.p);
+  }
+  models.Department.findAndCountAll({
     where: {
       status: 1
-    }
+    },
+    limit : 10,
+    offset: page,
   }).then(function(department) {
-      console.log(department);
-      res.render('departments', { title: 'View departments',collapseFour: 'collapse in', dept:department, activeFourOne: 'active' });
+    var pageCount = userHelpers.getPageCount(department.count);
+    var pagination = userHelpers.paginate(page.pageCount);
+    res.render('departments', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
   });
 });
 
@@ -128,14 +136,18 @@ router.get('/getLocation/:id', function(req, res) {
   });
 });
 
-
-
+// abdullah Elamir Code
+// select data from 3 table
 router.get('/getSubject/:id', function(req, res) {
    models.Subject.findAll({
-    where: {
-      id: req.params.id
-    }
+    where: { status: 1 , id: req.params.id},
+        "include" : [
+              {"model" : models.User},
+              {"model"  : models.Department}
+        ],
+
   }).then(function(subject) {
+    console.log(subject);
     res.send(subject);
   });
 });
@@ -188,6 +200,12 @@ router.post('/editLocation', function(req, res) {
         console.log(err);
     });
   });
+});
+
+///editSubject
+
+router.post('/editSubject', function(req, res) {
+  console.log(req.body);
 });
 
 
@@ -343,6 +361,17 @@ router.get('/divisions',userHelpers.isLogin, function(req, res) {
   });
   });
 });
+
+router.get('/division/:id',userHelpers.isLogin, function(req, res) {
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubject` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+).then(function(results){
+  // Each record will now be a instance of Project
+  console.log("-------------------------------");
+  console.log(results);
+  res.render('division', { title: 'View division',year:results[0], collapseFour: 'collapse in', activeFourThree: 'active' });
+});
+
+});
 //////////////////////////
 router.post('/addDivision', function(req, res) {
   var id = req.body.id;
@@ -454,27 +483,6 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
   });
 });
 
-
-// edit department
-  // router.post('/editDept', function(req, res) {
-  //   console.log("body");
-  //   console.log(req.body);
-  //   console.log("end body");
-  //   id = req.body.id_dep;
-  //   delete req.body.id_dep;
-  //   models.Department.find({
-  //     where: {
-  //        id: id
-  //     }
-  //     }).then(function (todo) {
-  //     todo.updateAttributes(req.body).then(function (todo) {
-  //       res.redirect('/departments');
-  //     }).catch(function (err) {
-  //         console.log(err);
-  //     });
-  //   });
-  // });
-
 router.get('/students',userHelpers.isLogin, function(req, res) {
   res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
 });
@@ -495,7 +503,7 @@ router.get('/testPage',userHelpers.isLogin, function(req, res) {
 
 router.get('/newUser',userHelpers.isLogin, function(req, res) {
     res.render('newUser', { title: 'New User', activeUser: 'active' });
-  });
+});
 
 router.get('/users',userHelpers.isLogin, function(req, res) {
   res.render('users', { title: 'View users', activeUser: 'active' });
@@ -506,18 +514,14 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/subjects', function(req, res) {
-    models.Subject.findAll({
-    where: {
-      status: 1
-    }
+  models.Subject.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }]
   }).then(function(Subject) {
-  console.log(Subject);
-  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+    res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
   });
-
-
-
-  
 });
 
 router.get('/newSubject', function(req, res) {
