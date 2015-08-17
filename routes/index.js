@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });l
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -197,7 +197,71 @@ router.post('/editLocation', function(req, res) {
 ///editSubject
 
 router.post('/editSubject', function(req, res) {
-  console.log(req.body);
+  
+  // genral عام
+  if(req.body.subject_type==1)
+  {
+    req.body.DepartmentId=1;
+    req.body.UserId=1;
+     models.Subject.find({
+    where: {
+      id: req.body.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/subjects');
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+     });
+
+  } else if(req.body.subject_type==2){
+
+    //console.log(req.body);
+    req.body.UserId=1;
+     models.Subject.find({
+    where: {
+      id: req.body.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/subjects');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+
+
+
+
+
+
+  } else if(req.body.subject_type==3){
+
+      req.body.UserId=1;
+     models.Subject.find({
+    where: {
+      id: req.body.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/subjects');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+
+
+
+  }
+
+
+
+
+
+
+
 });
 
 
@@ -484,19 +548,23 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
   res.render('timelines', { title: 'View Timelines' });
 });
 
+
 router.get('/subjects', function(req, res) {
     models.Subject.findAll({
      include: [{
       model: models.Department,
       where: { status: 1 }
     }]
-  }).then(function(Subject) {
-  res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
-  });
-
-
-
-  
+  }).then(function(Subject) {    
+   models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(departments) {
+        console.log(departments);
+        res.render('subjects', { title: 'subjects',dep:departments,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+    }); 
+  }); 
 });
 
 router.get('/newSubject', function(req, res) {
