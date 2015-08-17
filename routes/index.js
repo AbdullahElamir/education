@@ -103,6 +103,18 @@ router.post('/newLocation',userHelpers.isLogin, function(req, res) {
     res.redirect('/locations');
   });
 });
+//////////////////////////////departments////////////////////////////////////
+router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
+  res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
+});
+
+router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
+  console.log("departments");
+  req.body.UserId=1;//req,session.id
+  models.Department.create(req.body).then(function() {
+    res.redirect('/departments');
+  });
+});
 
 router.get('/departments',userHelpers.isLogin, function(req, res) {
    models.Department.findAll({
@@ -115,32 +127,23 @@ router.get('/departments',userHelpers.isLogin, function(req, res) {
   });
 });
 
+// delete Department
+router.get('/deleteDepartment/:id', function(req, res) {
+  models.Department.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
 // view editDepartments
-
-
-router.get('/getLocation/:id', function(req, res) {
-   models.Location.findAll({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(location) {
-    res.send(location);
-  });
-});
-
-
-
-router.get('/getSubject/:id', function(req, res) {
-   models.Subject.findAll({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(subject) {
-    res.send(subject);
-  });
-});
-
-
 router.get('/editDepartments/:id', function(req, res) {
    models.Department.findAll({
     where: {
@@ -170,7 +173,82 @@ router.post('/editDept', function(req, res) {
     });
   });
 });
+////////////////////////////////
+router.get('/divisions',userHelpers.isLogin, function(req, res) {
+  models.Division.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }],
+     where: { status: 1 }
+  }).then(function(division) {
+    models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(department) { 
+  res.render('divisions', { title: 'View divisions', departments: department, divisions: division, collapseFour: 'collapse in', activeFourThree: 'active' });
+  });
+  });
+});
+//////////////////////////Division/////////////////////////////
+router.post('/addDivision', function(req, res) {
+  var id = req.body.id;
+ // console.log(req.body);
+  models.Division.find({
+    where: {
+      id: id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      models.Department.findAll({
+        where: 
+         { status: 1
+         }
+    }).then(function(Departments) {
+        var rel = {result : Departments ,stat : true};
+        res.send(rel);
+       //console.log(rel);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+  });
+});
 
+router.get('/newDivision',userHelpers.isLogin, function(req, res) {
+  models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(departments) {
+    res.render('newDivision', { title: 'New Division', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
+  });
+});
+
+router.post('/newDivision',userHelpers.isLogin, function(req, res) {
+  req.body.UserId=1;//req,session.id
+  models.Division.create(req.body).then(function() {
+    res.redirect('/newDivision');
+  });
+});
+
+router.get('/deleteDivision/:id', function(req, res) {
+  models.Division.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        console.log(todo);
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+});
 
 
 router.post('/editLocation', function(req, res) {
@@ -190,6 +268,15 @@ router.post('/editLocation', function(req, res) {
   });
 });
 
+router.get('/getLocation/:id', function(req, res) {
+   models.Location.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(location) {
+    res.send(location);
+  });
+});
 
 ///semester/#{semester.id}/updateSemester
 
@@ -223,28 +310,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
 
      });
      });
- 
- 
- 
-
-
-// delete Department
-router.get('/deleteDepartment/:id', function(req, res) {
-  models.Department.find({
-    where: {
-      id: req.params.id
-    }
-    }).then(function (todo) {
-    todo.updateAttributes({
-        status: 0
-    }).then(function (todo) {
-        res.send(todo);
-    }).catch(function (err) {
-        console.log(err);
-    });
-  });
-});
-
 
 router.get('/deleteLocation/:id', function(req, res) {
   models.Location.find({
@@ -262,7 +327,15 @@ router.get('/deleteLocation/:id', function(req, res) {
   });
 });
 
-
+router.get('/getSubject/:id', function(req, res) {
+   models.Subject.findAll({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(subject) {
+    res.send(subject);
+  });
+});
 
 router.get('/deleteSubject/:id', function(req, res) {
   models.Subject.find({
@@ -308,63 +381,6 @@ router.post('/updateFacultyMember', function(req, res) {
   }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
       res.redirect('/facultyMembers');
-    }).catch(function (err) {
-        console.log(err);
-    });
-  });
-});
-
-router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
-  res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
-});
-
-router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
-  console.log("departments");
-  req.body.UserId=1;//req,session.id
-  models.Department.create(req.body).then(function() {
-    res.redirect('/departments');
-  });
-});
-
-router.get('/divisions',userHelpers.isLogin, function(req, res) {
-  models.Division.findAll({
-    include: [{
-      model: models.Department,
-      where: { status: 1 }
-    }]
-  }).then(function(division) {
-   console.log(division); 
-  res.render('divisions', { title: 'View divisions', divisions: division, collapseFour: 'collapse in', activeFourThree: 'active' });
-  });
-});
-
-router.get('/newDivision',userHelpers.isLogin, function(req, res) {
-  models.Department.findAll({
-    where: {
-      status: 1
-    }
-  }).then(function(departments) {
-    res.render('newDivision', { title: 'New Division', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
-  });
-});
-
-router.post('/newDivision',userHelpers.isLogin, function(req, res) {
-  req.body.UserId=1;//req,session.id
-  models.Division.create(req.body).then(function() {
-    res.redirect('/newDivision');
-  });
-});
-
-router.get('/deleteDivision/:id', function(req, res) {
-  models.Division.find({
-    where: {
-      id: req.params.id
-    }
-    }).then(function (todo) {
-    todo.updateAttributes({
-        status: 0
-    }).then(function (todo) {
-        res.send(todo);
     }).catch(function (err) {
         console.log(err);
     });
@@ -422,27 +438,6 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
     res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
   });
 });
-
-
-// edit department
-  // router.post('/editDept', function(req, res) {
-  //   console.log("body");
-  //   console.log(req.body);
-  //   console.log("end body");
-  //   id = req.body.id_dep;
-  //   delete req.body.id_dep;
-  //   models.Department.find({
-  //     where: {
-  //        id: id
-  //     }
-  //     }).then(function (todo) {
-  //     todo.updateAttributes(req.body).then(function (todo) {
-  //       res.redirect('/departments');
-  //     }).catch(function (err) {
-  //         console.log(err);
-  //     });
-  //   });
-  // });
 
 router.get('/students',userHelpers.isLogin, function(req, res) {
   res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
