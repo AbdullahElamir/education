@@ -1,7 +1,5 @@
 $(document).ready(function(){
-  //////////////
-/////////////// delete Department
-$('body').on('click', '#Delete', function(){
+  $('body').on('click', '#Delete', function(){
     $('#ok').val($(this).val());
   });
 
@@ -12,18 +10,12 @@ $('body').on('click', '#Delete', function(){
     });
   });
 
-
-///////////////////
-////////////////////viwe Department 
-
   $('.editDepartment').on('click',function(){
     var myDataAttr = $(this).val();
       $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
       $('#name_en').val($('[data-id = "'+myDataAttr+'"]').data('name_en'));
       $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
   });
-//////////////////
-///////////////////////Update Department
  
 $('body').on('click', '#save', function (e) {
     e.preventDefault();

@@ -142,7 +142,6 @@ block cPanel
                     span  إســم المستخدم
                   input#user.form-control(type="text", name="father_name", placeholder="إســم المستخدم", disabled)
 
-
         .modal-footer
           button.btn.btn-warning.btn-lg(type="button", style="margin-left:25%;width:50%;", data-dismiss="modal")
             span.glyphicon.glyphicon-eye-close
@@ -171,27 +170,24 @@ block cPanel
                 .form-group
                   .row
 
-                    input#idd.form-control(type="hidden",name="idd")
+                    input#id.form-control(type="hidden",name="id")
                     .col-xs-3.col-md-3
                       label
                         span  اسم المادة
-                      input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
+                      input#name.form-control(type="text", name="name", placeholder="اسم المادة")
                     .col-xs-3.col-md-3
                       label
                         span  Subject Name
-                      input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="اسم اﻷب")
+                      input#name_en.form-control(type="text", name="name_en", placeholder="اسم اﻷب")
                     .col-xs-3.col-md-3
                       label
                         span  رمز المادة
-                      input#cod.form-control(type="text", name="cod", placeholder="اسم الجد")
+                      input#code.form-control(type="text", name="code", placeholder="اسم الجد")
                     .col-xs-3.col-md-3
                       label
-                        span  نــظام الدراسة
-
-                      select.form-control.selectpicker#system_type(name="DepartmentId", data-live-search="true", data-size=5)
-                          option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                            option(value="1")  فصلي
-                            option(value="2")  سنوي
+                      span  درجة النهائي العملي
+                      input#final_practicall.form-control(type="text", name="final_practical", placeholder="اسم الجد")
+                                         
                 .form-group
                   .row
                     .col-xs-3.col-md-3
@@ -220,29 +216,28 @@ block cPanel
                       label
                         span  درجة النهائي النظري
                       input#final_theorr.form-control(type="text", name="final_theor", placeholder="اسم اﻷب")
-                    .col-xs-3.col-md-3
-                      label
-                        span  درجة النهائي العملي
-                      input#final_practicall.form-control(type="text", name="final_practical", placeholder="اسم الجد")
+
                     .col-xs-3.col-md-3
                       #department_radio 
                         label تندرج تحت قسم
                         br
                         label.radio-inline
-                          input#js_radio(type='radio', name='department')
+                          input#js_radio(type='radio',value="1" ,name="subject_type")
                           | عامة
                         label.radio-inline
-                          input#radio(type='radio', name='department')
+                          input#radioo(type='radio',value="2" ,name="subject_type")
                           | خاصة
                         label.radio-inline
-                          input#radio(type='radio', name='department')
+                          input#radio(type='radio',value="3" ,name="subject_type")
                           | كلاهما
                       #department_select
                         label تندرج تحت قسم
-                        select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                        select#department_iddepartment.form-control.selectpicker(name="DepartmentId", data-live-search="true", data-size=5)
                           option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                            option(value="عام")
-              #tabTow.tab-pane(role="tabpanel")
+                          for l in dep
+                            option(value="#{l.id}", style='color:grey; ') #{l.name} 
+                           
+               #tabTow.tab-pane(role="tabpanel")
                 br
                 .form-group
                   .row

@@ -18,6 +18,7 @@ block cPanel
         input#toggleForm(type='checkbox',data-on="سنة دراسية",data-off="فصل دراسي", data-toggle='toggle', data-offstyle="success")
         br
         br
+        input#id_div(type="hidden",name="id_div",value="#{id_div}")
         .row
           #form1.animated
             .col-md-8
@@ -32,14 +33,16 @@ block cPanel
                       th اسم المادة
                       th رمز المادة
                       th.text-center إلغاء التنسيب
-                    tbody
-                      tr
-                        td مادة1
-                        td CS100
-                        td.text-center
-                          p(data-placement="top", data-toggle="tooltip", title="حذف")
-                            button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                              span.glyphicon.glyphicon-minus
+                    tbody#semester
+                      for sem in semester
+                        tr(data-id ="#{sem.id}")
+                          td #{sem.name}
+                          td #{sem.code}
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="حذف")
+                              button#dS.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal",value="#{sem.id}", data-target="#deleteS")
+                                span.glyphicon.glyphicon-minus
+                    
             .col-md-4
               .panel.panel-default
                 .panel-heading
@@ -52,14 +55,17 @@ block cPanel
                       th اسم المادة
                       th رمز المادة
                       th.text-center تنسيب
-                    tbody
-                      tr
-                        td مادة1
-                        td CS100
-                        td.text-center
-                          p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                            button.btn.btn-success.btn-xs(data-title="Delete", data-toggle="modal", data-target="#add")
-                              span.glyphicon.glyphicon-plus
+                    tbody#subS
+                      for subS in subjectsS
+                        tr(data-id ="#{subS.id}")
+                          td #{subS.name}
+                          td #{subS.code}
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="تنسيب")
+                              button#aS.btn.btn-success.btn-xs(data-title="add", data-toggle="modal",value="#{subS.id}", data-target="#addS")
+                                span.glyphicon.glyphicon-plus
+
+
           #form2.animated
             .col-md-8
               .panel.panel-default
@@ -73,14 +79,15 @@ block cPanel
                       th اسم المادة
                       th رمز المادة
                       th.text-center إلغاء التنسيب
-                    tbody
-                      tr
-                        td مادة1
-                        td CS101
-                        td.text-center
-                          p(data-placement="top", data-toggle="tooltip", title="حذف")
-                            button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                              span.glyphicon.glyphicon-minus
+                    tbody#year
+                      for yer in year
+                        tr(data-id ="#{year.id}")
+                          td #{year.name}
+                          td #{year.code}
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="حذف")
+                              button#dY.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal",value="#{year.id}", data-target="#deleteY")
+                                span.glyphicon.glyphicon-minus
             .col-md-4
               .panel.panel-default
                 .panel-heading
@@ -93,15 +100,16 @@ block cPanel
                       th اسم المادة
                       th رمز المادة
                       th.text-center تنسيب
-                    tbody
-                      tr
-                        td مادة1
-                        td CS100
-                        td.text-center
-                          p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                            button.btn.btn-success.btn-xs(data-title="Delete", data-toggle="modal", data-target="#add")
-                              span.glyphicon.glyphicon-plus
-  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+                    tbody#subY
+                      for subY in subjectsY
+                        tr(data-id ="#{subY.id}")
+                          td #{subY.name}
+                          td #{subY.code}
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="تنسيب")
+                              button#aY.btn.btn-success.btn-xs(data-title="Delete", data-toggle="modal",value="#{subY.id}", data-target="#addY")
+                                span.glyphicon.glyphicon-plus
+  #deleteS.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
         .modal-header
@@ -113,7 +121,7 @@ block cPanel
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء تنسيب هذه المادة؟
         .modal-footer
-          button.btn.btn-success(type="button")
+          button#delS.btn.btn-success(type="button")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
@@ -121,7 +129,7 @@ block cPanel
             |  لا
       // /.modal-content
     // /.modal-dialog
-  #add.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+  #addS.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
         .modal-header
@@ -133,7 +141,46 @@ block cPanel
             span.glyphicon.glyphicon-ok
             |  هل انت متأكد من تنسيب هذه المادة؟
         .modal-footer
-          button.btn.btn-success(type="button")
+          button#adS.btn.btn-success(type="button")
+            span.glyphicon.glyphicon-ok-sign
+            |  نعم
+          button.btn.btn-default(type="button", data-dismiss="modal")
+            span.glyphicon.glyphicon-remove
+            |  لا
+
+  #deleteY.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align إلغاء تنسيب  مادة
+        .modal-body
+          .alert.alert-danger
+            span.glyphicon.glyphicon-warning-sign
+            |  هل انت متأكد من إلغاء تنسيب هذه المادة؟
+        .modal-footer
+          button#delY.btn.btn-success(type="button")
+            span.glyphicon.glyphicon-ok-sign
+            |  نعم
+          button.btn.btn-default(type="button", data-dismiss="modal")
+            span.glyphicon.glyphicon-remove
+            |  لا
+      // /.modal-content
+    // /.modal-dialog
+  #addY.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align إضافة تنسيب مادة
+        .modal-body
+          .alert.alert-success
+            span.glyphicon.glyphicon-ok
+            |  هل انت متأكد من تنسيب هذه المادة؟
+        .modal-footer
+          button#adY.btn.btn-success(type="button")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
@@ -145,6 +192,7 @@ block cPanel
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-toggle.min.js')
+  script(src='/js/division.js')
   script.
     $(document).ready(function(){
       $("#form2").hide();
