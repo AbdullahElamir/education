@@ -5,6 +5,15 @@ var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
 var Sequelize = require('sequelize')
+var jsr = require("jsreport");
+var fs = require("fs");
+var path = require("path");
+var obj = {
+  subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
+  classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
+ 
+}
+
 
 /* GET home page. */
 
@@ -20,6 +29,7 @@ router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
   res.render('cPanelTest', { title: 'Control Panel', active: 'active' });
 });
 
+
 router.get('/semesters',userHelpers.isLogin, function(req, res) {
   models.Semester.findAll({
     where: {
@@ -32,6 +42,24 @@ router.get('/semesters',userHelpers.isLogin, function(req, res) {
 
 router.get('/newSemester',userHelpers.isLogin, function(req, res) {
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
+});
+
+
+
+router.get('/transcript', function(req, res, next) {
+ jsr.render({
+    template: { 
+
+      content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+        // content: "<h1>Hello world</h1>",
+        recipe: "phantom-pdf"
+    },
+
+    data:obj
+}).then(function (response) {
+   //you can for example pipe it to express.js response
+   response.result.pipe(res);
+});
 });
 
 router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
@@ -104,19 +132,17 @@ router.post('/newLocation',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/departments',userHelpers.isLogin, function(req, res) {
-  var page = 1;
-  if(url.parse(req.url, true).query.p){
-    page = parseInt(url.parse(req.url, true).query.p);
-  }
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
   models.Department.findAndCountAll({
     where: {
       status: 1
     },
     limit : 10,
-    offset: page,
+    offset: limit,
   }).then(function(department) {
     var pageCount = userHelpers.getPageCount(department.count);
-    var pagination = userHelpers.paginate(page.pageCount);
+    var pagination = userHelpers.paginate(page,pageCount);
     res.render('departments', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
   });
 });
