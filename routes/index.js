@@ -561,6 +561,12 @@ router.get('/newUser',userHelpers.isLogin, function(req, res) {
     res.render('newUser', { title: 'New User', activeUser: 'active' });
 });
 
+router.post('/newUser',userHelpers.isLogin, function(req, res) {
+  console.log(req.body);
+  userHelpers.addUser(req.body,function(result){
+    res.redirect('/newUser');
+  });
+});
 router.get('/users',userHelpers.isLogin, function(req, res) {
   res.render('users', { title: 'View users', activeUser: 'active' });
 });
