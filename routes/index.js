@@ -64,7 +64,6 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
       semType = "صيفي";
       }
 
-      console.log(semType);
       res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
         //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
     });
@@ -78,7 +77,6 @@ router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
   req.body.UserId=1;//req,session.id
-  console.log(req.body);
   models.Semester.create(req.body).then(function() {
     res.redirect('/semesters');
   });
@@ -147,7 +145,6 @@ router.get('/getSubject/:id', function(req, res) {
         ],
 
   }).then(function(subject) {
-    console.log(subject);
     res.send(subject);
   });
 });
@@ -165,9 +162,6 @@ router.get('/editDepartments/:id', function(req, res) {
 
 // edit department
 router.post('/editDept', function(req, res) {
-  console.log("body");
-  console.log(req.body);
-  console.log("end body");
   id = req.body.id_dep;
   delete req.body.id_dep;
   models.Department.find({
@@ -186,8 +180,6 @@ router.post('/editDept', function(req, res) {
 
 
 router.post('/editLocation', function(req, res) {
-  console.log("body");
-  console.log(req.body);
   id = req.body.locid;
   models.Location.find({
     where: {
@@ -226,7 +218,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
       req.body.sem_type = 3;
     } 
 
-  console.log(req.body);
    id = req.params.id;
   models.Semester.find({
     where: {
@@ -316,9 +307,6 @@ router.get('/deleteSemesters/:id', function(req, res) {
 
 // updateFacultyMember
 router.post('/updateFacultyMember', function(req, res) {
-  console.log("======================");
-  console.log(req.body);
-  console.log("======================");
   models.Faculty_member.find({
     where: {
       id: req.body.id
@@ -337,7 +325,6 @@ router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
-  console.log("departments");
   req.body.UserId=1;//req,session.id
   models.Department.create(req.body).then(function() {
     res.redirect('/departments');
@@ -363,19 +350,25 @@ router.get('/divisions',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/division/:id',userHelpers.isLogin, function(req, res) {
-  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubject` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
-).then(function(results){
-  // Each record will now be a instance of Project
-  console.log("-------------------------------");
-  console.log(results);
-  res.render('division', { title: 'View division',year:results[0], collapseFour: 'collapse in', activeFourThree: 'active' });
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+).then(function(subjectsS){
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 2 AND `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+  ).then(function(subjectsY){
+    models.sequelize.query('SELECT * FROM `DivisionSubjects` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=1; ', { replacements: [req.params.id] }
+    ).then(function(semester){
+      models.sequelize.query('SELECT * FROM `DivisionSubjects` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2; ', { replacements: [req.params.id] }
+      ).then(function(year){
+        res.render('division', { title: 'View division',subjectsS:subjectsS[0],subjectsY:subjectsY[0],semester:semester[0],year:year[0],id_div:req.params.id ,collapseFour: 'collapse in', activeFourThree: 'active' });
+      });
+    });
+  });
 });
 
 });
+//SELECT * FROM `DivisionSubject` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2;
 //////////////////////////
 router.post('/addDivision', function(req, res) {
   var id = req.body.id;
- // console.log(req.body);
   models.Division.find({
     where: {
       id: id
@@ -389,7 +382,6 @@ router.post('/addDivision', function(req, res) {
     }).then(function(Departments) {
         var rel = {result : Departments ,stat : true};
         res.send(rel);
-       //console.log(rel);
     }).catch(function (err) {
         console.log(err);
     });
@@ -423,7 +415,6 @@ router.get('/deleteDivision/:id', function(req, res) {
     todo.updateAttributes({
         status: 0
     }).then(function (todo) {
-        console.log(todo);
         res.send(todo);
     }).catch(function (err) {
         console.log(err);
@@ -447,7 +438,6 @@ router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   req.body.UserId=1;//req,session.id
   // req.body.DepartmentId=5;
   models.Faculty_member.create(req.body).then(function() {
@@ -524,6 +514,32 @@ router.get('/subjects', function(req, res) {
   });
 });
 
+router.get('/deleteDivisionsbject/:ids/:idd', function(req, res) {
+   models.DivisionSubject.destroy({
+    where: {
+      SubjectId:req.params.ids,
+      DivisionId:req.params.idd
+    }
+  }).then(function(results){
+    models.Subject.findOne({where:{
+      id:req.params.ids
+       }}).then(function(result){
+        res.send(result);
+    });
+  });
+});
+
+
+router.post('/addDivisionSubject',function(req,res){
+ models.DivisionSubject.create(req.body).then(function(result){
+  models.Subject.findOne({where:{
+    id:req.body.SubjectId
+  }}).then(function(result){
+    res.send(result);
+  });
+  
+ });
+});
 router.get('/newSubject', function(req, res) {
   res.render('newSubject', { title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active' });
 });
