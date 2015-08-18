@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });l
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -149,6 +149,10 @@ router.get('/getSubject/:id', function(req, res) {
   });
 });
 
+router.post('/test/:id', function(req, res) {
+  console.log(req.params.id);
+  });
+
 
 router.get('/editDepartments/:id', function(req, res) {
    models.Department.findAll({
@@ -197,7 +201,63 @@ router.post('/editLocation', function(req, res) {
 ///editSubject
 
 router.post('/editSubject', function(req, res) {
-  console.log(req.body);
+  
+  // genral عام
+  if(req.body.subject_type==1)
+  {
+    req.body.DepartmentId=1;
+    req.body.UserId=1;
+     models.Subject.find({
+    where: {
+      id: req.body.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/subjects');
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+     });
+
+  } else if(req.body.subject_type==2){
+
+    //console.log(req.body);
+    req.body.UserId=1;
+     models.Subject.find({
+    where: {
+      id: req.body.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/subjects');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+
+
+
+
+
+
+  } else if(req.body.subject_type==3){
+
+      req.body.UserId=1;
+     models.Subject.find({
+    where: {
+      id: req.body.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes(req.body).then(function (todo) {
+      res.redirect('/subjects');
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
+
+  }
+
 });
 
 
@@ -367,6 +427,12 @@ router.get('/division/:id',userHelpers.isLogin, function(req, res) {
 });
 //SELECT * FROM `DivisionSubject` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2;
 //////////////////////////
+
+
+
+
+
+
 router.post('/addDivision', function(req, res) {
   var id = req.body.id;
   models.Division.find({
@@ -503,15 +569,23 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
   res.render('timelines', { title: 'View Timelines' });
 });
 
+
 router.get('/subjects', function(req, res) {
   models.Subject.findAll({
     include: [{
       model: models.Department,
       where: { status: 1 }
     }]
-  }).then(function(Subject) {
-    res.render('subjects', { title: 'subjects', collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
-  });
+  }).then(function(Subject) {    
+   models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(departments) {
+        console.log(departments);
+        res.render('subjects', { title: 'subjects',dep:departments,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+    }); 
+  }); 
 });
 
 router.get('/deleteDivisionsbject/:ids/:idd', function(req, res) {
@@ -541,7 +615,15 @@ router.post('/addDivisionSubject',function(req,res){
  });
 });
 router.get('/newSubject', function(req, res) {
-  res.render('newSubject', { title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active' });
+
+    models.Subject.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(subject) {
+    console.log(subject);
+  res.render('newSubject', {title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+});
 });
 
 module.exports = router;
