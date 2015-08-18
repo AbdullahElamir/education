@@ -47,10 +47,10 @@ block cPanel
                 th.text-center الغاء
               tbody#tbody
                 for Division in divisions
-                  tr(data-id = '#{Division.id}',data-name = '#{Division.name}',data-name_en = '#{Division.name_en}',data-departmentid='#{Division.DepartmentId}')
+                  tr(data-id = '#{Division.id}' ,data-name = '#{Division.name}',data-name_en = '#{Division.name_en}',data-departmentid='#{Division.DepartmentId}')
                     td
                       input.checkthis(type="checkbox")
-                    td#alaa #{Division.name}
+                    td #{Division.name}
                     td #{Division.Department.name}
                     td.text-left #{Division.Department.name_en}
                     td.text-left #{Division.name_en}
@@ -106,7 +106,7 @@ block cPanel
               .row
                 .col-xs-6.col-md-6.col-md-offset-3 
                   label.h4 تندرج تحت قسم
-                  select#DepartmentId.form-control(name="DepartmentId", data-live-search="true", data-size=5)
+                  select#DepartmentId.selectpicker.form-control(name="DepartmentId", data-live-search="true", data-size=5)
                     for department in departments
                       option(value="#{department.id}",data-name="#{department.name}")|#{department.name}
                   input#id(name="id",type="hidden")    

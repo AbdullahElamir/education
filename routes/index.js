@@ -152,38 +152,22 @@ router.get('/getSubject/:id', function(req, res) {
   });
 });
 
-
-router.get('/editDepartments/:id', function(req, res) {
-   models.Department.findAll({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(department) {
-    res.send(department);
-  });
-});
-
 // edit department
-router.post('/editDept', function(req, res) {
-  console.log("body");
-  console.log(req.body);
-  console.log("end body");
-  id = req.body.id_dep;
-  delete req.body.id_dep;
+router.post('/updateDepartment', function(req, res) {
+  var id = req.body.id;
   models.Department.find({
     where: {
       id: id
     }
     }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
-      res.redirect('/departments');
+        var rel = {result : todo ,stat : true};
+        res.send(rel);
     }).catch(function (err) {
         console.log(err);
     });
   });
 });
-
-
 
 router.post('/editLocation', function(req, res) {
   console.log("body");
@@ -242,10 +226,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
      });
      });
  
- 
- 
-
-
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
@@ -337,7 +317,6 @@ router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
-  console.log("departments");
   req.body.UserId=1;//req,session.id
   models.Department.create(req.body).then(function() {
     res.redirect('/departments');
@@ -372,10 +351,9 @@ router.get('/division/:id',userHelpers.isLogin, function(req, res) {
 });
 
 });
-//////////////////////////
-router.post('/addDivision', function(req, res) {
+/////////////// edit Division
+router.post('/updateDivision', function(req, res) {
   var id = req.body.id;
- // console.log(req.body);
   models.Division.find({
     where: {
       id: id
@@ -384,12 +362,12 @@ router.post('/addDivision', function(req, res) {
     todo.updateAttributes(req.body).then(function (todo) {
       models.Department.findAll({
         where: 
-         { status: 1
+         { status: 1,
+           id :todo.DepartmentId
          }
     }).then(function(Departments) {
         var rel = {result : Departments ,stat : true};
         res.send(rel);
-       //console.log(rel);
     }).catch(function (err) {
         console.log(err);
     });
@@ -423,7 +401,6 @@ router.get('/deleteDivision/:id', function(req, res) {
     todo.updateAttributes({
         status: 0
     }).then(function (todo) {
-        console.log(todo);
         res.send(todo);
     }).catch(function (err) {
         console.log(err);
@@ -504,9 +481,31 @@ router.get('/testPage',userHelpers.isLogin, function(req, res) {
 router.get('/newUser',userHelpers.isLogin, function(req, res) {
     res.render('newUser', { title: 'New User', activeUser: 'active' });
 });
-
+///////////////viwe users
 router.get('/users',userHelpers.isLogin, function(req, res) {
-  res.render('users', { title: 'View users', activeUser: 'active' });
+  models.User.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(user) {
+  res.render('users', { title: 'View users',Users: user , activeUser: 'active' });
+  });
+});
+/////////////// delete Users 
+router.get('/deleteUsers/:id', function(req, res) {
+  models.User.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
 });
 
 router.get('/timelines',userHelpers.isLogin, function(req, res) {
