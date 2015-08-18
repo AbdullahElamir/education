@@ -104,19 +104,17 @@ router.post('/newLocation',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/departments',userHelpers.isLogin, function(req, res) {
-  var page = 1;
-  if(url.parse(req.url, true).query.p){
-    page = parseInt(url.parse(req.url, true).query.p);
-  }
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
   models.Department.findAndCountAll({
     where: {
       status: 1
     },
     limit : 10,
-    offset: page,
+    offset: limit,
   }).then(function(department) {
     var pageCount = userHelpers.getPageCount(department.count);
-    var pagination = userHelpers.paginate(page.pageCount);
+    var pagination = userHelpers.paginate(page,pageCount);
     res.render('departments', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
   });
 });
