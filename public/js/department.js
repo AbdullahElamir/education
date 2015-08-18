@@ -1,14 +1,4 @@
 $(document).ready(function(){
-  $('body').on('click', '#Edit', function(){
-    $('#save').val($(this).val());
-    var id = $(this).val();
-    $.get('/editDepartments/'+id,function(department){
-      $('#id_dep').val(id);
-      $('#a').val(department[0].name);
-      $('#b').val(department[0].name_en);
-    });
-  });
-
   $('body').on('click', '#Delete', function(){
     $('#ok').val($(this).val());
   });
@@ -20,42 +10,45 @@ $(document).ready(function(){
     });
   });
 
-  $("#newDepartment, #formdpet").validate({
-    rules:{
-      name:{
-        required: true,
-      },
-      name_en:{
-        required: true,
-      },
-    },
-    messages:{
-      name:{
-        required: "الرجاء ادخال اسم القسم!",
-      },
-      name_en:{
-        required: "!Please enter Department name",
-      },
-    },
-    errorClass: 'custom-error',
-    highlight: function(element) {
-      $(element).closest('.form-group').addClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-    },
-    unhighlight: function(element) {
-      $(element).closest('.form-group').removeClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-    },
-    submitHandler: function(form) {
-      $.ajax({
-        type: 'POST',
-        url: '/newDepartment',
-        data: $(form).serialize(),
-        success: function(html) {
-          $('#name').val("");
-          $('#name_en').val("");
-          $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
+  $('.editDepartment').on('click',function(){
+    var myDataAttr = $(this).val();
+      $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+      $('#name_en').val($('[data-id = "'+myDataAttr+'"]').data('name_en'));
+      $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
+  });
+ 
+$('body').on('click', '#save', function (e) {
+    e.preventDefault();
+    $('#formDepartment').submit();
+  });
+
+  $("#formDepartment").submit(function(e) {
+    var isvalidate=$("#formDepartment").valid();
+    if(isvalidate){
+      $.post("/updateDepartment", $("form").serializeObject(), function(data, error){
+        if(data.stat !=true){
+          alert("errormohammed");
+        } 
+        else {
+          if($("#tbody").children().length>=10){
+            $("#tbody tr:last-child").remove();
+          }
+          $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
+          $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
+            '<td> <input type="checkbox"></td>'+
+            '<td>'+$("form").serializeObject().name+'</td>'+
+            '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
+            '<td></td>'+
+            '<td class="text-center">'+
+            '<p data-placement="top", data-toggle="tooltip", title="تعديل">'+
+            '<button id="Edit" value="'+$("form").serializeObject().id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center">'+
+            '<p data-placement="top", data-toggle="tooltip", title="إلغاء">'+
+            '<button id="Delete" value="'+$("form").serializeObject().id+'" data-title="Delete" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
+          $('#name').val($("form").serializeObject().name);
+          $('#name_en').val($("form").serializeObject().name_en);
+          $('#edit').modal('hide');
+           $.notify({
+            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
             },{
             type: 'success',
             allow_dismiss: true,
@@ -73,26 +66,7 @@ $(document).ready(function(){
           });
         }
       });
-    },
-    invalidHandler: function(event, validator) {
-      $.notify({
-        message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
-        },{
-        type: 'danger',
-        allow_dismiss: true,
-        showProgressbar: false,
-        placement: {
-          from: 'top',
-          align: 'center'
-        },
-        mouse_over: null,
-        newest_on_top: true,
-        animate: {
-          enter: 'animated bounceIn',
-          exit: 'animated bounceOut'
-        },
-      });
-      // $("button[type='submit']").prop("disabled", true);
-    },
+    }
+    return false;
   });
 });

@@ -203,23 +203,22 @@ router.get('/editDepartments/:id', function(req, res) {
 });
 
 // edit department
-router.post('/editDept', function(req, res) {
-  id = req.body.id_dep;
-  delete req.body.id_dep;
+router.post('/updateDepartment', function(req, res) {
+  id = req.body.id;
+  delete req.body.id;
   models.Department.find({
     where: {
       id: id
     }
     }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
-      res.redirect('/departments');
+        var rel = {result : todo ,stat : true};
+        res.send(rel);
     }).catch(function (err) {
         console.log(err);
     });
   });
 });
-
-
 
 router.post('/editLocation', function(req, res) {
   id = req.body.locid;
@@ -331,10 +330,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
      });
      });
  
- 
- 
-
-
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
@@ -469,17 +464,12 @@ router.get('/division/:id',userHelpers.isLogin, function(req, res) {
     });
   });
 });
-
 });
+
 //SELECT * FROM `DivisionSubject` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2;
 //////////////////////////
 
-
-
-
-
-
-router.post('/addDivision', function(req, res) {
+router.post('/updateDivision', function(req, res) {
   var id = req.body.id;
   models.Division.find({
     where: {
@@ -489,7 +479,8 @@ router.post('/addDivision', function(req, res) {
     todo.updateAttributes(req.body).then(function (todo) {
       models.Department.findAll({
         where: 
-         { status: 1
+         { status: 1,
+           id :todo.DepartmentId
          }
     }).then(function(Departments) {
         var rel = {result : Departments ,stat : true};
@@ -634,8 +625,31 @@ router.post('/newUser',userHelpers.isLogin, function(req, res) {
     res.redirect('/newUser');
   });
 });
+
 router.get('/users',userHelpers.isLogin, function(req, res) {
-  res.render('users', { title: 'View users', activeUser: 'active' });
+  models.User.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(user) {
+  res.render('users', { title: 'View users',Users: user , activeUser: 'active' });
+  });
+});
+/////////////// delete Users 
+router.get('/deleteUsers/:id', function(req, res) {
+  models.User.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
 });
 
 router.get('/timelines',userHelpers.isLogin, function(req, res) {
