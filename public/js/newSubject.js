@@ -1,4 +1,126 @@
 $(document).ready(function(){
+
+/*
+  $("#newSubject ,#updateSubject").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    ignore:[],
+    rules:{
+      subject_name:{
+        required: true,
+      },
+      subject_name_en:{
+        required: true,
+      },
+      no_th_unit:{
+        required: true,
+        number: true,
+      },
+      no_th_hour:{
+        required: true,
+        number: true,
+      },
+      cod:{
+        required: true,
+      },
+      no_pr_unit:{
+        required: true,
+        number: true,
+      },
+      no_pr_hour:{
+        required: true,
+        number: true,
+      },
+      chapter_degree:{
+        required: true,
+      },
+      final_theor:{
+        required: true,
+      },
+      final_practical:{
+        required: true,
+      },
+      subjectId:{
+        required: true,
+      },
+    },
+    messages:{
+      subject_name:{
+        required: "الرجاء أدخال اسم المادة",
+      },
+      subject_name_en:{
+        required: "<div style='padding-right:35px; '>!Please enter Subject name</div>",
+      },
+      no_th_unit:{
+        required: "الرجاء أدخال عدد الوحدات النظري",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      no_th_hour:{
+        required: "الرجاء أدخال عدد سعات النظري",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      cod:{
+        required: "الرجاء أدخال رمز المادة",
+      },
+      no_pr_unit:{
+        required: "الرجاء ادخال عدد وحدات العملي",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      no_pr_hour:{
+        required: "الرجاء أدخال عدد سعات العملي",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      chapter_degree:{
+        required: "الرجاء أدخال درجة اعمال السنة",
+      },
+      final_theor:{
+        required: "الرجاء أدخال درجة الامتحان النظري",
+      },
+      final_practical:{
+        required: "الرجاء أدخال درجت العملي",
+      },
+      subjectId:{
+        required: "الرجاء اختيار المواد التمهدية!",
+      },
+    },
+    // errorElement: 'label',
+    errorClass: 'custom-error',
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });*/
+
+  var id =[];
+  var subject=[];
+   $('#subjectId').on('change', function() {
+    // $('#subjectId>option:selected').text()
+    // $(this).val() 
+    id.push($(this).val() );
+    subject.push($('#subjectId>option:selected').text());
+    $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td></tr>");
+ 
+});
+
+    $('body').on('click', '#save', function(){
+      var obj = {name: $('#name').val(), model:500, color:"white"}; 
+       $.post('/test/'+JSON.stringify(obj),function(todo){
+
+       });
+     
+         
+     
+    });
+
   $('body').on('click', '#sh', function(){
     var id = $(this).val();
      $.get('/getSubject/'+id,function(subject){
@@ -69,6 +191,8 @@ $('body').on('click', '#ed', function(){
   });
 
 
+    
+
 
   $('[id^="department_select"]').hide(0);
   $('[id^="radio"]').change(function() 
@@ -82,14 +206,14 @@ $('body').on('click', '#ed', function(){
   $("#Semesters").show(0); 
   $("#Year").hide(0);
   $('#toggle-subject').change(function() {
+    var toggle ;
     if ($(this).prop('checked') == true) {
-      $("#Semesters").hide(200);
-      $("#Year").show(200);
+      toggle = 1;
     }
     else {
-      $("#Semesters").show(200); 
-      $("#Year").hide(200);
+      toggle = 0;
     }
+
   
   });      
 });

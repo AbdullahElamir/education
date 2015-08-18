@@ -10,24 +10,8 @@ $(document).ready(function(){
     $.get('/deleteSemesters/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
-  }); 
-
-
-
-
-
-
-
+  });
   $('#system_type').hide();
-  $.validator.addMethod("systemTypeCheck", function (value, element) {
-    var id = $('#sem_type').val();
-    if(id==1){
-      return value == true;
-    }
-    else {
-      return value == false;
-    }
-  },'الرجاء اختيار الفصل الدراسي!');
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -46,9 +30,6 @@ $(document).ready(function(){
       ending_date:{
         required: true,
       },
-      system_type:{
-        systemTypeCheck: true,
-      }
     },
     messages:{
       sem_type:{
@@ -85,6 +66,20 @@ $(document).ready(function(){
     },
   });
   $('#sem_type').on('change',function() {
+    $('select[name="system_type"]').each(function() {
+      var id = $('#sem_type').val();
+      if(id==1){
+        $(this).rules("add", {
+          required: true,
+          messages: {
+            required: "الرجاء اختيار الفصل الدراسي!",
+          }
+        });
+      }
+      else {
+        $(this).rules( 'remove', 'required' );
+      }    
+    });
     var id = $('#sem_type').val();
     if(id==1){
       $('#system_type').show();

@@ -13,12 +13,14 @@ $(document).ready(function(){
 
 
   //edit Division
-  $('body').on('click', '#Edit', function(){
-      $('#save').val($(this).val());
-      alert($('#tbody tr td').val());
-      // $('#name').val("name");
-      // $('#name_en').val("nameen");
-      // $('#department_iddepartment').val("5");
+    $('.editDivision').on('click',function(){
+    var myDataAttr = $(this).val();
+    console.log(myDataAttr);
+    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+    $('#name_en').val($('[data-id = "'+myDataAttr+'"]').data('name_en'));
+    $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
+    console.log(myDataAttr);
+    $('#DepartmentId').val($('[data-id = "'+myDataAttr+'"]').data('departmentid'));
   });
 
   $('body').on('click', '#save', function (e) {
@@ -34,49 +36,47 @@ $(document).ready(function(){
           alert("errormohammed");
         } 
         else {
-          $('#name').val('');
-          $('#name_en').val('');
-          $('#department_iddepartment').empty();
+          // if(data.result[0].id == $("form").serializeObject().DepartmentId)
+          //   alert(data.result[0].name);
           if($("#tbody").children().length>=10){
             $("#tbody tr:last-child").remove();
           }
-          $("#tbody").prepend('<tr data-id="'+data.result[0].id+'">'+
-            '<td> <input type="checkbox"></td>'+
-            '<td>'+data.result[0].name+'</td>'+
-            '<td>'+data.result[0].id+'</td>'+
-            '<td class="text-left">b3</td>'+
-            '<td class="text-left">'+data.result[0].name_en+'</td>'+
-            '<td></td>'+
-            '<td class="text-center">'+
-            '<p data-placement="top", data-toggle="tooltip", title="تعديل">'+
-            '<button id="Edit" value="'+data.result[0].id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center">'+
-            '<p data-placement="top", data-toggle="tooltip", title="إلغاء">'+
-            '<button id="Delete" value="'+data.result[0].id+'" data-title="Delete" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
+          //$('[data-id = "'+$("form").serializeObject().id+'"]').remove();
+          // $("#tbody tr").prependTo(
+          //   '<td> <input type="checkbox"></td>'+
+          //   '<td>'+$("form").serializeObject().name+'</td>'+
+          //   '<td>'+data.result[0].name+'</td>'+
+          //   '<td class="text-left">'+data.result[0].name_en+'</td>'+
+          //   '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
+          //   '<td></td>'+
+          //   '<td class="text-center">'+
+          //   '<p data-placement="top", data-toggle="tooltip", title="تعديل">'+
+          //   '<button id="Edit" value="'+$("form").serializeObject().id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center">'+
+          //   '<p data-placement="top", data-toggle="tooltip", title="إلغاء">'+
+          //   '<button id="Delete" value="'+$("form").serializeObject().id+'" data-title="Delete" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td>');
+          $($("form").serializeObject().name).html("#alaa");
           $('#edit').modal('hide');
-          $.fn.name();
-          $.fn.name_en();
           $.notify({
             title: "<strong>Successful:</strong> ",
-            message: "Add a new Mahala has successfully"
-          },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated flipInY',
-              exit: 'animated flipOutX'
-               },
+            message: "Update Division has successfully"
+          // },{
+          //   type: 'success',
+          //   allow_dismiss: true,
+          //   showProgressbar: false,
+          //   placement: {
+          //     from: 'top',
+          //     align: 'center'
+          //   },
+          //   mouse_over: null,
+          //   newest_on_top: true,
+          //   animate: {
+          //     enter: 'animated flipInY',
+          //     exit: 'animated flipOutX'
+          //      },
           });
         }
       });
     }
     return false;
   });
-
 });
