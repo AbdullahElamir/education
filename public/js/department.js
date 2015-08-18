@@ -6,7 +6,6 @@ $(document).ready(function(){
       $('#id_dep').val(id);
       $('#a').val(department[0].name);
       $('#b').val(department[0].name_en);
-
     });
   });
 
@@ -20,6 +19,7 @@ $(document).ready(function(){
       $('[data-id = "'+id+'"]').remove();
     });
   });
+
   $("#newDepartment, #formdpet").validate({
     rules:{
       name:{
@@ -75,8 +75,6 @@ $(document).ready(function(){
       });
     },
     invalidHandler: function(event, validator) {
-    var errors = validator.numberOfInvalids();
-    if (errors) {
       $.notify({
         message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
         },{
@@ -94,11 +92,7 @@ $(document).ready(function(){
           exit: 'animated bounceOut'
         },
       });
-    }
-  },
+      // $("button[type='submit']").prop("disabled", true);
+    },
   });
-$('#newDepartment input, #newDepartment button').on('click', checkForm);
-    function checkForm() {
-      $("button").prop("disabled", !($('#newDepartment input').valid()));
-    }
 });
