@@ -657,12 +657,18 @@ router.post('/updateUser',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/users',userHelpers.isLogin, function(req, res) {
-  models.User.findAll({
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.User.findAndCountAll({
     where: {
       status: 1
-    }
+    },
+    limit : 10,
+    offset: limit,
   }).then(function(user) {
-  res.render('users', { title: 'View users',Users: user , activeUser: 'active' });
+    var pageCount = userHelpers.getPageCount(user.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+  res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
   });
 });
 /////////////// delete Users 
