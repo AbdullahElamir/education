@@ -644,7 +644,6 @@ router.get('/newUser',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/newUser',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   userHelpers.addUser(req.body,function(result){
     res.redirect('/newUser');
   });
@@ -652,7 +651,6 @@ router.post('/newUser',userHelpers.isLogin, function(req, res) {
 
 router.post('/updateUser',userHelpers.isLogin, function(req, res) {
   userHelpers.updateUser(req.body,function(result){
-    console.log(result);
     var rel = {result : result ,stat : true};
         res.send(rel);
   });
