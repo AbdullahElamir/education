@@ -4,9 +4,8 @@ var models  = require('../models');
 var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
-var nationality = require('../Nationality.json');
 var Sequelize = require('sequelize')
-// var jsr = require("jsreport");
+var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 var obj = {
@@ -16,7 +15,6 @@ var obj = {
 }
 
 
-
 /* GET home page. */
 
 router.get('/', function(req, res) {
@@ -24,7 +22,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });l
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -174,22 +172,8 @@ router.get('/getLocation/:id', function(req, res) {
   });
 });
 
-router.get('/getFacultyMember/:id', function(req, res) {
-  models.Faculty_member.findAll({
-    include: [{
-      model: models.Department,
-      where: { status: 1 }
-    }],
-    where: {
-      id: req.params.id,
-      status: 1
-    }
-  }).then(function(faculty) {
-    res.send(faculty);
-  });
-});
-
-
+// abdullah Elamir Code
+// select data from 3 table
 router.get('/getSubject/:id', function(req, res) {
    models.Subject.findAll({
     where: { status: 1 , id: req.params.id},
@@ -434,7 +418,7 @@ router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
 router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   models.Department.create(req.body).then(function() {
-    res.redirect('/departments');
+    res.redirect('/departments?msg=1');
   });
 });
 
@@ -575,7 +559,7 @@ router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(Departments) {
-    res.render('newFacultyMember', { title: 'New Faculty Member', nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+    res.render('newFacultyMember', { title: 'New Faculty Member', departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
   });
   
 });
@@ -625,7 +609,6 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
   });
 });
 
-
 router.get('/students',userHelpers.isLogin, function(req, res) {
   var page = userHelpers.getPage(req);
   var limit = userHelpers.getLimit(page);
@@ -651,7 +634,7 @@ router.post('/newStudent', userHelpers.isLogin,function(req, res) {
     res.redirect('/students');
   });
 });
-// ---------------------------------------
+
 router.get('/testPage',userHelpers.isLogin, function(req, res) {
   res.render('testPage', { title: 'HTML Test Page' });
 });
