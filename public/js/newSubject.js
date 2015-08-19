@@ -138,6 +138,14 @@ $(document).ready(function(){
     });
   }
     
+   // if($.inArray($('#subjectId>option:selected').text(),subject) != -1)
+   // {
+   
+     //}
+   /*  else{
+      alert("لا يمكن ادخال المادة مرتين");
+     }*/
+
 });
 
     $('body').on('click', '#save', function(){
@@ -163,6 +171,8 @@ $(document).ready(function(){
         exit: 'animated bounceOut'
       },
     });
+             
+
         } else {
 
       $.notify({
@@ -243,8 +253,13 @@ $('body').on('click', '#ed', function(){
                $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
              //  $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
            }
-    });  
+      
+
+    });
+   
   });
+
+  
 
   $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
