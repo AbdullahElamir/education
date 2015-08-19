@@ -88,18 +88,10 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label.h4 اسم المستخدم
-                  input.form-control#name(type="text", name="name",value="فاروق",disabled)
+                  input.form-control#name(type="text", name="name",value="فاروق")
                 .col-xs-6.col-md-6
                   label.h4 رقم الهاتف
                   input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
-              br
-              .row
-                .col-xs-6.col-md-6
-                  label.h4 البريد الالكتروني
-                  input.form-control#email(type="text", name="email", placeholder="البريد الالكتروني")
-                .col-xs-6.col-md-6
-                  label.h4 تأكيد البريد الالكتروني
-                  input.form-control#confirm_emil(type="text", name="confirm_emil", placeholder="تأكيد البريد الالكتروني")
               br
               .row
                 .col-xs-6.col-md-6
@@ -109,6 +101,9 @@ block cPanel
                   label.h4 تأكيد الرقم السري الجديد
                   input.form-control#confirm_password(type="password", name="confirm_password", placeholder="تأكيد الرقم السري")
                   input#id(name="id",type="hidden")
+                  input#email1(name="email1",type="hidden")
+                
+
         .modal-footer
           button#save.btn.btn-warning.btn-lg(style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign

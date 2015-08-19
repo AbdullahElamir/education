@@ -20,6 +20,7 @@ $(document).ready(function(){
     $('#email').val($('[data-id = "'+myDataAttr+'"]').data('email'));
     $('#phone').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
     $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
+    $('#email1').val($('[data-id = "'+myDataAttr+'"]').data('email'));
   });
 
 $('body').on('click', '#save', function (e) {
@@ -35,6 +36,7 @@ $('body').on('click', '#save', function (e) {
           alert("errormohammed");
         } 
         else {
+         // alert($("form").serializeObject().name);
           if($("#tbody").children().length>=10){
             $("#tbody tr:last-child").remove();
           }
@@ -42,7 +44,7 @@ $('body').on('click', '#save', function (e) {
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
             '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
-            '<td>'+$("form").serializeObject().email+'</td>'+
+            '<td>'+$("form").serializeObject().email1+'</td>'+
             '<td>'+$("form").serializeObject().phone+'</td>'+
             '<td class="text-center">'+
             '<p data-placement="top", data-toggle="tooltip", title="تعديل">'+
@@ -50,8 +52,9 @@ $('body').on('click', '#save', function (e) {
             '<p data-placement="top", data-toggle="tooltip", title="إلغاء">'+
             '<button id="Delete" value="'+$("form").serializeObject().id+'" data-title="Delete" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
           $('#name').val($("form").serializeObject().name);
-          $('#email').val($("form").serializeObject().email);
           $('#phone').val($("form").serializeObject().phone);
+          $('#confirm_password').val("");
+          $('#password').val("");
           $('#edit').modal('hide');
            $.notify({
             message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
