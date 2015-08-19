@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+ 
+
 /*
   $("#newSubject ,#updateSubject").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
@@ -100,20 +102,90 @@ $(document).ready(function(){
     },
   });*/
 
-  var id =[];
+  var iddd =[];
   var subject=[];
+  var toggle =1;
    $('#subjectId').on('change', function() {
     // $('#subjectId>option:selected').text()
     // $(this).val() 
-    id.push($(this).val() );
+    var check=$.inArray($('#subjectId>option:selected').text(),subject)
+   
+    if(check == -1 )
+    {
+    iddd.push($(this).val() );
     subject.push($('#subjectId>option:selected').text());
     $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td></tr>");
- 
+       
+    }
+  else{
+    // alert("عفوا لايمكن ادخال المادة مرتين");
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> عفوا لايمكن ادخال المادة مرتين </p>"
+      },{
+      type: 'danger',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceIn',
+        exit: 'animated bounceOut'
+      },
+    });
+  }
+    
 });
 
     $('body').on('click', '#save', function(){
-      var obj = {name: $('#name').val(), model:500, color:"white"}; 
-       $.post('/test/'+JSON.stringify(obj),function(todo){
+ 
+      var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd}; 
+       $.post('/saveSubject',obj,function(todo){
+        if(todo == true){
+
+              $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
+      },{
+      type: 'success',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceIn',
+        exit: 'animated bounceOut'
+      },
+    });
+        } else {
+
+      $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> عفوا لايمكن ادخال المادة مرتين </p>"
+      },{
+      type: 'danger',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceIn',
+        exit: 'animated bounceOut'
+      },
+    });
+
+
+
+        }
 
        });
      
@@ -171,13 +243,8 @@ $('body').on('click', '#ed', function(){
                $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
              //  $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
            }
-      
-
-    });
-   
+    });  
   });
-
-  
 
   $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
@@ -206,12 +273,12 @@ $('body').on('click', '#ed', function(){
   $("#Semesters").show(0); 
   $("#Year").hide(0);
   $('#toggle-subject').change(function() {
-    var toggle ;
+  
     if ($(this).prop('checked') == true) {
-      toggle = 1;
+      toggle = 2;
     }
     else {
-      toggle = 0;
+      toggle = 1;
     }
 
   

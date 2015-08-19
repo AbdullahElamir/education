@@ -32,10 +32,10 @@ block cPanel
                 input#name.form-control(type="text", name="name", placeholder="اسم المادة")
               .col-xs-4.col-md-4
                 label.pull-left Subject name
-                input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="Subject name", dir="ltr")
+                input#name_en.form-control(type="text", name="name_en", placeholder="Subject name", dir="ltr")
               .col-xs-4.col-md-4
                 label رمز المادة
-                input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")           
+                input#code.form-control(type="text", name="code", placeholder="رمز المادة")           
           .form-group
             .row         
               .col-xs-3.col-md-3
@@ -66,19 +66,20 @@ block cPanel
                   label تندرج تحت قسم
                   br
                   label.radio-inline
-                    input#js_radio(type='radio', name='department')
+                    input#radio(type='radio', name='department',value="1")
                     | عامة
                   label.radio-inline
-                    input#radio(type='radio', name='department')
+                    input#radio(type='radio', name='department',value="2")
                     | خاصة
                   label.radio-inline
-                    input#radio(type='radio', name='department')
+                    input#radio(type='radio', name='department',value="3")
                     | كلاهما
-                #department_select
+                
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                      option(value="عام")
+                    for i in dept
+                      option(value="#{i.id}") #{i.name}
           .form-group 
             .row
               .col-xs-3.col-md-3

@@ -152,9 +152,7 @@ router.get('/getSubject/:id', function(req, res) {
   });
 });
 
-router.post('/test/:id', function(req, res) {
-  console.log(req.params.id);
-  });
+
 
 
 router.get('/editDepartments/:id', function(req, res) {
@@ -186,6 +184,9 @@ router.post('/editDept', function(req, res) {
     });
   });
 });
+
+
+
 
 
 
@@ -404,6 +405,32 @@ router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
   });
 });
 
+
+router.post('/saveSubject',function(req, res) {
+  var PrerequisiteId=req.body.idd;
+  req.body.UserId=1;
+  models.Subject.create(req.body).then(function(result) {
+   var SubjectId=result.id;
+
+   for(var i=0;i<PrerequisiteId.length;i++)
+   {
+    var obj = {PrerequisiteId:PrerequisiteId[i],SubjectId:SubjectId};
+     /*models.SubjectHasPrerequisites.create(obj).then(function(result) {
+          res.send(true);
+     });*/
+
+    models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`SubjectId`, `PrerequisiteId`) VALUES ("'+SubjectId+'","'+PrerequisiteId[i]+'")').then(function(results){
+ console.log(result);
+ res.send(true);
+ 
+});
+
+   }
+
+    res.send(true);
+  });
+  });
+
 router.get('/divisions',userHelpers.isLogin, function(req, res) {
   models.Division.findAll({
     include: [{
@@ -592,7 +619,7 @@ router.get('/subjects', function(req, res) {
         status: 1
       }
     }).then(function(departments) {
-        console.log(departments);
+        //console.log(departments);
         res.render('subjects', { title: 'subjects',dep:departments,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
     }); 
   }); 
@@ -605,8 +632,14 @@ router.get('/newSubject', function(req, res) {
       status: 1
     }
   }).then(function(subject) {
-    console.log(subject);
-  res.render('newSubject', {title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+     models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(departments) {
+  //console.log(departments);
+  res.render('newSubject', {title: 'New Subject',dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+});
 });
 });
 
