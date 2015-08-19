@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });l
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -647,6 +647,14 @@ router.post('/newUser',userHelpers.isLogin, function(req, res) {
   console.log(req.body);
   userHelpers.addUser(req.body,function(result){
     res.redirect('/newUser');
+  });
+});
+
+router.post('/updateUser',userHelpers.isLogin, function(req, res) {
+  userHelpers.updateUser(req.body,function(result){
+    console.log(result);
+    var rel = {result : result ,stat : true};
+        res.send(rel);
   });
 });
 
