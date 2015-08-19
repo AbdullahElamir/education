@@ -5,6 +5,15 @@ var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
 var Sequelize = require('sequelize')
+var jsr = require("jsreport");
+var fs = require("fs");
+var path = require("path");
+var obj = {
+  subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
+  classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
+ 
+}
+
 
 /* GET home page. */
 
@@ -20,18 +29,43 @@ router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
   res.render('cPanelTest', { title: 'Control Panel', active: 'active' });
 });
 
+// get all seme //
 router.get('/semesters',userHelpers.isLogin, function(req, res) {
-  models.Semester.findAll({
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Semester.findAndCountAll({
     where: {
       status: 1
-    }
+    },
+    limit : 10,
+    offset: limit,
   }).then(function(semester) {
-      res.render('semesters', { title: 'View Semesters', semester: semester, collapseOne: 'collapse in', activeOneOne: 'active' });
+    var pageCount = userHelpers.getPageCount(semester.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+      res.render('semesters', { title: 'View Semesters', semester: semester.rows,pagination:pagination, collapseOne: 'collapse in', activeOneOne: 'active' });
   });
 });
 
 router.get('/newSemester',userHelpers.isLogin, function(req, res) {
   res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
+});
+
+
+
+router.get('/transcript', function(req, res, next) {
+ jsr.render({
+    template: { 
+
+      content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+        // content: "<h1>Hello world</h1>",
+        recipe: "phantom-pdf"
+    },
+
+    data:obj
+}).then(function (response) {
+   //you can for example pipe it to express.js response
+   response.result.pipe(res);
+});
 });
 
 router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
@@ -64,7 +98,6 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
       semType = "صيفي";
       }
 
-      console.log(semType);
       res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
         //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
     });
@@ -78,19 +111,24 @@ router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
   req.body.UserId=1;//req,session.id
-  console.log(req.body);
   models.Semester.create(req.body).then(function() {
     res.redirect('/semesters');
   });
 });
 
 router.get('/locations',userHelpers.isLogin, function(req, res) {
-   models.Location.findAll({
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Location.findAndCountAll({
     where: {
       status: 1
-    }
+    },
+    limit : 10,
+    offset: limit,
   }).then(function(location) {
-      res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+    var pageCount = userHelpers.getPageCount(location.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+      res.render('locations', { title: 'View Locations', loc: location.rows,pagination:pagination, collapseTwo: 'collapse in', activeTwoOne: 'active' });
   });
 });
 
@@ -106,19 +144,17 @@ router.post('/newLocation',userHelpers.isLogin, function(req, res) {
 });
 
 router.get('/departments',userHelpers.isLogin, function(req, res) {
-  var page = 1;
-  if(url.parse(req.url, true).query.p){
-    page = parseInt(url.parse(req.url, true).query.p);
-  }
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
   models.Department.findAndCountAll({
     where: {
       status: 1
     },
     limit : 10,
-    offset: page,
+    offset: limit,
   }).then(function(department) {
     var pageCount = userHelpers.getPageCount(department.count);
-    var pagination = userHelpers.paginate(page.pageCount);
+    var pagination = userHelpers.paginate(page,pageCount);
     res.render('departments', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
   });
 });
@@ -147,7 +183,6 @@ router.get('/getSubject/:id', function(req, res) {
         ],
 
   }).then(function(subject) {
-    console.log(subject);
     res.send(subject);
   });
 });
@@ -166,33 +201,24 @@ router.get('/editDepartments/:id', function(req, res) {
 });
 
 // edit department
-router.post('/editDept', function(req, res) {
-  console.log("body");
-  console.log(req.body);
-  console.log("end body");
-  id = req.body.id_dep;
-  delete req.body.id_dep;
+router.post('/updateDepartment', function(req, res) {
+  id = req.body.id;
+  delete req.body.id;
   models.Department.find({
     where: {
       id: id
     }
     }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
-      res.redirect('/departments');
+        var rel = {result : todo ,stat : true};
+        res.send(rel);
     }).catch(function (err) {
         console.log(err);
     });
   });
 });
 
-
-
-
-
-
 router.post('/editLocation', function(req, res) {
-  console.log("body");
-  console.log(req.body);
   id = req.body.locid;
   models.Location.find({
     where: {
@@ -287,7 +313,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
       req.body.sem_type = 3;
     } 
 
-  console.log(req.body);
    id = req.params.id;
   models.Semester.find({
     where: {
@@ -303,10 +328,6 @@ router.post('/semester/:id/updateSemester', function(req, res) {
      });
      });
  
- 
- 
-
-
 // delete Department
 router.get('/deleteDepartment/:id', function(req, res) {
   models.Department.find({
@@ -377,9 +398,6 @@ router.get('/deleteSemesters/:id', function(req, res) {
 
 // updateFacultyMember
 router.post('/updateFacultyMember', function(req, res) {
-  console.log("======================");
-  console.log(req.body);
-  console.log("======================");
   models.Faculty_member.find({
     where: {
       id: req.body.id
@@ -398,7 +416,6 @@ router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
-  console.log("departments");
   req.body.UserId=1;//req,session.id
   models.Department.create(req.body).then(function() {
     res.redirect('/departments');
@@ -432,43 +449,52 @@ router.post('/saveSubject',function(req, res) {
   });
 
 router.get('/divisions',userHelpers.isLogin, function(req, res) {
-  models.Division.findAll({
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Division.findAndCountAll({
     include: [{
       model: models.Department,
       where: { status: 1 }
     }],
-     where: { status: 1 }
+    where: {
+      status: 1
+    },
+    limit : 10,
+    offset: limit,
   }).then(function(division) {
+    var pageCount = userHelpers.getPageCount(division.count);
+    var pagination = userHelpers.paginate(page,pageCount);
     models.Department.findAll({
     where: {
       status: 1
     }
   }).then(function(department) { 
-  res.render('divisions', { title: 'View divisions', departments: department, divisions: division, collapseFour: 'collapse in', activeFourThree: 'active' });
+  res.render('divisions', { title: 'View divisions', departments: department, divisions: division.rows,pagination:pagination, collapseFour: 'collapse in', activeFourThree: 'active' });
   });
   });
 });
 
 router.get('/division/:id',userHelpers.isLogin, function(req, res) {
-  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubject` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
-).then(function(results){
-  // Each record will now be a instance of Project
-  console.log("-------------------------------");
-  console.log(results);
-  res.render('division', { title: 'View division',year:results[0], collapseFour: 'collapse in', activeFourThree: 'active' });
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+).then(function(subjectsS){
+  models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 2 AND `d`.`id` = ? AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+  ).then(function(subjectsY){
+    models.sequelize.query('SELECT * FROM `DivisionSubjects` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=1; ', { replacements: [req.params.id] }
+    ).then(function(semester){
+      models.sequelize.query('SELECT * FROM `DivisionSubjects` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2; ', { replacements: [req.params.id] }
+      ).then(function(year){
+        res.render('division', { title: 'View division',subjectsS:subjectsS[0],subjectsY:subjectsY[0],semester:semester[0],year:year[0],id_div:req.params.id ,collapseFour: 'collapse in', activeFourThree: 'active' });
+      });
+    });
+  });
+});
 });
 
-});
+//SELECT * FROM `DivisionSubject` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2;
 //////////////////////////
 
-
-
-
-
-
-router.post('/addDivision', function(req, res) {
+router.post('/updateDivision', function(req, res) {
   var id = req.body.id;
- // console.log(req.body);
   models.Division.find({
     where: {
       id: id
@@ -477,12 +503,12 @@ router.post('/addDivision', function(req, res) {
     todo.updateAttributes(req.body).then(function (todo) {
       models.Department.findAll({
         where: 
-         { status: 1
+         { status: 1,
+           id :todo.DepartmentId
          }
     }).then(function(Departments) {
         var rel = {result : Departments ,stat : true};
         res.send(rel);
-       //console.log(rel);
     }).catch(function (err) {
         console.log(err);
     });
@@ -516,7 +542,6 @@ router.get('/deleteDivision/:id', function(req, res) {
     todo.updateAttributes({
         status: 0
     }).then(function (todo) {
-        console.log(todo);
         res.send(todo);
     }).catch(function (err) {
         console.log(err);
@@ -540,7 +565,6 @@ router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   req.body.UserId=1;//req,session.id
   // req.body.DepartmentId=5;
   models.Faculty_member.create(req.body).then(function() {
@@ -566,18 +590,39 @@ router.get('/deleteFaculityMembers/:id', function(req, res) {
 });
 
 router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
-  models.Faculty_member.findAll({
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Faculty_member.findAndCountAll({
     include: [{
       model: models.Department,
       where: { status: 1 }
-    }]
+    }],
+    where: {
+      status: 1
+    },
+    limit : 10,
+    offset: limit,
   }).then(function(facultyMembers) {
-    res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
+    var pageCount = userHelpers.getPageCount(facultyMembers.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+    res.render('facultyMembers', { title: 'View faculty members',pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
   });
 });
 
 router.get('/students',userHelpers.isLogin, function(req, res) {
-  res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Student.findAndCountAll({
+    where: {
+      status: 1
+    },
+    limit : 10,
+    offset: limit,
+  }).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+  res.render('students', { title: 'View Students', student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
+});
 });
 
 router.get('/newStudent',userHelpers.isLogin, function(req, res) {
@@ -598,8 +643,37 @@ router.get('/newUser',userHelpers.isLogin, function(req, res) {
     res.render('newUser', { title: 'New User', activeUser: 'active' });
 });
 
+router.post('/newUser',userHelpers.isLogin, function(req, res) {
+  console.log(req.body);
+  userHelpers.addUser(req.body,function(result){
+    res.redirect('/newUser');
+  });
+});
+
 router.get('/users',userHelpers.isLogin, function(req, res) {
-  res.render('users', { title: 'View users', activeUser: 'active' });
+  models.User.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(user) {
+  res.render('users', { title: 'View users',Users: user , activeUser: 'active' });
+  });
+});
+/////////////// delete Users 
+router.get('/deleteUsers/:id', function(req, res) {
+  models.User.find({
+    where: {
+      id: req.params.id
+    }
+    }).then(function (todo) {
+    todo.updateAttributes({
+        status: 0
+    }).then(function (todo) {
+        res.send(todo);
+    }).catch(function (err) {
+        console.log(err);
+    });
+  });
 });
 
 router.get('/timelines',userHelpers.isLogin, function(req, res) {
@@ -608,23 +682,54 @@ router.get('/timelines',userHelpers.isLogin, function(req, res) {
 
 
 router.get('/subjects', function(req, res) {
-  models.Subject.findAll({
-    include: [{
-      model: models.Department,
-      where: { status: 1 }
-    }]
-  }).then(function(Subject) {    
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Subject.findAndCountAll({
+    where: {
+      status: 1
+    },
+    limit : 10,
+    offset: limit,
+  }).then(function(Subject) {
+    var pageCount = userHelpers.getPageCount(Subject.count);
+    var pagination = userHelpers.paginate(page,pageCount);    
    models.Department.findAll({
       where: {
         status: 1
       }
     }).then(function(departments) {
-        //console.log(departments);
-        res.render('subjects', { title: 'subjects',dep:departments,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
+
+        res.render('subjects', { title: 'subjects',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
     }); 
   }); 
 });
 
+router.get('/deleteDivisionsbject/:ids/:idd', function(req, res) {
+   models.DivisionSubject.destroy({
+    where: {
+      SubjectId:req.params.ids,
+      DivisionId:req.params.idd
+    }
+  }).then(function(results){
+    models.Subject.findOne({where:{
+      id:req.params.ids
+       }}).then(function(result){
+        res.send(result);
+    });
+  });
+});
+
+
+router.post('/addDivisionSubject',function(req,res){
+ models.DivisionSubject.create(req.body).then(function(result){
+  models.Subject.findOne({where:{
+    id:req.body.SubjectId
+  }}).then(function(result){
+    res.send(result);
+  });
+  
+ });
+});
 router.get('/newSubject', function(req, res) {
 
     models.Subject.findAll({

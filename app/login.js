@@ -11,6 +11,7 @@ passport.use(new LocalStrategy(
       if (!user) { return done(null, false); }
       authenticate(user,password, function(valid){
         if(valid){
+
           return done(null, user);
         } else {
           return done(null, false);
@@ -33,8 +34,6 @@ passport.deserializeUser(function(id, done) {
 module.exports = function (router) {
   //login here we get the email and password and check if they're conrrect
   router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), function(req, res) {
-    console.log("don");
-    console.log(req.session);
     findById(req.session.passport.user, function (err, user) {
       req.session.iduser=user.id;
       res.redirect('/cPanel');
