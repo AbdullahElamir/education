@@ -3,7 +3,8 @@ var router = express.Router();
 var models  = require('../models');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
-var Sequelize = require('sequelize')
+var nationality = require('../Nationality.json');
+
 
 /* GET home page. */
 
@@ -128,7 +129,25 @@ router.get('/getLocation/:id', function(req, res) {
   });
 });
 
-
+router.get('/getFacultyMember/:id', function(req, res) {
+  // var idFaculity = req.params.id;
+  // delete  req.params.id;
+  models.Faculty_member.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }],
+    where: {
+      id: req.params.id,
+      status: 1
+    }
+  }).then(function(faculty) {
+    console.log("----------------------------------------------------");
+    console.log(faculty);
+    console.log("---------------------------------------------");
+    // res.send(faculty);
+  });
+});
 
 router.get('/getSubject/:id', function(req, res) {
    models.Subject.findAll({
@@ -298,9 +317,6 @@ router.get('/deleteSemesters/:id', function(req, res) {
 
 // updateFacultyMember
 router.post('/updateFacultyMember', function(req, res) {
-  console.log("======================");
-  console.log(req.body);
-  console.log("======================");
   models.Faculty_member.find({
     where: {
       id: req.body.id
@@ -381,13 +397,12 @@ router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(Departments) {
-    res.render('newFacultyMember', { title: 'New Faculty Member', departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+    res.render('newFacultyMember', { title: 'New Faculty Member', nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
   });
   
 });
 
 router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   req.body.UserId=1;//req,session.id
   // req.body.DepartmentId=5;
   models.Faculty_member.create(req.body).then(function() {
@@ -417,9 +432,17 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
     include: [{
       model: models.Department,
       where: { status: 1 }
-    }]
+    }],
+    where: { status: 1 }
   }).then(function(facultyMembers) {
-    res.render('facultyMembers', { title: 'View faculty members',collapseSix: 'collapse in', faculty_Members:facultyMembers, activeSixOne: 'active' });
+    console.log(facultyMembers);
+    models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(departmentss) {
+      res.render('facultyMembers', { title: 'View faculty members',nationalityJade:nationality,collapseSix: 'collapse in', faculty_Members:facultyMembers,depts:departmentss, activeSixOne: 'active' });
+    });
   });
 });
 
@@ -443,7 +466,7 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
   //     });
   //   });
   // });
-
+// --------------------------------------
 router.get('/students',userHelpers.isLogin, function(req, res) {
   res.render('students', { title: 'View Students', collapseFive: 'collapse in', activeFiveOne: 'active' });
 });
@@ -457,7 +480,7 @@ router.post('/newStudent', userHelpers.isLogin,function(req, res) {
     res.redirect('/students');
   });
 });
-
+// ---------------------------------------
 router.get('/testPage',userHelpers.isLogin, function(req, res) {
   res.render('testPage', { title: 'HTML Test Page' });
 });
