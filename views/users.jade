@@ -44,21 +44,22 @@ block cPanel
                 th.text-center تعديل
                 th.text-center الغاء
               tbody
-                tr
-                  td
-                    input.checkthis(type="checkbox")
-                  td فاروق
-                  td fa2999@yahoo.com
-                  td 12345
-                  td 092456347
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-trash
+                for users in Users
+                  tr(data-id = '#{users.id}',data-name = '#{users.name}',data-email = '#{users.email}',data-password = '#{users.password}',data-phone = '#{users.phone}')
+                    td
+                      input.checkthis(type="checkbox")
+                    td #{users.name}
+                    td #{users.email}
+                    td #{users.password}
+                    td #{users.phone}
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                        button#Edit.btn.btn-primary.btn-xs.editUsers(value='#{users.id}',data-nn="#{users.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                          span.glyphicon.glyphicon-pencil
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                        button#Delete.btn.btn-danger.btn-xs(value='#{users.id}',data-title="Delete", data-toggle="modal", data-target="#delete")
+                          span.glyphicon.glyphicon-trash
           ul.pagination.pull-right
             li.disabled
               a(href="#")
@@ -84,30 +85,31 @@ block cPanel
             span.glyphicon.glyphicon-remove(aria-hidden="true")
           h4#Heading.modal-title.custom_align تعديل مستخدم محدد
         .modal-body
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                label.h4 اسم المستخدم
-                input.form-control#name(type="text", name="name",value="فاروق",disabled)
-              .col-xs-6.col-md-6
-                label.h4 رقم الهاتف
-                input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
-            br
-            .row
-              .col-xs-6.col-md-6
-                label.h4 البريد الالكتروني
-                input.form-control#emil(type="text", name="email", placeholder="البريد الالكتروني")
-              .col-xs-6.col-md-6
-                label.h4 تأكيد البريد الالكتروني
-                input.form-control#confirm_emil(type="text", name="confirm_emil", placeholder="تأكيد البريد الالكتروني")
-            br
-            .row
-              .col-xs-6.col-md-6
-                label.h4 الرقم السري
-                input.form-control#password(type="password", name="password", placeholder="الرقم السري")
-              .col-xs-6.col-md-6
-                label.h4 تأكيد الرقم السري
-                input.form-control#confirm_password(type="password", name="confirm_password", placeholder="تأكيد الرقم السري")
+          form#formUsers.form-signin(role="form",name='formUsers')
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  label.h4 اسم المستخدم
+                  input.form-control#name(type="text", name="name",value="فاروق",disabled)
+                .col-xs-6.col-md-6
+                  label.h4 رقم الهاتف
+                  input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
+              br
+              .row
+                .col-xs-6.col-md-6
+                  label.h4 البريد الالكتروني
+                  input.form-control#email(type="text", name="email", placeholder="البريد الالكتروني")
+                .col-xs-6.col-md-6
+                  label.h4 تأكيد البريد الالكتروني
+                  input.form-control#confirm_emil(type="text", name="confirm_emil", placeholder="تأكيد البريد الالكتروني")
+              br
+              .row
+                .col-xs-6.col-md-6
+                  label.h4 الرقم السري
+                  input.form-control#password(type="password", name="password", placeholder="الرقم السري")
+                .col-xs-6.col-md-6
+                  label.h4 تأكيد الرقم السري
+                  input.form-control#confirm_password(type="password", name="confirm_password", placeholder="تأكيد الرقم السري")
         .modal-footer
           button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
@@ -126,7 +128,7 @@ block cPanel
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذا المستخدم؟
         .modal-footer
-          button#yes.btn.btn-success(type="button")
+          button#ok.btn.btn-success(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
@@ -137,6 +139,11 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/bootstrap-select.min.js')  
+  script(src='/js/jquery.validate.min.js')  
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/users.js')
+  script(src='/js/helpers.js') 
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

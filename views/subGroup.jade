@@ -23,8 +23,8 @@ block navcPanel
                 th اسم القاعة الدراسية
                 th.text-center تعديل
                 th.text-center إلغاء
-              tbody
-                tr
+              tbody#tbody
+                tr(data-id = 1)
                   td رياضة 1
                   td MM101
                   td محمد خليف ساسي
@@ -56,68 +56,62 @@ block navcPanel
                 th رمز المادة
                 th.text-center إضافة
               tbody
-                tr
+                tr(data-id = 2)
                   td رياضة 2
                   td MM102
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إضافة")
                       button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
                         span.glyphicon.glyphicon-hand-right 
-                tr
-                  td رياضة 3
-                  td MM103
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                      button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
-                        span.glyphicon.glyphicon-hand-right 
-      .col-xs-9.col-md-9
-        .panel.panel-default
-          .panel-heading(style="padding: 5px 15px;")
-            .row
-              .pull-right(style="margin-right: 10px;")
-                .panel-title عرض الفصول الدراسية
-              .pull-left(style="margin-left: 10px;")
-          .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right
-              thead
-                th اسم المادة
-                th رمز المادة
-                th اسم المحاضر
-                th رقم المجموعة
-                th عدد الطلبة
-                th اسم القاعة الدراسية
-                th.text-center إلغاء
-              tbody
-                tr
-                  td رياضة 1
-                  td MM101
-                  td محمد خليف ساسي
-                  td A1
-                  td 50
-                  td شهيد الواجب
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-danger.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-hand-left
-      .col-xs-3.col-md-3
-        .panel.panel-default
-          .panel-heading(style="padding: 5px 15px;")
-            .row
-              .panel-title.text-center المواد الملغية
-          .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right
-              thead
-                th اسم المادة
-                th رمز المادة
-                th.text-center إضافة
-              tbody
-                tr
-                  td رياضة 2
-                  td MM102
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-hand-right
+                
+      //- .col-xs-9.col-md-9
+      //-   .panel.panel-default
+      //-     .panel-heading(style="padding: 5px 15px;")
+      //-       .row
+      //-         .pull-right(style="margin-right: 10px;")
+      //-           .panel-title عرض الفصول الدراسية
+      //-         .pull-left(style="margin-left: 10px;")
+      //-     .table-responsive
+      //-       table#mytable.table.table-bordred.table-striped.text-right
+      //-         thead
+      //-           th اسم المادة
+      //-           th رمز المادة
+      //-           th اسم المحاضر
+      //-           th رقم المجموعة
+      //-           th عدد الطلبة
+      //-           th اسم القاعة الدراسية
+      //-           th.text-center إلغاء
+      //-         tbody
+      //-           tr
+      //-             td رياضة 1
+      //-             td MM101
+      //-             td محمد خليف ساسي
+      //-             td A1
+      //-             td 50
+      //-             td شهيد الواجب
+      //-             td.text-center
+      //-               p(data-placement="top", data-toggle="tooltip", title="تعديل")
+      //-                 button.btn.btn-danger.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
+      //-                   span.glyphicon.glyphicon-hand-left
+      //- .col-xs-3.col-md-3
+      //-   .panel.panel-default
+      //-     .panel-heading(style="padding: 5px 15px;")
+      //-       .row
+      //-         .panel-title.text-center المواد الملغية
+      //-     .table-responsive
+      //-       table#mytable.table.table-bordred.table-striped.text-right
+      //-         thead
+      //-           th اسم المادة
+      //-           th رمز المادة
+      //-           th.text-center إضافة
+      //-         tbody
+      //-           tr
+      //-             td رياضة 2
+      //-             td MM102
+      //-             td.text-center
+      //-               p(data-placement="top", data-toggle="tooltip", title="تعديل")
+      //-                 button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
+      //-                   span.glyphicon.glyphicon-hand-right
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -201,7 +195,7 @@ block navcPanel
                   option(value="0") محاضر1
                   option(value="1") محاضر2
         .modal-footer
-          button.btn.btn-success.btn-lg(type="button", style="width: 100%;")
+          button#addd.btn.btn-success.btn-lg(type="button", data-dismiss="modal", style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
             |  إضافة
       // /.modal-content
@@ -231,6 +225,7 @@ block navcPanel
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/supGroup.js')  
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();

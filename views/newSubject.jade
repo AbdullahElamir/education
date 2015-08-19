@@ -27,32 +27,29 @@ block cPanel
           hr
           .form-group
             .row
-              .col-xs-3.col-md-3
+              .col-xs-4.col-md-4
                 label اسم المادة
-                input#subject_name.form-control(type="text", name="subject_name", placeholder="اسم المادة")
-              .col-xs-3.col-md-3
+                input#name.form-control(type="text", name="name", placeholder="اسم المادة")
+              .col-xs-4.col-md-4
                 label.pull-left Subject name
-                input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="Subject name", dir="ltr")
+                input#name_en.form-control(type="text", name="name_en", placeholder="Subject name", dir="ltr")
+              .col-xs-4.col-md-4
+                label رمز المادة
+                input#code.form-control(type="text", name="code", placeholder="رمز المادة")           
+          .form-group
+            .row         
               .col-xs-3.col-md-3
                 label عدد وحدات النظري
                 input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")
               .col-xs-3.col-md-3
                 label عدد ساعات النظري
                 input#no_th_hour.form-control(type="text", name="no_th_hour", placeholder="عدد ساعات النظري")
-          .form-group
-            .row
-              .col-xs-3.col-md-3
-                label رمز المادة
-                input#cod.form-control(type="text", name="cod", placeholder="رمز المادة")
-              .col-xs-3.col-md-3
-                label نوع المادة
-                input#sub_type.form-control(type="text", name="sub_type", placeholder="نوع المادة")
               .col-xs-3.col-md-3
                 label عدد وحدات العملي
                 input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="عدد وحات العملي")
               .col-xs-3.col-md-3
                 label عدد ساعات العملي
-                input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="عدد ساعات العملي")
+                input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="عدد ساعات العملي")           
           .form-group
             .row
               .col-xs-3.col-md-3
@@ -69,39 +66,40 @@ block cPanel
                   label تندرج تحت قسم
                   br
                   label.radio-inline
-                    input#js_radio(type='radio', name='department')
+                    input#radio(type='radio', name='department',value="1")
                     | عامة
                   label.radio-inline
-                    input#radio(type='radio', name='department')
+                    input#radio(type='radio', name='department',value="2")
                     | خاصة
                   label.radio-inline
-                    input#radio(type='radio', name='department')
+                    input#radio(type='radio', name='department',value="3")
                     | كلاهما
-                #department_select
+                
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                      option(value="عام")
+                    for i in dept
+                      option(value="#{i.id}") #{i.name}
           .form-group 
             .row
               .col-xs-3.col-md-3
                 label
                   span  المواد التمهيدية
-                select.form-control.selectpicker#subject_id(name="SubjectId", data-live-search="true", data-size=5)
+                select#subjectId.form-control.selectpicker(name="subjectId", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') اختر اسم المواد...
+                  for u in sub
+                    option(value="#{u.id}", style='color:grey; ') #{u.name}
+
               .col-xs-5.col-md-5
-                table.table.table-bordered
-                  thead
-                    tr
-                      th.text-center المواد التمهيدية
+                table#my.table.table-bordered
                   tbody
-                    tr
-                      td.text-center رياضة  
-                    tr
-                      td.text-center أحصاء  
+                  //- for u in sub
+                  //-   tr
+                  //-     td.text-center #{u.name} 
+                     
           hr
           .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
-            button.btn.btn-primary(type="submit")
+            button#save.btn.btn-primary(type="button")
               | إضافة
     br
     br

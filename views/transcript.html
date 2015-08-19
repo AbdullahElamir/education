@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <!-- <link rel="stylesheet" type="text/css" href="http://localhost:3000/public/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
+    <style>
+    @font-face {
+      font-family: 'droidkufi';
+      src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
+        }
+    body {
+      /*font-family: 'Droid Arabic Kufi', sans-serif;*/
+      /*font-family: 'Droid Arabic Naskh', serif;*/
+      font-family: 'droidkufi', sans-serif; 
+    }   
+    .page-break    { display: block; page-break-before: always; }
+
+
+</style>
+    <meta charset="utf-8"/>
+    <!-- <link rel="stylesheet" href="@Url.ContentAbsUrl("~/bootstrap.css")" /> -->
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <img src="http://localhost:3000/images/1.jpg" class="img-responsive" alt="Responsive image">
+                <!-- page -->
+                <!-- head -->
+                </div>
+                <script type="text/javascript">
+                    var i = 1;
+                </script>
+             {{#classes}}
+
+
+        <script type="text/javascript">
+         if (i % 2 === 1  ) {
+        document.write(
+          '<div class="invoice-title">'+
+            '<h2><center>الكلية </center>'+ 
+              '<hr>'+
+            '</h2>'+
+            '<h3 class="pull-right">كشـف درجات'+
+            '{{#student}}'+
+            '<div class="row">'+
+            '<h6 class="col-md-1">'+
+                  'الأسم : {{name}} <br>'+
+                  'رقم القيد : {{id}}<br>'+
+            '</h6>'+
+            '</div>'+
+            '</h3>'+
+            '<h3 class="pull-left">transcript'+
+            '<div class="row">'+
+            '<h6 class="col-md-12">'+
+                  'name : {{name_en}} <br>'+
+                  'Registration No. : {{id}}<br>'+
+            '</h6>'+
+            '</div>'+
+            '{{/student}}'+
+            '</h3>'+
+          '<div class="row">'+
+            '<div class="col-xs-6">'+
+            '</div>'+
+            '<div class="col-xs-6 pull-right">'+
+            '</div>'+
+          '</div>');
+      }
+        </script>
+            </div>
+        </div>
+        <!-- end head -->
+
+        <!-- table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" align="right"><strong>الفصل : {{class_name}}  </strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td class="text-center h5"><strong>النسبة</strong></td>
+                                        <td class="text-center h5"><strong>class name</strong></td>
+                                        <td class="text-center h5"><strong>إسم المادة </strong></td>
+                                        <td align="center h5"><strong> رمز المادة</strong></td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                  {{#each subjects}}
+                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                    <tr>
+                                        <td class="text-center h6">%70</td>
+                                        <td class="text-center h6">{{subject_ar}}</td>
+                                        <td class="text-center h6">{{subject_en}}</td>
+                                        <td class="text-center h6">{{degree}}</td>
+                                    </tr>  
+                                    {{/each}}    
+                                    <tr>
+                                        <td class="no-line h5" align="left h5"><strong>المعدل التراكمي: %65 </strong></td>
+                                        <td class="no-line h5"></td>
+                                        <td class="no-line h5"></td>
+                                        <td class="no-line text-center h5"><strong>التقدير  جيد </strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <script type="text/javascript">
+         if (i % 2 === 0 ) {
+        document.write(" <div class='page-break'></div> ");
+      }
+        i ++;
+        </script>
+     <!-- break pages -->
+        <!-- endpage -->      
+        {{/classes}}
+                <!-- page -->
+                <!-- head -->
+               <!-- endpage -->      
+    </div>
+  </body>
+</html>
