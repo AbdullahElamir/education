@@ -52,8 +52,9 @@ block cPanel
                 label الجنسية
                 select.form-control.selectpicker#nationality(name="nationality", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
-                  option(value="0") جنسية1
-                  option(value="1") جنسية2
+                  for nat in nationalityJade
+                    option(value="#{nat.id}") #{nat.name}
+                  
           .form-group
             .row
               .col-xs-6.col-md-6

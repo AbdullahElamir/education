@@ -1,32 +1,52 @@
 $(document).ready(function(){
   // delete faculityMembers
-  $('body').on('click', '#Delete', function(){
+  $('body').on('click', '#Deletee', function(){
     $('#ok').val($(this).val());
   });
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    alert(id);
     $.get('/deleteFaculityMembers/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      $('[date-id = "'+id+'"]').remove();
     });
   });
 
-
-  $('.editFacultyMember').on('click',function(){
-    var myDataAttr = $(this).data('noname');
-    console.log(myDataAttr);
-    $('#id_faculty_Member').val(myDataAttr);
-    $('#name').val($("#faculty_Member-"+myDataAttr).data('name'));
-    $('#qualification').val($("#faculty_Member-"+myDataAttr).data('qualification'));
-    $('#gender').val($("#faculty_Member-"+myDataAttr).data('gender'));
-    $('#nationality').val($("#faculty_Member-"+myDataAttr).data('nationality'));
-    $('#birth_date').val($("#faculty_Member-"+myDataAttr).data('birth_date'));
-    $('#place_birth').val($("#faculty_Member-"+myDataAttr).data('place_birth'));
-    $('#physical_address').val($("#faculty_Member-"+myDataAttr).data('physical_address'));
-    $('#phone').val($("#faculty_Member-"+myDataAttr).data('phone'));
-   console.log($("#faculty_Member-"+myDataAttr).data('name')+"-"+$("#faculty_Member-"+myDataAttr).data('gender'));
+/*
+$('.editDivision').on('click',function(){
+    var myDataAttr = $(this).val();
+    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+    $('#name_en').val($('[data-id = "'+myDataAttr+'"]').data('name_en'));
+    $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
+    $('#DepartmentId').val($('[data-id = "'+myDataAttr+'"]').data('departmentid'));
   });
+*/
+
+  $('body').on('click', '#editt',function(){
+    var myDataAttr = $(this).val();  
+    var dates= $('[data-id = "'+myDataAttr+'"]').data('birth_date');
+    console.log(dates);
+    date = new Date(dates);
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    console.log(year+"-"+monthIndex+"-"+day);
+      $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+      $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));
+      $('#gender').val($('[data-id = "'+myDataAttr+'"]').data('gender'));
+      $('#nationality').val($('[data-id = "'+myDataAttr+'"]').data('nationality'));
+      $('#birth_date').val("hjk");
+      $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+      $('#physical_address').val($('[data-id = "'+myDataAttr+'"]').data('physical_address'));
+      $('#phone').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
+      $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));
+      $('#departmentId').val($('[data-id = "'+myDataAttr+'"]').data('DepartmentId'));
+  });
+    // var myDataAttr = $(this).data('noname');
+    // console.log(myDataAttr);
+    // $('#id_faculty_Member').val(myDataAttr);
+    
+   // console.log($("#faculty_Member-"+myDataAttr).data('name')+"-"+$("#faculty_Member-"+myDataAttr).data('gender'));
+  // });
 
   // $('.delete_person').on('click',function(){
   //   var myDataAttr = $(this).data('delete');

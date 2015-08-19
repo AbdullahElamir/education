@@ -11,31 +11,31 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Academic_transcript.belongsTo(models.Student, {
-          onDelete: "CASCADE",
+          onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Academic_transcript.belongsTo(models.Division, {
-          onDelete: "CASCADE",
+          onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Academic_transcript.belongsTo(models.Department, {
-          onDelete: "CASCADE",
+          onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Academic_transcript.belongsTo(models.User, {
-          onDelete: "CASCADE",
+          onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Academic_transcript.belongsTo(models.Sub_group, {
-          onDelete: "CASCADE",
+          onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }

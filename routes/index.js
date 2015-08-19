@@ -4,8 +4,9 @@ var models  = require('../models');
 var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
+var nationality = require('../Nationality.json');
 var Sequelize = require('sequelize')
-var jsr = require("jsreport");
+// var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 var obj = {
@@ -13,6 +14,7 @@ var obj = {
   classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
  
 }
+
 
 
 /* GET home page. */
@@ -172,8 +174,22 @@ router.get('/getLocation/:id', function(req, res) {
   });
 });
 
-// abdullah Elamir Code
-// select data from 3 table
+router.get('/getFacultyMember/:id', function(req, res) {
+  models.Faculty_member.findAll({
+    include: [{
+      model: models.Department,
+      where: { status: 1 }
+    }],
+    where: {
+      id: req.params.id,
+      status: 1
+    }
+  }).then(function(faculty) {
+    res.send(faculty);
+  });
+});
+
+
 router.get('/getSubject/:id', function(req, res) {
    models.Subject.findAll({
     where: { status: 1 , id: req.params.id},
@@ -559,7 +575,7 @@ router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
       status: 1
     }
   }).then(function(Departments) {
-    res.render('newFacultyMember', { title: 'New Faculty Member', departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+    res.render('newFacultyMember', { title: 'New Faculty Member', nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
   });
   
 });
@@ -609,6 +625,7 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
   });
 });
 
+
 router.get('/students',userHelpers.isLogin, function(req, res) {
   var page = userHelpers.getPage(req);
   var limit = userHelpers.getLimit(page);
@@ -634,7 +651,7 @@ router.post('/newStudent', userHelpers.isLogin,function(req, res) {
     res.redirect('/students');
   });
 });
-
+// ---------------------------------------
 router.get('/testPage',userHelpers.isLogin, function(req, res) {
   res.render('testPage', { title: 'HTML Test Page' });
 });
