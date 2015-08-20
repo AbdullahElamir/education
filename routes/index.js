@@ -112,7 +112,7 @@ router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
   req.body.UserId=1;//req,session.id
   models.Semester.create(req.body).then(function() {
-    res.redirect('/semesters');
+    res.redirect('/semesters?msg=1');
   });
 });
 
@@ -139,7 +139,7 @@ router.get('/newLocation',userHelpers.isLogin, function(req, res) {
 router.post('/newLocation',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   models.Location.create(req.body).then(function() {
-    res.redirect('/locations');
+    res.redirect('/locations?msg=1');
   });
 });
 
@@ -529,7 +529,7 @@ router.get('/newDivision',userHelpers.isLogin, function(req, res) {
 router.post('/newDivision',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   models.Division.create(req.body).then(function() {
-    res.redirect('/newDivision');
+    res.redirect('/divisions?msg=1');
   });
 });
 
@@ -568,7 +568,7 @@ router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;//req,session.id
   // req.body.DepartmentId=5;
   models.Faculty_member.create(req.body).then(function() {
-    res.redirect('/facultyMembers');
+    res.redirect('/facultyMembers?msg=1');
   });
 });
 
@@ -637,7 +637,7 @@ router.get('/newStudent',userHelpers.isLogin, function(req, res) {
 
 router.post('/newStudent', userHelpers.isLogin,function(req, res) {
   userHelpers.addUser(req.body, function (results){
-    res.redirect('/students');
+    res.redirect('/students?msg=1');
   });
 });
 
@@ -651,7 +651,7 @@ router.get('/newUser',userHelpers.isLogin, function(req, res) {
 
 router.post('/newUser',userHelpers.isLogin, function(req, res) {
   userHelpers.addUser(req.body,function(result){
-    res.redirect('/newUser');
+    res.redirect('/user?msg=1');
   });
 });
 

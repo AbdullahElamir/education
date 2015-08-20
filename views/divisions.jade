@@ -101,8 +101,7 @@ block cPanel
                   select#DepartmentId.selectpicker.form-control(name="DepartmentId", data-live-search="true", data-size=5)
                     for department in departments
                       option(value="#{department.id}",data-name="#{department.name}")|#{department.name}
-                  input#id(name="id",type="hidden")    
-  
+                  input#id(name="id",type="hidden")
         .modal-footer
           button#save.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
@@ -134,9 +133,9 @@ block cPanel
   script(src='/js/bootstrap-select.min.js')  
   script(src='/js/jquery.validate.min.js')  
   script(src='/js/bootstrap-notify.min.js')
-  script(src='/js/divisions.js')
-  script(src='/js/helpers.js')  
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')  
+  script(src='/js/divisions.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

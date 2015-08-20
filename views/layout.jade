@@ -33,7 +33,7 @@ html
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(href="#") 
+            .navbar-brand
               span.text-muted الدراسة والامتحانات
           // Collect the nav links, forms, and other content for toggling
           .collapse.navbar-collapse#navbar-collapse-xs
@@ -83,7 +83,7 @@ html
                   b.caret
                 ul.dropdown-menu
                   li
-                    a#Edit(href="#",value='',data-title="Edit", data-toggle="modal", data-target="#edit")
+                    a(href="#",data-title="Edit", data-toggle="modal", data-target="#User")
                       span.glyphicon.glyphicon-cog.text-primary
                       span.text-info  تعديل الملف الشخصي
                   li.divider
@@ -92,40 +92,40 @@ html
                       span.glyphicon.glyphicon-off.text-primary
                       span.text-info  خروج
           // /.navbar-collapse
-      //- #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-      //-   .modal-dialog
-      //-     .modal-content
-      //-       form.form#editeUser(role="form",name='editeUser')
-      //-         .modal-header
-      //-           button.close(type="button", data-dismiss="modal", aria-hidden="true")
-      //-             span.glyphicon.glyphicon-remove(aria-hidden="true")
-      //-           h4#Heading.modal-title.custom_align تعديل الملف الشخصي
-      //-         .modal-body
-      //-           .form-group
-      //-             .row
-      //-               .col-xs-6.col-md-6
-      //-                 label.h4 اسم المستخدم
-      //-                 input.form-control#name(type="text", name="name", placeholder="اﻷسم")
-      //-               .col-xs-6.col-md-6
-      //-                 label.h4 رقم الهاتف
-      //-                 input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
-      //-             br
-      //-             .row
-      //-               .col-xs-6.col-md-6.col-md-offset-3
-      //-                 label.h4 كلمة المرور الحالية
-      //-                 input.form-control#password(type="password", name="password", placeholder="كلمة المرور الحالية")
-      //-             br
-      //-             .row
-      //-               .col-xs-6.col-md-6
-      //-                 label.h4 كلمة المرور الجديدة
-      //-                 input.form-control#newPassword(type="password", name="newPassword", placeholder="الرقم السري")
-      //-               .col-xs-6.col-md-6
-      //-                 label.h4 تأكيد كلمة المرور الجديدة
-      //-                 input.form-control#newConfirmPassword(type="password", name="newConfirmPassword", placeholder="تأكيد الرقم السري")
-      //-         .modal-footer
-      //-           button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
-      //-             span.glyphicon.glyphicon-ok-sign
-      //-             |  تعديل
+      //- #User.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            form.form#editeUser(role="form",name='editeUser')
+              .modal-header
+                button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                  span.glyphicon.glyphicon-remove(aria-hidden="true")
+                h4#Heading.modal-title.custom_align تعديل الملف الشخصي
+              .modal-body
+                .form-group
+                  .row
+                    .col-xs-6.col-md-6
+                      label.h4 اسم المستخدم
+                      input.form-control#name(type="text", name="name", placeholder="اﻷسم")
+                    .col-xs-6.col-md-6
+                      label.h4 رقم الهاتف
+                      input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
+                  br
+                  .row
+                    .col-xs-6.col-md-6.col-md-offset-3
+                      label.h4 كلمة المرور الحالية
+                      input.form-control#password(type="password", name="password", placeholder="كلمة المرور الحالية")
+                  br
+                  .row
+                    .col-xs-6.col-md-6
+                      label.h4 كلمة المرور الجديدة
+                      input.form-control#newPassword(type="password", name="newPassword", placeholder="الرقم السري")
+                    .col-xs-6.col-md-6
+                      label.h4 تأكيد كلمة المرور الجديدة
+                      input.form-control#newConfirmPassword(type="password", name="newConfirmPassword", placeholder="تأكيد الرقم السري")
+              .modal-footer
+                button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+                  span.glyphicon.glyphicon-ok-sign
+                  |  تعديل
     block navcPanel
       .container.font
         .row
@@ -136,17 +136,16 @@ html
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseOne")
                       span.glyphicon.glyphicon-tasks
-                      span(style="font-size:15px;")  الفصول الدراسية
+                      span(style="font-size:15px;")  اﻷنظمة الدراسية
                 #collapseOne.panel-collapse.collapse(class=collapseOne)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeOneOne)
-                          a(href="/semesters", style="font-size:12px;").font  عرض الفصول الدراسية
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          a(href="/semesters", style="font-size:14.4px;").font  عرض اﻷنظمة الدراسية
                       tr
                         td(class=activeOneTwo)
-                          a(href="/newSemester").font  إضافة فصل دراسي
+                          a(href="/newSemester").font  إضافة نظام دراسي
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
