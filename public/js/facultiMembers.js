@@ -25,21 +25,24 @@ $('.editDivision').on('click',function(){
     var myDataAttr = $(this).val();  
     var dates= $('[data-id = "'+myDataAttr+'"]').data('birth_date');
     console.log(dates);
+    console.log($('[data-id = "'+myDataAttr+'"]').data('gender'));
     date = new Date(dates);
     var day = date.getDate();
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
     console.log(year+"-"+monthIndex+"-"+day);
+    
       $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
       $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));
-      $('#gender').val($('[data-id = "'+myDataAttr+'"]').data('gender'));
-      $('#nationality').val($('[data-id = "'+myDataAttr+'"]').data('nationality'));
+      $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
+      $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
       $('#birth_date').val("hjk");
       $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
       $('#physical_address').val($('[data-id = "'+myDataAttr+'"]').data('physical_address'));
       $('#phone').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
       $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));
-      $('#departmentId').val($('[data-id = "'+myDataAttr+'"]').data('DepartmentId'));
+      $('#departmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('dDepartmentId'));
+      console.log($('[data-id = "'+myDataAttr+'"]').data('dDepartmentId'));
   });
     // var myDataAttr = $(this).data('noname');
     // console.log(myDataAttr);
@@ -54,7 +57,5 @@ $('.editDivision').on('click',function(){
   //   $('#id_person2').val(myDataAttr);
   //   $('#delete_name').val($("#person-"+myDataAttr).data('name'));
   // });
-  
-
 
 });

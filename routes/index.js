@@ -619,9 +619,15 @@ router.get('/facultyMembers',userHelpers.isLogin, function(req, res) {
     limit : 10,
     offset: limit,
   }).then(function(facultyMembers) {
+    models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function(ddddddd) {
     var pageCount = userHelpers.getPageCount(facultyMembers.count);
     var pagination = userHelpers.paginate(page,pageCount);
-    res.render('facultyMembers', { title: 'View faculty members',pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+    res.render('facultyMembers', { title: 'View faculty members',nationalityJade:nationality,depts:ddddddd,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+  });
   });
 });
 
