@@ -39,18 +39,16 @@ block cPanel
                   input#checkall(type="checkbox")
                 th اسم المستخدم
                 th البريد الالكتروني
-                th كلمة المرور
                 th رقم الهاتف
                 th.text-center تعديل
                 th.text-center الغاء
-              tbody
+              tbody#tbody
                 for users in Users
-                  tr(data-id = '#{users.id}',data-name = '#{users.name}',data-email = '#{users.email}',data-password = '#{users.password}',data-phone = '#{users.phone}')
+                  tr(data-id = '#{users.id}',data-name = '#{users.name}',data-email = '#{users.email}',data-phone = '#{users.phone}')
                     td
                       input.checkthis(type="checkbox")
                     td #{users.name}
                     td #{users.email}
-                    td #{users.password}
                     td #{users.phone}
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تعديل")
@@ -60,23 +58,16 @@ block cPanel
                       p(data-placement="top", data-toggle="tooltip", title="إلغاء")
                         button#Delete.btn.btn-danger.btn-xs(value='#{users.id}',data-title="Delete", data-toggle="modal", data-target="#delete")
                           span.glyphicon.glyphicon-trash
-          ul.pagination.pull-right
-            li.disabled
-              a(href="#")
-                span.glyphicon.glyphicon-chevron-right
-            li.active
-              a(href="#") 1
-            li
-              a(href="#") 2
-            li
-              a(href="#") 3
-            li
-              a(href="#") 4
-            li
-              a(href="#") 5
-            li
-              a(href="#")
-                span.glyphicon.glyphicon-chevron-left
+        if pagination
+          .text-center
+            ul.pagination
+              li(class='#{pagination.previous.disabled}')
+                a(href='?p=#{pagination.previous.n.}') السابق
+              for page in pagination.pages
+                li(class="#{page.active}")
+                  a(href='?p=#{page.n}') #{page.n}
+              li(class="#{pagination.next.disabled}")
+                a(href='?p=#{pagination.next.n}') التالي
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -90,28 +81,24 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label.h4 اسم المستخدم
-                  input.form-control#name(type="text", name="name",value="فاروق",disabled)
+                  input.form-control#name(type="text", name="name",value="فاروق")
                 .col-xs-6.col-md-6
                   label.h4 رقم الهاتف
                   input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
               br
               .row
                 .col-xs-6.col-md-6
-                  label.h4 البريد الالكتروني
-                  input.form-control#email(type="text", name="email", placeholder="البريد الالكتروني")
-                .col-xs-6.col-md-6
-                  label.h4 تأكيد البريد الالكتروني
-                  input.form-control#confirm_emil(type="text", name="confirm_emil", placeholder="تأكيد البريد الالكتروني")
-              br
-              .row
-                .col-xs-6.col-md-6
-                  label.h4 الرقم السري
+                  label.h4 الرقم السري الجديد
                   input.form-control#password(type="password", name="password", placeholder="الرقم السري")
                 .col-xs-6.col-md-6
-                  label.h4 تأكيد الرقم السري
+                  label.h4 تأكيد الرقم السري الجديد
                   input.form-control#confirm_password(type="password", name="confirm_password", placeholder="تأكيد الرقم السري")
+                  input#id(name="id",type="hidden")
+                  input#email1(name="email1",type="hidden")
+                
+
         .modal-footer
-          button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
+          button#save.btn.btn-warning.btn-lg(style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
             |  تعديل
       // /.modal-content
@@ -138,12 +125,12 @@ block cPanel
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')  
   script(src='/js/jquery.validate.min.js')  
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/users.js')
   script(src='/js/helpers.js') 
+  script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

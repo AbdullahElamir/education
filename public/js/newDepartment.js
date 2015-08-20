@@ -26,34 +26,33 @@ $(document).ready(function(){
       $(element).closest('.form-group').removeClass('has-error');
       // $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
-    submitHandler: function(form) {
-      $.ajax({
-        type: 'POST',
-        url: '/newDepartment',
-        data: $(form).serialize(),
-        success: function(html) {
-          $('#name').val("");
-          $('#name_en').val("");
-          $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
-        }
-      });
-    },
+    // submitHandler: function(form) {
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: '/newDepartment',
+    //     data: $(form).serialize(),
+    //     success: function(html) {
+    //       $('#name, #name_en').val("");
+    //       $.notify({
+    //         message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
+    //         },{
+    //         type: 'success',
+    //         allow_dismiss: true,
+    //         showProgressbar: false,
+    //         placement: {
+    //           from: 'top',
+    //           align: 'center'
+    //         },
+    //         mouse_over: null,
+    //         newest_on_top: true,
+    //         animate: {
+    //           enter: 'animated bounceInDown',
+    //           exit: 'animated bounceOutUp'
+    //         },
+    //       });
+    //     }
+    //   });
+    // },
     invalidHandler: function(event, validator) {
     var errors = validator.numberOfInvalids();
     if (errors) {
