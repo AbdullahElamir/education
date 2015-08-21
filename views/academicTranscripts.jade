@@ -1,0 +1,59 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+block cPanel
+  .container
+    .row
+      .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default تنزيل المواد
+          .btn.btn-default.active عرض الطلبة
+        br
+        br
+        .panel.panel-default
+          .panel-heading
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#h3.panel-title عرض الطلبة
+              .col-xs-6.col-md-6
+                .input-group
+                  input.form-control(type='text', placeholder='بحث...')
+                  .input-group-btn
+                    button.btn.btn-default
+                      i.glyphicon.glyphicon-search
+          .table-responsive
+            table#mytable.table.table-bordred.table-striped.text-right
+              thead
+                th
+                  input#checkall(type="checkbox")
+                th رقم قيد الطالب
+                th اسم الطالب
+                th اسم الاب
+                th اللقب
+                th الجنس
+                th.text-center تنزيل المواد
+              tbody
+          
+                tr(data-id = '')
+                  td
+                    input.checkthis(type="checkbox")
+                  td 
+                  td 
+                  td 
+                  td 
+                  td 
+                  td.text-center
+                    p(data-placement="top", data-toggle="tooltip", title="تنزيل المواد")  
+                      button.btn.btn-primary.btn-xs(value="",data-title="Delete", data-toggle="modal", data-target="#Descargar_material")
+                        span.glyphicon.glyphicon-pencil
+
+
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/bootstrap-select.min.js') 
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/newSubject.js') 
