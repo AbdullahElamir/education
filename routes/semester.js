@@ -74,20 +74,18 @@ var nationality = require('../Nationality');
     });
   });
 
-  router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
-    res.render('subGroup', { title: 'Get Sub Group' });
-  });
+
 
   router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
     req.body.UserId=1;//req,session.id
     models.Semester.create(req.body).then(function() {
-      res.redirect('/semesters');
+      res.redirect('/semester/');
     });
   });
 
   // semester/#{semester.id}/updateSemester
-  router.post('/semester/:id/updateSemester', function(req, res) {
+  router.post('/:id/updateSemester/', function(req, res) {
     if(req.body.sem_type == "ربيعي")
       {
         req.body.sem_type= 1;
@@ -109,14 +107,16 @@ var nationality = require('../Nationality');
       }
       }).then(function (todo) {
       todo.updateAttributes(req.body).then(function (todo) {
-        res.redirect('/semester/'+req.params.id);
+        res.redirect('/semester/semester/'+req.params.id);
       }).catch(function (err) {
           console.log(err);
       });
 
        });
        });
-
+  router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
+    res.render('subGroup', { title: 'Get Sub Group' });
+  });
   router.get('/deleteSemesters/:id', function(req, res) {
     models.Semester.find({
       where: {

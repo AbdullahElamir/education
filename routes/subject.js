@@ -111,7 +111,7 @@ var nationality = require('../Nationality');
         }
       }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
-          res.redirect('/subjects');
+          res.redirect('/subject');
         }).catch(function (err) {
           console.log(err);
         });
@@ -124,7 +124,7 @@ var nationality = require('../Nationality');
         }
       }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
-          res.redirect('/subjects');
+          res.redirect('/subject');
         }).catch(function (err) {
           console.log(err);
         });
@@ -137,7 +137,7 @@ var nationality = require('../Nationality');
         }
       }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
-          res.redirect('/subjects');
+          res.redirect('/subject');
         }).catch(function (err) {
           console.log(err);
         });
@@ -166,10 +166,14 @@ var nationality = require('../Nationality');
     req.body.UserId=1;
     models.Subject.create(req.body).then(function(result) {
       var SubjectId=result.id;
+      if(req.body.idd){
+        var PrerequisiteId=req.body.idd;
+      }else{
+        var PrerequisiteId=[];
+      }
       for(var i=0;i<PrerequisiteId.length;i++){
         var obj = {PrerequisiteId:PrerequisiteId[i],SubjectId:SubjectId};
         models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`SubjectId`, `PrerequisiteId`) VALUES ("'+SubjectId+'","'+PrerequisiteId[i]+'")').then(function(results){
-          console.log(result);
           res.send(true);
         });
       }

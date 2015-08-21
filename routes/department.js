@@ -83,7 +83,7 @@ var nationality = require('../Nationality');
   router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
     models.Department.create(req.body).then(function() {
-      res.redirect('/departments?msg=1');
+      res.redirect('/department');
     });
   });
 // End department ////////////////////////////////////////////////////////

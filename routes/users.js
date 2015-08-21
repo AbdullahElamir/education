@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
 
   router.post('/newUser',userHelpers.isLogin, function(req, res) {
     userHelpers.addUser(req.body,function(result){
-      res.redirect('/newUser');
+      res.redirect('/users/newUser');
     });
   });
 

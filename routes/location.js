@@ -39,7 +39,7 @@ var nationality = require('../Nationality');
   router.post('/newLocation',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
     models.Location.create(req.body).then(function() {
-      res.redirect('/locations');
+      res.redirect('/location/');
     });
   });
 
@@ -61,7 +61,7 @@ var nationality = require('../Nationality');
       }
       }).then(function (todo) {
       todo.updateAttributes(req.body).then(function (todo) {
-        res.redirect('/locations');
+        res.redirect('/location/');
       }).catch(function (err) {
           console.log(err);
       });

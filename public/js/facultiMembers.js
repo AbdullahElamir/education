@@ -6,7 +6,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteFaculityMembers/'+$(this).val(),function(todo){
+    $.get('/facultyMember/deleteFaculityMembers/'+$(this).val(),function(todo){
       $('[date-id = "'+id+'"]').remove();
     });
   });
@@ -38,21 +38,17 @@ $(document).ready(function(){
   });
 
   $('body').on('click', '#save', function (e) {
-    alert("inside js #save ");
     e.preventDefault();
     $('#updateFacultyMember').submit();
   });
 
   $("#updateFacultyMember").submit(function(e) {
-    alert("inside js updateFacultyMember ");
     var isvalidate = $("#updateFacultyMember").valid();
     if(isvalidate){
-      $.post("/updateFacultyMember", $("form").serializeObject(), function(data, error){
+      $.post("/facultyMember/updateFacultyMember", $("form").serializeObject(), function(data, error){
         if(data !=true){
-          alert("error result");
         } 
         else {
-          alert("True result");
           // if($("#tbody").children().length>=10){
           //   $("#tbody tr:last-child").remove();
           // }
@@ -216,7 +212,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/faculityMembers'
+    var pageUrl = '/facultyMember/'
     window.history.pushState("","",pageUrl);
   }
 });

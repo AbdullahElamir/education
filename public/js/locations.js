@@ -2,7 +2,7 @@ $(document).ready(function(){
   $('body').on('click', '#Edit', function(){
     $('#eitLoc').val($(this).val());
      var id = $(this).val();
-     $.get('/getLocation/'+id,function(location){
+     $.get('/location/getLocation/'+id,function(location){
       $('#locid').val(id);
       $('#name').val(location[0].name);
       $('#quantity').val(location[0].quantity);
@@ -15,7 +15,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteLocation/'+$(this).val(),function(todo){
+    $.get('/location/deleteLocation/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   }); 

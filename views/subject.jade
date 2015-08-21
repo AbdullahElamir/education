@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newSubject', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/subject/newSubject', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة مادة دراسية
               .pull-left(style="margin-left: 10px;")
@@ -143,7 +143,7 @@ block cPanel
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog.modal-lg
       .modal-content
-        form#updateSubject(action="/editSubject", method="post", accept-charset="utf-8", role="form")
+        form#updateSubject(action="/subject/editSubject", method="post", accept-charset="utf-8", role="form")
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
