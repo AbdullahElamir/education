@@ -21,20 +21,4 @@ router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
 
-
-////////تنزيل المواد ////////////////
-
-router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
-  res.render('academicTranscripts', { title: 'Academic Transcripts' });
-});
-
-router.get('/studentData',userHelpers.isLogin, function(req, res) {
-  res.render('studentData', { title: 'Student Data' });
-});
-router.get('/downloadmaterial',userHelpers.isLogin, function(req, res) {
-  res.render('downloadmaterial', { title: 'Download Material' });
-});
-
-//////////////
-
 module.exports = router
