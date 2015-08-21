@@ -161,25 +161,31 @@ var nationality = require('../Nationality');
     });
   });
 
+
   router.post('/saveSubject',function(req, res) {
     var PrerequisiteId=req.body.idd;
-    req.body.UserId=1;
-    models.Subject.create(req.body).then(function(result) {
-      var SubjectId=result.id;
-      if(req.body.idd){
-        var PrerequisiteId=req.body.idd;
-      }else{
-        var PrerequisiteId=[];
-      }
-      for(var i=0;i<PrerequisiteId.length;i++){
-        var obj = {PrerequisiteId:PrerequisiteId[i],SubjectId:SubjectId};
-        models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`SubjectId`, `PrerequisiteId`) VALUES ("'+SubjectId+'","'+PrerequisiteId[i]+'")').then(function(results){
-          res.send(true);
-        });
-      }
-      res.send(true);
-    });
+    if(PrerequisiteId == undefined){
+      req.body.UserId=1;
+      models.Subject.create(req.body).then(function(result) {
+        res.send(true);
+      });
+    }
+    else{
+      var PrerequisiteId=req.body.idd;
+      req.body.UserId=1;
+      models.Subject.create(req.body).then(function(result) {
+        var SubjectId=result.id;
+        for(var i=0;i<PrerequisiteId.length;i++){
+          var obj = {PrerequisiteId:PrerequisiteId[i],SubjectId:SubjectId};
+          models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`SubjectId`, `PrerequisiteId`) VALUES ("'+SubjectId+'","'+PrerequisiteId[i]+'")').then(function(results){
+            res.send(true);
+          });
+        }
+        res.send(true);
+      });
+    }
   });
+
 // End Subject //////////////////////////////////////////////////////////
 
 module.exports = router;

@@ -22,7 +22,7 @@ block cPanel
         | الرجاء اختيار نظام المادة ؟     
         input#toggle-subject(type='checkbox',data-on="سنة",data-off="فصل", data-toggle='toggle')
         #console-event
-        form.form#newSubject(action="", method="post", accept-charset="utf-8", role="form")
+        form#newSubject(action="", method="post", accept-charset="utf-8", role="form")
           h4.text-center بيانات المادة 
           hr
           .form-group
@@ -66,7 +66,7 @@ block cPanel
                   label تندرج تحت قسم
                   br
                   label.radio-inline
-                    input#js_radio(type='radio', name='department',value="1")
+                    input#radio(type='radio', name='department',value="1")
                     | عامة
                   label.radio-inline
                     input#radio(type='radio', name='department',value="2")
@@ -74,7 +74,7 @@ block cPanel
                   label.radio-inline
                     input#radio(type='radio', name='department',value="3")
                     | كلاهما
-                #department_select
+                
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
@@ -96,6 +96,7 @@ block cPanel
                   //- for u in sub
                   //-   tr
                   //-     td.text-center #{u.name} 
+                     
           hr
           .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
             button#save.btn.btn-primary(type="button")
@@ -104,13 +105,14 @@ block cPanel
     br
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/jquery.validate.min.js')
-  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/bootstrap-toggle.min.js') 
+  script(src='/metisMenu/dist/metisMenu.min.js')   
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
-  script(src='/js/newSubject.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/newSubject.js')  
 
    
