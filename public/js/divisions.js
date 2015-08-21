@@ -19,7 +19,7 @@ $(document).ready(function(){
     $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
     $('#name_en').val($('[data-id = "'+myDataAttr+'"]').data('name_en'));
     $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
-    $('#DepartmentId').val($('[data-id = "'+myDataAttr+'"]').data('departmentid'));
+    $('#DepartmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('departmentid'));
   });
 
 //////////////////////

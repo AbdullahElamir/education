@@ -13,10 +13,10 @@ block cPanel
           .btn.btn-default.active تسجيل طالب/ة جديد
         br
         br
-        form#newStudent(action="", method="post", accept-charset="utf-8", role="form")
+        form#newStudent(action="/newStudent", method="post", accept-charset="utf-8", role="form")
           legend  تسجيل طالب/ة جديد
             .pull-left
-              a.btn.btn-primary(href='/students', role='button')
+              a.btn.btn-primary(href='/student', role='button')
                 span.glyphicon.glyphicon-th-list
                 span  عرض الطلاب
           .pull-right.i.fa.fa-star-o(style="color:red;") 
@@ -93,8 +93,8 @@ block cPanel
                   span  الجنسية
                 select.form-control.selectpicker#nationality(name="nationality", data-live-search="true")
                   option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
-                  option(value="0") جنسية1
-                  option(value="1") جنسية2
+                  for nat in nats
+                    option(value="#{nat.id}") #{nat.name}
               .col-xs-3.col-md-3
                 label
                   i.fa.fa-star-o

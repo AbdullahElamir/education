@@ -6,48 +6,57 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteFaculityMembers/'+$(this).val(),function(todo){
+    $.get('/deleteStudent/'+$(this).val(),function(todo){
       $('[date-id = "'+id+'"]').remove();
     });
   });
   
-  alert("inside js ");
+  alert("Student js ");
 
   $('body').on('click', '#editt',function(){
-    $('#id_faculty_Member').val($(this).val());
+    $('#id_Student').val($(this).val());
     alert("inside js view edit ");
     var myDataAttr = $(this).val();
-    var dates= $('[data-id = "'+myDataAttr+'"]').data('birth_date');
-    console.log(dates);
-    console.log($('[data-id = "'+myDataAttr+'"]').data('gender'));
-    date = new Date(dates);
-    var day = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-    console.log(year+"-"+monthIndex+"-"+day);
-    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
-    $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));
-    $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
-    $('#departmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('ddepartmentid'));
-    $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
-    $('#birth_date').val("hjk");
+    $('#first_name').val($('[data-id = "'+myDataAttr+'"]').data('first_name'));
+    $('#first_name_en').val($('[data-id = "'+myDataAttr+'"]').data('first_name_en'));
+    $('#father_name').val($('[data-id = "'+myDataAttr+'"]').data('father_name'));
+    $('#father_name_en').val($('[data-id = "'+myDataAttr+'"]').data('father_name_en'));
+    $('#grand_name').val($('[data-id = "'+myDataAttr+'"]').data('grand_name'));
+    $('#grand_name_en').val($('[data-id = "'+myDataAttr+'"]').data('grand_name_en'));
+    $('#last_name').val($('[data-id = "'+myDataAttr+'"]').data('last_name'));
+    $('#last_name_en').val($('[data-id = "'+myDataAttr+'"]').data('last_name_en'));
+    $('#mother_name').val($('[data-id = "'+myDataAttr+'"]').data('mother_name'));
+    $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));
+    $('#birth_date').val($('[data-id = "'+myDataAttr+'"]').data('birth_date'));
     $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+    $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
+    $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
+    $('#no_paper_family').val($('[data-id = "'+myDataAttr+'"]').data('no_paper_family'));
+    $('#no_reg_family').val($('[data-id = "'+myDataAttr+'"]').data('no_reg_family'));
     $('#physical_address').val($('[data-id = "'+myDataAttr+'"]').data('physical_address'));
+    $('#civil_reg').val($('[data-id = "'+myDataAttr+'"]').data('civil_reg'));
     $('#phone').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
-    $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));
+    $('#father_work_place').val($('[data-id = "'+myDataAttr+'"]').data('father_work_place'));
+    $('#last_cert').val($('[data-id = "'+myDataAttr+'"]').data('last_cert'));
+    $('#cust_last_cert').val($('[data-id = "'+myDataAttr+'"]').data('cust_last_cert'));
+    $('#date_cert').val($('[data-id = "'+myDataAttr+'"]').data('date_cert'));
+    $('#place_cert').val($('[data-id = "'+myDataAttr+'"]').data('place_cert'));
+    $('#set_number').val($('[data-id = "'+myDataAttr+'"]').data('set_number'));
+    $('#student_rate').val($('[data-id = "'+myDataAttr+'"]').data('student_rate'));
+    $('#nid').val($('[data-id = "'+myDataAttr+'"]').data('nid'));
   });
 
   $('body').on('click', '#save', function (e) {
     alert("inside js #save ");
     e.preventDefault();
-    $('#updateFacultyMember').submit();
+    $('#updateStudent').submit();
   });
 
-  $("#updateFacultyMember").submit(function(e) {
-    alert("inside js updateFacultyMember ");
-    var isvalidate = $("#updateFacultyMember").valid();
+  $("#updateStudent").submit(function(e) {
+    alert("inside js updateStudent ");
+    var isvalidate = $("#updateStudent").valid();
     if(isvalidate){
-      $.post("/updateFacultyMember", $("form").serializeObject(), function(data, error){
+      $.post("/updateStudent", $("form").serializeObject(), function(data, error){
         if(data !=true){
           alert("error result");
         } 
