@@ -9,16 +9,16 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default الفصول الدراسية
-          .btn.btn-default.active إضافة فصل الدراسية
+          .btn.btn-default اﻷنظمة الدراسية
+          .btn.btn-default.active إضافة نظام دراسي
       .col-md-6.col-md-offset-2
         br
         form.form#newSemester(action="/newSemester", method="post", accept-charset="utf-8", role="form")
-          legend  إضافة فصل دراسي
+          legend  إضافة نظام دراسي
             .pull-left
-              a.btn.btn-primary(href='/semesters', role='button')
+              a.btn.btn-primary(href='/semester', role='button')
                 span.glyphicon.glyphicon-th-list
-                span  عرض الفصول الدراسية
+                span  عرض اﻷنظمة الدراسية
           .form-group
             .row
               .col-xs-6.col-md-6
@@ -37,29 +37,29 @@ block cPanel
           .form-group
             .row
               .col-xs-6.col-md-6
-                label.h4 يبدأ الفصل الدراسي
+                label.h4 يبدأ النظام الدراسي
                 .input-group.date#starting_date
-                  input.form-control(type="text", name="starting_date", placeholder="تاريخ بداية الفصل الدراسي")
+                  input.form-control(type="text", name="starting_date", placeholder="تاريخ بداية النظام الدراسي")
                   span.input-group-addon.success
                     span.fa.fa-calendar
               .col-xs-6.col-md-6
-                label.h4 ينتهي الفصل الدراسي
+                label.h4 ينتهي النظام الدراسي
                 .input-group.date#ending_date
-                  input.form-control(type="text", name="ending_date", placeholder="تاريخ نهاية الفصل الدراسي")
+                  input.form-control(type="text", name="ending_date", placeholder="تاريخ نهاية النظام الدراسي")
                   span.input-group-addon.success
                     span.fa.fa-calendar
           .form-group
             .row
               .col-xs-6.col-md-6
-                label.h4 سنة الفصل الدراسي
+                label.h4 سنة النظام  الدراسي
                 .input-group.date#year
-                  input.form-control(name="year",type="text", placeholder="سنة الفصل الدراسي")
+                  input.form-control(name="year",type="text", placeholder="سنة النظام الدراسي")
                   span.input-group-addon.success
                     span.fa.fa-calendar
               .col-xs-6.col-md-6
-                label.h4 هل هذا هو الفصل الحالي 
+                label.h4(style="font-size:17.1px") هل هذا هو النظام الدراسي الحالي 
                 select.form-control.selectpicker(name="current",style="padding-top: 0px;")
-                  option(value="", style='color:grey; display:none;') اختر الاجابة...
+                  option(value="", style='color:grey; display:none;') اختر الاجابة بنعم او لا...
                   option(value="1") نعم
                   option(value="2") لا 
           hr
@@ -71,13 +71,13 @@ block cPanel
     br
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/newSemester.js')
+  script(src='/js/backToTop.js')
   script.
     $(function () {
       $('#year').datetimepicker({

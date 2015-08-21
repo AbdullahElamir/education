@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newDepartment', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/department/newDepartment', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة قسم جديد
               .pull-left(style="margin-left: 10px;")
@@ -114,12 +114,13 @@ block cPanel
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/helpers.js')
   script(src='/js/department.js') 
-  script(src='/js/helpers.js') 
+  script(src='/js/backToTop.js')
+  script(src='/js/departments.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();

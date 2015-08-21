@@ -17,7 +17,7 @@ block cPanel
         form.form#newDivision(action="/newDivision", method="post", accept-charset="utf-8", role="form", onsubmit="myFunction()")
           legend  إضافة شعبه جديدة
             .pull-left
-              a.btn.btn-primary(href='/divisions', role='button')
+              a.btn.btn-primary(href='/division', role='button')
                 span.glyphicon.glyphicon-th-list
                 span  عرض الشعب
           .form-group
@@ -43,8 +43,8 @@ block cPanel
               | إضافة
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
   script(src='/js/newDivision.js')

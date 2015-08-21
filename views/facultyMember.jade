@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newFacultyMember', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/facultiMember/newFacultyMember', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة محاضر/ة
               .pull-left(style="margin-left: 10px;")
@@ -45,7 +45,7 @@ block cPanel
                 th.text-center إلغاء
               tbody#tbody
                 for faculty_Member in faculty_Members
-                  tr(data-id="#{faculty_Member.id}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-DepartmentId="#{faculty_Member.DepartmentId}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
+                  tr(data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
                     td #{faculty_Member.name}
                     td #{faculty_Member.qualification}
                     td #{faculty_Member.specialization}
@@ -79,7 +79,7 @@ block cPanel
                 a(href='?p=#{pagination.next.n}') التالي  
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
-      form.form#updateFacultyMember(role="form" , action="/updateFacultyMember/", method="post")
+      form.form#updateFacultyMember(role="form" ,name='updateFacultyMember')
         .modal-content
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -98,7 +98,7 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label القسم
-                  select#departmentId.form-control.selectpicker.show-tick(name="departmentId", data-live-search="true", data-size=5)
+                  select#departmentId.form-control.selectpicker.show-tick(name="DepartmentId", data-live-search="true", data-size=5)
                     for dept in depts
                       option(value="#{dept.id}",data-name="#{dept.name}") #{dept.name}
                       
@@ -138,8 +138,9 @@ block cPanel
                   label رقم الهاتف
                   input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
                   input#id_faculty_Member(name="id" , type="hidden")
+                  
           .modal-footer
-            button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
   
@@ -168,12 +169,13 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/helpers.js')
   script(src='/js/newFacultyMember.js')
   script(src='/js/facultiMembers.js')
-  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

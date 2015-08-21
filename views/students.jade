@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newStudent', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/student/newStudent', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة طالب/ة
               .pull-left(style="margin-left: 10px;")
@@ -35,8 +35,6 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
-                th
-                  input#checkall(type="checkbox")
                 th رقم القيد
                 th اسم الطالب/ة
                 th اسم اﻷم
@@ -45,44 +43,30 @@ block cPanel
                 th الجنسية
                 th معدل الطالب/ة
                 th.text-center تعديل
-                th.text-center إلغاء
               tbody
-                //- tr
-                //-   td
-                //-     input.checkthis(type="checkbox")
-                //-   td 1023953
-                //-   td هدير سالم مسعود
-                //-   td A
-                //-   td C
-                //-   td C
-                //-   td ليبي
-                //-   td 84%
-                      //- td.text-center
-                      //-   p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      //-     button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                      //-       span.glyphicon.glyphicon-pencil
-                      //- td.text-center
-                      //-   p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      //-     button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                      //-       span.glyphicon.glyphicon-trash
                 for i in student
-                  tr(data-id = '#{i.id}')
-                    td
-                      input.checkthis(type="checkbox")
+                  tr(data-id = '#{i.id}',data-first_name = '#{i.first_name}',data-first_name_en = '#{i.first_name_en}',data-father_name = '#{i.father_name}',data-father_name_en = '#{i.father_name_en}',data-grand_name = '#{i.grand_name}',data-grand_name_en = '#{i.grand_name_en}',data-last_name = '#{i.last_name}',data-last_name_en = '#{i.last_name_en}',data-mother_name = '#{i.mother_name}',data-mother_name_en = '#{i.mother_name_en}',data-birth_date = '#{i.birth_date}',data-place_birth = '#{i.place_birth}',data-nationality = '#{i.nationality}',data-gender = '#{i.gender}',data-no_paper_family = '#{i.no_paper_family}',data-no_reg_family = '#{i.no_reg_family}',data-physical_address = '#{i.physical_address}',data-civil_reg = '#{i.civil_reg}',data-phone = '#{i.phone}',data-father_work_place = '#{i.father_work_place}',data-last_cert = '#{i.last_cert}',data-cust_last_cert = '#{i.cust_last_cert}',data-date_cert = '#{i.date_cert}',data-place_cert = '#{i.place_cert}',data-set_number = '#{i.set_number}' , data-student_rate = '#{i.student_rate}',data-nid = '#{i.nid}')
                     td #{i.set_number}
                     td #{i.first_name} #{i.father_name} #{i.grand_name} #{i.last_name}
                     td #{i.mother_name}
-                    td sss
-                    td #{i.nationality}
+                    td
+                      if i.gender == 1
+                        | أنثى
+                      else
+                        | ذكر
                     td #{i.student_rate}
+                    td 
+                      for nat in nats
+                        if nat.id == i.nationality
+                          |  #{nat.name}
                     td.text-center
-                        p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                          button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                            span.glyphicon.glyphicon-pencil
-                      td.text-center
-                        p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                          button.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete")
-                            span.glyphicon.glyphicon-trash
+                      p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                        button#editt.btn.btn-primary.btn-xs(value='#{i.id}' ,data-title="Edit", data-toggle="modal", data-target="#edit")
+                          span.glyphicon.glyphicon-pencil
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                        button#Deletee.btn.btn-danger.btn-xs(value='#{i.id}' ,data-title="Deletee", data-toggle="modal", data-target="#delette")
+                          span.glyphicon.glyphicon-trash
         if pagination
           .text-center
             ul.pagination
@@ -96,7 +80,7 @@ block cPanel
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog.modal-lg
       .modal-content
-        form#updateStudent(action="/updateStudent", method="post", accept-charset="utf-8", role="form")
+        form#updateStudent( accept-charset="utf-8", role="form", name="updateStudent")
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
@@ -170,13 +154,11 @@ block cPanel
                     .col-xs-3.col-md-3
                       label الجنسية
                       select.form-control.selectpicker#nationality(name="nationality", data-live-search="true")
-                        option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
-                        option(value="0") جنسية1
-                        option(value="1") جنسية2
+                        for nat in nats
+                          option(value="#{nat.id}") #{nat.name}
                     .col-xs-3.col-md-3
                       label الجنس
                       select.form-control.selectpicker#gender(name="gender")
-                        option(value="", style='color:grey; display:none;') الرجاء اختيار الجنس...
                         option(value="0") ذكر
                         option(value="1") انثي
                     .col-xs-3.col-md-3
@@ -229,11 +211,12 @@ block cPanel
                     .col-xs-3.col-md-3
                       label معدل الطالب
                       input#student_rate.form-control(type="text", name="student_rate", placeholder="معدل الطالب")
+                      input#id_Student(name="id" , type="hidden")
           .modal-footer
-            button.btn.btn-warning.btn-lg(type="submit", style="margin-left:25%;width:50%;")
+            button#save.btn.btn-warning.btn-lg(type="submit", style="margin-left:25%;width:50%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
-  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+  #delette.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
         .modal-header
@@ -245,7 +228,7 @@ block cPanel
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذه الشعبة؟
         .modal-footer
-          button.btn.btn-success(type="button")
+          button#ok.btn.btn-success(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
@@ -255,12 +238,15 @@ block cPanel
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/backToTop.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/helpers.js')
+  script(src='/js/newStudent.js')
+  script(src='/js/student.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
-  script(src='/js/jquery.validate.min.js')
-  script(src='/js/newStudent.js')
+  script(src='/js/students.js')
+  script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

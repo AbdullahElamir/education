@@ -16,47 +16,37 @@ var nationality = require('../Nationality');
   }
 
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
-
-// //////Start User /////////////////////////////////////////
-  router.get('/newUser',userHelpers.isLogin, function(req, res) {
-      res.render('newUser', { title: 'New User', activeUser: 'active' });
-  });
-
-  router.post('/newUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.addUser(req.body,function(result){
-      res.redirect('/newUser');
-    });
-  });
-
-  router.post('/updateUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.updateUser(req.body,function(result){
-      var rel = {result : result ,stat : true};
-          res.send(rel);
-    });
-  });
-
-  router.get('/users',userHelpers.isLogin, function(req, res) {
+// /// Start students //////////////////////////////
+  router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.User.findAndCountAll({
+    models.Student.findAndCountAll({
       where: {
         status: 1
       },
       limit : 10,
       offset: limit,
-    }).then(function(user) {
-      var pageCount = userHelpers.getPageCount(user.count);
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
     });
   });
-  /////////////// delete Users 
-  router.get('/deleteUsers/:id', function(req, res) {
-    models.User.find({
+
+  router.get('/newStudent',userHelpers.isLogin, function(req, res) {
+    res.render('newStudent', { title: 'New Student', collapseFive: 'collapse in',nats:nationality, activeFiveTwo: 'active' });
+  });
+
+  router.post('/newStudent',userHelpers.isLogin,function(req, res) {
+    req.body.UserId=1;
+    models.Student.create(req.body).then(function() {
+      res.redirect('/students');
+    });
+  });
+
+  /////////////// delete deleteStudent 
+  router.get('/deleteStudent/:id', function(req, res) {
+    models.Student.find({
       where: {
         id: req.params.id
       }
@@ -70,6 +60,23 @@ router.get('/', function(req, res) {
       });
     });
   });
-// ////// End User /////////////////////////////////////////
+
+  // updateStudent
+  router.post('/updateStudent', function(req, res) {
+    id = req.body.id;
+    delete req.body.id;
+    models.Student.find({
+      where: {
+        id: id
+      }
+      }).then(function (todo) {
+      todo.updateAttributes(req.body).then(function (todo) {
+        res.send(true);
+      }).catch(function (err) {
+          console.log(err);
+      });
+    });
+  });
+// //////End students /////////////////////////////////////////
 
 module.exports = router;

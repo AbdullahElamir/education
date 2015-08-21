@@ -7,7 +7,17 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 var routes = require('./routes/index');
+var department = require('./routes/department');
+var division = require('./routes/division');
+var facultyMember = require('./routes/facultyMember');
+var location = require('./routes/location');
+var semester = require('./routes/semester');
+var student = require('./routes/student');
+var subject = require('./routes/subject');
+var timeline = require('./routes/timeline');
+var transcript = require('./routes/transcript');
 var users = require('./routes/users');
+var cPanel = require('./routes/cPanel');
 
 var app = express();
 
@@ -25,7 +35,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', routes);
+app.use('/department', department);
+app.use('/division', division);
+app.use('/facultyMember', facultyMember);
+app.use('/location', location);
+app.use('/semester', semester);
+app.use('/student', student);
+app.use('/subject', subject);
+app.use('/timeline', timeline);
+app.use('/transcript', transcript);
 app.use('/users', users);
+app.use('/cPanel', cPanel);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
