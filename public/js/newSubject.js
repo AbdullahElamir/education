@@ -34,6 +34,60 @@ $(document).ready(function(){
     }    
   });
   $('body').on('click', '#save', function(){
+   var isvalidate=$("#newSubject ,#updateSubject").valid();
+ if($("#newSubject input[type='radio']:checked").val() == 1)
+ {
+  alert(1+" ");
+  var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd}; 
+    
+  
+    if(isvalidate){
+      $.post('/saveSubject',obj,function(todo){
+        if(todo == true) {
+          $.notify({
+            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
+            },{
+            type: 'success',
+            allow_dismiss: true,
+            showProgressbar: false,
+            placement: {
+              from: 'top',
+              align: 'center'
+            },
+            mouse_over: null,
+            newest_on_top: true,
+            animate: {
+              enter: 'animated bounceIn',
+              exit: 'animated bounceOut'
+            },
+          });
+        } 
+        else {
+          $.notify({
+            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> عفوا لايمكن ادخال المادة مرتين </p>"
+            },{
+            type: 'danger',
+            allow_dismiss: true,
+            showProgressbar: false,
+            placement: {
+              from: 'top',
+              align: 'center'
+            },
+            mouse_over: null,
+            newest_on_top: true,
+            animate: {
+              enter: 'animated bounceIn',
+              exit: 'animated bounceOut'
+            },
+          });
+        }
+      });
+   } 
+ 
+
+ } else {
+
+
     var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd}; 
     
     var isvalidate=$("#newSubject ,#updateSubject").valid();
@@ -79,6 +133,8 @@ $(document).ready(function(){
         }
       });
     } 
+
+  }
   });
   $('body').on('click', '#sh', function(){
     var id = $(this).val();
@@ -117,13 +173,13 @@ $(document).ready(function(){
       }
       else if(subject[0].subject_type == 2){
         // خاص
-        $('#radioo').prop("checked",true);
+        $('#radio').prop("checked",true);
         $('[id^="department_select"]').show(200);
         $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }
       else if(subject[0].subject_type==3){
         //كلاهما
-        $('#radio').prop("checked",true);
+        $('#radioo').prop("checked",true);
         $('[id^="department_select"]').show(200);
         $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
         //  $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
@@ -251,6 +307,28 @@ $(document).ready(function(){
     },
     unhighlight: function(element) {
       $(element).closest('.form-group').removeClass('has-error');
+    },
+    invalidHandler: function(event, validator) {
+      var errors = validator.numberOfInvalids();
+      if (errors) {
+        $.notify({
+          message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
+          },{
+          type: 'danger',
+          allow_dismiss: true,
+          showProgressbar: false,
+          placement: {
+            from: 'top',
+            align: 'center'
+          },
+          mouse_over: null,
+          newest_on_top: true,
+          animate: {
+            enter: 'animated bounceIn',
+            exit: 'animated bounceOut'
+          },
+        });
+      }
     },
   });
     

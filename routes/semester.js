@@ -16,47 +16,109 @@ var nationality = require('../Nationality');
   }
 
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
-
-// //////Start User /////////////////////////////////////////
-  router.get('/newUser',userHelpers.isLogin, function(req, res) {
-      res.render('newUser', { title: 'New User', activeUser: 'active' });
-  });
-
-  router.post('/newUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.addUser(req.body,function(result){
-      res.redirect('/newUser');
-    });
-  });
-
-  router.post('/updateUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.updateUser(req.body,function(result){
-      var rel = {result : result ,stat : true};
-          res.send(rel);
-    });
-  });
-
-  router.get('/users',userHelpers.isLogin, function(req, res) {
+// Start Semester /////////////////////////////////////////////////////////
+  // get all seme //
+  router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.User.findAndCountAll({
+    models.Semester.findAndCountAll({
       where: {
         status: 1
       },
       limit : 10,
       offset: limit,
-    }).then(function(user) {
-      var pageCount = userHelpers.getPageCount(user.count);
+    }).then(function(semester) {
+      var pageCount = userHelpers.getPageCount(semester.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
+        res.render('semesters', { title: 'View Semesters', semester: semester.rows,pagination:pagination, collapseOne: 'collapse in', activeOneOne: 'active' });
     });
   });
-  /////////////// delete Users 
-  router.get('/deleteUsers/:id', function(req, res) {
-    models.User.find({
+
+  router.get('/newSemester',userHelpers.isLogin, function(req, res) {
+    res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
+  });
+
+  router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
+    models.Semester.findOne({
+      where: {
+        id: req.params.id,
+        status: 1
+      }
+    }).then(function(semester) {
+      models.Department.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(departments) {
+        var semType="";
+        if(semester.sem_type==0)
+        {
+          semType = "سنة";
+        }
+        if(semester.sem_type==1)
+        {
+          semType = "ربيعي";
+        }
+        if(semester.sem_type==2)
+        {
+        semType = "خريفي";
+        }
+        if(semester.sem_type==3)
+        {
+        semType = "صيفي";
+        }
+
+        res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
+          //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+      });
+    });
+  });
+
+  router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
+    res.render('subGroup', { title: 'Get Sub Group' });
+  });
+
+  router.post('/newSemester',userHelpers.isLogin, function(req, res) {
+
+    req.body.UserId=1;//req,session.id
+    models.Semester.create(req.body).then(function() {
+      res.redirect('/semesters');
+    });
+  });
+
+  // semester/#{semester.id}/updateSemester
+  router.post('/semester/:id/updateSemester', function(req, res) {
+    if(req.body.sem_type == "ربيعي")
+      {
+        req.body.sem_type= 1;
+      } 
+
+      if(req.body.sem_type == "خريفي"){
+      req.body.sem_type = 2;
+      } 
+
+      if(req.body.sem_type == "صيفي")
+      {
+        req.body.sem_type = 3;
+      } 
+
+     id = req.params.id;
+    models.Semester.find({
+      where: {
+        id: id
+      }
+      }).then(function (todo) {
+      todo.updateAttributes(req.body).then(function (todo) {
+        res.redirect('/semester/'+req.params.id);
+      }).catch(function (err) {
+          console.log(err);
+      });
+
+       });
+       });
+
+  router.get('/deleteSemesters/:id', function(req, res) {
+    models.Semester.find({
       where: {
         id: req.params.id
       }
@@ -70,6 +132,7 @@ router.get('/', function(req, res) {
       });
     });
   });
-// ////// End User /////////////////////////////////////////
+// End Semester /////////////////////////////////////////////////////////
+
 
 module.exports = router;

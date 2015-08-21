@@ -1,46 +1,5 @@
 $(document).ready(function(){
-
-   $('body').on('click', '#Edit', function(){
-    $('#eitLoc').val($(this).val());
-     var id = $(this).val();
-     $.get('/getLocation/'+id,function(location){
-      $('#locid').val(id);
-      $('#name').val(location[0].name);
-      $('#quantity').val(location[0].quantity);
-    });
-   });
-
-
-     $('body').on('click', '#del', function(){
-    $('#ok').val($(this).val());
-  });
-
-  $('body').on('click', '#ok', function(){
-    var id=$(this).val();
-    $.get('/deleteLocation/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
-    });
-  }); 
-
-
-  // $.notify({
-  //   message: "<p class='font text-center'><strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-  // },{
-  //   type: 'success',
-  //   allow_dismiss: true,
-  //   showProgressbar: false,
-  //   placement: {
-  //     from: 'top',
-  //     align: 'center'
-  //   },
-  //   mouse_over: null,
-  //   newest_on_top: true,
-  //   animate: {
-  //     enter: 'animated flipInY',
-  //     exit: 'animated flipOutX'
-  //   },
-  // });
-  $("#newLocation, #updateLocation").validate({
+  $("#newLocation").validate({
     rules:{
       name:{
         required: true,
@@ -66,6 +25,28 @@ $(document).ready(function(){
     },
     unhighlight: function(element) {
       $(element).closest('.row').removeClass('has-error');
+    },
+    invalidHandler: function(event, validator) {
+      var errors = validator.numberOfInvalids();
+      if (errors) {
+        $.notify({
+          message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
+          },{
+          type: 'danger',
+          allow_dismiss: true,
+          showProgressbar: false,
+          placement: {
+            from: 'top',
+            align: 'center'
+          },
+          mouse_over: null,
+          newest_on_top: true,
+          animate: {
+            enter: 'animated bounceIn',
+            exit: 'animated bounceOut'
+          },
+        });
+      }
     },
   });
 });

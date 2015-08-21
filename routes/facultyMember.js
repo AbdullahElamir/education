@@ -16,47 +16,56 @@ var nationality = require('../Nationality');
   }
 
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
-
-// //////Start User /////////////////////////////////////////
-  router.get('/newUser',userHelpers.isLogin, function(req, res) {
-      res.render('newUser', { title: 'New User', activeUser: 'active' });
-  });
-
-  router.post('/newUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.addUser(req.body,function(result){
-      res.redirect('/newUser');
-    });
-  });
-
-  router.post('/updateUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.updateUser(req.body,function(result){
-      var rel = {result : result ,stat : true};
-          res.send(rel);
-    });
-  });
-
-  router.get('/users',userHelpers.isLogin, function(req, res) {
+// ///  Start facility member  ////////////////////////////////////////////////
+  router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.User.findAndCountAll({
+    models.Faculty_member.findAndCountAll({
+      include: [{
+        model: models.Department,
+        where: { status: 1 }
+      }],
       where: {
         status: 1
       },
       limit : 10,
       offset: limit,
-    }).then(function(user) {
-      var pageCount = userHelpers.getPageCount(user.count);
+    }).then(function(facultyMembers) {
+      models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(ddddddd) {
+      var pageCount = userHelpers.getPageCount(facultyMembers.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
+      res.render('facultyMember', { title: 'View faculty members',nationalityJade:nationality,depts:ddddddd,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+    });
     });
   });
-  /////////////// delete Users 
-  router.get('/deleteUsers/:id', function(req, res) {
-    models.User.find({
+
+
+  router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
+    models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(Departments) {
+      res.render('newFacultyMember', { title: 'New Faculty Member',nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+    });
+    
+  });
+
+  router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
+    req.body.UserId=1;//req,session.id
+    // req.body.DepartmentId=5;
+    models.Faculty_member.create(req.body).then(function() {
+      res.redirect('/facultyMembers');
+    });
+  });
+
+  // delete FaculityMembers
+  router.get('/deleteFaculityMembers/:id', function(req, res) {
+    models.Faculty_member.find({
       where: {
         id: req.params.id
       }
@@ -70,6 +79,23 @@ router.get('/', function(req, res) {
       });
     });
   });
-// ////// End User /////////////////////////////////////////
+
+  // updateFacultyMember
+  router.post('/updateFacultyMember', function(req, res) {
+    id = req.body.id;
+    delete req.body.id;
+    models.Faculty_member.find({
+      where: {
+        id: id
+      }
+      }).then(function (todo) {
+      todo.updateAttributes(req.body).then(function (todo) {
+        res.send(true);
+      }).catch(function (err) {
+          console.log(err);
+      });
+    });
+  });
+// ///  End facility member  //////////////////////////////////////////////
 
 module.exports = router;

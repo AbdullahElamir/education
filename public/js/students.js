@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $("#newStudent ").validate({
+  $("#updateStudent ").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     ignore:[],
     rules:{
@@ -147,7 +147,6 @@ $(document).ready(function(){
       },
     },
     // errorElement: 'label',
-    
     errorClass: 'custom-error',
     errorPlacement: function(error, element) {
       if(element.parent('.input-group').length) {
@@ -163,28 +162,22 @@ $(document).ready(function(){
     unhighlight: function(element) {
       $(element).closest('.form-group').removeClass('has-error');
     },
-    invalidHandler: function(event, validator) {
-      var errors = validator.numberOfInvalids();
-      if (errors) {
-        $.notify({
-          message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
-          },{
-          type: 'danger',
-          allow_dismiss: true,
-          showProgressbar: false,
-          placement: {
-            from: 'top',
-            align: 'center'
-          },
-          mouse_over: null,
-          newest_on_top: true,
-          animate: {
-            enter: 'animated bounceIn',
-            exit: 'animated bounceOut'
-          },
-        });
-      }
-    },
+  });
+  $("form").on('submit', function () {
+    var isValid = $(this).valid();
+    if (this.hasChildNodes('.nav.nav-tabs')) {
+      var validator = $(this).validate();
+      $(this).find("input").each(function () {
+        if (!validator.element(this)) {
+          isValid = false;
+          $('a[href=#' + $(this).closest('.tab-pane:not(.active)').attr('id') + ']').tab('show');
+          return false;
+        }
+      });
+    }
+    if (isValid) {
+      // do stuff
+    }
   });
   $('.selectpicker').selectpicker().change(function(){
     $(this).valid()

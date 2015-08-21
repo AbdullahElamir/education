@@ -14,49 +14,54 @@ var nationality = require('../Nationality');
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
-
-
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
-
-// //////Start User /////////////////////////////////////////
-  router.get('/newUser',userHelpers.isLogin, function(req, res) {
-      res.render('newUser', { title: 'New User', activeUser: 'active' });
-  });
-
-  router.post('/newUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.addUser(req.body,function(result){
-      res.redirect('/newUser');
-    });
-  });
-
-  router.post('/updateUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.updateUser(req.body,function(result){
-      var rel = {result : result ,stat : true};
-          res.send(rel);
-    });
-  });
-
-  router.get('/users',userHelpers.isLogin, function(req, res) {
+// Start department /////////////////////////////////////////////////////////
+  router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.User.findAndCountAll({
+    models.Department.findAndCountAll({
       where: {
         status: 1
       },
       limit : 10,
       offset: limit,
-    }).then(function(user) {
-      var pageCount = userHelpers.getPageCount(user.count);
+    }).then(function(department) {
+      var pageCount = userHelpers.getPageCount(department.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
+      res.render('department', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
     });
   });
-  /////////////// delete Users 
-  router.get('/deleteUsers/:id', function(req, res) {
-    models.User.find({
+
+  router.get('/editDepartments/:id', function(req, res) {
+     models.Department.findAll({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(department) {
+      res.send(department);
+    });
+  });
+
+  // edit department
+  router.post('/updateDepartment', function(req, res) {
+    id = req.body.id;
+    delete req.body.id;
+    models.Department.find({
+      where: {
+        id: id
+      }
+      }).then(function (todo) {
+      todo.updateAttributes(req.body).then(function (todo) {
+          var rel = {result : todo ,stat : true};
+          res.send(rel);
+      }).catch(function (err) {
+          console.log(err);
+      });
+    });
+  });
+   
+  // delete Department
+  router.get('/deleteDepartment/:id', function(req, res) {
+    models.Department.find({
       where: {
         id: req.params.id
       }
@@ -70,6 +75,17 @@ router.get('/', function(req, res) {
       });
     });
   });
-// ////// End User /////////////////////////////////////////
+
+  router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
+    res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
+  });
+
+  router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
+    req.body.UserId=1;//req,session.id
+    models.Department.create(req.body).then(function() {
+      res.redirect('/departments?msg=1');
+    });
+  });
+// End department ////////////////////////////////////////////////////////
 
 module.exports = router;
