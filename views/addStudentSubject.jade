@@ -68,16 +68,19 @@ block cPanel
                         th
                           input#checkall(type="checkbox")
                         th اسم المادة
-                        th Subject Name
                         th رمز المادة
+                        th.text-center إضافة
                       tbody
                   
                         tr(data-id = '')
                           td
                             input.checkthis(type="checkbox")
                           td رياضة 1
-                          td mathmatic
-                          td ma100                    
+                          td ma100 
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                              button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
+                                span.glyphicon.glyphicon-hand-right                   
             #generale_teble
               .panel.panel-default
                 .panel-heading
@@ -97,16 +100,19 @@ block cPanel
                         th
                           input#checkall(type="checkbox")
                         th اسم المادة
-                        th Subject Name
                         th رمز المادة
+                        th.text-center إضافة
                       tbody
                   
                         tr(data-id = '')
                           td
                             input.checkthis(type="checkbox")
                           td حاسب الي 
-                          td computer
-                          td cs100               
+                          td cs100 
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                              button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
+                                span.glyphicon.glyphicon-hand-right              
 
 
 
@@ -115,4 +121,4 @@ block cPanel
   script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js') 
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/downloadmaterial.js') 
+  script(src='/js/addStudentSubject.js')  

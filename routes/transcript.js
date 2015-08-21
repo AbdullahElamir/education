@@ -42,8 +42,8 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
 router.get('/studentData',userHelpers.isLogin, function(req, res) {
   res.render('studentData', { title: 'Student Data' });
 });
-router.get('/downloadMaterial',userHelpers.isLogin, function(req, res) {
-  res.render('downloadmaterial', { title: 'Download Material' });
+router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
+  res.render('addStudentSubject', { title: 'Add Student Subject' });
 });
 
 //////////////
