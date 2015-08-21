@@ -92,5 +92,131 @@ $(document).ready(function(){
     }
     return false;
   });
+  // $('.delete_person').on('click',function(){
+  //   var myDataAttr = $(this).data('delete');
+  //   console.log(myDataAttr);
+  //   $('#id_person2').val(myDataAttr);
+  //   $('#delete_name').val($("#person-"+myDataAttr).data('name'));
+  // });
+  $("#updateFacultyMember").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      name:{
+        required: true,
+      },
+      qualification:{
+        required: true,
+      },
+      DepartmentId:{
+        required: true,
+      },
+      specialization:{
+        required: true,
+      },
+      gender:{
+        required: true,
+      },
+      nationality:{
+        required: true,
+      },
+      birth_date:{
+        required: true,
+      },
+      place_birth:{
+        required: true,
+      },
+      physical_address:{
+        required: true,
+      },
+      phone:{
+        required: true,
+        number: true,
+      },
+    },
+    messages:{
+      name:{
+        required: "الرجاء ادخال اسم المحاضر/ة!",
+      },
+      qualification:{
+        required: "الرجاء ادخال المؤهل العلمي!",
+      },
+      DepartmentId:{
+        required: "الرجاء ادخال اسم القسم!",
+      },
+      specialization:{
+        required: "الرجاء ادخال التخصص!",
+      },
+      gender:{
+        required: "الرجاء اختيار نوع الجنس!",
+      },
+      nationality:{
+        required: "الرجاء اختيار الجنسية!",
+      },
+      birth_date:{
+        required: "الرجاء ادخال تاريخ الميلاد!",
+      },
+      place_birth:{
+        required: "الرجاء ادخال مكان الميلاد",
+      },
+      physical_address:{
+        required: "الرجاء ادخال عنوان اﻹقامة!",
+      },
+      phone:{
+        required: "الرجاء ادخال رقم الهاتف!",
+        number: "يجب ان يحتوي رقم الهاتف علي ارقام فقط!"
+      },
+    },
+    // errorElement: 'span',
+    errorClass: 'custom-error',
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.row').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.row').removeClass('has-error');
+    },
+  });
 
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+
+  if(qs["msg"]==1){
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة محاضر/ة جديد بنجاح </p>"
+      },{
+      type: 'success',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceInDown',
+        exit: 'animated bounceOutUp'
+      },
+    });
+    var pageUrl = '/faculityMembers'
+    window.history.pushState("","",pageUrl);
+  }
 });

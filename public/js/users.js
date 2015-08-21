@@ -12,9 +12,9 @@ $(document).ready(function(){
     });
   });
 
-///////////////////////
+  ///////////////////////
   //////////////////////viwe Users
-    $('.editUsers').on('click',function(){
+  $('.editUsers').on('click',function(){
     var myDataAttr = $(this).val();
     $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
     $('#email').val($('[data-id = "'+myDataAttr+'"]').data('email'));
@@ -23,7 +23,7 @@ $(document).ready(function(){
     $('#email1').val($('[data-id = "'+myDataAttr+'"]').data('email'));
   });
 
-$('body').on('click', '#save', function (e) {
+  $('body').on('click', '#save', function (e) {
     e.preventDefault();
     $('#formUsers').submit();
   });
@@ -77,5 +77,84 @@ $('body').on('click', '#save', function (e) {
       });
     }
     return false;
-  });    
+  });
+
+  $("#formUsers").validate({
+    rules:{
+      name:{
+        required: true,
+      },
+      phone:{
+        required: true,
+        number: true,
+        maxlength: 14,
+        minlength: 10,
+      },
+      password:{
+        required: true,
+      },
+      newConfirmPassword:{
+        equalTo: "#newPassword",
+      },
+    },
+    messages:{
+      name:{
+        required: "الرجاء ادخال اﻷسم!",
+      },
+      phone:{
+        required: "الرجاء ادخال رقم الهاتف!",
+        number: "خطأ:يجب ان يحتوي رقم الهاتف علي ارقام صحيحة فقط!",
+        maxlength: "يجب ان يحتوي رقم الهاتف علي اﻷكثر 14 رقم",
+        minlength: "يجب ان يحتوي رقم الهاتف علي اﻷقل 10 رقم",
+      },
+      password:{
+        required: "الرجاء ادخال كلمة المرور الحالية!",
+      },
+      newConfirmPassword:{
+        equalTo: "خطأ:كلمة المرور الجديدة ليست متطابقة!",
+      },
+    },
+    highlight: function(element) {
+      $(element).closest('.row').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.row').removeClass('has-error');
+    },
+  });
+
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+
+  if(qs["msg"]==1){
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة مستخدم جديد بنجاح </p>"
+      },{
+      type: 'success',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceInDown',
+        exit: 'animated bounceOutUp'
+      },
+    });
+    var pageUrl = '/users'
+    window.history.pushState("","",pageUrl);
+  }
 });    
