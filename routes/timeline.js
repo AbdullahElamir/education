@@ -20,6 +20,21 @@ var nationality = require('../Nationality');
     res.render('timelines', { title: 'View Timelines' });
   });
 // End timelines /////////////////////////////////////////////////////////
+ 
+  router.get('/getTimeline', function(req, res) {
+    models.Timeline.findAll({
+      where: { 
+        status: 1 , 
+      
+      },
+    }).then(function(time) {
+      console.log(time);
+      res.send(time);
+    });
+  });
+
+
+
 
 
 module.exports = router;

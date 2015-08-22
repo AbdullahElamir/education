@@ -27,7 +27,9 @@ $(document).ready(function(){
     $('#last_name_en').val($('[data-id = "'+myDataAttr+'"]').data('last_name_en'));
     $('#mother_name').val($('[data-id = "'+myDataAttr+'"]').data('mother_name'));
     $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));
-    $('#birth_date').val($('[data-id = "'+myDataAttr+'"]').data('birth_date'));
+    
+    $('#birth_date').datetimepicker('setDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date'));
+    
     $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
     $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
     $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));

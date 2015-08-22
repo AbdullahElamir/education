@@ -37,12 +37,11 @@ $(document).ready(function(){
    var isvalidate=$("#newSubject ,#updateSubject").valid();
  if($("#newSubject input[type='radio']:checked").val() == 1)
  {
-  alert(1+" ");
   var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd}; 
     
   
     if(isvalidate){
-      $.post('/saveSubject',obj,function(todo){
+      $.post('/subject/saveSubject',obj,function(todo){
         if(todo == true) {
           $.notify({
             message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
@@ -86,13 +85,9 @@ $(document).ready(function(){
  
 
  } else {
-
-
     var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd}; 
-    
-    var isvalidate=$("#newSubject ,#updateSubject").valid();
     if(isvalidate){
-      $.post('/saveSubject',obj,function(todo){
+      $.post('subject/saveSubject',obj,function(todo){
         if(todo == true) {
           $.notify({
             message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
