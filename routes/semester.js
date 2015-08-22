@@ -251,7 +251,7 @@ router.post('/updateSub',userHelpers.isLogin, function(req, res) {
   //   ending_time:req.body.body.ending_time,
   //   LocationId:req.body.body.LocationId
   // }
-  models.Timeline.update(obj,{
+  // models.Timeline.update(obj,{
     // where: {
     //   SubGroupId:req.body.id
     // }
@@ -293,7 +293,7 @@ models.Sub_group.update(req.body.body,{
 // });
 });
 
-  });
+
 router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
   models.Sub_group.destroy({
     where:{
