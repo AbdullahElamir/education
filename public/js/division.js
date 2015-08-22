@@ -5,7 +5,7 @@ $(document).ready(function(){
   });
   $('body').on('click', '#delS', function(){
     var id=$(this).val();
-    $.get('/deleteDivisionsbject/'+id+'/'+$('#id_div').val(),function(data){
+    $.get('/subject/deleteDivisionsbject/'+id+'/'+$('#id_div').val(),function(data){
       $('#semester [data-id = "'+id+'"]').remove();
       $( "#subS" ).prepend('<tr data-id="'+data.id+'">'+
                             '<td>'+data.name+'</td>'+
@@ -26,7 +26,7 @@ $(document).ready(function(){
   $('body').on('click', '#adS', function(){
    
     var id =$(this).val();
-    $.post( "/addDivisionSubject", { SubjectId:$(this).val(),DivisionId:$('#id_div').val() })
+    $.post( "/subject/addDivisionSubject", { SubjectId:$(this).val(),DivisionId:$('#id_div').val() })
       .done(function( data ) {
          $(' #subS [data-id = "'+data.id+'"]').remove();
         $( "#semester" ).prepend('<tr data-id="'+data.id+'"><td>'+data.name+'</td><td>'+data.code+'</td><td class="text-center">'+
@@ -44,7 +44,7 @@ $('body').on('click', '#dY', function(){
   });
   $('body').on('click', '#delY', function(){
     var id=$(this).val();
-    $.get('/deleteDivisionsbject/'+id+'/'+$('#id_div').val(),function(data){
+    $.get('/subject/deleteDivisionsbject/'+id+'/'+$('#id_div').val(),function(data){
       $('#year [data-id = "'+id+'"]').remove();
       $( "#subY" ).prepend('<tr data-id="'+data.id+'">'+
                             '<td>'+data.name+'</td>'+
@@ -64,7 +64,7 @@ $('body').on('click', '#dY', function(){
   $('body').on('click', '#adY', function(){
    
     var id =$(this).val();
-    $.post( "/addDivisionSubject", { SubjectId:$(this).val(),DivisionId:$('#id_div').val() })
+    $.post( "/subject/addDivisionSubject", { SubjectId:$(this).val(),DivisionId:$('#id_div').val() })
       .done(function( data ) {
          $(' #subY [data-id = "'+data.id+'"]').remove();
         $( "#year" ).prepend('<tr data-id="'+data.id+'"><td>'+data.name+'</td><td>'+data.code+'</td><td class="text-center">'+

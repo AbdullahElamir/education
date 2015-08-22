@@ -7,7 +7,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteSemesters/'+$(this).val(),function(todo){
+    $.get('/semester/deleteSemesters/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });
@@ -64,6 +64,28 @@ $(document).ready(function(){
     unhighlight: function(element) {
       $(element).closest('.row').removeClass('has-error');
     },
+    invalidHandler: function(event, validator) {
+      var errors = validator.numberOfInvalids();
+      if (errors) {
+        $.notify({
+          message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
+          },{
+          type: 'danger',
+          allow_dismiss: true,
+          showProgressbar: false,
+          placement: {
+            from: 'top',
+            align: 'center'
+          },
+          mouse_over: null,
+          newest_on_top: true,
+          animate: {
+            enter: 'animated bounceIn',
+            exit: 'animated bounceOut'
+          },
+        });
+      }
+    },
   });
   $('#sem_type').on('change',function() {
     $('select[name="system_type"]').each(function() {
@@ -89,7 +111,44 @@ $(document).ready(function(){
       $('.system_type').selectpicker('val', '');
     }
   });
+
   $('.selectpicker').selectpicker().change(function(){
     $(this).valid()
   });
+
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+  
+  if(qs["msg"]==1){
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة نظام دراسي جديد بنجاح </p>"
+      },{
+      type: 'success',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceInDown',
+        exit: 'animated bounceOutUp'
+      },
+    });
+    var pageUrl = '/location/'
+    window.history.pushState("","",pageUrl);
+  }
 });

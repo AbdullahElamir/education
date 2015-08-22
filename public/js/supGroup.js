@@ -35,7 +35,7 @@ $(document).ready(function(){
   $("#sub_group").submit(function(e) {
     var isvalidate=true//$("#sub_group").valid();
     if(isvalidate){
-      $.post("/subGrop", $("#sub_group").serializeObject(), function(data, error){
+      $.post("/semester/subGrop", $("#sub_group").serializeObject(), function(data, error){
         if(data ==null){
           // $("#err").empty();
           // for (err in data.result) {
@@ -73,7 +73,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#yes', function(){
     var id=$(this).val();
-    $.get('/deleteSubGroup/'+id,function(todo){
+    $.get('/semester/deleteSubGroup/'+id,function(todo){
       $('#delete').modal('hide');
       $('[data-id = "'+id+'"]').remove();
     });
@@ -99,7 +99,7 @@ $(document).ready(function(){
   $("#editForm").submit(function(e) {
     var isvalidate=true//$("#sub_group").valid();
     if(isvalidate){
-      $.post("/updateSub", {body:$("#editForm").serializeObject(),id:$('#editSubGr').val()}, function(data, error){
+      $.post("/semester/updateSub", {body:$("#editForm").serializeObject(),id:$('#editSubGr').val()}, function(data, error){
         if(data ==null){
           // $("#err").empty();
           // for (err in data.result) {

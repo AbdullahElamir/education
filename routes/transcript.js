@@ -16,60 +16,37 @@ var nationality = require('../Nationality');
   }
 
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
+// Start transcript /////////////////////////////////////////////////////////
+  router.get('/transcript', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+          // content: "<h1>Hello world</h1>",
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      //you can for example pipe it to express.js response
+      response.result.pipe(res);
+    });
+  });
+// End transcript /////////////////////////////////////////////////////////
+
+
+////////تنزيل المواد ////////////////
+
+router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
+  res.render('academicTranscripts', { title: 'Academic Transcripts' });
 });
 
-// //////Start User /////////////////////////////////////////
-  router.get('/newUser',userHelpers.isLogin, function(req, res) {
-      res.render('newUser', { title: 'New User', activeUser: 'active' });
-  });
+router.get('/studentData',userHelpers.isLogin, function(req, res) {
+  res.render('studentData', { title: 'Student Data' });
+});
+router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
+  res.render('addStudentSubject', { title: 'Add Student Subject' });
+});
 
-  router.post('/newUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.addUser(req.body,function(result){
-      res.redirect('/users/newUser');
-    });
-  });
+//////////////
 
-  router.post('/updateUser',userHelpers.isLogin, function(req, res) {
-    userHelpers.updateUser(req.body,function(result){
-      var rel = {result : result ,stat : true};
-          res.send(rel);
-    });
-  });
-
-  router.get('/users',userHelpers.isLogin, function(req, res) {
-    var page = userHelpers.getPage(req);
-    var limit = userHelpers.getLimit(page);
-    models.User.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(user) {
-      var pageCount = userHelpers.getPageCount(user.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-    res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
-    });
-  });
-  /////////////// delete Users 
-  router.get('/deleteUsers/:id', function(req, res) {
-    models.User.find({
-      where: {
-        id: req.params.id
-      }
-      }).then(function (todo) {
-      todo.updateAttributes({
-          status: 0
-      }).then(function (todo) {
-          res.send(todo);
-      }).catch(function (err) {
-          console.log(err);
-      });
-    });
-  });
-// ////// End User /////////////////////////////////////////
 
 module.exports = router;

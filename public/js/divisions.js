@@ -7,7 +7,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteDivision/'+$(this).val(),function(todo){
+    $.get('/division/deleteDivision/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });
@@ -19,7 +19,7 @@ $(document).ready(function(){
     $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
     $('#name_en').val($('[data-id = "'+myDataAttr+'"]').data('name_en'));
     $('#id').val($('[data-id = "'+myDataAttr+'"]').data('id'));
-    $('#DepartmentId').val($('[data-id = "'+myDataAttr+'"]').data('departmentid'));
+    $('#DepartmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('departmentid'));
   });
 
 //////////////////////
@@ -32,9 +32,8 @@ $(document).ready(function(){
   $("#formDivision").submit(function(e) {
     var isvalidate=$("#formDivision").valid();
     if(isvalidate){
-      $.post("/updateDivision", $("form").serializeObject(), function(data, error){
+      $.post("/division/updateDivision", $("form").serializeObject(), function(data, error){
         if(data.stat !=true){
-          alert("errormohammed");
         } 
         else {
           if($("#tbody").children().length>=10){
@@ -81,5 +80,79 @@ $(document).ready(function(){
       });
     }
     return false;
+  });
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+  if(qs["msg"]==1){
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة شعبه جديدة بنجاح </p>"
+      },{
+      type: 'success',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceInDown',
+        exit: 'animated bounceOutUp'
+      },
+    });
+    var pageUrl = '/division/'
+    window.history.pushState("","",pageUrl);
+  }
+  $("#formDivision").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      name:{
+        required: true,
+      },
+      name_en:{
+        required: true,
+      },
+      DepartmentId:{
+        required: true,
+      },
+    },
+    messages:{
+      name:{
+        required: "الرجاء ادخال اسم الشعبة!",
+      },
+      name_en:{
+        required: "!Please enter Division name",
+      },
+      DepartmentId:{
+        required: "الرجاء اختيار اسم القسم!",
+      },
+    },
+    // errorElement: 'label',
+    errorClass: 'custom-error',
+    errorPlacement: function (error, element) {
+      if ($(element).is('select')) {
+          element.next().after(error);
+      } else {
+          error.insertAfter(element);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.row').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.row').removeClass('has-error');
+    },
   });
 });

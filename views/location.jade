@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newLocation', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/location/newLocation', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة قاعة دراسية
               .pull-left(style="margin-left: 10px;")
@@ -56,29 +56,21 @@ block cPanel
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
                       button#del.btn.btn-danger.btn-xs(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
+        if pagination
+          .text-center
+            ul.pagination
+              li(class='#{pagination.previous.disabled}')
+                a(href='?p=#{pagination.previous.n.}') السابق
+              for page in pagination.pages
+                li(class="#{page.active}")
+                  a(href='?p=#{page.n}') #{page.n}
+              li(class="#{pagination.next.disabled}")
+                a(href='?p=#{pagination.next.n}') التالي
                 
-          .clearfix
-          ul.pagination.pull-right
-            li.disabled
-              a(href="#")
-                span.glyphicon.glyphicon-chevron-right
-            li.active
-              a(href="#") 1
-            li
-              a(href="#") 2
-            li
-              a(href="#") 3
-            li
-              a(href="#") 4
-            li
-              a(href="#") 5
-            li
-              a(href="#")
-                span.glyphicon.glyphicon-chevron-left
   #edit.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
-        form.form#updateLocation(action="/editLocation/", method="post", accept-charset="utf-8", role="form")
+        form.form#updateLocation(action="/location/editLocation/", method="post", accept-charset="utf-8", role="form")
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
@@ -118,10 +110,9 @@ block cPanel
               |  لا
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/backToTop.js')
   script(src='/js/jquery.validate.min.js')    
-  script(src='/js/newLocation.js')
-  script(src='/js/location.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/locations.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

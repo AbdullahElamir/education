@@ -9,15 +9,15 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default الفصول الدراسية
-          .btn.btn-default.active عرض الفصول الدراسية
+          .btn.btn-default اﻷنظمة الدراسية
+          .btn.btn-default.active عرض اﻷنظمة الدراسية
         br
         br
         .panel.panel-default
           .panel-heading
             .row
               .pull-right(style="margin-right: 10px;")
-                h3#h3.panel-title عرض الفصول الدراسية
+                h3#h3.panel-title عرض اﻷنظمة الدراسية
               .col-xs-5.col-md-6
                 .input-group
                   input.form-control(type='text', placeholder='بحث...')
@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newSemester', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/semester/newSemester', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة فصل دراسي
               .pull-left(style="margin-left: 10px;")
@@ -68,30 +68,22 @@ block cPanel
                   td #{i.ending_date.getDate()} / #{i.ending_date.getMonth()+1} / #{i.ending_date.getFullYear()} 
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="عرض")
-                      a.btn.btn-primary.btn-xs(href='/semester/#{i.id}', role='button' , value="#{i.id}")
+                      a.btn.btn-primary.btn-xs(href='/semester/semester/#{i.id}', role='button' , value="#{i.id}")
                         span.glyphicon.glyphicon-eye-open
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
                       button#del.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#delete",value="#{i.id}")
                         span.glyphicon.glyphicon-trash
-          .clearfix
-          ul.pagination.pull-right
-            li.disabled
-              a(href="#")
-                span.glyphicon.glyphicon-chevron-right
-            li.active
-              a(href="#") 1
-            li
-              a(href="#") 2
-            li
-              a(href="#") 3
-            li
-              a(href="#") 4
-            li
-              a(href="#") 5
-            li
-              a(href="#")
-                span.glyphicon.glyphicon-chevron-left
+        if pagination
+          .text-center
+            ul.pagination
+              li(class='#{pagination.previous.disabled}')
+                a(href='?p=#{pagination.previous.n.}') السابق
+              for page in pagination.pages
+                li(class="#{page.active}")
+                  a(href='?p=#{page.n}') #{page.n}
+              li(class="#{pagination.next.disabled}")
+                a(href='?p=#{pagination.next.n}') التالي
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -134,9 +126,9 @@ block cPanel
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
+  script(src='/js/jquery.validate.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/newSemester.js')
-
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {
