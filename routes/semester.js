@@ -80,7 +80,7 @@ var nationality = require('../Nationality');
 
     req.body.UserId=1;//req,session.id
     models.Semester.create(req.body).then(function() {
-      res.redirect('/semester/');
+      res.redirect('/semester');
     });
   });
 
@@ -200,7 +200,7 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
 });
 }); 
 
-router.post('/subGrop',userHelpers.isLogin, function(req, res) {
+router.post('/subGroup',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;
   models.Sub_group.create(req.body).then(function(sub) {
     models.Sub_group.findOne({

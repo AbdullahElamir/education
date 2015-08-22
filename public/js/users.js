@@ -154,7 +154,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/users/'
+    var pageUrl = '/users'
     window.history.pushState("","",pageUrl);
   }
 });    
