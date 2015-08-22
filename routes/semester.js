@@ -38,7 +38,7 @@ var nationality = require('../Nationality');
     res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
   });
 
-  router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
+  router.get('/:id',userHelpers.isLogin, function(req, res) {
     models.Semester.findOne({
       where: {
         id: req.params.id,
@@ -80,7 +80,7 @@ var nationality = require('../Nationality');
 
     req.body.UserId=1;//req,session.id
     models.Semester.create(req.body).then(function() {
-      res.redirect('/semester/');
+      res.redirect('/semester');
     });
   });
 
@@ -200,7 +200,7 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
 });
 }); 
 
-router.post('/subGrop',userHelpers.isLogin, function(req, res) {
+router.post('/subGroup',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;
   models.Sub_group.create(req.body).then(function(sub) {
     obj={

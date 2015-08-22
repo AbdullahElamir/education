@@ -130,7 +130,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/department/'
+    var pageUrl = '/department'
     window.history.pushState("","",pageUrl);
   }
 });

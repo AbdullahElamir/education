@@ -94,7 +94,7 @@ var nationality = require('../Nationality');
   router.post('/newDivision',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
     models.Division.create(req.body).then(function() {
-      res.redirect('/division/newDivision');
+      res.redirect('/division?msg=1');
     });
   });
 
