@@ -196,12 +196,15 @@ $(document).ready(function(){
     });
   });
   $('#department_select').hide(0);
-  $('[id^="radio"]').change(function() { 
+  $('.radiooo ,.radioo').change(function() { 
     $('#department_select').show(200);
   });
-  $('#js_radio').change(function() {
+
+  $('.radio_js').change(function() {
     $('#department_select').hide(200);
   });
+
+  
   $("#Semesters").show(0); 
   $("#Year").hide(0);
   $('#toggle-subject').change(function() {
