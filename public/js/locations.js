@@ -86,7 +86,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/locations'
+    var pageUrl = '/location'
     window.history.pushState("","",pageUrl);
   }
 });

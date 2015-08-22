@@ -18,7 +18,7 @@ $(document).ready(function(){
   $("#sub_group").submit(function(e) {
     var isvalidate=true//$("#sub_group").valid();
     if(isvalidate){
-      $.post("/semester/subGrop", $("#sub_group").serializeObject(), function(data, error){
+      $.post("/semester/subGroup", $("#sub_group").serializeObject(), function(data, error){
         if(data ==null){
           // $("#err").empty();
           // for (err in data.result) {

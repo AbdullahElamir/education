@@ -25,8 +25,15 @@ $(document).ready(function(){
     $('#last_name').val($('[data-id = "'+myDataAttr+'"]').data('last_name'));
     $('#last_name_en').val($('[data-id = "'+myDataAttr+'"]').data('last_name_en'));
     $('#mother_name').val($('[data-id = "'+myDataAttr+'"]').data('mother_name'));
-    $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));    
-    $('#place_birth').selectpicker($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+    $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));
+    $('#birth_date').datetimepicker('setDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date'));
+    
+    $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+
+    $('#birth_date').val($('[data-id = "'+myDataAttr+'"]').data('birth_date'));
+
+    // $('#place_birth').selectpicker($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+
     $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
     $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
     $('#no_paper_family').val($('[data-id = "'+myDataAttr+'"]').data('no_paper_family'));
@@ -37,7 +44,7 @@ $(document).ready(function(){
     $('#father_work_place').val($('[data-id = "'+myDataAttr+'"]').data('father_work_place'));
     $('#last_cert').val($('[data-id = "'+myDataAttr+'"]').data('last_cert'));
     $('#cust_last_cert').val($('[data-id = "'+myDataAttr+'"]').data('cust_last_cert'));
-    $('#birth_date').val('defaultDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date')); 
+    // $('#birth_date').val('defaultDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date')); 
     $('#date_cert').val('defaultDate',$('[data-id = "'+myDataAttr+'"]').data('date_cert'));
     $('#place_cert').val($('[data-id = "'+myDataAttr+'"]').data('place_cert'));
     $('#set_number').val($('[data-id = "'+myDataAttr+'"]').data('set_number'));
