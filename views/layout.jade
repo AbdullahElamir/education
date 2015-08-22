@@ -42,10 +42,6 @@ html
                 a(href="/cPanel")
                   span.glyphicon.glyphicon-home.text-primary
                   span.text-primary  لوحة التحكم
-              li
-                a(href="#")
-                  span.glyphicon.glyphicon-calendar.text-success
-                  span.text-success  التقويم
               li.dropdown(class=activeUser)
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
                   span.glyphicon.glyphicon-list-alt.text-info
@@ -56,10 +52,7 @@ html
                     a(href="/users") عرض المستخدمين
                   li.divider
                   li
-                    a(href="/newUser") إضافة مستخدم جديد
-                  //- li.divider
-                  //- li
-                  //-   a(href="#") صلاحيات المستخدم
+                    a(href="/users/newUser") إضافة مستخدم جديد
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
                   span.glyphicon.glyphicon-search.text-warning
@@ -271,7 +264,7 @@ html
                       a.btn.btn-danger.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-list-alt
                         br
-                        | تطبيقات
+                        | اﻷنظمة الدراسية
                       | 
                       a.btn.btn-warning.btn-lg(href="#", role="button")
                         span.glyphicon.glyphicon-bookmark

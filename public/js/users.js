@@ -7,7 +7,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteUsers/'+$(this).val(),function(todo){
+    $.get('/users/deleteUsers/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });
@@ -31,9 +31,9 @@ $(document).ready(function(){
   $("#formUsers").submit(function(e) {
     var isvalidate=$("#formUsers").valid();
     if(isvalidate){
-      $.post("/updateUser", $("form").serializeObject(), function(data, error){
+      $.post("/users/updateUser", $("form").serializeObject(), function(data, error){
         if(data.stat !=true){
-          alert("errormohammed");
+
         } 
         else {
          // alert($("form").serializeObject().name);

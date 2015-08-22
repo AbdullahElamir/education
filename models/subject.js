@@ -38,6 +38,7 @@ module.exports = function(sequelize, DataTypes) {
         Subject.belongsToMany(models.Division, {
           through: 'DivisionSubject'
         });
+        
       }
     }
   });

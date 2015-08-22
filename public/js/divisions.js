@@ -7,7 +7,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteDivision/'+$(this).val(),function(todo){
+    $.get('/division/deleteDivision/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });
@@ -32,9 +32,8 @@ $(document).ready(function(){
   $("#formDivision").submit(function(e) {
     var isvalidate=$("#formDivision").valid();
     if(isvalidate){
-      $.post("/updateDivision", $("form").serializeObject(), function(data, error){
+      $.post("/division/updateDivision", $("form").serializeObject(), function(data, error){
         if(data.stat !=true){
-          alert("errormohammed");
         } 
         else {
           if($("#tbody").children().length>=10){
@@ -113,7 +112,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/divisions'
+    var pageUrl = '/division/'
     window.history.pushState("","",pageUrl);
   }
   $("#formDivision").validate({

@@ -25,7 +25,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newLocation', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/location/newLocation', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة قاعة دراسية
               .pull-left(style="margin-left: 10px;")
@@ -70,7 +70,7 @@ block cPanel
   #edit.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
-        form.form#updateLocation(action="/editLocation/", method="post", accept-charset="utf-8", role="form")
+        form.form#updateLocation(action="/location/editLocation/", method="post", accept-charset="utf-8", role="form")
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")

@@ -38,7 +38,7 @@ var nationality = require('../Nationality');
     res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
   });
 
-  router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
+  router.get('/:id',userHelpers.isLogin, function(req, res) {
     models.Semester.findOne({
       where: {
         id: req.params.id,
@@ -74,20 +74,18 @@ var nationality = require('../Nationality');
     });
   });
 
-  router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
-    res.render('subGroup', { title: 'Get Sub Group' });
-  });
+
 
   router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
     req.body.UserId=1;//req,session.id
     models.Semester.create(req.body).then(function() {
-      res.redirect('/semesters');
+      res.redirect('/semester');
     });
   });
 
   // semester/#{semester.id}/updateSemester
-  router.post('/semester/:id/updateSemester', function(req, res) {
+  router.post('/:id/updateSemester/', function(req, res) {
     if(req.body.sem_type == "ربيعي")
       {
         req.body.sem_type= 1;
@@ -109,7 +107,7 @@ var nationality = require('../Nationality');
       }
       }).then(function (todo) {
       todo.updateAttributes(req.body).then(function (todo) {
-        res.redirect('/semester/'+req.params.id);
+        res.redirect('/semester/semester/'+req.params.id);
       }).catch(function (err) {
           console.log(err);
       });
@@ -117,6 +115,198 @@ var nationality = require('../Nationality');
        });
        });
 
+router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
+  models.Semester.findOne({
+    where: {
+      id: req.params.ids,
+      status: 1
+    }
+  }).then(function(sem){
+  
+  models.Faculty_member.findAll({
+    where:{
+      status:1
+    }
+  }).then(function(faculty){
+    models.Location.findAll({
+      where:{
+        status:1
+      }
+    }).then(function(location){
+      models.Division.findAll({
+        where:{
+          DepartmentId:req.params.id
+        },
+
+        include:[
+        {
+          model: models.DivisionSubject,
+            required:false,
+              where:{
+              status:1
+              
+            },
+            include:[{
+              model: models.Subject,
+              required:false,
+              where:{
+                status:1,
+                system_type : sem.system_type
+              }
+            }]
+        },
+
+
+
+        {
+          model: models.Sub_group,
+          required:false,
+          where:{
+          SemesterId:req.params.ids
+        },
+        include:[{
+          model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+
+          },{
+            model: models.Faculty_member,
+            required:false,
+              where:{
+              status:1
+            }
+          },{
+            model: models.Location,
+            required:false,
+            where:{
+              status:1
+            }
+          }
+        ],
+        }],
+      }).then(function(sub){
+        models.Department.findOne({
+          where:{id:req.params.id}
+        }).then(function(dep){
+          res.render('subGroup', { title: 'Get Sub Group',departmentID:req.params.id,semesterID:req.params.ids,faculty:faculty,location:location ,division:sub,semester:sem,dep:dep}); 
+        });
+        
+
+      });
+    });
+  });
+});
+}); 
+
+router.post('/subGroup',userHelpers.isLogin, function(req, res) {
+  req.body.UserId=1;
+  models.Sub_group.create(req.body).then(function(sub) {
+    obj={
+      UserId:1,
+      SubjectId:req.body.SubjectId,
+      LocationId:req.body.LocationId,
+      SemesterId:req.body.SemesterId,
+      SubGroupId:sub.id,
+
+      
+    }
+    models.Timeline.create(obj).then(function(){
+
+    models.Sub_group.findOne({
+      where:{
+        id:sub.id
+      },
+      include:[{
+        model: models.Faculty_member,
+          required:false,
+            where:{
+            status:1
+          }
+        },{
+          model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+        },{
+          model: models.Location,
+            required:false,
+            where:{
+              status:1
+            }
+        }]
+
+    }).then(function(result){
+      res.send(result);  
+    });
+  });    
+  });
+});
+router.post('/updateSub',userHelpers.isLogin, function(req, res) {
+  obj={
+    starting_time:req.body.body.starting_time,
+    day:req.body.body.day,
+    ending_time:req.body.body.ending_time,
+    LocationId:req.body.body.LocationId
+  }
+  models.Timeline.update(obj,{
+    where: {
+      SubGroupId:req.body.id
+    }
+    }).then(function(){
+
+models.Sub_group.update(req.body.body,{
+    where: {
+      id:req.body.id
+    }
+    }).then(function(result){
+    models.Sub_group.findOne({
+      where:{
+        id:req.body.id
+      },
+      include:[{
+        model: models.Faculty_member,
+          required:false,
+            where:{
+            status:1
+          }
+        },{
+          model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+        },{
+          model: models.Location,
+            required:false,
+            where:{
+              status:1
+            }
+        }]
+
+    }).then(function(result){
+      res.send(result);  
+    });
+  });
+});
+});
+router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
+  models.Sub_group.destroy({
+    where:{
+      id:req.params.id
+    }
+  }).then(function(){
+    models.Timeline.destroy({
+    where:{
+      SubGroupId:req.params.id
+    }
+  }).then(function(){
+    res.send(true);
+  });
+});
+});
   router.get('/deleteSemesters/:id', function(req, res) {
     models.Semester.find({
       where: {

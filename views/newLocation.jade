@@ -14,10 +14,10 @@ block cPanel
       .col-md-6.col-md-offset-2
         br
         br
-        form.form#newLocation(action="/newLocation", method="post", accept-charset="utf-8", role="form")
+        form.form#newLocation(action="/location/newLocation", method="post", accept-charset="utf-8", role="form")
           legend  إضافة قاعة جديدة
             .pull-left
-              a.btn.btn-primary(href='/locations', role='button')
+              a.btn.btn-primary(href='/location', role='button')
                 span.glyphicon.glyphicon-th-list
                 span  عرض القاعات الدراسية
           .form-group

@@ -111,7 +111,7 @@ var nationality = require('../Nationality');
         }
       }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
-          res.redirect('/subjects');
+          res.redirect('/subject');
         }).catch(function (err) {
           console.log(err);
         });
@@ -124,7 +124,7 @@ var nationality = require('../Nationality');
         }
       }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
-          res.redirect('/subjects');
+          res.redirect('/subject');
         }).catch(function (err) {
           console.log(err);
         });
@@ -137,7 +137,7 @@ var nationality = require('../Nationality');
         }
       }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
-          res.redirect('/subjects');
+          res.redirect('/subject');
         }).catch(function (err) {
           console.log(err);
         });
@@ -160,6 +160,7 @@ var nationality = require('../Nationality');
       });
     });
   });
+
 
   router.post('/saveSubject',function(req, res) {
     var PrerequisiteId=req.body.idd;
@@ -184,6 +185,7 @@ var nationality = require('../Nationality');
       });
     }
   });
+
 // End Subject //////////////////////////////////////////////////////////
 
 module.exports = router;
