@@ -16,8 +16,16 @@ var nationality = require('../Nationality');
   }
 
 // Start timelines /////////////////////////////////////////////////////////
-  router.get('/timelines',userHelpers.isLogin, function(req, res) {
-    res.render('timelines', { title: 'View Timelines' });
+  router.get('/',userHelpers.isLogin, function(req, res) {
+    res.render('timelines', { title: 'عرض الجدول الدراسي' });
+  });
+
+  router.get('/newTimeline',userHelpers.isLogin, function(req, res) {
+    res.render('newTimeline', { title: 'إضافة جدول دراسي' });
+  });
+
+  router.get('/timelineReview',userHelpers.isLogin, function(req, res) {
+    res.render('timelineReview', { title: 'اختيار الجدول الدراسي' });
   });
 // End timelines /////////////////////////////////////////////////////////
 

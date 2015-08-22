@@ -38,7 +38,7 @@ var nationality = require('../Nationality');
     res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
   });
 
-  router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
+  router.get('/:id',userHelpers.isLogin, function(req, res) {
     models.Semester.findOne({
       where: {
         id: req.params.id,
