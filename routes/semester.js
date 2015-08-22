@@ -292,6 +292,8 @@ models.Sub_group.update(req.body.body,{
   });
 // });
 });
+
+
 router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
   models.Sub_group.destroy({
     where:{

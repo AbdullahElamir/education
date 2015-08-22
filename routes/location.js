@@ -39,7 +39,7 @@ var nationality = require('../Nationality');
   router.post('/newLocation',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
     models.Location.create(req.body).then(function() {
-      res.redirect('/location/');
+      res.redirect('/location');
     });
   });
 
