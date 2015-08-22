@@ -187,7 +187,12 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
         ],
         }],
       }).then(function(sub){
-        res.render('subGroup', { title: 'Get Sub Group',departmentID:req.params.id,semesterID:req.params.ids,faculty:faculty,location:location ,division:sub}); 
+        models.Department.findOne({
+          where:{id:req.params.id}
+        }).then(function(dep){
+          res.render('subGroup', { title: 'Get Sub Group',departmentID:req.params.id,semesterID:req.params.ids,faculty:faculty,location:location ,division:sub,semester:sem,dep:dep}); 
+        });
+        
 
       });
     });
