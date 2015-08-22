@@ -59,7 +59,7 @@ var nationality = require('../Nationality');
     req.body.UserId=1;//req,session.id
     // req.body.DepartmentId=5;
     models.Faculty_member.create(req.body).then(function() {
-      res.redirect('/facultyMembers');
+      res.redirect('/facultyMember');
     });
   });
 

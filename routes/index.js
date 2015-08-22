@@ -21,4 +21,4 @@ router.get('/', function(req, res) {
   res.render('authentication', { title: 'Login' });
 });
 
-module.exports = router;
+module.exports = router

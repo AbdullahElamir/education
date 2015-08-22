@@ -40,7 +40,7 @@ var nationality = require('../Nationality');
   router.post('/newStudent',userHelpers.isLogin,function(req, res) {
     req.body.UserId=1;
     models.Student.create(req.body).then(function() {
-      res.redirect('/students');
+      res.redirect('/student');
     });
   });
 

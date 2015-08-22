@@ -16,8 +16,8 @@ var nationality = require('../Nationality');
   }
 
 // Start cPanel /////////////////////////////////////////////////////////
-  router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-    res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
+  router.get('/',userHelpers.isLogin, function(req, res) {
+    res.render('cPanel', { title: 'لوحة التحكم', activeCPanel: 'active' });
   });
 // End Panel /////////////////////////////////////////////////////////
 

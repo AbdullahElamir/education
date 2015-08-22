@@ -6,16 +6,15 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteStudent/'+$(this).val(),function(todo){
+    $.get('/student/deleteStudent/'+$(this).val(),function(todo){
       $('[date-id = "'+id+'"]').remove();
     });
   });
   
-  alert("Student js ");
 
   $('body').on('click', '#editt',function(){
     $('#id_Student').val($(this).val());
-    alert("inside js view edit ");
+    
     var myDataAttr = $(this).val();
     $('#first_name').val($('[data-id = "'+myDataAttr+'"]').data('first_name'));
     $('#first_name_en').val($('[data-id = "'+myDataAttr+'"]').data('first_name_en'));
@@ -27,10 +26,15 @@ $(document).ready(function(){
     $('#last_name_en').val($('[data-id = "'+myDataAttr+'"]').data('last_name_en'));
     $('#mother_name').val($('[data-id = "'+myDataAttr+'"]').data('mother_name'));
     $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));
+<<<<<<< HEAD
     
     $('#birth_date').datetimepicker('setDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date'));
     
     $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+=======
+    $('#birth_date').val($('[data-id = "'+myDataAttr+'"]').data('birth_date'));
+    $('#place_birth').selectpicker($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+>>>>>>> 07d3b804ef6d4c7450c199820f9219211ccf918b
     $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
     $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
     $('#no_paper_family').val($('[data-id = "'+myDataAttr+'"]').data('no_paper_family'));
@@ -55,15 +59,13 @@ $(document).ready(function(){
   });
 
   $("#updateStudent").submit(function(e) {
-    alert("inside js updateStudent ");
+    
     var isvalidate = $("#updateStudent").valid();
     if(isvalidate){
-      $.post("/updateStudent", $("form").serializeObject(), function(data, error){
+      $.post("/student/updateStudent", $("form").serializeObject(), function(data, error){
         if(data !=true){
-          alert("error result");
         } 
         else {
-          alert("True result");
           // if($("#tbody").children().length>=10){
           //   $("#tbody tr:last-child").remove();
           // }

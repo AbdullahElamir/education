@@ -88,6 +88,7 @@ $(document).ready(function(){
     var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd}; 
     if(isvalidate){
       $.post('subject/saveSubject',obj,function(todo){
+
         if(todo == true) {
           $.notify({
             message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
@@ -133,7 +134,7 @@ $(document).ready(function(){
   });
   $('body').on('click', '#sh', function(){
     var id = $(this).val();
-    $.get('/getSubject/'+id,function(subject){
+    $.get('/subject/getSubject/'+id,function(subject){
       $('#no_pr_unit').val(subject[0].no_pr_unit);
       $('#no_pr_hour').val(subject[0].no_pr_hour);
       $('#chapter_degree').val(subject[0].chapter_degree);
@@ -148,7 +149,7 @@ $(document).ready(function(){
   });
   $('body').on('click', '#ed', function(){
     var id = $(this).val();
-    $.get('/getSubject/'+id,function(subject){
+    $.get('/subject/getSubject/'+id,function(subject){
       $('#name').val(subject[0].name);
       $('#name_en').val(subject[0].name_en);
       $('#code').val(subject[0].code);
@@ -186,7 +187,7 @@ $(document).ready(function(){
   });
   $('body').on('click','#ok', function(){
     var id=$(this).val();
-    $.get('/deleteSubject/'+$(this).val(),function(todo){
+    $.get('/subject/deleteSubject/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });

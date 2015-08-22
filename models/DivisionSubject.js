@@ -6,12 +6,12 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // DivisionSubject.hasMany(models.Subject, {
-        //   onDelete: "CASCADE",
-        //   foreignKey: {
-        //     allowNull: false
-        //   }
-        // });
+        DivisionSubject.belongsTo(models.Subject, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
         // DivisionSubject.hasMany(models.Division, {
         //   onDelete: "CASCADE",
         //   foreignKey: {

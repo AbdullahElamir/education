@@ -1,0 +1,124 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+block cPanel
+  .container
+    .row
+      .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default تنزيل المواد
+          .btn.btn-default.active عرض الطلبة
+        .pull-left.btn-group(role='group', aria-label='...')
+          button#Department_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد القسم
+            span.glyphicon.glyphicon-pencil 
+          |   
+          button#generale_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد العامة
+            span.glyphicon.glyphicon-pencil
+        br
+        br
+        br
+        .row  
+          .col-md-7    
+            .panel.panel-default
+              .panel-heading
+                .row
+                  .pull-right(style="margin-right: 10px;")
+                    h3#h3.panel-title تنزيل مواد ..
+              .table-responsive
+                table#mytable.table.table-bordred.table-striped.text-right
+                  thead
+                    th
+                      input#checkall(type="checkbox")
+                    th اسم المادة
+                    th Subject Name
+                    th رمز المادة
+                    th.text-center حذف
+                  tbody
+              
+                    tr(data-id = '')
+                      td
+                        input.checkthis(type="checkbox")
+                      td 
+                      td 
+                      td 
+                      td.text-center
+                        p(data-placement="top", data-toggle="tooltip", title="حذف")  
+                          button.btn.btn-danger.btn-xs(value="",data-title="Delete", data-toggle="modal", data-target="#Descargar_material")
+                            span.glyphicon.glyphicon-trash
+          .col-md-5.pull-left   
+            #Department_teble  
+              .panel.panel-default
+                .panel-heading
+                  .row
+                    .pull-right(style="margin-right: 10px;")
+                      h3#h3.panel-title عرض المواد القسم  
+                    .col-xs-6.col-md-6
+                      .input-group
+                        input.form-control(type='text', placeholder='بحث...')
+                        .input-group-btn
+                          button.btn.btn-default
+                            i.glyphicon.glyphicon-search    
+                          
+                  .table-responsive
+                    table#mytable.table.table-bordred.table-striped.text-right
+                      thead
+                        th
+                          input#checkall(type="checkbox")
+                        th اسم المادة
+                        th رمز المادة
+                        th.text-center إضافة
+                      tbody
+                  
+                        tr(data-id = '')
+                          td
+                            input.checkthis(type="checkbox")
+                          td رياضة 1
+                          td ma100 
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                              button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
+                                span.glyphicon.glyphicon-hand-right                   
+            #generale_teble
+              .panel.panel-default
+                .panel-heading
+                  .row
+                    .pull-right(style="margin-right: 10px;")
+                      h3#h3.panel-title عرض المواد العامة 
+                    .col-xs-6.col-md-6
+                      .input-group
+                        input.form-control(type='text', placeholder='بحث...')
+                        .input-group-btn
+                          button.btn.btn-default
+                            i.glyphicon.glyphicon-search     
+                      
+                  .table-responsive
+                    table#mytable.table.table-bordred.table-striped.text-right
+                      thead
+                        th
+                          input#checkall(type="checkbox")
+                        th اسم المادة
+                        th رمز المادة
+                        th.text-center إضافة
+                      tbody
+                  
+                        tr(data-id = '')
+                          td
+                            input.checkthis(type="checkbox")
+                          td حاسب الي 
+                          td cs100 
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                              button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
+                                span.glyphicon.glyphicon-hand-right              
+
+
+
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/bootstrap-select.min.js') 
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/addStudentSubject.js')  

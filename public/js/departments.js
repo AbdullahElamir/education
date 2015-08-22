@@ -5,7 +5,7 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/deleteDepartment/'+$(this).val(),function(todo){
+    $.get('/department/deleteDepartment/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });
@@ -25,7 +25,7 @@ $(document).ready(function(){
   $("#formDepartment").submit(function(e) {
     var isvalidate=$("#formDepartment").valid();
     if(isvalidate){
-      $.post("/updateDepartment", $("form").serializeObject(), function(data, error){
+      $.post("/department/updateDepartment", $("form").serializeObject(), function(data, error){
         if(data.stat !=true){
           alert("errormohammed");
         } 
@@ -130,7 +130,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/departments'
+    var pageUrl = '/department'
     window.history.pushState("","",pageUrl);
   }
 });
