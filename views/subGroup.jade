@@ -4,114 +4,78 @@ block errorStyle
 block content
 block navcPanel
   .container.font
-    .row
-      .text-center.h4 عرض المواد "للفصل" الدراسي للقسم "اسم القسم"
-      .col-xs-9.col-md-9
-        .panel.panel-default
-          .panel-heading(style="padding: 5px 15px;")
-            .row
-              .pull-right(style="margin-right: 10px;")
-                .panel-title "اسم الشعبه"
-          .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right
-              thead
-                th اسم المادة
-                th رمز المادة
-                th اسم المحاضر
-                th رقم المجموعة
-                th عدد الطلبة
-                th اسم القاعة الدراسية
-                th.text-center تعديل
-                th.text-center إلغاء
-              tbody#tbody
-                tr(data-id = 1)
-                  td رياضة 1
-                  td MM101
-                  td محمد خليف ساسي
-                  td A1
-                  td 50
-                  td شهيد الواجب
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-                        span.glyphicon.glyphicon-pencil
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button.btn.btn-danger.btn-xs(data-title="Edit", data-toggle="modal", data-target="#delete")
-                        span.glyphicon.glyphicon-remove
-      .col-xs-3.col-md-3
-        .panel.panel-default
-          .panel-heading#panel-heading
-            .pull-left
-              a.btn.btn-success.btn-xs(href='#', role='button',data-toggle='modal')
-                i.fa.fa-arrow-left
-                span  رجوع
-            .panel-title.text-center المواد المقترحة
-            span.pull-right.clickable
-              i.glyphicon.glyphicon-chevron-up
-          .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right
-              thead
-                th اسم المادة
-                th رمز المادة
-                th.text-center إضافة
-              tbody
-                tr(data-id = 2)
-                  td رياضة 2
-                  td MM102
-                  td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                      button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
-                        span.glyphicon.glyphicon-hand-right 
-                
-      //- .col-xs-9.col-md-9
-      //-   .panel.panel-default
-      //-     .panel-heading(style="padding: 5px 15px;")
-      //-       .row
-      //-         .pull-right(style="margin-right: 10px;")
-      //-           .panel-title عرض الفصول الدراسية
-      //-         .pull-left(style="margin-left: 10px;")
-      //-     .table-responsive
-      //-       table#mytable.table.table-bordred.table-striped.text-right
-      //-         thead
-      //-           th اسم المادة
-      //-           th رمز المادة
-      //-           th اسم المحاضر
-      //-           th رقم المجموعة
-      //-           th عدد الطلبة
-      //-           th اسم القاعة الدراسية
-      //-           th.text-center إلغاء
-      //-         tbody
-      //-           tr
-      //-             td رياضة 1
-      //-             td MM101
-      //-             td محمد خليف ساسي
-      //-             td A1
-      //-             td 50
-      //-             td شهيد الواجب
-      //-             td.text-center
-      //-               p(data-placement="top", data-toggle="tooltip", title="تعديل")
-      //-                 button.btn.btn-danger.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-      //-                   span.glyphicon.glyphicon-hand-left
-      //- .col-xs-3.col-md-3
-      //-   .panel.panel-default
-      //-     .panel-heading(style="padding: 5px 15px;")
-      //-       .row
-      //-         .panel-title.text-center المواد الملغية
-      //-     .table-responsive
-      //-       table#mytable.table.table-bordred.table-striped.text-right
-      //-         thead
-      //-           th اسم المادة
-      //-           th رمز المادة
-      //-           th.text-center إضافة
-      //-         tbody
-      //-           tr
-      //-             td رياضة 2
-      //-             td MM102
-      //-             td.text-center
-      //-               p(data-placement="top", data-toggle="tooltip", title="تعديل")
-      //-                 button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#edit")
-      //-                   span.glyphicon.glyphicon-hand-right
+
+      .text-center.h4 عرض المواد للفصل الدراسي 
+        if semester.sem_type == 1 
+          | ربيع #{semester.year.getFullYear()} للقسم #{dep.name}
+        else if semester.sem_type == 2
+          |خريف #{semester.year.getFullYear()} للقسم #{dep.name}
+        else if semester.sem_type == 3
+          |صيف #{semester.year.getFullYear()} للقسم #{dep.name}
+      
+        for div in division
+          .row
+            .col-xs-9.col-md-9
+              .panel.panel-default
+                .panel-heading(style="padding: 5px 15px;")
+                  .row
+                    .pull-right(style="margin-right: 10px;")
+                      .panel-title #{div.name}
+                .table-responsive
+                  table#mytable.table.table-bordred.table-striped.text-right
+                    thead
+                      th اسم المادة
+                      th رمز المادة
+                      th اسم المحاضر
+                      th رقم المجموعة
+                      th عدد الطلبة
+                      th اسم القاعة الدراسية
+                      th.text-center تعديل
+                      th.text-center إلغاء
+                    tbody(id="tbody#{div.id}")
+                      for sub in div.Sub_groups
+                        tr(data-idd="#{div.id}",data-id="#{sub.id}",data-name="#{sub.Subject.name}",data-code="#{sub.Subject.code}",data-fac="#{sub.Faculty_member.id}",data-groupname="#{sub.sub_group_name}",data-quantity="#{sub.quantity}",data-loc="#{sub.Location.id}")
+                          td #{sub.Subject.name}
+                          td #{sub.Subject.code}
+                          td #{sub.Faculty_member.name}
+                          td #{sub.sub_group_name}
+                          td #{sub.quantity}
+                          td #{sub.Location.name}
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                              button#editSub.btn.btn-primary.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                                span.glyphicon.glyphicon-pencil
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                              button#delSub.btn.btn-danger.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#delete")
+                                span.glyphicon.glyphicon-remove
+            .col-xs-3.col-md-3
+              .panel.panel-default
+                .panel-heading#panel-heading
+                  .pull-left
+                    a.btn.btn-success.btn-xs(href='#', role='button',data-toggle='modal')
+                      i.fa.fa-arrow-left
+                      span  رجوع
+                  .panel-title.text-center المواد المقترحة
+                  span.pull-right.clickable
+                    i.glyphicon.glyphicon-chevron-up
+                .table-responsive
+                  table#mytable.table.table-bordred.table-striped.text-right
+                    thead
+                      th اسم المادة
+                      th رمز المادة
+                      th.text-center إضافة
+                    tbody
+                      for sbj in div.DivisionSubjects
+                        if sbj.Subject !=null
+                          tr(data-id = "sbj#{sbj.Subject.id}",data-name="#{sbj.Subject.name}",data-code="#{sbj.Subject.code}")
+                            td #{sbj.Subject.name}
+                            td #{sbj.Subject.code}
+                            td.text-center
+                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                button#sbj.btn.btn-success.btn-xs(value="#{sbj.Subject.id}",data-title="Edit", data-toggle="modal", data-target="#add",data-div="#{div.id}")
+                                  span.glyphicon.glyphicon-hand-right 
+                      
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -120,40 +84,41 @@ block navcPanel
             span.glyphicon.glyphicon-remove(aria-hidden="true")
           h4#Heading.modal-title.custom_align تعديل فصل دراسي
         .modal-body
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                lable اسم المادة
-                input.form-control(type="text", value="رياضة 1", disabled)
-              .col-xs-6.col-md-6
-                lable رمز المادة
-                input.form-control(type="text", value="MM101", disabled)
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                lable اسم المحاضر/ة
-                select.form-control.selectpicker#faculty_Members(name="faculty_Members", data-live-search="true")
-                  option(value="", style='color:grey; display:none;') الرجاء اختيار اسم المحاضر...
-                  option(value="0") محاضر1
-                  option(value="1") محاضر2
-              .col-xs-6.col-md-6
-                lable رقم المجموعة
-                input.form-control(type="text", value="A1", placeholder="رقم المجموعة")
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                lable عدد الطلبة
-                input.form-control(type="text", value="50", placeholder="رقم المجموعة")
-              .col-xs-6.col-md-6
-                lable اسم القاعة الدراسية
-                select.form-control.selectpicker#locations(name="locations", data-live-search="true")
-                  option(value="", style='color:grey; display:none;') الرجاء اختيار اسم القاعة الدراسية...
-                  option(value="0") محاضر1
-                  option(value="1") محاضر2
-        .modal-footer
-          button.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign
-            |  تعديل
+          form#editForm.form-signin(role="form")
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable اسم المادة
+                  input.form-control#name_e(type="text", disabled)
+                .col-xs-6.col-md-6
+                  lable رمز المادة
+                  input.form-control#code_e(type="text", disabled)
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable اسم المحاضر/ة
+                  select.form-control.selectpicker#faculty_Member(name="faculty_Members", data-live-search="true")
+                    option(value="", style='color:grey; display:none;') الرجاء اختيار اسم المحاضر...
+                    for fac in faculty                 
+                      option(value="#{fac.id}") #{fac.name}
+                .col-xs-6.col-md-6
+                  lable رقم المجموعة
+                  input#sub_group_n.form-control(name="sub_group_name",,type="text", value="", placeholder="رقم المجموعة")
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable عدد الطلبة
+                  input.form-control#quantit(name="quantity",type="text", placeholder="رقم المجموعة")
+                .col-xs-6.col-md-6
+                  lable اسم القاعة الدراسية
+                  select.form-control.selectpicker#location(name="locations", data-live-search="true")
+                    option(value="", style='color:grey; display:none;') الرجاء اختيار اسم القاعة الدراسية...
+                      for loc in location                 
+                        option(value="#{loc.id}") #{loc.name}
+          .modal-footer
+            button#editSubGr.btn.btn-primary.btn-lg(data-idd="",type="button", style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
       // /.modal-content
     // /.modal-dialog
   #add.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -164,40 +129,44 @@ block navcPanel
             span.glyphicon.glyphicon-remove(aria-hidden="true")
           h4#Heading.modal-title.custom_align إضافة مادة مقترحة
         .modal-body
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                lable اسم المادة
-                input.form-control(type="text", value="رياضة 2", disabled)
-              .col-xs-6.col-md-6
-                lable رمز المادة
-                input.form-control(type="text", value="MM102", disabled)
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                lable اسم المحاضر/ة
-                select.form-control.selectpicker#faculty_Members(name="faculty_Members", data-live-search="true")
-                  option(value="", style='color:grey; display:none;') الرجاء اختيار اسم المحاضر...
-                  option(value="0") محاضر1
-                  option(value="1") محاضر2
-              .col-xs-6.col-md-6
-                lable رقم المجموعة
-                input.form-control(type="text", placeholder="رقم المجموعة")
-          .form-group
-            .row
-              .col-xs-6.col-md-6
-                lable عدد الطلبة
-                input.form-control(type="text", placeholder="رقم المجموعة")
-              .col-xs-6.col-md-6
-                lable اسم القاعة الدراسية
-                select.form-control.selectpicker#locations(name="locations", data-live-search="true")
-                  option(value="", style='color:grey; display:none;') الرجاء اختيار اسم القاعة الدراسية...
-                  option(value="0") محاضر1
-                  option(value="1") محاضر2
-        .modal-footer
-          button#addd.btn.btn-success.btn-lg(type="button", data-dismiss="modal", style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign
-            |  إضافة
+          form#sub_group.form-signin(role="form",name='sub_group')
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable اسم المادة
+                  input#name_s.form-control(name="name_s",type="text", disabled)
+                .col-xs-6.col-md-6
+                  lable رمز المادة
+                  input#code.form-control(name="code",type="text", disabled)
+            .form-group
+              .row
+                input#DivisionId(type="hidden",name="DivisionId",value="")
+                input#SubjectId(type="hidden",name="SubjectId",value="")
+                input(type="hidden",name="SemesterId",value="#{semesterID}")
+                .col-xs-6.col-md-6
+                  lable اسم المحاضر/ة
+                  select.form-control.selectpicker#faculty_Members(name="FacultyMemberId", data-live-search="true")
+                    option(value="", style='color:grey; display:none;') الرجاء اختيار اسم المحاضر...
+                    for fac in faculty                 
+                      option(value="#{fac.id}") #{fac.name}
+                .col-xs-6.col-md-6
+                  lable رقم المجموعة
+                  input#sub_group_name.form-control(name="sub_group_name",type="text", placeholder="رقم المجموعة")
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable عدد الطلبة
+                  input#quantity.form-control(name="quantity",type="text", placeholder="عدد الطلبة")
+                .col-xs-6.col-md-6
+                  lable اسم القاعة الدراسية
+                  select.form-control.selectpicker#locations(name="LocationId", data-live-search="true")
+                    option(value="", style='color:grey; display:none;') الرجاء اختيار اسم القاعة الدراسية...
+                    for loc in location                 
+                      option(value="#{loc.id}") #{loc.name}
+          .modal-footer
+            button#addd.btn.btn-success.btn-lg(type="button", data-dismiss="modal", style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  إضافة
       // /.modal-content
     // /.modal-dialog
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -224,6 +193,7 @@ block navcPanel
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/helpers.js') 
   script(src='/js/supGroup.js')  
   script(src='/js/backToTop.js')
   script.

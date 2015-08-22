@@ -24,6 +24,20 @@ module.exports = function(sequelize, DataTypes) {
         Division.belongsToMany(models.Subject, {
           through: 'DivisionSubject'
         });
+        
+        Division.hasMany(models.Sub_group, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+
+        Division.hasMany(models.DivisionSubject, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
       }
     }
   });
