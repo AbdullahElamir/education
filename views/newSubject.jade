@@ -66,15 +66,15 @@ block cPanel
                   label تندرج تحت قسم
                   br
                   label.radio-inline
-                    input#radio(type='radio', name='department',value="1")
+                    input#radio.radio_js(type='radio', name='department',value="1")
                     | عامة
                   label.radio-inline
-                    input#radio(type='radio', name='department',value="2")
+                    input#radio.radioo(type='radio', name='department',value="2")
                     | خاصة
                   label.radio-inline
-                    input#radio(type='radio', name='department',value="3")
+                    input#radio.radiooo(type='radio', name='department',value="3")
                     | كلاهما
-                
+                #department_select
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
