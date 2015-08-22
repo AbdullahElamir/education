@@ -44,6 +44,11 @@ var nationality = require('../Nationality');
     });
   });
 
+  // getAllNationality
+  router.get('getAllNationality',function(req, res){
+    res.send(nationality);
+  });
+
   /////////////// delete deleteStudent 
   router.get('/deleteStudent/:id', function(req, res) {
     models.Student.find({
