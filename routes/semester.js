@@ -251,7 +251,7 @@ router.post('/updateSub',userHelpers.isLogin, function(req, res) {
   //   ending_time:req.body.body.ending_time,
   //   LocationId:req.body.body.LocationId
   // }
-  models.Timeline.update(obj,{
+  // models.Timeline.update(obj,{
     // where: {
     //   SubGroupId:req.body.id
     // }
