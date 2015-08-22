@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cPanel',userHelpers.isLogin, function(req, res) {
-  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });l
+  res.render('cPanel', { title: 'Control Panel', activeCPanel: 'active' });
 });
 
 router.get('/cPanelTest',userHelpers.isLogin, function(req, res) {
@@ -98,8 +98,163 @@ router.get('/semester/:id',userHelpers.isLogin, function(req, res) {
   });
 });
 
-router.get('/semester/:id/:id',userHelpers.isLogin, function(req, res) {
-  res.render('subGroup', { title: 'Get Sub Group' });
+router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
+  models.Semester.findOne({
+    where: {
+      id: req.params.ids,
+      status: 1
+    }
+  }).then(function(sem){
+  
+  models.Faculty_member.findAll({
+    where:{
+      status:1
+    }
+  }).then(function(faculty){
+    models.Location.findAll({
+      where:{
+        status:1
+      }
+    }).then(function(location){
+      models.Division.findAll({
+        where:{
+          DepartmentId:req.params.id
+        },
+
+        include:[
+        {
+          model: models.DivisionSubject,
+            required:false,
+              where:{
+              status:1
+              
+            },
+            include:[{
+              model: models.Subject,
+              required:false,
+              where:{
+                status:1,
+                system_type : sem.system_type
+              }
+            }]
+        },
+
+
+
+        {
+          model: models.Sub_group,
+          required:false,
+          where:{
+          SemesterId:req.params.ids
+        },
+        include:[{
+          model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+
+          },{
+            model: models.Faculty_member,
+            required:false,
+              where:{
+              status:1
+            }
+          },{
+            model: models.Location,
+            required:false,
+            where:{
+              status:1
+            }
+          }
+        ],
+        }],
+      }).then(function(sub){
+        res.render('subGroup', { title: 'Get Sub Group',departmentID:req.params.id,semesterID:req.params.ids,faculty:faculty,location:location ,division:sub}); 
+
+      });
+    });
+  });
+});
+}); 
+
+router.post('/subGrop',userHelpers.isLogin, function(req, res) {
+  req.body.UserId=1;
+  models.Sub_group.create(req.body).then(function(sub) {
+    models.Sub_group.findOne({
+      where:{
+        id:sub.id
+      },
+      include:[{
+        model: models.Faculty_member,
+          required:false,
+            where:{
+            status:1
+          }
+        },{
+          model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+        },{
+          model: models.Location,
+            required:false,
+            where:{
+              status:1
+            }
+        }]
+
+    }).then(function(result){
+      res.send(result);  
+    });
+    
+  });
+});
+router.post('/updateSub',userHelpers.isLogin, function(req, res) {
+models.Sub_group.update(req.body.body,{
+    where: {
+      id:req.body.id
+    }
+    }).then(function(result){
+    models.Sub_group.findOne({
+      where:{
+        id:req.body.id
+      },
+      include:[{
+        model: models.Faculty_member,
+          required:false,
+            where:{
+            status:1
+          }
+        },{
+          model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+        },{
+          model: models.Location,
+            required:false,
+            where:{
+              status:1
+            }
+        }]
+
+    }).then(function(result){
+      res.send(result);  
+    });
+  });
+
+});
+router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
+  models.Sub_group.destroy({
+    where:{
+      id:req.params.id
+    }
+  }).then(function(){
+    res.send(true);
+  })
 });
 
 router.post('/newSemester',userHelpers.isLogin, function(req, res) {
@@ -176,7 +331,6 @@ router.get('/getSubject/:id', function(req, res) {
 });
 
 router.post('/test/:id', function(req, res) {
-  console.log(req.params.id);
   });
 
 
@@ -579,7 +733,6 @@ router.get('/newUser',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/newUser',userHelpers.isLogin, function(req, res) {
-  console.log(req.body);
   userHelpers.addUser(req.body,function(result){
     res.redirect('/newUser');
   });
@@ -628,7 +781,6 @@ router.get('/subjects', function(req, res) {
         status: 1
       }
     }).then(function(departments) {
-        console.log(departments);
         res.render('subjects', { title: 'subjects',dep:departments,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject});
     }); 
   }); 
@@ -667,7 +819,6 @@ router.get('/newSubject', function(req, res) {
       status: 1
     }
   }).then(function(subject) {
-    console.log(subject);
   res.render('newSubject', {title: 'New Subject', collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
 });
 });
