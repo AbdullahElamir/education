@@ -80,7 +80,7 @@ var nationality = require('../Nationality');
 
     req.body.UserId=1;//req,session.id
     models.Semester.create(req.body).then(function() {
-      res.redirect('/semester');
+      res.redirect('/semester?msg=1');
     });
   });
 
@@ -90,24 +90,22 @@ var nationality = require('../Nationality');
       {
         req.body.sem_type= 1;
       } 
-
-      if(req.body.sem_type == "خريفي"){
+    if(req.body.sem_type == "خريفي"){
       req.body.sem_type = 2;
       } 
 
-      if(req.body.sem_type == "صيفي")
+    if(req.body.sem_type == "صيفي")
       {
         req.body.sem_type = 3;
-      } 
-
-     id = req.params.id;
+      }
+    id = req.params.id;
     models.Semester.find({
       where: {
         id: id
       }
       }).then(function (todo) {
       todo.updateAttributes(req.body).then(function (todo) {
-        res.redirect('/semester/semester/'+req.params.id);
+        res.redirect('/semester/'+req.params.id);
       }).catch(function (err) {
           console.log(err);
       });

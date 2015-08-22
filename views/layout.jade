@@ -9,6 +9,7 @@ html
     link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/bootstrap-rtl.min.css')
     link(rel='stylesheet', href="/css/bootstrap-toggle.min.css")
+    
     block contentStyle
       link(rel='stylesheet', href='/css/navbarStyle.css')
       link(rel='stylesheet', href='/css/cPanelStyle.css')
@@ -226,31 +227,31 @@ html
                       tr
                         td(class=activeSixTwo)
                           a(href="/facultyMember/addFacultyMember")  إضافة محاضر/ة
-              .panel.panel-default.font
-                .panel-heading
-                  h4.panel-title
-                    a(data-toggle="collapse", data-parent="#accordion", href="#collapseSeven")
-                      span.glyphicon.glyphicon-file
-                      |  التقارير
-                #collapseSeven.panel-collapse.collapse(class=collapseSeven)
-                  .panel-body#panel-body
-                    table.table
-                      tr
-                        td
-                          span.glyphicon.glyphicon-usd
-                          a(href="#")  مبيعات
-                      tr
-                        td
-                          span.glyphicon.glyphicon-user
-                          a(href="#")  زبائن
-                      tr
-                        td
-                          span.glyphicon.glyphicon-tasks
-                          a(href="#")  منتجات
-                      tr
-                        td
-                          span.glyphicon.glyphicon-shopping-cart
-                          a(href="#")  سلة الشراء
+              //- .panel.panel-default.font
+              //-   .panel-heading
+              //-     h4.panel-title
+              //-       a(data-toggle="collapse", data-parent="#accordion", href="#collapseSeven")
+              //-         span.glyphicon.glyphicon-file
+              //-         |  التقارير
+              //-   #collapseSeven.panel-collapse.collapse(class=collapseSeven)
+              //-     .panel-body#panel-body
+              //-       table.table
+              //-         tr
+              //-           td
+              //-             span.glyphicon.glyphicon-usd
+              //-             a(href="#")  مبيعات
+              //-         tr
+              //-           td
+              //-             span.glyphicon.glyphicon-user
+              //-             a(href="#")  زبائن
+              //-         tr
+              //-           td
+              //-             span.glyphicon.glyphicon-tasks
+              //-             a(href="#")  منتجات
+              //-         tr
+              //-           td
+              //-             span.glyphicon.glyphicon-shopping-cart
+              //-             a(href="#")  سلة الشراء
           block cPanel  
             .col-xs-12.col-md-6.col-md-offset-2
               .panel.panel-primary.font
@@ -262,48 +263,48 @@ html
                 .panel-body
                   .row
                     .col-xs-6.col-md-6
-                      a.btn.btn-danger.btn-lg(href="#", role="button")
+                      a.btn.btn-danger.btn-lg.btn-block(href="/semester", role="button")
                         span.glyphicon.glyphicon-list-alt
                         br
                         | اﻷنظمة الدراسية
                       | 
-                      a.btn.btn-warning.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-bookmark
+                      a.btn.btn-warning.btn-lg.btn-block(href="/location", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | الإشارات
+                        | القاعات الدراسية
                       | 
-                      a.btn.btn-primary.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-signal
+                      a.btn.btn-primary.btn-lg.btn-block(href="/subject", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | تقارير
+                        | المواد الدراسية
                       | 
-                      a.btn.btn-primary.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-comment
+                      a.btn.btn-info.btn-lg.btn-block(href="/department", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | تعليقات
+                        | اﻷقسام
                     .col-xs-6.col-md-6
-                      a.btn.btn-success.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-user
+                      a.btn.btn-success.btn-lg.btn-block(href="/division", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | مستخدمين
+                        | الشعب
                       | 
-                      a.btn.btn-info.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-file
+                      a.btn.btn-info.btn-lg.btn-block(href="/student", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | ملاحظات
+                        | الطلبة المسجلين
                       | 
-                      a.btn.btn-primary.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-picture
+                      a.btn.btn-primary.btn-lg.btn-block(href="/facultyMember", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | صور
+                        | المحاضرين
                       | 
-                      a.btn.btn-primary.btn-lg(href="#", role="button")
-                        span.glyphicon.glyphicon-tag
+                      a.btn.btn-warning.btn-lg.btn-block(href="/users", role="button")
+                        span.glyphicon.glyphicon-list-alt
                         br
-                        | العلامات  
-                  a.btn.btn-success.btn-lg.btn-block(href="http://www.jquery2dotnet.com/", role="button")
+                        | المستخدمين  
+                  a.btn.btn-success.btn-lg.btn-block(href="http://www.naga.ly/", role="button", target="_blank")
                     span.glyphicon.glyphicon-globe
-                    |  موقع
+                    |  الاتصال بالدعم
     block content
     block footer
       footer.footer.font
