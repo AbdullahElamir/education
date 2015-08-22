@@ -137,7 +137,7 @@ html
                       tr
                         td(class=activeOneOne)
                           a(href="/semester", style="font-size:12px;").font  عرض الفصول الدراسية
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          
                       tr
                         td(class=activeOneTwo)
                           a(href="/semester/newSemester").font  إضافة فصل دراسي
@@ -153,7 +153,7 @@ html
                       tr
                         td(class=activeTwoOne)
                           a(href="/location", style="font-size:12px;").font  عرض القاعات الدراسية
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          
                       tr
                         td(class=activeTwoTwo)
                           a(href="/location/newLocation").font  إضافة قاعة دراسية
@@ -169,7 +169,7 @@ html
                       tr
                         td(class=activeThreeOne)
                           a(href="/subject", style="font-size:13.5px;").font  عرض المواد الدراسية
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          
                       tr
                         td(class=activeThreeTwo)
                           a(href="/subject/newSubject").font  إضافة مادة دراسية
@@ -185,7 +185,7 @@ html
                       tr
                         td(class=activeFourOne)
                           a(href="/department")  عرض اﻷقسام
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          
                       tr
                         td(class=activeFourTwo)
                           a(href="/department/newDepartment")  إضافة قسم جديد
@@ -207,7 +207,7 @@ html
                       tr
                         td(class=activeFiveOne)
                           a(href="/student", style="font-size:12.6px;")  عرض الطلبة المسجلين
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          
                       tr
                         td(class=activeFiveTwo)
                           a(href="/student/newStudent")  تسجيل طالب/ة
@@ -222,36 +222,22 @@ html
                     table.table
                       tr
                         td(class=activeSixOne)
-                          a(href="/facultyMember")  عرض المحاضرين
-                          span.label.label-info(style="padding: 0px 8px 0px 8px;") 5
+                          a(href="/facultyMember")  عرض المحاضرين  
                       tr
                         td(class=activeSixTwo)
-                          a(href="/facultyMember/addFacultyMember")  إضافة محاضر/ة
-              //- .panel.panel-default.font
-              //-   .panel-heading
-              //-     h4.panel-title
-              //-       a(data-toggle="collapse", data-parent="#accordion", href="#collapseSeven")
-              //-         span.glyphicon.glyphicon-file
-              //-         |  التقارير
-              //-   #collapseSeven.panel-collapse.collapse(class=collapseSeven)
-              //-     .panel-body#panel-body
-              //-       table.table
-              //-         tr
-              //-           td
-              //-             span.glyphicon.glyphicon-usd
-              //-             a(href="#")  مبيعات
-              //-         tr
-              //-           td
-              //-             span.glyphicon.glyphicon-user
-              //-             a(href="#")  زبائن
-              //-         tr
-              //-           td
-              //-             span.glyphicon.glyphicon-tasks
-              //-             a(href="#")  منتجات
-              //-         tr
-              //-           td
-              //-             span.glyphicon.glyphicon-shopping-cart
-              //-             a(href="#")  سلة الشراء
+                          a(href="/facultyMember/newFacultyMember")  إضافة محاضر/ة
+              .panel.panel-default.font
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle="collapse", data-parent="#accordion", href="#collapseSeven")
+                      span.glyphicon.glyphicon-file
+                      |  تنزيل المواد
+                #collapseSeven.panel-collapse.collapse(class=collapseSeven)
+                  .panel-body#panel-body
+                    table.table
+                      tr
+                        td(class=activeSevenOne)
+                          a(href="/transcript/Academictranscripts")  تنزيل مواد الطالب
           block cPanel  
             .col-xs-12.col-md-6.col-md-offset-2
               .panel.panel-primary.font

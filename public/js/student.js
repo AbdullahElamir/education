@@ -26,8 +26,14 @@ $(document).ready(function(){
     $('#last_name_en').val($('[data-id = "'+myDataAttr+'"]').data('last_name_en'));
     $('#mother_name').val($('[data-id = "'+myDataAttr+'"]').data('mother_name'));
     $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));
+    $('#birth_date').datetimepicker('setDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date'));
+    
+    $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+
     $('#birth_date').val($('[data-id = "'+myDataAttr+'"]').data('birth_date'));
-    $('#place_birth').selectpicker($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+
+    // $('#place_birth').selectpicker($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
+
     $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
     $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
     $('#no_paper_family').val($('[data-id = "'+myDataAttr+'"]').data('no_paper_family'));
@@ -38,7 +44,8 @@ $(document).ready(function(){
     $('#father_work_place').val($('[data-id = "'+myDataAttr+'"]').data('father_work_place'));
     $('#last_cert').val($('[data-id = "'+myDataAttr+'"]').data('last_cert'));
     $('#cust_last_cert').val($('[data-id = "'+myDataAttr+'"]').data('cust_last_cert'));
-    $('#date_cert').val($('[data-id = "'+myDataAttr+'"]').data('date_cert'));
+    // $('#birth_date').val('defaultDate',$('[data-id = "'+myDataAttr+'"]').data('birth_date')); 
+    $('#date_cert').val('defaultDate',$('[data-id = "'+myDataAttr+'"]').data('date_cert'));
     $('#place_cert').val($('[data-id = "'+myDataAttr+'"]').data('place_cert'));
     $('#set_number').val($('[data-id = "'+myDataAttr+'"]').data('set_number'));
     $('#student_rate').val($('[data-id = "'+myDataAttr+'"]').data('student_rate'));
@@ -59,40 +66,45 @@ $(document).ready(function(){
         if(data !=true){
         } 
         else {
-          // if($("#tbody").children().length>=10){
-          //   $("#tbody tr:last-child").remove();
-          // }
-          // $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
-          // $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-          //   '<td> <input type="checkbox"></td>'+
-          //   '<td>'+$("form").serializeObject().name+'</td>'+
-          //   '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
-          //   '<td></td>'+
-          //   '<td class="text-center">'+
-          //   '<p data-placement="top", data-toggle="tooltip", title="تعديل">'+
-          //   '<button id="Edit" value="'+$("form").serializeObject().id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center">'+
-          //   '<p data-placement="top", data-toggle="tooltip", title="إلغاء">'+
-          //   '<button id="Delete" value="'+$("form").serializeObject().id+'" data-title="Delete" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
-          // $('#name').val($("form").serializeObject().name);
-          // $('#name_en').val($("form").serializeObject().name_en);
-          // $('#edit').modal('hide');
-          //  $.notify({
-          //   message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
-          //   },{
-          //   type: 'success',
-          //   allow_dismiss: true,
-          //   showProgressbar: false,
-          //   placement: {
-          //     from: 'top',
-          //     align: 'center'
-          //   },
-          //   mouse_over: null,
-          //   newest_on_top: true,
-          //   animate: {
-          //     enter: 'animated bounceInDown',
-          //     exit: 'animated bounceOutUp'
-          //   },
-          // });
+          $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
+          $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'" data-first_name="'+$("form").serializeObject().first_name+'" data-first_name_en="'+$("form").serializeObject().first_name_en+'" data-father_name="{'+$("form").serializeObject().father_name+'}" data-father_name_en="{'+$("form").serializeObject().father_name_en+'}" data-grand_name="{'+$("form").serializeObject().grand_name+'}" data-grand_name_en="{'+$("form").serializeObject().father_name_en+'}" data-last_name="{'+$("form").serializeObject().last_name+'}" data-last_name_en="{'+$("form").serializeObject().father_name_en+'}" data-mother_name="{'+$("form").serializeObject().mother_name+'}" data-mother_name_en="{'+$("form").serializeObject().father_name_en+'}" data-birth_date="{'+$("form").serializeObject().birth_date+'}" data-place_birth="{'+$("form").serializeObject().place_birth+'}" data-nationality="{'+$("form").serializeObject().nationality+'}" data-gender="{'+$("form").serializeObject().gender+'}" data-no_paper_family="{'+$("form").serializeObject().no_paper_family+'}" data-no_reg_family="{'+$("form").serializeObject().no_reg_family+'}" data-physical_address="{'+$("form").serializeObject().physical_address+'}" data-civil_reg="{'+$("form").serializeObject().civil_reg+'}" data-phone="{'+$("form").serializeObject().phone+'}" data-father_work_place="{'+$("form").serializeObject().father_work_place+'}" data-last_cert="{'+$("form").serializeObject().last_cert+'}" data-cust_last_cert="{'+$("form").serializeObject().cust_last_cert+'}" data-date_cert="{'+$("form").serializeObject().date_cert+'}" data-place_cert="{'+$("form").serializeObject().place_cert+'}" data-set_number="{'+$("form").serializeObject().set_number+'}" data-student_rate="{'+$("form").serializeObject().student_rate+'}" data-nid="{'+$("form").serializeObject().nid+'}">'+
+              '<td>'+
+                $("form").serializeObject().nid+
+              '</td>'+
+              '<td>'+
+                $("form").serializeObject().first_name+'  '+
+                $("form").serializeObject().father_name+'  '+
+                $("form").serializeObject().grand_name+'  '+
+                $("form").serializeObject().last_name+
+              '</td>'+
+              '<td>'+
+                $("form").serializeObject().mother_name+
+              '</td>'+
+              '<td>ذكر'+
+              '</td>'+
+              '<td>'+
+                $("form").serializeObject().physical_address+
+              '</td>'+
+              '<td>'+
+                 $("form").serializeObject().student_rate+
+              '</td>'+
+              '<td>'+
+                 $("form").serializeObject().nationality+
+              '</td>'+
+              '<td class="text-center">'+
+                '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
+                  '<button id="editt" value="{i.id}" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
+                '</p>'+
+              '</td>'+
+              '<td class="text-center">'+
+                '<p data-placement="top" data-toggle="tooltip" title="إلغاء">'+
+                  '<button id="Deletee" value="{i.id}" data-title="Deletee" data-toggle="modal" data-target="#delette" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>'+
+                '</p>'+
+              '</td>'+
+            '</tr>');
+
+          $('#edit').modal('hide');
+       
         }
       });
     }

@@ -44,22 +44,27 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
   });
 });
 
-/////////////// delete deleteStudent 
-router.get('/deleteStudent/:id', function(req, res) {
-  models.Student.find({
-    where: {
-      id: req.params.id
-    }
-    }).then(function (todo) {
-    todo.updateAttributes({
-        status: 0
-    }).then(function (todo) {
-        res.send(todo);
-    }).catch(function (err) {
-        console.log(err);
+  // getAllNationality
+  router.get('getAllNationality',function(req, res){
+    res.send(nationality);
+  });
+
+  /////////////// delete deleteStudent 
+  router.get('/deleteStudent/:id', function(req, res) {
+    models.Student.find({
+      where: {
+        id: req.params.id
+      }
+      }).then(function (todo) {
+      todo.updateAttributes({
+          status: 0
+      }).then(function (todo) {
+          res.send(todo);
+      }).catch(function (err) {
+          console.log(err);
+      });
     });
   });
-});
 
 // updateStudent
 router.post('/updateStudent', function(req, res) {

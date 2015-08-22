@@ -36,7 +36,24 @@ var nationality = require('../Nationality');
 ////////تنزيل المواد ////////////////
 
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
-  res.render('academicTranscripts', { title: 'Academic Transcripts' });
+  var page = userHelpers.getPage(req);
+    var page = userHelpers.getPage(req);
+    var limit = userHelpers.getLimit(page);
+    models.Student.findAndCountAll({
+      where: {
+        status: 1
+      },
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+      res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+    });
+  //res.render('academicTranscripts', { title: 'Academic Transcripts' });
+});
+router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
+  res.render('studentSemesters', { title: 'Academic Transcripts' });
 });
 
 router.get('/studentData',userHelpers.isLogin, function(req, res) {

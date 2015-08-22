@@ -28,6 +28,21 @@ var nationality = require('../Nationality');
     res.render('timelineReview', { title: 'اختيار الجدول الدراسي' });
   });
 // End timelines /////////////////////////////////////////////////////////
+ 
+  router.get('/getTimeline', function(req, res) {
+    models.Timeline.findAll({
+      where: { 
+        status: 1 , 
+      
+      },
+    }).then(function(time) {
+      console.log(time);
+      res.send(time);
+    });
+  });
+
+
+
 
 
 module.exports = router;
