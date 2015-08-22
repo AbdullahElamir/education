@@ -203,16 +203,16 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
 router.post('/subGroup',userHelpers.isLogin, function(req, res) {
   req.body.UserId=1;
   models.Sub_group.create(req.body).then(function(sub) {
-    obj={
-      UserId:1,
-      SubjectId:req.body.SubjectId,
-      LocationId:req.body.LocationId,
-      SemesterId:req.body.SemesterId,
-      SubGroupId:sub.id,
+    // obj={
+    //   UserId:1,
+    //   SubjectId:req.body.SubjectId,
+    //   LocationId:req.body.LocationId,
+    //   SemesterId:req.body.SemesterId,
+    //   SubGroupId:sub.id,
 
       
-    }
-    models.Timeline.create(obj).then(function(){
+    // }
+    // models.Timeline.create(obj).then(function(){
 
     models.Sub_group.findOne({
       where:{
@@ -241,21 +241,21 @@ router.post('/subGroup',userHelpers.isLogin, function(req, res) {
     }).then(function(result){
       res.send(result);  
     });
-  });    
+  // });    
   });
 });
 router.post('/updateSub',userHelpers.isLogin, function(req, res) {
-  obj={
-    starting_time:req.body.body.starting_time,
-    day:req.body.body.day,
-    ending_time:req.body.body.ending_time,
-    LocationId:req.body.body.LocationId
-  }
+  // obj={
+  //   starting_time:req.body.body.starting_time,
+  //   day:req.body.body.day,
+  //   ending_time:req.body.body.ending_time,
+  //   LocationId:req.body.body.LocationId
+  // }
   models.Timeline.update(obj,{
-    where: {
-      SubGroupId:req.body.id
-    }
-    }).then(function(){
+    // where: {
+    //   SubGroupId:req.body.id
+    // }
+    // }).then(function(){
 
 models.Sub_group.update(req.body.body,{
     where: {
@@ -290,7 +290,7 @@ models.Sub_group.update(req.body.body,{
       res.send(result);  
     });
   });
-});
+// });
 });
 router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
   models.Sub_group.destroy({
@@ -298,13 +298,13 @@ router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
       id:req.params.id
     }
   }).then(function(){
-    models.Timeline.destroy({
-    where:{
-      SubGroupId:req.params.id
-    }
-  }).then(function(){
+  //   models.Timeline.destroy({
+  //   where:{
+  //     SubGroupId:req.params.id
+  //   }
+  // }).then(function(){
     res.send(true);
-  });
+  // });
 });
 });
   router.get('/deleteSemesters/:id', function(req, res) {
