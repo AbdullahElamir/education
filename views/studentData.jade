@@ -25,7 +25,11 @@ block cPanel
                     .input-group-btn
                       button.btn.btn-default
                         i.glyphicon.glyphicon-search
-                .pull-left(style="margin-left: 100px;")
+                .pull-left(style="margin-left: 15px;")
+                  a.btn.btn-success(href='/transcript/Academictranscripts/', role='button',data-toggle='modal')
+                    i.fa.fa-arrow-left
+                    span  رجوع          
+                .pull-left(style="margin-left: 2px;")
                   a.btn.btn-primary(href='#', role='button',data-toggle='modal', data-target="#Add_Semester")
                     span.glyphicon.glyphicon
                     span.text-none  أضافة فصل          
@@ -51,7 +55,7 @@ block cPanel
                     td  
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="عرض بينات الفصل")  
-                        a.btn.btn-primary.btn-xs(value="",data-title="Delete", data-toggle="modal", data-target="#Show_Semester")
+                        a.btn.btn-primary.btn-xs(href="/transcript/studentSemesters/",value="",data-title="Delete", data-toggle="modal")
                           span.glyphicon.glyphicon-eye-open
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تنزيل المواد")  
@@ -65,12 +69,20 @@ block cPanel
         .row
           .pull-right(style="margin-right: 10px;")
             h3#h3.panel-title عرض الفصول الدراسية
-          .col-xs-5.col-md-6
+          .col-xs-4.col-md-4
             .input-group
               input.form-control(type='text', placeholder='بحث...')
               .input-group-btn
                 button.btn.btn-default
                   i.glyphicon.glyphicon-search
+          .col-xs-2.col-md-2.pull-left(style="margin-left: 100px;")
+            select.form-control.selectpicker#division_iddivision(name="DivisionId", data-live-search="true", data-size=5)
+              option(value="", style='color:grey; display:none;') اختر اسم الشعبة...
+                option(value="")
+          .col-xs-2.col-md-2.pull-left
+            select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+              option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                option(value="")                   
       .table-responsive
         table#mytable.table.table-bordred.table-striped.text-right
           thead
