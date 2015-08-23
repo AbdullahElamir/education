@@ -45,7 +45,7 @@ var nationality = require('../Nationality');
   });
 
   // getAllNationality
-  router.get('getAllNationality',function(req, res){
+  router.get('/getAllNationality',function(req, res){
     res.send(nationality);
   });
 
