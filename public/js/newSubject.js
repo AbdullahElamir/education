@@ -411,7 +411,7 @@ $(document).ready(function(){
 
   if(qs["msg"]==1){
     $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة مادة دراسية جديدة بنجاح </p>"
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت تسجيل طالب/ة جديد بنجاح </p>"
       },{
       type: 'success',
       allow_dismiss: true,
@@ -427,7 +427,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/department'
+    var pageUrl = '/student'
     window.history.pushState("","",pageUrl);
   }
 });

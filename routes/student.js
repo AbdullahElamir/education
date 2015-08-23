@@ -40,7 +40,7 @@ router.get('/newStudent',userHelpers.isLogin, function(req, res) {
 router.post('/newStudent',userHelpers.isLogin,function(req, res) {
   req.body.UserId=1;
   models.Student.create(req.body).then(function() {
-    res.redirect('/student');
+    res.redirect('/student?msg=1');
   });
 });
 
