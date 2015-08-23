@@ -36,7 +36,6 @@ $(document).ready(function(){
 
         } 
         else {
-         // alert($("form").serializeObject().name);
           if($("#tbody").children().length>=10){
             $("#tbody tr:last-child").remove();
           }

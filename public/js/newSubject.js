@@ -37,30 +37,13 @@ $(document).ready(function(){
    var isvalidate=$("#newSubject ,#updateSubject").valid();
  if($("#newSubject input[type='radio']:checked").val() == 1)
  {
-  alert(1+" ");
   var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd}; 
     
   
     if(isvalidate){
       $.post('/subject/saveSubject',obj,function(todo){
         if(todo == true) {
-          $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceIn',
-              exit: 'animated bounceOut'
-            },
-          });
+          window.location.href="/subject?msg=1";
         } 
         else {
           $.notify({
@@ -86,31 +69,11 @@ $(document).ready(function(){
  
 
  } else {
-
-
     var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd}; 
-    
-    var isvalidate=$("#newSubject ,#updateSubject").valid();
     if(isvalidate){
       $.post('/subject/saveSubject',obj,function(todo){
         if(todo == true) {
-          $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>صحيح:</strong> لقد قمت بأدخال بياناتك بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceIn',
-              exit: 'animated bounceOut'
-            },
-          });
+          window.location.href="/subject?msg=1";
         } 
         else {
           $.notify({
@@ -196,12 +159,15 @@ $(document).ready(function(){
     });
   });
   $('#department_select').hide(0);
-  $('[id^="radio"]').change(function() { 
+  $('.radiooo ,.radioo').change(function() { 
     $('#department_select').show(200);
   });
-  $('#js_radio').change(function() {
+
+  $('.radio_js').change(function() {
     $('#department_select').hide(200);
   });
+
+  
   $("#Semesters").show(0); 
   $("#Year").hide(0);
   $('#toggle-subject').change(function() {
@@ -213,7 +179,7 @@ $(document).ready(function(){
     }
   });  
   
-  $("#newSubject ,#updateSubject").validate({
+  $("#newSubject").validate({
     rules:{
       name:{
         required: true,
@@ -331,5 +297,137 @@ $(document).ready(function(){
       }
     },
   });
-    
+  
+  $("#updateSubject").validate({
+    rules:{
+      name:{
+        required: true,
+      },
+      name_en:{
+        required: true,
+      },
+      no_th_unit:{
+        required: true,
+        number: true,
+      },
+      no_th_hour:{
+        required: true,
+        number: true,
+      },
+      code:{
+        required: true,
+      },
+      no_pr_unit:{
+        required: true,
+        number: true,
+      },
+      no_pr_hour:{
+        required: true,
+        number: true,
+      },
+      chapter_degree:{
+        required: true,
+      },
+      final_theor:{
+        required: true,
+      },
+      final_practical:{
+        required: true,
+      },
+      subjectId:{
+        required: true,
+      },
+    },
+    messages:{
+      name:{
+        required: "الرجاء أدخال اسم المادة",
+      },
+      name_en:{
+        required: "<div style='padding-right:35px; '>!Please enter Subject name</div>",
+      },
+      no_th_unit:{
+        required: "الرجاء أدخال عدد الوحدات النظري",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      no_th_hour:{
+        required: "الرجاء أدخال عدد سعات النظري",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      code:{
+        required: "الرجاء أدخال رمز المادة",
+      },
+      no_pr_unit:{
+        required: "الرجاء ادخال عدد وحدات العملي",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      no_pr_hour:{
+        required: "الرجاء أدخال عدد سعات العملي",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      chapter_degree:{
+        required: "الرجاء أدخال درجة اعمال السنة",
+      },
+      final_theor:{
+        required: "الرجاء أدخال درجة الامتحان النظري",
+      },
+      final_practical:{
+        required: "الرجاء أدخال درجت العملي",
+      },
+      subjectId:{
+        required: "الرجاء اختيار المواد التمهدية!",
+      },
+    },
+    // errorElement: 'label',
+    errorClass: 'custom-error',
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });
+
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+
+  if(qs["msg"]==1){
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة مادة دراسية جديدة بنجاح </p>"
+      },{
+      type: 'success',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceInDown',
+        exit: 'animated bounceOutUp'
+      },
+    });
+    var pageUrl = '/department'
+    window.history.pushState("","",pageUrl);
+  }
 });

@@ -1,12 +1,5 @@
-.panel-body .btn:not(.btn-block) { 
-  width:120px;
+.panel-body .btn.btn-block { 
   margin-bottom:10px; 
-}
-@media only screen and (max-width:488px){
-  .panel-body .btn:not(.btn-block) { 
-    width:190px;
-    margin-bottom:10px; 
-  }
 }
 /*@media only screen and (min-width:489px){
   .panel-body .btn:not(.btn-block) { 

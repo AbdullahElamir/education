@@ -11,16 +11,26 @@ block cPanel
             i.glyphicon.glyphicon-home
           .btn.btn-default تنزيل المواد
           .btn.btn-default.active عرض الطلبة
-        .pull-left.btn-group(role='group', aria-label='...')
-          button#Department_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد القسم
-            span.glyphicon.glyphicon-pencil 
-          |   
-          button#generale_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد العامة
-            span.glyphicon.glyphicon-pencil
+        .pull-left(style="margin-left: 15px;")
+          a.btn.btn-success(href='/transcript/studentData/', role='button',data-toggle='modal')
+            i.fa.fa-arrow-left
+            span  رجوع   
+   
         br
         br
         br
-        .row  
+        .row 
+          .pull-left.btn-group(role='group', aria-label='...')
+            button#Department_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد القسم
+              span.glyphicon.glyphicon-pencil 
+            |   
+            button#Division_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد الشعبة
+              span.glyphicon.glyphicon-pencil
+            |   
+            button#generale_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد العامة
+              span.glyphicon.glyphicon-pencil 
+        br 
+        .row       
           .col-md-7    
             .panel.panel-default
               .panel-heading
@@ -35,6 +45,7 @@ block cPanel
                     th اسم المادة
                     th Subject Name
                     th رمز المادة
+                    th.text-center أضافة الدرجة
                     th.text-center حذف
                   tbody
               
@@ -44,6 +55,10 @@ block cPanel
                       td 
                       td 
                       td 
+                      td.text-center
+                        p(data-placement="top", data-toggle="tooltip", title="تعديل")  
+                          a.btn.btn-primary.btn-xs(value="",data-title="Delete", data-toggle="modal", data-target="#Show_Semester")
+                            span.glyphicon.glyphicon-eye-open
                       td.text-center
                         p(data-placement="top", data-toggle="tooltip", title="حذف")  
                           button.btn.btn-danger.btn-xs(value="",data-title="Delete", data-toggle="modal", data-target="#Descargar_material")
@@ -71,12 +86,12 @@ block cPanel
                         th رمز المادة
                         th.text-center إضافة
                       tbody
-                  
+                      for i in sub
                         tr(data-id = '')
                           td
                             input.checkthis(type="checkbox")
-                          td رياضة 1
-                          td ma100 
+                          td #{i.Subject.name}
+                          td #{i.Subject.code}
                           td.text-center
                             p(data-placement="top", data-toggle="tooltip", title="إضافة")
                               button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
@@ -113,6 +128,60 @@ block cPanel
                             p(data-placement="top", data-toggle="tooltip", title="إضافة")
                               button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
                                 span.glyphicon.glyphicon-hand-right              
+
+            #Division_teble
+              .panel.panel-default
+                .panel-heading
+                  .row
+                    .pull-right(style="margin-right: 10px;")
+                      h3#h3.panel-title عرض المواد الشعبة
+                    .col-xs-6.col-md-6
+                      .input-group
+                        input.form-control(type='text', placeholder='بحث...')
+                        .input-group-btn
+                          button.btn.btn-default
+                            i.glyphicon.glyphicon-search     
+                      
+                  .table-responsive
+                    table#mytable.table.table-bordred.table-striped.text-right
+                      thead
+                        th
+                          input#checkall(type="checkbox")
+                        th اسم المادة
+                        th رمز المادة
+                        th.text-center إضافة
+                      tbody
+                  
+                        tr(data-id = '')
+                          td
+                            input.checkthis(type="checkbox")
+                          td حاسب الي 
+                          td cs100 
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                              button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")
+                                span.glyphicon.glyphicon-hand-right
+  #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      form.form(action="#", method="post",accept-charset="utf-8", role="form")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align تعديل فصل دراسي
+          .modal-body
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable أعمال السنة
+                  input.form-control#chapter_degree(type="text", name="chapter_degree", value="", placeholder="أعمال السنة")
+                .col-xs-6.col-md-6 
+                  lable درجة النهائي
+                  input.form-control#final_exam(type="text", name="final_exam", value="", placeholder="درجة النهائي")
+          .modal-footer
+            button.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign                               
+
 
 
 

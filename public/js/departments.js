@@ -27,7 +27,6 @@ $(document).ready(function(){
     if(isvalidate){
       $.post("/department/updateDepartment", $("form").serializeObject(), function(data, error){
         if(data.stat !=true){
-          alert("errormohammed");
         } 
         else {
           if($("#tbody").children().length>=10){
