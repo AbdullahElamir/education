@@ -11,11 +11,9 @@ $(document).ready(function(){
     });
   });
   
-  alert("inside js ");
-
   $('body').on('click', '#editt',function(){
     $('#id_faculty_Member').val($(this).val());
-    alert("inside js view edit ");
+    
     var myDataAttr = $(this).val();
     var dates= $('[data-id = "'+myDataAttr+'"]').data('birth_date');
     console.log(dates);

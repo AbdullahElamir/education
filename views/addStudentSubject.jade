@@ -86,12 +86,12 @@ block cPanel
                         th رمز المادة
                         th.text-center إضافة
                       tbody
-                  
+                      for i in sub
                         tr(data-id = '')
                           td
                             input.checkthis(type="checkbox")
-                          td رياضة 1
-                          td ma100 
+                          td #{i.Subject.name}
+                          td #{i.Subject.code}
                           td.text-center
                             p(data-placement="top", data-toggle="tooltip", title="إضافة")
                               button.btn.btn-success.btn-xs(data-title="Edit", data-toggle="modal", data-target="#add")

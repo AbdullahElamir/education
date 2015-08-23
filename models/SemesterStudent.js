@@ -1,35 +1,37 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Academic_transcript = sequelize.define("Academic_transcript", {
-    result_case: { type: DataTypes.INTEGER(1),defaultValue: null},
-    chapter_degree: { type: DataTypes.FLOAT(),defaultValue: null},
-    sum_dagree: DataTypes.FLOAT(),
-    final_exam: { type: DataTypes.FLOAT(),defaultValue: null},
-    subject_status :{type: DataTypes.INTEGER(1),defaultValue:1},
+  var SemesterStudent = sequelize.define("SemesterStudent", {
+    student_status :{type: DataTypes.INTEGER(1),defaultValue:1},
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
   },{
     classMethods: {
       associate: function(models) {
-        Academic_transcript.belongsTo(models.Student, {
+        SemesterStudent.belongsTo(models.Student, {
           onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Academic_transcript.belongsTo(models.SemesterStudent, {
+        SemesterStudent.belongsTo(models.Division, {
           onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Academic_transcript.belongsTo(models.User, {
+        SemesterStudent.belongsTo(models.Department, {
           onDelete: "Restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Academic_transcript.belongsTo(models.Sub_group, {
+        SemesterStudent.belongsTo(models.User, {
+          onDelete: "Restrict",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+        SemesterStudent.belongsTo(models.Semester, {
           onDelete: "Restrict",
           foreignKey: {
             allowNull: false
@@ -39,5 +41,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  return Academic_transcript;
+  return SemesterStudent;
 };

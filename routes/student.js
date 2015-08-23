@@ -45,7 +45,7 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
 });
 
   // getAllNationality
-  router.get('getAllNationality',function(req, res){
+  router.get('/getAllNationality',function(req, res){
     res.send(nationality);
   });
 
