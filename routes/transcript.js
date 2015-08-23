@@ -50,12 +50,12 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+      res.render('academicTranscripts', { title: 'تنزيل مادة لطالب',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
     });
   //res.render('academicTranscripts', { title: 'Academic Transcripts' });
 });
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
-  res.render('studentSemesters', { title: 'Academic Transcripts' });
+  res.render('studentSemesters', { title: 'كشف الدراجات' });
 });
 
 router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
@@ -75,7 +75,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           status: 1
           }
          }).then(function(semester) {
-        res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division});
+        res.render('studentData', { title: 'بيانات الطالب' ,std:req.params.id,sem:semester,dept:department,dev:Division});
       });
      });
     });
@@ -106,7 +106,7 @@ router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
       ],
     }).then(function(Sub_group) {
     //  console.log(Sub_group);
-       res.render('addStudentSubject', { title: 'Add Student Subject' ,sub: Sub_group});
+       res.render('addStudentSubject', { title: 'إضافة مادة دراسية لطالب' ,sub: Sub_group});
     });
 
  

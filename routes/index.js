@@ -18,7 +18,7 @@ var obj = {
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('authentication', { title: 'Login' });
+  res.render('authentication', { title: 'شاشة الدخول' });
 });
 
 module.exports = router

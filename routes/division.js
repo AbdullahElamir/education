@@ -37,7 +37,7 @@ var nationality = require('../Nationality');
         status: 1
       }
     }).then(function(department) { 
-    res.render('divisions', { title: 'View divisions', departments: department, divisions: division.rows,pagination:pagination, collapseFour: 'collapse in', activeFourThree: 'active' });
+    res.render('divisions', { title: 'عرض الشعب', departments: department, divisions: division.rows,pagination:pagination, collapseFour: 'collapse in', activeFourThree: 'active' });
     });
     });
   });
@@ -94,7 +94,7 @@ var nationality = require('../Nationality');
         status: 1
       }
     }).then(function(departments) {
-      res.render('newDivision', { title: 'New Division', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
+      res.render('newDivision', { title: 'إضافة شعبه جديدة', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
     });
   });
 

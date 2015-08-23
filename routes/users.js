@@ -29,13 +29,13 @@ router.get('/', function(req, res) {
     }).then(function(user) {
       var pageCount = userHelpers.getPageCount(user.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('users', { title: 'View users',Users: user.rows,pagination:pagination, activeUser: 'active' });
+    res.render('users', { title: 'عرض المستخدمين',Users: user.rows,pagination:pagination, activeUser: 'active' });
   });
 });
 
 // //////Start User /////////////////////////////////////////
   router.get('/newUser',userHelpers.isLogin, function(req, res) {
-      res.render('newUser', { title: 'New User', activeUser: 'active' });
+      res.render('newUser', { title: 'إضافة مستخدم جديد', activeUser: 'active' });
   });
 
   router.post('/newUser',userHelpers.isLogin, function(req, res) {
