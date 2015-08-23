@@ -9,7 +9,7 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/student/deleteStudent/'+$(this).val(),function(todo){
-      $('[date-id = "'+id+'"]').remove();
+      $('[data-id = "'+id+'"]').remove();
     });
   });
 
