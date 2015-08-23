@@ -38,7 +38,7 @@ block navcPanel
                   td.text-center #{semester.ending_date.getDate()} / #{semester.ending_date.getMonth()+1} / #{semester.ending_date.getFullYear()} 
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                      button#ed.btn.btn-primary.btn-xs(value="#{semester.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                      button#ed.btn.btn-primary.btn-xs.editSemester(value="#{semester.id}",data-id="#{semester.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
                         span.glyphicon.glyphicon-pencil
         .panel.panel-default
           .panel-heading(style="padding: 5px 15px;")
@@ -74,8 +74,15 @@ block navcPanel
             .form-group
               .row
                 .col-xs-6.col-md-6
-                  lable الفصل الدراسي
-                  input.form-control#sem_type(type="text", name="sem_type", value="#{sem}", placeholder="الفصل الدراسي")
+                  lable النظام الدراسي
+                  if sem == 'سنة' || sem == 'سنه'
+                    input.form-control#sem_type(type="text", name="sem_type", value="#{sem}", disabled)
+                  else 
+                    select.form-control.selectpicker#sem_type(name="sem_type", value="#{sem}")
+                      option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
+                      option(value="ربيعي") ربيعي
+                      option(value="خريفي") خريفي
+                      option(value="صيفي") صيفي
                 .col-xs-6.col-md-6 
                   lable السنة الدراسية
                   .input-group.date#year
@@ -103,9 +110,11 @@ block navcPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/semester.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();
@@ -119,5 +128,8 @@ block navcPanel
         viewMode: 'years',
         format: 'YYYY-MM-DD',
         locale: 'ar-sa'
+      });
+      $('.editSemester').on('click',function(){
+        $('#sem_type option[value="'+"#{sem}"+'"]').prop('selected', 'selected').change();
       });
     });

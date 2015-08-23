@@ -52,11 +52,11 @@ block cPanel
                   td  
                     if i.sem_type == 0
                       | سنة
-                    if i.system_type == 1
+                    if i.sem_type == 1
                       | فصل "ربيعي"
-                    if i.system_type == 2
+                    if i.sem_type == 2
                       | فصل "خريفي"
-                    if i.system_type == 3
+                    if i.sem_type == 3
                       | فصل "صيفي"
                   td  #{i.year.getDate()} / #{i.year.getMonth()+1} / #{i.year.getFullYear()} 
                   td 
@@ -127,8 +127,9 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/backToTop.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/newSemester.js')
+  script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {
