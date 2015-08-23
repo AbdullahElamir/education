@@ -56,9 +56,29 @@ router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts' });
 });
 
-router.get('/studentData',userHelpers.isLogin, function(req, res) {
-  res.render('studentData', { title: 'Student Data' });
-});
+router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
+   
+   models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(department) {
+      models.Division.findAll({
+        where: {
+        status: 1
+      }
+      }).then(function(Division) { 
+          models.Semester.findAll({
+          where: {
+          status: 1
+          }
+         }).then(function(semester) {
+        res.render('studentData', { title: 'Student Data' ,sem:semester,dept:department,dev:Division});
+      });
+     });
+    });
+  });
+
 router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
   res.render('addStudentSubject', { title: 'Add Student Subject' });
 });
