@@ -11,11 +11,11 @@ $(document).ready(function(){
       $('[data-id = "'+id+'"]').remove();
     });
   });
-  $('#system_type').hide();
+  $('#sem_type').hide();
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
-      sem_type:{
+      system_type:{
         required: true,
       },
       year:{
@@ -32,7 +32,7 @@ $(document).ready(function(){
       },
     },
     messages:{
-      sem_type:{
+      system_type:{
         required: "الرجاء اختيار نظام الدراسي!",
       },
       year:{
@@ -87,9 +87,9 @@ $(document).ready(function(){
       }
     },
   });
-  $('#sem_type').on('change',function() {
-    $('select[name="system_type"]').each(function() {
-      var id = $('#sem_type').val();
+  $('#system_type').on('change',function() {
+    $('select[name="sem_type"]').each(function() {
+      var id = $('#system_type').val();
       if(id==1){
         $(this).rules("add", {
           required: true,
@@ -102,13 +102,13 @@ $(document).ready(function(){
         $(this).rules( 'remove', 'required' );
       }    
     });
-    var id = $('#sem_type').val();
+    var id = $('#system_type').val();
     if(id==1){
-      $('#system_type').show();
+      $('#sem_type').show();
     }
     else {
-      $('#system_type').hide();
-      $('.system_type').selectpicker('val', '');
+      $('#sem_type').hide();
+      $('.sem_type').selectpicker('val', '');
     }
   });
 
@@ -148,7 +148,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/location/'
+    var pageUrl = '/semester'
     window.history.pushState("","",pageUrl);
   }
-});
+});newSemester

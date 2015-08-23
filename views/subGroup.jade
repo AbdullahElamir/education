@@ -4,23 +4,27 @@ block errorStyle
 block content
 block navcPanel
   .container.font
-
-      .text-center.h4 عرض المواد للفصل الدراسي 
+      .text-center.h4 عرض المواد للنظام الدراسي 
         if semester.sem_type == 1 
-          | ربيع #{semester.year.getFullYear()} للقسم #{dep.name}
+          | "ربيع #{semester.year.getFullYear()}" للقسم "#{dep.name}"
+          br
+          br
         else if semester.sem_type == 2
-          |خريف #{semester.year.getFullYear()} للقسم #{dep.name}
+          | "خريف #{semester.year.getFullYear()}" للقسم "#{dep.name}"
+          br
+          br
         else if semester.sem_type == 3
-          |صيف #{semester.year.getFullYear()} للقسم #{dep.name}
-      
-        for div in division
+          | "صيف #{semester.year.getFullYear()}" للقسم "#{dep.name}"
+          br
+          br
+      for div in division
           .row
             .col-xs-9.col-md-9
               .panel.panel-default
-                .panel-heading(style="padding: 5px 15px;")
+                .panel-heading
                   .row
                     .pull-right(style="margin-right: 10px;")
-                      .panel-title #{div.name}
+                      .panel-title اسم الشعبه "#{div.name}"
                 .table-responsive
                   table#mytable.table.table-bordred.table-striped.text-right
                     thead
