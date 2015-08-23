@@ -11,11 +11,13 @@ block cPanel
             i.glyphicon.glyphicon-home
           .btn.btn-default اﻷقسام والشعب
           .btn.btn-default عرض الشعب
-          .btn.btn-default.active تنسيب المواد
+          .btn.btn-default.active #{division.name}
         br
         br
         | تنسيب المواد لنظام   
         input#toggleForm(type='checkbox',data-on="سنة دراسية",data-off="فصل دراسي", data-toggle='toggle', data-offstyle="success")
+        | 
+        b لشعبة #{division.name}
         br
         br
         input#id_div(type="hidden",name="id_div",value="#{id_div}")
