@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+  $.nat = new Array();
+
   // delete faculityMembers
   $('body').on('click', '#Deletee', function(){
     $('#ok').val($(this).val());
@@ -13,7 +16,6 @@ $(document).ready(function(){
   
   $('body').on('click', '#editt',function(){
     $('#id_faculty_Member').val($(this).val());
-    
     var myDataAttr = $(this).val();
     var dates= $('[data-id = "'+myDataAttr+'"]').data('birth_date');
     console.log(dates);
@@ -23,22 +25,30 @@ $(document).ready(function(){
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
     console.log(year+"-"+monthIndex+"-"+day);
-    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
-    $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));
-    $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
-    $('#departmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('ddepartmentid'));
-    $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
-    $('#birth_date').val("hjk");
+    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));// الاسم
+    $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));//المؤهل العلمي
+    $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));// الجنس
+    $('#departmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('ddepartmentid'));//القسم
+    $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));//الجنسيه
+    $('#birth_date').val("hjk");//
     $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
     $('#physical_address').val($('[data-id = "'+myDataAttr+'"]').data('physical_address'));
     $('#phone').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
-    $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));
+    $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));// التخصص
   });
-
+  
   $('body').on('click', '#save', function (e) {
     e.preventDefault();
     $('#updateFacultyMember').submit();
   });
+
+  $.get('/facultyMember/getAllNationality/',function(todo){
+    for (var i = 0; i < todo.length; i++) {
+      var k = new Object({id : i,value : todo[i].id, text : todo[i].name});
+      $.nat.push(k);
+    };
+  });
+    
 
   $("#updateFacultyMember").submit(function(e) {
     var isvalidate = $("#updateFacultyMember").valid();
@@ -47,51 +57,56 @@ $(document).ready(function(){
         if(data !=true){
         } 
         else {
-          // if($("#tbody").children().length>=10){
-          //   $("#tbody tr:last-child").remove();
-          // }
-          // $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
-          // $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-          //   '<td> <input type="checkbox"></td>'+
-          //   '<td>'+$("form").serializeObject().name+'</td>'+
-          //   '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
-          //   '<td></td>'+
-          //   '<td class="text-center">'+
-          //   '<p data-placement="top", data-toggle="tooltip", title="تعديل">'+
-          //   '<button id="Edit" value="'+$("form").serializeObject().id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center">'+
-          //   '<p data-placement="top", data-toggle="tooltip", title="إلغاء">'+
-          //   '<button id="Delete" value="'+$("form").serializeObject().id+'" data-title="Delete" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
-          // $('#name').val($("form").serializeObject().name);
-          // $('#name_en').val($("form").serializeObject().name_en);
-          // $('#edit').modal('hide');
-          //  $.notify({
-          //   message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
-          //   },{
-          //   type: 'success',
-          //   allow_dismiss: true,
-          //   showProgressbar: false,
-          //   placement: {
-          //     from: 'top',
-          //     align: 'center'
-          //   },
-          //   mouse_over: null,
-          //   newest_on_top: true,
-          //   animate: {
-          //     enter: 'animated bounceInDown',
-          //     exit: 'animated bounceOutUp'
-          //   },
-          // });
+          if( $("form").serializeObject().gender == 0 ){
+              var gender = "ذكر";
+            }
+            else {
+              var gender = "أنثى";
+            }
+          $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
+          $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'" data-name="'+$("form").serializeObject().name+'" data-qualification="'+$("form").serializeObject().qualification+'" data-specialization="'+$("form").serializeObject().specialization+'" data-gender="'+$("form").serializeObject().gender+'" data-nationality="'+$("form").serializeObject().nationality+'" data-birth_date="'+$("form").serializeObject().birth_date+'" data-physical_address="'+$("form").serializeObject().physical_address+'" data-phone="'+$("form").serializeObject().phone+'" data-place_birth="'+$("form").serializeObject().place_birth+'">'+
+              '<td>'+
+                $("form").serializeObject().name+
+              '</td>'+
+              '<td>'+
+                $("form").serializeObject().qualification+'  '+
+              '</td>'+
+              '<td>'+
+                $("form").serializeObject().specialization+
+              '</td><td>'+
+                gender+
+              '</td><td>'+
+                $("form").serializeObject().departmentId+
+              '</td>'+
+              '<td>'+
+                $.nat[$("form").serializeObject().nationality-1].text+
+              '</td>'+
+              '<td class="text-center">'+
+                '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
+                  '<button id="editt" value="'+$("form").serializeObject().id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
+                '</p>'+
+              '</td>'+
+              '<td class="text-center">'+
+                '<p data-placement="top" data-toggle="tooltip" title="إلغاء">'+
+                  '<button id="Deletee" value="'+$("form").serializeObject().id+'" data-title="Deletee" data-toggle="modal" data-target="#delette" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>'+
+                '</p>'+
+              '</td>'+
+            '</tr>');
+          $('#edit').modal('hide');
         }
       });
     }
     return false;
   });
-  // $('.delete_person').on('click',function(){
-  //   var myDataAttr = $(this).data('delete');
-  //   console.log(myDataAttr);
-  //   $('#id_person2').val(myDataAttr);
-  //   $('#delete_name').val($("#person-"+myDataAttr).data('name'));
-  // });
+  jQuery.validator.addMethod("arabicLettersOnly", function(value, element) {
+    return this.optional(element) || /^[أ-ي,ﻻ,ء]+$/i.test(value);
+  }, "الرجاء ادخال حروف عربية فقط!");
+  jQuery.validator.addMethod("arabicLettersWithSpacesOnly", function(value, element) {
+    return this.optional(element) || /^[أ-ي,ﻻ,ء," "]+$/i.test(value);
+  }, "الرجاء ادخال حروف عربية فقط!"); 
+  jQuery.validator.addMethod("englishLettersWithSpacesOnly", function(value, element) {
+    return this.optional(element) || /^[a-z," "]+$/i.test(value);
+  }, "الرجاء ادخال حروف انجليزية فقط!");
   $("#updateFacultyMember").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -210,7 +225,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/facultyMember/'
+    var pageUrl = '/facultyMember'
     window.history.pushState("","",pageUrl);
   }
 });

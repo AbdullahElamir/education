@@ -4,82 +4,83 @@ block errorStyle
 block content
 block navcPanel
   .container.font
-      .text-center.h4 عرض المواد للنظام الدراسي 
-        if semester.sem_type == 1 
-          | "ربيع #{semester.year.getFullYear()}" للقسم "#{dep.name}"
-          br
-          br
-        else if semester.sem_type == 2
-          | "خريف #{semester.year.getFullYear()}" للقسم "#{dep.name}"
-          br
-          br
-        else if semester.sem_type == 3
-          | "صيف #{semester.year.getFullYear()}" للقسم "#{dep.name}"
-          br
-          br
-      for div in division
-          .row
-            .col-xs-9.col-md-9
-              .panel.panel-default
-                .panel-heading
-                  .row
-                    .pull-right(style="margin-right: 10px;")
-                      .panel-title اسم الشعبه "#{div.name}"
-                .table-responsive
-                  table#mytable.table.table-bordred.table-striped.text-right
-                    thead
-                      th اسم المادة
-                      th رمز المادة
-                      th اسم المحاضر
-                      th رقم المجموعة
-                      th عدد الطلبة
-                      th اسم القاعة الدراسية
-                      th.text-center تعديل
-                      th.text-center إلغاء
-                    tbody(id="tbody#{div.id}")
-                      for sub in div.Sub_groups
-                        tr(data-idd="#{div.id}",data-id="#{sub.id}",data-name="#{sub.Subject.name}",data-code="#{sub.Subject.code}",data-fac="#{sub.Faculty_member.id}",data-groupname="#{sub.sub_group_name}",data-quantity="#{sub.quantity}",data-loc="#{sub.Location.id}")
-                          td #{sub.Subject.name}
-                          td #{sub.Subject.code}
-                          td #{sub.Faculty_member.name}
-                          td #{sub.sub_group_name}
-                          td #{sub.quantity}
-                          td #{sub.Location.name}
-                          td.text-center
-                            p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                              button#editSub.btn.btn-primary.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
-                                span.glyphicon.glyphicon-pencil
-                          td.text-center
-                            p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                              button#delSub.btn.btn-danger.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#delete")
-                                span.glyphicon.glyphicon-remove
-            .col-xs-3.col-md-3
-              .panel.panel-default
-                .panel-heading#panel-heading
-                  .pull-left
-                    a.btn.btn-success.btn-xs(href='#', role='button',data-toggle='modal')
-                      i.fa.fa-arrow-left
-                      span  رجوع
-                  .panel-title.text-center المواد المقترحة
-                  span.pull-right.clickable
-                    i.glyphicon.glyphicon-chevron-up
-                .table-responsive
-                  table#mytable.table.table-bordred.table-striped.text-right
-                    thead
-                      th اسم المادة
-                      th رمز المادة
-                      th.text-center إضافة
-                    tbody
-                      for sbj in div.DivisionSubjects
-                        if sbj.Subject !=null
-                          tr(data-id = "sbj#{sbj.Subject.id}",data-name="#{sbj.Subject.name}",data-code="#{sbj.Subject.code}")
-                            td #{sbj.Subject.name}
-                            td #{sbj.Subject.code}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#sbj.btn.btn-success.btn-xs(value="#{sbj.Subject.id}",data-title="Edit", data-toggle="modal", data-target="#add",data-div="#{div.id}")
-                                  span.glyphicon.glyphicon-hand-right 
-                      
+    if semester.sem_type == 1
+      -var semName = 'ربيع'
+    else if semester.sem_type == 2
+      -var semName = 'خريف'
+    else if semester.sem_type == 3
+      -var semName = 'صيف'
+    .btn-group.btn-breadcrumb
+      a.btn.btn-default(href="/cPanel")
+        i.glyphicon.glyphicon-home
+      a.btn.btn-default(href="/semester") عرض اﻷنظمة الدراسية
+      a.btn.btn-default(href="/semester/#{semesterID}") #{semName} #{semester.year.getFullYear()}
+      .btn.btn-default.active  قسم #{dep.name}
+    br
+    br
+    .text-center.h4 عرض المواد للنظام الدراسي #{semName} #{semester.year.getFullYear()}" للقسم "#{dep.name}"
+    br
+    for div in division
+      .row
+        .col-xs-9.col-md-9
+          .panel.panel-default
+            .panel-heading
+              .row
+                .pull-right(style="margin-right: 10px;")
+                  .panel-title اسم الشعبه "#{div.name}"
+            .table-responsive
+              table#mytable.table.table-bordred.table-striped.text-right
+                thead
+                  th اسم المادة
+                  th رمز المادة
+                  th اسم المحاضر
+                  th رقم المجموعة
+                  th عدد الطلبة
+                  th اسم القاعة الدراسية
+                  th.text-center تعديل
+                  th.text-center إلغاء
+                tbody(id="tbody#{div.id}")
+                  for sub in div.Sub_groups
+                    tr(data-idd="#{div.id}",data-id="#{sub.id}",data-name="#{sub.Subject.name}",data-code="#{sub.Subject.code}",data-fac="#{sub.Faculty_member.id}",data-groupname="#{sub.sub_group_name}",data-quantity="#{sub.quantity}",data-loc="#{sub.Location.id}")
+                      td #{sub.Subject.name}
+                      td #{sub.Subject.code}
+                      td #{sub.Faculty_member.name}
+                      td #{sub.sub_group_name}
+                      td #{sub.quantity}
+                      td #{sub.Location.name}
+                      td.text-center
+                        p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                          button#editSub.btn.btn-primary.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                            span.glyphicon.glyphicon-pencil
+                      td.text-center
+                        p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                          button#delSub.btn.btn-danger.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#delete")
+                            span.glyphicon.glyphicon-remove
+        .col-xs-3.col-md-3
+          .panel.panel-default
+            .panel-heading#panel-heading
+              .pull-left
+                a.btn.btn-success.btn-xs(href='/semester/#{semesterID}', role='button',data-toggle='modal')
+                  i.fa.fa-arrow-left
+              .panel-title.text-center المواد المقترحة
+              span.pull-right.clickable
+                i.glyphicon.glyphicon-chevron-up
+            .table-responsive
+              table#mytable.table.table-bordred.table-striped.text-right
+                thead
+                  th اسم المادة
+                  th رمز المادة
+                  th.text-center إضافة
+                tbody
+                  for sbj in div.DivisionSubjects
+                    if sbj.Subject !=null
+                      tr(data-id = "sbj#{sbj.Subject.id}",data-name="#{sbj.Subject.name}",data-code="#{sbj.Subject.code}")
+                        td #{sbj.Subject.name}
+                        td #{sbj.Subject.code}
+                        td.text-center
+                          p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                            button#sbj.btn.btn-success.btn-xs(value="#{sbj.Subject.id}",data-title="Edit", data-toggle="modal", data-target="#add",data-div="#{div.id}")
+                              span.glyphicon.glyphicon-hand-right         
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -168,7 +169,7 @@ block navcPanel
                     for loc in location                 
                       option(value="#{loc.id}") #{loc.name}
           .modal-footer
-            button#addd.btn.btn-success.btn-lg(type="button", data-dismiss="modal", style="width: 100%;")
+            button#addd.btn.btn-success.btn-lg(type="button", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  إضافة
       // /.modal-content
@@ -197,9 +198,9 @@ block navcPanel
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/backToTop.js')
   script(src='/js/helpers.js') 
   script(src='/js/supGroup.js')  
-  script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();
