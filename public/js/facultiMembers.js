@@ -86,12 +86,6 @@ $(document).ready(function(){
     }
     return false;
   });
-  // $('.delete_person').on('click',function(){
-  //   var myDataAttr = $(this).data('delete');
-  //   console.log(myDataAttr);
-  //   $('#id_person2').val(myDataAttr);
-  //   $('#delete_name').val($("#person-"+myDataAttr).data('name'));
-  // });
   jQuery.validator.addMethod("arabicLettersOnly", function(value, element) {
     return this.optional(element) || /^[أ-ي,ﻻ,ء]+$/i.test(value);
   }, "الرجاء ادخال حروف عربية فقط!");
@@ -106,6 +100,7 @@ $(document).ready(function(){
     rules:{
       name:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       qualification:{
         required: true,
@@ -115,6 +110,7 @@ $(document).ready(function(){
       },
       specialization:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       gender:{
         required: true,
@@ -127,13 +123,16 @@ $(document).ready(function(){
       },
       place_birth:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       physical_address:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       phone:{
         required: true,
         number: true,
+        digits: true,
       },
     },
     messages:{
@@ -166,7 +165,8 @@ $(document).ready(function(){
       },
       phone:{
         required: "الرجاء ادخال رقم الهاتف!",
-        number: "يجب ان يحتوي رقم الهاتف علي ارقام فقط!"
+        number: "يجب ان يحتوي رقم الهاتف علي ارقام فقط!",
+        digits: "الرجاء ادخال ارقام صحيحة فقط!",
       },
     },
     // errorElement: 'span',
@@ -185,6 +185,16 @@ $(document).ready(function(){
     unhighlight: function(element) {
       $(element).closest('.row').removeClass('has-error');
     },
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
+  });
+  $(".prevent").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 122 || key == 27 )
+      {}
+    else
+      e.preventDefault();
   });
 
   var qs = (function(a) {

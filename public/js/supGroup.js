@@ -16,7 +16,7 @@ $(document).ready(function(){
   });
 
   $("#sub_group").submit(function(e) {
-    var isvalidate=true//$("#sub_group").valid();
+    var isvalidate=$("#sub_group").valid();
     if(isvalidate){
       $.post("/semester/subGroup", $("#sub_group").serializeObject(), function(data, error){
         if(data ==null){
@@ -80,7 +80,7 @@ $(document).ready(function(){
   });
 
   $("#editForm").submit(function(e) {
-    var isvalidate=true//$("#sub_group").valid();
+    var isvalidate=$("#editForm").valid();
     if(isvalidate){
       $.post("/semester/updateSub", {body:$("#editForm").serializeObject(),id:$('#editSubGr').val()}, function(data, error){
         if(data ==null){

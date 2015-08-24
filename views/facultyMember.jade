@@ -121,7 +121,7 @@ block cPanel
                 .col-xs-6.col-md-6
                   label تاريخ الميلاد
                   .input-group.date#birth_date
-                    input.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                    input.form-control.prevent(type="text", name="birth_date", placeholder="تاريخ الميلاد")
                     span.input-group-addon.success
                       span.fa.fa-calendar
                 .col-xs-6.col-md-6
@@ -137,7 +137,7 @@ block cPanel
                   input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
                   input#id_faculty_Member(name="id" , type="hidden")  
           .modal-footer
-            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;", data-dismiss="modal")
+            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -163,13 +163,12 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/helpers.js')
-  script(src='/js/newFacultyMember.js')
-  script(src='/js/facultiMembers.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/facultiMembers.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();
