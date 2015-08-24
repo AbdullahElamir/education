@@ -36,7 +36,7 @@ var nationality = require('../Nationality');
         }
       }).then(function(departments) {
 
-          res.render('subject', { title: 'subjects',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
+          res.render('subject', { title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
       }); 
     }); 
   });
@@ -78,7 +78,7 @@ var nationality = require('../Nationality');
           status: 1
         }
       }).then(function(departments) {
-        res.render('newSubject', {title: 'New Subject',dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+        res.render('newSubject', {title: 'إضافة مادة دراسية جديدة',dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
       });
     });
   });

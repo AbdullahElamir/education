@@ -112,7 +112,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/division/'
+    var pageUrl = '/division'
     window.history.pushState("","",pageUrl);
   }
   $("#formDivision").validate({

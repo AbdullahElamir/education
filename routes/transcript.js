@@ -10,11 +10,13 @@ var fs = require("fs");
 var path = require("path");
 var nationality = require('../Nationality');
 
+
   var obj = {
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
 
+var objStudent=0;
 
 // Start transcript /////////////////////////////////////////////////////////
   router.get('/transcript', function(req, res, next) {
@@ -73,15 +75,63 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           status: 1
           }
          }).then(function(semester) {
-        res.render('studentData', { title: 'Student Data' ,sem:semester,dept:department,dev:Division});
+
+         models.SemesterStudent.findAll({
+          where: {
+          status: 1
+          },
+      "include" : [
+        {"model" : models.Division},
+        {"model"  : models.Department},
+        {"model"  : models.User},
+        {"model"  : models.Semester},
+      ],
+         }).then(function(semstudent) {
+
+        res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+      });
       });
      });
     });
   });
 
+router.post('/addSemesterStudent',function(req,res){
+ objStudent=req.body;
+ objStudent.UserId=1;
+ console.log(objStudent);
+  models.SemesterStudent.create(req.body).then(function(result) {
+        res.send(true);
+      });
+  });
+
 router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
-  res.render('addStudentSubject', { title: 'Add Student Subject' });
+//  console.log(objStudent);
+     models.Sub_group.findAll({
+      where: { 
+        status: 1 ,
+        DivisionId : objStudent.devId ,
+        SemesterId : objStudent.semesterId ,
+      },
+      "include" : [
+        {"model" : models.Division},
+        {"model"  : models.Subject},
+        {"model"  : models.Location},
+        {"model"  : models.User},
+        {"model"  : models.Semester},
+        {"model"  : models.Faculty_member}
+      ],
+    }).then(function(Sub_group) {
+    //  console.log(Sub_group);
+       res.render('addStudentSubject', { title: 'Add Student Subject' ,sub: Sub_group});
+    });
+
+ 
 });
+
+
+
+
+
 
 //////////////
 

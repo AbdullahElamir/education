@@ -27,7 +27,7 @@ var nationality = require('../Nationality');
     }).then(function(department) {
       var pageCount = userHelpers.getPageCount(department.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('department', { title: 'View departments',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
+      res.render('department', { title: 'عرض اﻷقسام',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
     });
   });
 
@@ -77,7 +77,7 @@ var nationality = require('../Nationality');
   });
 
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
-    res.render('newDepartment', { title: 'New Department', collapseFour: 'collapse in', activeFourTwo: 'active' });
+    res.render('newDepartment', { title: 'إضافة قسم جديد', collapseFour: 'collapse in', activeFourTwo: 'active' });
   });
 
   router.post('/newDepartment',userHelpers.isLogin, function(req, res) {

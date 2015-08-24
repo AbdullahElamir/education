@@ -26,7 +26,7 @@ $(document).ready(function(){
           // }
         } 
         else {
-          $("#tbody"+$('#addd').val()+" ").prepend('<tr data-idd="'+data.DivisionId+'" data-id="'+data.id+'" >'+
+          $("#tbody"+$('#addd').val()+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" data-name = "'+data.Subject.name+'" data-code ="'+data.Subject.code+'" data-fac ="'+data.Faculty_member.id+'" data-groupname="'+data.sub_group_name+'" data-quantity="'+data.quantity+'" data-loc="'+data.Location.id+'">'+
             '<td>'+data.Subject.name+'</td>'+
             '<td>'+data.Subject.code+'</td>'+
             '<td>'+data.Faculty_member.name+'</td>'+
@@ -91,7 +91,7 @@ $(document).ready(function(){
         } 
         else {
           $('[data-id = "'+$('#editSubGr').val()+'"]').remove();
-          $("#tbody"+$('#editSubGr').data('idd')+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" >'+
+          $("#tbody"+$('#editSubGr').data('idd')+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" data-name = "'+data.Subject.name+'" data-code ="'+data.Subject.code+'" data-fac ="'+data.Faculty_member.id+'" data-groupname="'+data.sub_group_name+'" data-quantity="'+data.quantity+'" data-loc="'+data.Location.id+'">'+
             '<td>'+data.Subject.name+'</td>'+
             '<td>'+data.Subject.code+'</td>'+
             '<td>'+data.Faculty_member.name+'</td>'+
@@ -115,4 +115,64 @@ $(document).ready(function(){
     return false;
   });
   
+  // This function to remove and reset "form" from validation and value when close or hide bootstrap modal!
+  $('#add').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('#sub_group_name, #quantity').val("");
+    $('.selectpicker').selectpicker('val', null);
+    $('#sub_group').validate().resetForm();
+  });
+
+  $("#sub_group").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      FacultyMemberId:{
+        required: true,
+      },
+      sub_group_name:{
+        required: true,
+      },
+      quantity:{
+        required:true,
+        number:true,
+        digits:true,
+      },
+      LocationId:{
+        required:true,
+      },
+    },
+    messages:{
+      FacultyMemberId:{
+        required: "الرجاء اختيار اسم المحاضر/ة!",
+      },
+      sub_group_name:{
+        required: "الرجاء ادخال رقم المجموعة!",
+      },
+      quantity:{
+        required:"الرجاء ادخال عدد الطلبة!",
+        number:"الرجاء ادخال ارقام فقط!",
+        digits:"الرجاء ادخال ارقام صحيحة فقط!",
+      },
+      LocationId:{
+        required:"الرجاء اختيار القاعة الدراسية!",
+      },
+    },
+    errorClass: 'custom-error',
+    errorPlacement: function (error, element) {
+      if ($(element).is('select')) {
+          element.next().after(error);
+      } else {
+          error.insertAfter(element);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
+  });
 });

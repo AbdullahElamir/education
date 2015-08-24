@@ -107,9 +107,23 @@ $(document).ready(function(){
       $('#chapter_degree').val(subject[0].chapter_degree);
       $('#final_theor').val(subject[0].final_theor);
       $('#final_practical').val(subject[0].final_practical);
-      $('#sub_Type').val(subject[0].sub_type);
-      $('#subject_type').val(subject[0].subject_type);
-      $('#System_Type').val(subject[0].system_type);
+      //$('#sub_Type').val(subject[0].sub_type);
+      if(subject[0].subject_type==1)
+      {
+      var x= "عامة";
+      } else if (subject[0].subject_type==2){
+       var x= "خاصة";
+      } else {
+        var x= "كلاهما";
+      }
+      $('#subject_type').val(x);
+       if(subject[0].system_type==1)
+      {
+      var y= "فصل";
+      } else if (subject[0].system_type==2){
+       var y= "عام";
+      }
+      $('#System_Type').val(y);
       $('#department').val(subject[0].Department.name);
       $('#user').val(subject[0].User.name);
     });
@@ -427,7 +441,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/department'
+    var pageUrl = '/subject'
     window.history.pushState("","",pageUrl);
   }
 });

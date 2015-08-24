@@ -9,7 +9,6 @@ html
     link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/bootstrap-rtl.min.css')
     link(rel='stylesheet', href="/css/bootstrap-toggle.min.css")
-    
     block contentStyle
       link(rel='stylesheet', href='/css/navbarStyle.css')
       link(rel='stylesheet', href='/css/cPanelStyle.css')
@@ -77,7 +76,7 @@ html
                   b.caret
                 ul.dropdown-menu
                   li
-                    a(href="#",data-title="Edit", data-toggle="modal", data-target="#User")
+                    a(href="#",data-title="Edit", data-toggle="modal", data-target="#UserLoggedIn")
                       span.glyphicon.glyphicon-cog.text-primary
                       span.text-info  تعديل الملف الشخصي
                   li.divider
@@ -86,10 +85,10 @@ html
                       span.glyphicon.glyphicon-off.text-primary
                       span.text-info  خروج
           // /.navbar-collapse
-      //- #User.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+      #UserLoggedIn.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
         .modal-dialog
           .modal-content
-            form.form#editeUser(role="form",name='editeUser')
+            form.form#editeUserLoggedIn(role="form",name='editeUserLoggedIn')
               .modal-header
                 button.close(type="button", data-dismiss="modal", aria-hidden="true")
                   span.glyphicon.glyphicon-remove(aria-hidden="true")
@@ -99,7 +98,7 @@ html
                   .row
                     .col-xs-6.col-md-6
                       label.h4 اسم المستخدم
-                      input.form-control#name(type="text", name="name", placeholder="اﻷسم")
+                      input.form-control#userName(type="text", name="userName", placeholder="اﻷسم")
                     .col-xs-6.col-md-6
                       label.h4 رقم الهاتف
                       input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
@@ -129,31 +128,30 @@ html
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseOne")
-                      span.glyphicon.glyphicon-tasks
+                      span.fa.fa-calendar-check-o
                       span(style="font-size:15px;")  اﻷنظمة الدراسية
                 #collapseOne.panel-collapse.collapse(class=collapseOne)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeOneOne)
-                          a(href="/semester", style="font-size:12px;").font  عرض الفصول الدراسية
+                          a(href="/semester").font  عرض الفصول الدراسية
                           
                       tr
                         td(class=activeOneTwo)
-                          a(href="/semester/newSemester").font  إضافة فصل دراسي
+                          a(href="/semester/newSemester").font  إضافة نظام دراسي
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseTwo")
-                      span.glyphicon.glyphicon-tasks
-                      span(style="font-size:15px;")  القاعات الدراسية
+                      span.fa.fa-map-marker.fa-lg
+                      span  القاعات الدراسية
                 #collapseTwo.panel-collapse.collapse(class=collapseTwo)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeTwoOne)
-                          a(href="/location", style="font-size:12px;").font  عرض القاعات الدراسية
-                          
+                          a(href="/location").font  عرض القاعات الدراسية    
                       tr
                         td(class=activeTwoTwo)
                           a(href="/location/newLocation").font  إضافة قاعة دراسية
@@ -161,15 +159,14 @@ html
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseThree")
-                      span.glyphicon.glyphicon-tasks
+                      span.fa.fa-book
                       span  المواد الدراسية
                 #collapseThree.panel-collapse.collapse(class=collapseThree)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeThreeOne)
-                          a(href="/subject", style="font-size:13.5px;").font  عرض المواد الدراسية
-                          
+                          a(href="/subject").font  عرض المواد الدراسية
                       tr
                         td(class=activeThreeTwo)
                           a(href="/subject/newSubject").font  إضافة مادة دراسية
@@ -177,15 +174,14 @@ html
                 .panel-heading.font
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseFour")
-                      span.glyphicon.glyphicon-tasks
-                      span(style="font-size:15px;")  اﻷقسام والشعب
+                      span.fa.fa-cubes
+                      span(style="font-size:14.7px;")  اﻷقسام والشعب
                 #collapseFour.panel-collapse.collapse(class=collapseFour)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeFourOne)
                           a(href="/department")  عرض اﻷقسام
-                          
                       tr
                         td(class=activeFourTwo)
                           a(href="/department/newDepartment")  إضافة قسم جديد
@@ -199,14 +195,14 @@ html
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseFive")
-                      span.glyphicon.glyphicon-user
-                      span(style="font-size:15px;")  الطلبة المسجلين
+                      span.fa.fa-graduation-cap
+                      span(style="font-size:14.9px;")  الطلبة المسجلين
                 #collapseFive.panel-collapse.collapse(class=collapseFive)
                   .panel-body#panel-body
                     table.table
                       tr
                         td(class=activeFiveOne)
-                          a(href="/student", style="font-size:12.6px;")  عرض الطلبة المسجلين
+                          a(href="/student")  عرض الطلبة المسجلين
                           
                       tr
                         td(class=activeFiveTwo)
@@ -215,7 +211,7 @@ html
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseSix")
-                      span.glyphicon.glyphicon-user
+                      span.fa.fa-users
                       span  المحاضرين
                 #collapseSix.panel-collapse.collapse(class=collapseSix)
                   .panel-body#panel-body
@@ -230,7 +226,7 @@ html
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseSeven")
-                      span.glyphicon.glyphicon-file
+                      span.fa.fa-arrow-down
                       |  تنزيل المواد
                 #collapseSeven.panel-collapse.collapse(class=collapseSeven)
                   .panel-body#panel-body
@@ -243,58 +239,54 @@ html
               .panel.panel-primary.font
                 .panel-heading
                   h3.panel-title#panel-title
-                    span.glyphicon.glyphicon-bookmark
+                    span.fa.fa-bookmark.fa-lg
                     | 
-                    | لوحة التحكم
+                    span لوحة التحكم
                 .panel-body
                   .row
                     .col-xs-6.col-md-6
                       a.btn.btn-danger.btn-lg.btn-block(href="/semester", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-calendar-check-o.fa-lg
                         br
-                        | اﻷنظمة الدراسية
-                      | 
+                        span اﻷنظمة الدراسية
                       a.btn.btn-warning.btn-lg.btn-block(href="/location", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-map-marker.fa-lg
                         br
-                        | القاعات الدراسية
-                      | 
+                        span القاعات الدراسية
                       a.btn.btn-primary.btn-lg.btn-block(href="/subject", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-book.fa-lg
                         br
-                        | المواد الدراسية
-                      | 
+                        span المواد الدراسية
                       a.btn.btn-info.btn-lg.btn-block(href="/department", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-cube.fa-lg
                         br
-                        | اﻷقسام
+                        span اﻷقسام
                     .col-xs-6.col-md-6
                       a.btn.btn-success.btn-lg.btn-block(href="/division", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-cubes.fa-lg
                         br
-                        | الشعب
-                      | 
+                        span الشعب
                       a.btn.btn-info.btn-lg.btn-block(href="/student", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-graduation-cap.fa-lg
                         br
-                        | الطلبة المسجلين
-                      | 
+                        span الطلبة المسجلين
                       a.btn.btn-primary.btn-lg.btn-block(href="/facultyMember", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-users.fa-lg
                         br
-                        | المحاضرين
-                      | 
+                        span المحاضرين
                       a.btn.btn-warning.btn-lg.btn-block(href="/users", role="button")
-                        span.glyphicon.glyphicon-list-alt
+                        span.fa.fa-user.fa-lg
                         br
-                        | المستخدمين  
-                  a.btn.btn-success.btn-lg.btn-block(href="http://www.naga.ly/", role="button", target="_blank")
-                    span.glyphicon.glyphicon-globe
-                    |  الاتصال بالدعم
+                        span المستخدمين  
+                  a.btn.btn-success.btn-lg.btn-block(href="http://www.naga.ly/", role="button", target="_blank", style="margin-bottom:0px;")
+                    span.fa.fa-globe.fa-lg
+                    span  الاتصال بالدعم
     block content
     block footer
       footer.footer.font
         .container
-          p.text-muted جميع الحقوق محفوظة لشركة ناقه للحلول الثقنية 2015 © 
+          .text-muted
+            a(href='http://www.naga.ly', target='_blank')
+              p.text-muted جميع الحقوق محفوظة لشركة ناقه للحلول الثقنية 2015 © 
              
     

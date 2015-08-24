@@ -9,8 +9,7 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default الطلبة
-          .btn.btn-default.active عرض الطلبة
+          .btn.btn-default.active عرض الطلبة المسجلين
         br
         br
         .panel.panel-default
@@ -241,14 +240,14 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/helpers.js')
-  script(src='/js/newStudent.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
-  script(src='/js/students.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
-  script(src='/js/student.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/students.js')
+  script(src='/js/student.js')
   script.
     $(document).ready(function(){
       $("#mytable #checkall").click(function () {

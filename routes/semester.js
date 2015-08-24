@@ -30,12 +30,12 @@ var nationality = require('../Nationality');
     }).then(function(semester) {
       var pageCount = userHelpers.getPageCount(semester.count);
       var pagination = userHelpers.paginate(page,pageCount);
-        res.render('semesters', { title: 'View Semesters', semester: semester.rows,pagination:pagination, collapseOne: 'collapse in', activeOneOne: 'active' });
+        res.render('semesters', { title: 'عرض النظم الدراسية', semester: semester.rows,pagination:pagination, collapseOne: 'collapse in', activeOneOne: 'active' });
     });
   });
 
   router.get('/newSemester',userHelpers.isLogin, function(req, res) {
-    res.render('newSemester', { title: 'New Semester',collapseOne: 'collapse in', activeOneTwo: 'active' });
+    res.render('newSemester', { title: 'إضافة نظام دراسي جديد',collapseOne: 'collapse in', activeOneTwo: 'active' });
   });
 
   router.get('/:id',userHelpers.isLogin, function(req, res) {

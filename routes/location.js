@@ -28,12 +28,12 @@ var nationality = require('../Nationality');
     }).then(function(location) {
       var pageCount = userHelpers.getPageCount(location.count);
       var pagination = userHelpers.paginate(page,pageCount);
-        res.render('location', { title: 'View Locations', loc: location.rows,pagination:pagination, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+        res.render('location', { title: 'عرض القاعات الدراسية', loc: location.rows,pagination:pagination, collapseTwo: 'collapse in', activeTwoOne: 'active' });
     });
   });
 
   router.get('/newLocation',userHelpers.isLogin, function(req, res) {
-    res.render('newLocation', { title: 'New Location', collapseTwo: 'collapse in', activeTwoTwo: 'active' });
+    res.render('newLocation', { title: 'إضافة قاعة دراسية جديدة', collapseTwo: 'collapse in', activeTwoTwo: 'active' });
   });
 
   router.post('/newLocation',userHelpers.isLogin, function(req, res) {

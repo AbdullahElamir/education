@@ -9,7 +9,6 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default المحاضرين
           .btn.btn-default.active عرض المحاضرين
         br
         br
@@ -116,8 +115,7 @@ block cPanel
                   label الجنسية
                   select.form-control.selectpicker#nationality(name="nationality", data-live-search="true", data-size=5)
                     for nat in nationalityJade
-                      option(value="#{nat.id}") #{nat.name}
-                    
+                      option(value="#{nat.id}") #{nat.name}     
             .form-group
               .row
                 .col-xs-6.col-md-6
@@ -137,15 +135,11 @@ block cPanel
                 .col-xs-6.col-md-6
                   label رقم الهاتف
                   input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
-                  input#id_faculty_Member(name="id" , type="hidden")
-                  
+                  input#id_faculty_Member(name="id" , type="hidden")  
           .modal-footer
-            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;", data-dismiss="modal")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
-  
-
-
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -178,18 +172,6 @@ block cPanel
   script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-          $("#mytable input[type=checkbox]").each(function () {
-            $(this).prop("checked", true);
-          });
-        } 
-        else {
-          $("#mytable input[type=checkbox]").each(function () {
-            $(this).prop("checked", false);
-          });
-        }
-      });
       $("[data-toggle=tooltip]").tooltip();
       $('#birth_date').datetimepicker({
         useCurrent: false,
