@@ -147,7 +147,7 @@ block cPanel
                       input#place_birth.form-control(type="text", name="place_birth", placeholder="مكان الميلاد")
                     .col-xs-3.col-md-3
                       label سنة الميلاد
-                      .input-group.date
+                      .input-group.date#birth_dat
                         input#birth_date.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
                         span.input-group-addon.success
                           span.fa.fa-calendar
@@ -208,8 +208,8 @@ block cPanel
                       label مكان الحصول علي الشهادة
                       input#place_cert.form-control(type="text", name="place_cert", placeholder="مكان الحصول علي الشهادة")
                     .col-xs-4.col-md-3
-                      label رقم الجلوس
-                      input#set_number.form-control(type="text", name="set_number", placeholder="رقم الجلوس")
+                      label رقم القيد
+                      input#set_number.form-control(type="text", name="set_number", placeholder="رقم القيد")
                     .col-xs-3.col-md-3
                       label معدل الطالب
                       input#student_rate.form-control(type="text", name="student_rate", placeholder="معدل الطالب")
@@ -264,7 +264,7 @@ block cPanel
         }
       });
       $("[data-toggle=tooltip]").tooltip();
-      $('#birth_date').datetimepicker({
+      $('#birth_date #birth_date').datetimepicker({
         useCurrent: false,
         viewMode: 'years',
         format: 'YYYY'
