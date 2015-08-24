@@ -50,12 +50,12 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'تنزيل مادة لطالب',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+      res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
     });
   //res.render('academicTranscripts', { title: 'Academic Transcripts' });
 });
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
-  res.render('studentSemesters', { title: 'كشف الدراجات' });
+  res.render('studentSemesters', { title: 'Academic Transcripts' });
 });
 
 router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
@@ -75,21 +75,37 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           status: 1
           }
          }).then(function(semester) {
-        res.render('studentData', { title: 'بيانات الطالب' ,std:req.params.id,sem:semester,dept:department,dev:Division});
+
+         models.SemesterStudent.findAll({
+          where: {
+          status: 1
+          },
+      "include" : [
+        {"model" : models.Division},
+        {"model"  : models.Department},
+        {"model"  : models.User},
+        {"model"  : models.Semester},
+      ],
+         }).then(function(semstudent) {
+
+        res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+      });
       });
      });
     });
   });
- 
-router.post('/objdatastudent',function(req,res){
- objStudent=req.body;
- res.send(true);
 
+router.post('/addSemesterStudent',function(req,res){
+ objStudent=req.body;
+ objStudent.UserId=1;
+ console.log(objStudent);
+  models.SemesterStudent.create(req.body).then(function(result) {
+        res.send(true);
+      });
   });
 
 router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
-  console.log(objStudent);
-
+//  console.log(objStudent);
      models.Sub_group.findAll({
       where: { 
         status: 1 ,
@@ -106,7 +122,7 @@ router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
       ],
     }).then(function(Sub_group) {
     //  console.log(Sub_group);
-       res.render('addStudentSubject', { title: 'إضافة مادة دراسية لطالب' ,sub: Sub_group});
+       res.render('addStudentSubject', { title: 'Add Student Subject' ,sub: Sub_group});
     });
 
  

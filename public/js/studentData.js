@@ -1,21 +1,19 @@
 
 $(document).ready(function(){
 
-
-	
 	  $('body').on('click', '#addStudentData', function(){
-	  	var obj = {stdId:$('#studentId').val(),departmentId: $('#department_iddepartment').val() ,semesterId :$(this).val() ,devId: $('#division_iddivision').val()} ;
-	  	
-	  	 $.post('/transcript/objdatastudent',obj,function(todo){
+	  	var obj = {student_status:$('#student_status').val(),StudentId:$('#studentId').val(),DepartmentId:parseInt($('#department_iddepartment').val()),SemesterId:$(this).val(),DivisionId:$('#division_iddivision').val()} ;
+	  	 $.post('/transcript/addSemesterStudent',obj,function(todo){
 	  	 	if(todo){
-	  	 		window.location.href ="/transcript/addStudentSubject";
+	  	 		window.location.href ="/transcript/studentData/"+obj.StudentId;
 	  	 	}
 
 	  	 });
+	   });
 
 
 
-	  });
+
 
 
 	
