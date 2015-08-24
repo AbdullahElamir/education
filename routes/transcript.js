@@ -104,30 +104,90 @@ router.post('/addSemesterStudent',function(req,res){
       });
   });
 
-router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
-//  console.log(objStudent);
-     models.Sub_group.findAll({
-      where: { 
-        status: 1 ,
-        DivisionId : objStudent.devId ,
-        SemesterId : objStudent.semesterId ,
+router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
+  models.SemesterStudent.findOne({
+    where:{
+      id:req.params.id
+    }
+  }).then(function(sem){
+    models.Sub_group.findAll({
+      where:{
+        SemesterId:sem.SemesterId,
+        DivisionId:1
       },
-      "include" : [
-        {"model" : models.Division},
-        {"model"  : models.Subject},
-        {"model"  : models.Location},
-        {"model"  : models.User},
-        {"model"  : models.Semester},
-        {"model"  : models.Faculty_member}
-      ],
-    }).then(function(Sub_group) {
-    //  console.log(Sub_group);
-       res.render('addStudentSubject', { title: 'Add Student Subject' ,sub: Sub_group});
+      include:[{
+        model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+      }]
+    }).then(function(gen){
+      models.Sub_group.findAll({
+        where:{
+          SemesterId:sem.SemesterId,
+          DivisionId:sem.DivisionId
+        },
+        include:[{
+          model: models.Subject,
+            required:false,
+            where:{
+              status:1
+            }
+        }]
+      }).then(function(div){
+        models.sequelize.query('SELECT * FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', { replacements: [sem.DepartmentId] }
+        ).then(function(dept){
+          models.Academic_transcript.findAll({
+            where:{
+              SemesterStudentId:req.params.id
+            },
+            include:[{
+              model: models.Sub_group,
+                required:false,
+                where:{
+                  status:1
+                },
+              include:[{
+                model: models.Subject,
+                required:false,
+                where:{
+                  status:1
+                }       
+              }]
+            }]
+          }).then(function(result){
+            res.render('addStudentSubject', { title: 'Add Student Subject',res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
+          });
+        });
+      });
     });
-
- 
+  }); 
 });
 
+router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
+console.log(req.body);
+  req.body.UserId=1;
+  req.body.sum_dagree= parseInt(req.body.chapter_degree)+parseInt(req.body.final_exam);
+  models.Academic_transcript.create(req.body).then(function(result) {
+    models.Sub_group.findOne({
+      where:{
+        id:req.body.SubGroupId
+      },
+      include:[{
+         model: models.Subject,
+          required:false,
+          where:{
+            status:1
+          }
+      }]
+
+    }).then(function(sub){
+      res.send(sub);
+    });
+  });
+
+});
 
 
 
