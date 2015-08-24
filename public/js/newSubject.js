@@ -441,7 +441,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/department'
+    var pageUrl = '/subject'
     window.history.pushState("","",pageUrl);
   }
 });

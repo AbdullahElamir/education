@@ -26,7 +26,7 @@ $(document).ready(function(){
           // }
         } 
         else {
-          $("#tbody"+$('#addd').val()+" ").prepend('<tr data-idd="'+data.DivisionId+'" data-id="'+data.id+'" >'+
+          $("#tbody"+$('#addd').val()+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" data-name = "'+data.Subject.name+'" data-code ="'+data.Subject.code+'" data-fac ="'+data.Faculty_member.id+'" data-groupname="'+data.sub_group_name+'" data-quantity="'+data.quantity+'" data-loc="'+data.Location.id+'">'+
             '<td>'+data.Subject.name+'</td>'+
             '<td>'+data.Subject.code+'</td>'+
             '<td>'+data.Faculty_member.name+'</td>'+
@@ -91,7 +91,7 @@ $(document).ready(function(){
         } 
         else {
           $('[data-id = "'+$('#editSubGr').val()+'"]').remove();
-          $("#tbody"+$('#editSubGr').data('idd')+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" >'+
+          $("#tbody"+$('#editSubGr').data('idd')+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" data-name = "'+data.Subject.name+'" data-code ="'+data.Subject.code+'" data-fac ="'+data.Faculty_member.id+'" data-groupname="'+data.sub_group_name+'" data-quantity="'+data.quantity+'" data-loc="'+data.Location.id+'">'+
             '<td>'+data.Subject.name+'</td>'+
             '<td>'+data.Subject.code+'</td>'+
             '<td>'+data.Faculty_member.name+'</td>'+

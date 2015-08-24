@@ -38,7 +38,7 @@ var nationality = require('../Nationality');
     }).then(function(ddddddd) {
       var pageCount = userHelpers.getPageCount(facultyMembers.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('facultyMember', { title: 'View faculty members',nationalityJade:nationality,depts:ddddddd,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+      res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:ddddddd,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
     });
     });
   });
@@ -50,7 +50,7 @@ var nationality = require('../Nationality');
         status: 1
       }
     }).then(function(Departments) {
-      res.render('newFacultyMember', { title: 'New Faculty Member',nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+      res.render('newFacultyMember', { title: 'إضافة محاضر جديد',nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
     });
     
   });
