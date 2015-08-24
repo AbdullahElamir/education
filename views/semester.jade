@@ -6,6 +6,13 @@ block navcPanel
   .container.font
     .row
       .col-xs-12.col-md-12
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          a.btn.btn-default(href="/semester") عرض اﻷنظمة الدراسية
+          .btn.btn-default.active #{sem} #{semester.year.getFullYear()} 
+        br
+        br
         .panel.panel-default
           .panel-heading(style="padding: 5px 15px;")
             .row

@@ -92,6 +92,15 @@ $(document).ready(function(){
   //   $('#id_person2').val(myDataAttr);
   //   $('#delete_name').val($("#person-"+myDataAttr).data('name'));
   // });
+  jQuery.validator.addMethod("arabicLettersOnly", function(value, element) {
+    return this.optional(element) || /^[أ-ي,ﻻ,ء]+$/i.test(value);
+  }, "الرجاء ادخال حروف عربية فقط!");
+  jQuery.validator.addMethod("arabicLettersWithSpacesOnly", function(value, element) {
+    return this.optional(element) || /^[أ-ي,ﻻ,ء," "]+$/i.test(value);
+  }, "الرجاء ادخال حروف عربية فقط!"); 
+  jQuery.validator.addMethod("englishLettersWithSpacesOnly", function(value, element) {
+    return this.optional(element) || /^[a-z," "]+$/i.test(value);
+  }, "الرجاء ادخال حروف انجليزية فقط!");
   $("#updateFacultyMember").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -210,7 +219,7 @@ $(document).ready(function(){
         exit: 'animated bounceOutUp'
       },
     });
-    var pageUrl = '/facultyMember/'
+    var pageUrl = '/facultyMember'
     window.history.pushState("","",pageUrl);
   }
 });

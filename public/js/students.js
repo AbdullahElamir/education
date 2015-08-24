@@ -54,7 +54,7 @@ $(document).ready(function(){
       birth_date:{
         required: true,
         number: true,
-        rangelength: [1900, 4000],
+        range: [1900, 4000],
       },
       nationality:{
         required: true,
@@ -137,7 +137,7 @@ $(document).ready(function(){
       birth_date:{
         required: "الرجاء ادخال سنة الميلاد!",
         number: "خطأ سنة الميلاد غير صحيح!",
-        rangelength: "الرجاء إدخال قيمة بين عامي 1900 و 4000!",
+        range: "الرجاء إدخال قيمة بين عامي 1900 و 4000!",
       },
       nationality:{
         required: "الرجاء اختيار الجنسية!",

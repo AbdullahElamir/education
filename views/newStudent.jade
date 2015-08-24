@@ -9,7 +9,7 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default الطلبة
+          a.btn.btn-default(href="/student") عرض الطلبة المسجلين
           .btn.btn-default.active تسجيل طالب/ة جديد
         br
         br
@@ -82,7 +82,7 @@ block cPanel
                   i.fa.fa-star-o
                   span  سنة الميلاد
                 .input-group.date#birth_date
-                  input.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
+                  input.form-control.prevent(type="text", name="birth_date", placeholder="سنة الميلاد")
                   span.input-group-addon.success
                     span.fa.fa-calendar
           .form-group
@@ -161,7 +161,7 @@ block cPanel
                   i.fa.fa-star-o
                   span  تاريخ الحصول علي الشهادة
                 .input-group.date#date_cert
-                  input.form-control(type="text", name="date_cert", placeholder="تاريخ الشهادة")
+                  input.form-control.prevent(type="text", name="date_cert", placeholder="تاريخ الشهادة")
                   span.input-group-addon.success
                     span.fa.fa-calendar
           .form-group

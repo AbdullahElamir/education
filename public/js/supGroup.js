@@ -115,4 +115,64 @@ $(document).ready(function(){
     return false;
   });
   
+  // This function to remove and reset "form" from validation and value when close or hide bootstrap modal!
+  $('#add').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('#sub_group_name, #quantity').val("");
+    $('.selectpicker').selectpicker('val', null);
+    $('#sub_group').validate().resetForm();
+  });
+
+  $("#sub_group").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      FacultyMemberId:{
+        required: true,
+      },
+      sub_group_name:{
+        required: true,
+      },
+      quantity:{
+        required:true,
+        number:true,
+        digits:true,
+      },
+      LocationId:{
+        required:true,
+      },
+    },
+    messages:{
+      FacultyMemberId:{
+        required: "الرجاء اختيار اسم المحاضر/ة!",
+      },
+      sub_group_name:{
+        required: "الرجاء ادخال رقم المجموعة!",
+      },
+      quantity:{
+        required:"الرجاء ادخال عدد الطلبة!",
+        number:"الرجاء ادخال ارقام فقط!",
+        digits:"الرجاء ادخال ارقام صحيحة فقط!",
+      },
+      LocationId:{
+        required:"الرجاء اختيار القاعة الدراسية!",
+      },
+    },
+    errorClass: 'custom-error',
+    errorPlacement: function (error, element) {
+      if ($(element).is('select')) {
+          element.next().after(error);
+      } else {
+          error.insertAfter(element);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
+  });
 });

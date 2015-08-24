@@ -9,7 +9,6 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default اﻷنظمة الدراسية
           .btn.btn-default.active عرض اﻷنظمة الدراسية
         br
         br
@@ -35,8 +34,6 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
-                th
-                  input#checkall(type="checkbox")
                 th النظام الدراسي
                 th السنة الدراسية
                 th هل هذا الفصل الحالي
@@ -47,8 +44,6 @@ block cPanel
               tbody
               for i in semester
                 tr(data-id = '#{i.id}')
-                  td
-                    input.checkthis(type="checkbox")
                   td  
                     if i.sem_type == 0
                       | سنة
@@ -58,7 +53,7 @@ block cPanel
                       | فصل "خريفي"
                     if i.sem_type == 3
                       | فصل "صيفي"
-                  td  #{i.year.getDate()} / #{i.year.getMonth()+1} / #{i.year.getFullYear()} 
+                  td #{i.year.getFullYear()} 
                   td 
                     if i.current == 1
                       | نعم
@@ -132,16 +127,5 @@ block cPanel
   script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-            $("#mytable input[type=checkbox]").each(function () {
-              $(this).prop("checked", true);
-            });
-        } else {
-            $("#mytable input[type=checkbox]").each(function () {
-                $(this).prop("checked", false);
-            });
-          }
-      });
-        $("[data-toggle=tooltip]").tooltip();
+      $("[data-toggle=tooltip]").tooltip();
     });
