@@ -75,21 +75,37 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           status: 1
           }
          }).then(function(semester) {
-        res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division});
+
+         models.SemesterStudent.findAll({
+          where: {
+          status: 1
+          },
+      "include" : [
+        {"model" : models.Division},
+        {"model"  : models.Department},
+        {"model"  : models.User},
+        {"model"  : models.Semester},
+      ],
+         }).then(function(semstudent) {
+          //console.log(semstudent);
+        res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+      });
       });
      });
     });
   });
- 
-router.post('/objdatastudent',function(req,res){
- objStudent=req.body;
- res.send(true);
 
+router.post('/addSemesterStudent',function(req,res){
+ objStudent=req.body;
+ objStudent.UserId=1;
+ console.log(objStudent);
+  models.SemesterStudent.create(req.body).then(function(result) {
+        res.send(true);
+      });
   });
 
 router.get('/addStudentSubject',userHelpers.isLogin, function(req, res) {
-  console.log(objStudent);
-
+//  console.log(objStudent);
      models.Sub_group.findAll({
       where: { 
         status: 1 ,
