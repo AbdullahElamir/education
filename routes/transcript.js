@@ -75,7 +75,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           status: 1
           }
          }).then(function(semester) {
-
          models.SemesterStudent.findAll({
           where: {
           status: 1
@@ -87,7 +86,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
         {"model"  : models.Semester},
       ],
          }).then(function(semstudent) {
-          //console.log(semstudent);
         res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
       });
       });

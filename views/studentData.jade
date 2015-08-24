@@ -41,7 +41,7 @@ block cPanel
                   th.text-center السنة الدراسية
                   th.text-center هل هذا الفصل الحالي
                   th.text-center القــسم
-                  th.text-center الشعــبة
+                  th.text-center الشعــبةس
                   th.text-center عرض 
                   th.text-center تنزيل 
                 tbody
@@ -108,8 +108,9 @@ block cPanel
             th نهاية الفصل الدراسي
             th.text-center أضافة
           tbody
+          for i in sem
             tr(data-id = '#')
-            for i in sem
+            
               td
                 input.checkthis(type="checkbox")
 
