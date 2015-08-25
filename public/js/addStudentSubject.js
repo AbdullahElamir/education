@@ -23,6 +23,8 @@ $(document).ready(function(){
     $('#upres').val($(this).val());
     $('#chapter_degree').val($('[data-id = "'+$(this).val()+'"]').data('deg'));
     $('#final_exam').val($('[data-id = "'+$(this).val()+'"]').data('fin'));
+    $('#subject_status').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('sub'));
+    $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case'));
     
   });
   $('body').on('click', '#del', function (e) {
@@ -49,7 +51,7 @@ $(document).ready(function(){
     if(isvalidate){
       $.post("/transcript/addStudentSubject", $("#addForm").serializeObject(), function(data, error){
         if(data!=false){
-          $("#Acbody").prepend('<tr data-id="'+data.id+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
+          $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
             '<td>'+data.Sub_group.Subject.name+'</td>'+
             '<td>'+data.Sub_group.Subject.name_en+'</td>'+
             '<td>'+data.Sub_group.Subject.code+'</td>'+
@@ -120,7 +122,7 @@ $(document).ready(function(){
     if(isvalidate){
       $.post("/transcript/updateG", {body:$("#updateG").serializeObject(),id:$('#upres').val()}, function(data, error){
           $('[data-id = "'+$('#upres').val()+'"]').remove();
-          $("#Acbody").prepend('<tr data-id="'+data.id+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
+          $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
                   '<td>'+data.Sub_group.Subject.name+'</td>'+
                   '<td>'+data.Sub_group.Subject.name_en+'</td>'+
                   '<td>'+data.Sub_group.Subject.code+'</td>'+
