@@ -171,8 +171,10 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=1;
   req.body.sum_dagree= parseInt(req.body.chapter_degree)+parseInt(req.body.final_exam);
-  models.Academic_transcript.create(req.body).then(function(result) {
-    models.Academic_transcript.findOne({
+  models.Academic_transcript.findOrCreate({where: {SubGroupId: req.body.SubGroupId}, defaults: req.body})
+  .spread(function(result, created) {
+    if(created){
+      models.Academic_transcript.findOne({
         where:{
           id:result.id
         },
@@ -193,7 +195,35 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
       }).then(function(acTr){
         res.send(acTr);
       });
+    }else{
+      res.send(false);
+    }
+
   });
+
+  // models.Academic_transcript.create(req.body).then(function(result) {
+  //   models.Academic_transcript.findOne({
+  //       where:{
+  //         id:result.id
+  //       },
+  //       include:[{
+  //         model: models.Sub_group,
+  //           required:false,
+  //           where:{
+  //             status:1
+  //           },
+  //         include:[{
+  //           model: models.Subject,
+  //           required:false,
+  //           where:{
+  //             status:1
+  //           }       
+  //         }]
+  //       }]
+  //     }).then(function(acTr){
+  //       res.send(acTr);
+  //     });
+  // });
 
 });
 
