@@ -98,7 +98,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
 router.post('/addSemesterStudent',function(req,res){
  objStudent=req.body;
  objStudent.UserId=1;
- console.log(objStudent);
   models.SemesterStudent.create(req.body).then(function(result) {
         res.send(true);
       });
@@ -107,13 +106,15 @@ router.post('/addSemesterStudent',function(req,res){
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
   models.SemesterStudent.findOne({
     where:{
-      id:req.params.id
+      id:req.params.id,
+      status:1
     }
   }).then(function(sem){
     models.Sub_group.findAll({
       where:{
         SemesterId:sem.SemesterId,
-        DivisionId:1
+        DivisionId:1,
+        status:1
       },
       include:[{
         model: models.Subject,
@@ -126,7 +127,8 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
       models.Sub_group.findAll({
         where:{
           SemesterId:sem.SemesterId,
-          DivisionId:sem.DivisionId
+          DivisionId:sem.DivisionId,
+          status:1
         },
         include:[{
           model: models.Subject,
@@ -140,7 +142,8 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
         ).then(function(dept){
           models.Academic_transcript.findAll({
             where:{
-              SemesterStudentId:req.params.id
+              SemesterStudentId:req.params.id,
+              status:1
             },
             include:[{
               model: models.Sub_group,
@@ -166,31 +169,76 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
-console.log(req.body);
   req.body.UserId=1;
   req.body.sum_dagree= parseInt(req.body.chapter_degree)+parseInt(req.body.final_exam);
   models.Academic_transcript.create(req.body).then(function(result) {
-    models.Sub_group.findOne({
-      where:{
-        id:req.body.SubGroupId
-      },
-      include:[{
-         model: models.Subject,
-          required:false,
-          where:{
-            status:1
-          }
-      }]
-
-    }).then(function(sub){
-      res.send(sub);
-    });
+    models.Academic_transcript.findOne({
+        where:{
+          id:result.id
+        },
+        include:[{
+          model: models.Sub_group,
+            required:false,
+            where:{
+              status:1
+            },
+          include:[{
+            model: models.Subject,
+            required:false,
+            where:{
+              status:1
+            }       
+          }]
+        }]
+      }).then(function(acTr){
+        res.send(acTr);
+      });
   });
 
 });
 
+router.post('/updateG',userHelpers.isLogin,function(req,res){
+  req.body.body.sum_dagree= parseInt(req.body.body.chapter_degree)+parseInt(req.body.body.final_exam);
+  models.Academic_transcript.update(req.body.body,{
+    where: {
+      id:req.body.id
+    }
+    }).then(function(result){
+      models.Academic_transcript.findOne({
+        where:{
+          id:req.body.id
+        },
+        include:[{
+          model: models.Sub_group,
+            required:false,
+            where:{
+              status:1
+            },
+          include:[{
+            model: models.Subject,
+            required:false,
+            where:{
+              status:1
+            }       
+          }]
+        }]
+      }).then(function(acTr){
+        res.send(acTr);
+      });
+    });
+});
 
-
+router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
+  models.Academic_transcript.update({
+    status:0
+  },{
+    where: {
+      id:req.params.id
+    }
+    }).then(function(result){
+      res.send(true);
+    });
+});
 
 
 //////////////
