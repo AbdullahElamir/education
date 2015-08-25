@@ -61,19 +61,19 @@ var nationality = require('../Nationality');
    
   // delete Department
   router.get('/deleteDepartment/:id', function(req, res) {
-    models.Department.find({
-      where: {
-        id: req.params.id
-      }
+    if (userHelpers.checkGeneral(req.params.id)){
+      models.Department.destroy({
+        where: {
+          id: req.params.id
+        }      
       }).then(function (todo) {
-      todo.updateAttributes({
-          status: 0
-      }).then(function (todo) {
-          res.send(todo);
+        res.send({msg:"1"});
       }).catch(function (err) {
-          console.log(err);
+        res.send({msg:"2"});
       });
-    });
+    } else {
+      res.send({msg:"3"});
+    }
   });
 
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {

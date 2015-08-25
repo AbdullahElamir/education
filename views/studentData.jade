@@ -48,9 +48,9 @@ block cPanel
                   tr(data-id = '')
                     td
                       if i.Semester.system_type == 1
-                        | سنة 
+                        |  فصل
                       if i.Semester.system_type == 2
-                        | فصل 
+                        |  سنة
 
                      
                     td #{i.Semester.year.getFullYear()}

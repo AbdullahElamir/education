@@ -170,9 +170,8 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=1;
-  console.log(req.body);
   req.body.sum_dagree= parseInt(req.body.chapter_degree)+parseInt(req.body.final_exam);
-  models.Academic_transcript.findOrCreate({where: {status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
+  models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
       models.Academic_transcript.findOne({
@@ -201,31 +200,6 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
     }
 
   });
-
-  // models.Academic_transcript.create(req.body).then(function(result) {
-  //   models.Academic_transcript.findOne({
-  //       where:{
-  //         id:result.id
-  //       },
-  //       include:[{
-  //         model: models.Sub_group,
-  //           required:false,
-  //           where:{
-  //             status:1
-  //           },
-  //         include:[{
-  //           model: models.Subject,
-  //           required:false,
-  //           where:{
-  //             status:1
-  //           }       
-  //         }]
-  //       }]
-  //     }).then(function(acTr){
-  //       res.send(acTr);
-  //     });
-  // });
-
 });
 
 router.post('/updateG',userHelpers.isLogin,function(req,res){

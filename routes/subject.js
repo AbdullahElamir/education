@@ -105,6 +105,20 @@ var nationality = require('../Nationality');
     });
   });
 
+  //getSub/
+//3333
+    router.post('/getSub',function(req, res) {
+        models.sequelize.query('SELECT `id`, `name`, `name_en`, `code`, `no_th_unit`, `no_th_hour`, `no_pr_unit`, `no_pr_hour`, `chapter_degree`, `final_theor`, `final_practical`, `subject_type`, `system_type`, `status`, `createdAt`, `updatedAt`, `DepartmentId`, `UserId` FROM `Subjects` WHERE `id` in ('+req.body.x+")").then(function(results){
+       console.log(results[0]);
+        res.send(results[0]);
+    });
+    //console.log(req.body.x);
+  });
+
+
+
+
+
   ///editSubject
   router.post('/editSubject', function(req, res) {
     // genral عام
