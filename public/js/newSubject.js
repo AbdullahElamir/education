@@ -125,6 +125,11 @@ $('body').on('click', '#dela', function(){
   $('body').on('click', '#sh', function(){
     var id = $(this).val();
     $.get('/subject/getSubject/'+id,function(subject){
+      $('#Heading1').replaceWith( "<h4 id='Heading1' class='modal-title custom_align'>عرض بيانات مادة "+ subject[0].name+": </h4>");
+      $('#subject_name').val(subject[0].name);
+      $('#subject_name_en').val(subject[0].name_en);
+      $('#subject_code').val(subject[0].code);
+      $('#subject_no_th_unit').val(subject[0].no_th_unit);
       $('#no_pr_unit').val(subject[0].no_pr_unit);
       $('#no_pr_hour').val(subject[0].no_pr_hour);
       $('#chapter_degree').val(subject[0].chapter_degree);
