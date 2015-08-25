@@ -85,14 +85,15 @@ block cPanel
                         th.text-center إضافة
                       tbody
                         for d in dept
-                          tr()
-                            td #{d.Subject.name}
-                            td #{d.Subject.code}
-                            td #{d.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right                   
+                          if d.Subject != null
+                            tr()
+                              td #{d.Subject.name}
+                              td #{d.Subject.code}
+                              td #{d.sub_group_name}
+                              td.text-center
+                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                  button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                    span.glyphicon.glyphicon-hand-right                   
             #generale_teble
               .panel.panel-default
                 .panel-heading
@@ -115,14 +116,15 @@ block cPanel
                         th.text-center إضافة
                       tbody
                         for g in gen
-                          tr()
-                            td #{g.Subject.name}
-                            td #{g.Subject.code}
-                            td #{g.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right              
+                          if g.Subject != nul
+                            tr()
+                              td #{g.Subject.name}
+                              td #{g.Subject.code}
+                              td #{g.sub_group_name}
+                              td.text-center
+                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                  button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                    span.glyphicon.glyphicon-hand-right              
 
             #Division_teble
               .panel.panel-default
@@ -146,14 +148,15 @@ block cPanel
                         th.text-center إضافة
                       tbody
                         for di in div
-                          tr()
-                            td #{di.Subject.name}
-                            td #{di.Subject.code}
-                            td #{di.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right
+                          if di.Subject != nul
+                            tr()
+                              td #{di.Subject.name}
+                              td #{di.Subject.code}
+                              td #{di.sub_group_name}
+                              td.text-center
+                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                  button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                    span.glyphicon.glyphicon-hand-right
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#updateG.form(role="form")
