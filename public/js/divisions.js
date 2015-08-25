@@ -10,14 +10,14 @@ $(document).ready(function(){
     $.get('/division/deleteDivision/'+$(this).val(),function(todo){
       switch(todo.msg){
         case "1" :
-          custNotify("success","نحح","لقد تم مسح القسم بنجاح","ok-sign");
+          custNotify("success","نجح","لقد تم مسح الشعبة بنجاح","ok-sign");
           $('[data-id = "'+id+'"]').remove();
           break;
         case "2" :
-          custNotify("danger","فشل","لايمكن مسح القسم لوجود كيانات معتمدة عليه","warning-sign");
+          custNotify("danger","فشل","لايمكن مسح الشعبة لوجود كيانات معتمدة عليها","warning-sign");
           break;
         case "3" :
-          custNotify("danger","فشل","لايمكن مسح القسم عام وذلك لاعتماد المنظومة عليه","warning-sign");
+          custNotify("danger","فشل","لايمكن مسح الشعبة عام وذلك لاعتماد المنظومة عليها","warning-sign");
           break;
         default:
           break; 

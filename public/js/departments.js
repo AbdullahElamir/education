@@ -8,7 +8,7 @@ $(document).ready(function(){
     $.get('/department/deleteDepartment/'+$(this).val(),function(todo){
       switch(todo.msg){
         case "1" :
-          custNotify("success","نحح","لقد تم مسح القسم بنجاح","ok-sign");
+          custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign");
           $('[data-id = "'+id+'"]').remove();
           break;
         case "2" :
