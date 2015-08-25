@@ -34,21 +34,17 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped(border="0")
               thead
-                th
-                  input#checkall(type="checkbox")
                 th اسم الشعبة
                 th تندرج تحت قسم
                 th.text-left Fall under department
                 th.text-left Division name
-                th(style="width:15%;")
+                th(style="width:5%;")
                 th.text-center تنسيب
                 th.text-center تعديل
                 th.text-center الغاء
               tbody#tbody
                 for Division in divisions
                   tr(data-id = '#{Division.id}' ,data-name = '#{Division.name}',data-name_en = '#{Division.name_en}',data-departmentid='#{Division.DepartmentId}')
-                    td
-                      input.checkthis(type="checkbox")
                     td #{Division.name}
                     td #{Division.Department.name}
                     td.text-left #{Division.Department.name_en}
@@ -89,8 +85,8 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label.h4 اسم الشعبة
-                  input.form-control#name(type="text", name="name", placeholder="اسم القسم")
-                .col-xs-6.col-md-6
+                  input.form-control#name(type="text", name="name", placeholder="اسم الشعبة")
+                .col-xs-6.col-md-6.text-left
                   label.h4.pull-left Division name
                   input.form-control#name_en(type="text", name="name_en", placeholder="Division name", dir='ltr')
             .form-group
@@ -137,16 +133,5 @@ block cPanel
   script(src='/js/divisions.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-            $("#mytable input[type=checkbox]").each(function () {
-              $(this).prop("checked", true);
-            });
-        } else {
-            $("#mytable input[type=checkbox]").each(function () {
-                $(this).prop("checked", false);
-            });
-          }
-      });
       $("[data-toggle=tooltip]").tooltip();
     });

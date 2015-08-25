@@ -49,7 +49,6 @@ $(document).ready(function(){
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
             '<td></td>'+
@@ -82,7 +81,7 @@ $(document).ready(function(){
     }
     return false;
   });
-
+  
   $("#formDepartment").validate({
     rules:{
       name:{
@@ -103,11 +102,9 @@ $(document).ready(function(){
     errorClass: 'custom-error',
     highlight: function(element) {
       $(element).closest('.form-group').addClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
     },
     unhighlight: function(element) {
       $(element).closest('.form-group').removeClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
   });
 
@@ -146,4 +143,8 @@ $(document).ready(function(){
     var pageUrl = '/department'
     window.history.pushState("","",pageUrl);
   }
+  $('#edit').on('hidden.bs.modal', function(){
+    $('.form-group').removeClass('has-error');
+    $('#formDepartment').validate().resetForm();
+  });
 });
