@@ -49,7 +49,7 @@ block cPanel
                   tbody#Acbody
                     for re in res
                       if re.Sub_group.Subject != null
-                        tr(data-id = '#{re.id}',data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}")
+                        tr(data-id = '#{re.id}',data-sub="#{re.subject_status}",data-case="#{re.result_case}",data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}")
                           td #{re.Sub_group.Subject.name}
                           td #{re.Sub_group.Subject.name_en}
                           td #{re.Sub_group.Subject.code}
@@ -85,14 +85,15 @@ block cPanel
                         th.text-center إضافة
                       tbody
                         for d in dept
-                          tr()
-                            td #{d.Subject.name}
-                            td #{d.Subject.code}
-                            td #{d.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right                   
+                          if d.Subject != null
+                            tr()
+                              td #{d.Subject.name}
+                              td #{d.Subject.code}
+                              td #{d.sub_group_name}
+                              td.text-center
+                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                  button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                    span.glyphicon.glyphicon-hand-right                   
             #generale_teble
               .panel.panel-default
                 .panel-heading
@@ -115,14 +116,15 @@ block cPanel
                         th.text-center إضافة
                       tbody
                         for g in gen
-                          tr()
-                            td #{g.Subject.name}
-                            td #{g.Subject.code}
-                            td #{g.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right              
+                          if g.Subject != nul
+                            tr()
+                              td #{g.Subject.name}
+                              td #{g.Subject.code}
+                              td #{g.sub_group_name}
+                              td.text-center
+                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                  button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                    span.glyphicon.glyphicon-hand-right              
 
             #Division_teble
               .panel.panel-default
@@ -146,14 +148,15 @@ block cPanel
                         th.text-center إضافة
                       tbody
                         for di in div
-                          tr()
-                            td #{di.Subject.name}
-                            td #{di.Subject.code}
-                            td #{di.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right
+                          if di.Subject != nul
+                            tr()
+                              td #{di.Subject.name}
+                              td #{di.Subject.code}
+                              td #{di.sub_group_name}
+                              td.text-center
+                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                  button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                    span.glyphicon.glyphicon-hand-right
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#updateG.form(role="form")
@@ -171,6 +174,25 @@ block cPanel
                 .col-xs-6.col-md-6 
                   lable درجة النهائي
                   input.form-control#final_exam(type="text", name="final_exam", value="", placeholder="درجة النهائي")
+            .form-group
+              .row
+                .col-xs-6.col-md-6
+                  lable حالة المادة
+                  select#subject_status.form-control.selectpicker(name="subject_status", data-live-search="true", data-size=5)
+                    option(value="1") تنزيل  
+                    option(value="2") إضافة
+                    option(value="3") إسقاط
+                .col-xs-6.col-md-6
+                  lable التقدير 
+                  select#result_case.form-control.selectpicker(name="result_case", data-live-search="true", data-size=5)
+                    option(value="", style='color:grey; display:none;') اختر التقدير...
+                    option(value="1") ممتاز  
+                    option(value="2") جيد جدا
+                    option(value="3") جيد
+                    option(value="4") مقبول  
+                    option(value="5") ضعيف
+                    option(value="6") ضعيف جدا
+
           .modal-footer
             button#upres.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign   
@@ -193,25 +215,6 @@ block cPanel
             span.glyphicon.glyphicon-remove
             |  لا
   
-  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align إلغاء قسم
-        .modal-body
-          .alert.alert-danger
-            span.glyphicon.glyphicon-warning-sign
-            |  هل انت متأكد من إلغاء هذا القسم؟
-        .modal-footer
-          button#ok.btn.btn-success(type="button", data-dismiss="modal")
-            span.glyphicon.glyphicon-ok-sign
-            |  نعم
-          button.btn.btn-default(type="button", data-dismiss="modal")
-            span.glyphicon.glyphicon-remove
-            |  لا
-
   #add.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
