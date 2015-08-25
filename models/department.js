@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Department.belongsTo(models.User, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }

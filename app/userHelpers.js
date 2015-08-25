@@ -102,5 +102,12 @@ module.exports = {
     }
     pagination = {pages : pages, next : next, previous : previous};
     return pagination;
-  }
+  },
+  checkGeneral : function(id){
+    if (id!=1){
+      return true;
+    } else {
+      return false;
+    }
+  },
 };
