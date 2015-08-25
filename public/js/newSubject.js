@@ -3,25 +3,16 @@ $(document).ready(function(){
   var subject=[];
   var toggle =1;
 
-
- 
-
-
-
-
-
   $('#subjectId').on('change', function() {
-    // $('#subjectId>option:selected').text()
-    // $(this).val() 
     var check=$.inArray($('#subjectId>option:selected').text(),subject)
     if(check == -1 )
     {
       iddd.push($(this).val() );
       subject.push($('#subjectId>option:selected').text());
-      $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+[$('#subjectId>option:selected').text(),$(this).val()]+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
+    //  alert($('#subjectId>option:selected').text());
+      $("#my").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+$(this).val()+"' data-id"+$(this).val()+"="+$('#subjectId>option:selected').text()+"  class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
     }
     else {
-      // alert("عفوا لايمكن ادخال المادة مرتين");
       $.notify({
         message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> عفوا لايمكن ادخال المادة مرتين </p>"
         },{
@@ -42,27 +33,63 @@ $(document).ready(function(){
     }    
   });
 
-
+  function removeItem(array, item){
+    for(var i in array){
+        if(array[i]==item){
+            array.splice(i,1);
+            break;
+            }
+    }
+    return array;
+}
+var x,y=[];
+ 
 $('body').on('click', '#dela', function(){
-   alert($(this).val());
-   //alert(iddd);
-   //alert(subject);
-/*   iddd.delete($(this).val() );
-   alert(iddd);*/
-   // subject.push($('#subjectId>option:selected').text());
-   /*$('#my').empty();
-   for(var i=0;i<iddd.length;i++){
-    $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+$(this).val()+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
-    }*/
+     x=removeItem(iddd,$(this).val());
+     if(x== 0)
+     {
+      $("#my").empty();
+      iddd=[];
+      subject=[];
+     }
+     else
+     {
+    $.post('/subject/getSub/',{x:x},function(subject){
+      var is=[];
+      var su=[];
+      for(i in subject)
+      {
+       is.push(subject[i].id); 
+       su.push(subject[i].name);
+      }
+
+      $("#my").empty();
+      for(var i=0;i<is.length;i++)
+      {
+       $("#my").append("<tr><td class='text-center'>"+su[i]+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+is[i]+"'  class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
+      }
+       iddd=is;
+        subject=su;
+
+    });
+
+  iddd=is;
+  subject=su;
+
+}
+  
+   
+  
 
   });
+
+
+
   $('body').on('click', '#save', function(){
    var isvalidate=$("#newSubject ,#updateSubject").valid();
  if($("#newSubject input[type='radio']:checked").val() == 1)
  {
   var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd}; 
-    
-  
     if(isvalidate){
       $.post('/subject/saveSubject',obj,function(todo){
         if(todo == true) {
