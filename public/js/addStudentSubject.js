@@ -156,5 +156,66 @@ $(document).ready(function(){
     return false;
   });
   
+  $("#addForm").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      chapter_degree:{
+        required: true,
+        number: true,
+      },
+      final_exam:{
+        required: true,
+        number: true,
+      },
+      subject_status:{
+        required:true,
+      },
+      result_case:{
+        required:true,
+      },
+    },
+    messages:{
+      chapter_degree:{
+        required: "الرجاء ادخال أعمال السنة!",
+        number: "الرجاء ادخال ارقام فقط!",
+      },
+      final_exam:{
+        required: "الرجاء ادخال درجة الامتحان النهائي!",
+        number: "الرجاء ادخال ارقام فقط!",
+      },
+      subject_status:{
+        required:"الرجاء اختيار حالة المادة!",
+      },
+      result_case:{
+        required:"الرجاء اختيار التقدير!",
+      },
+    },
+    errorClass: 'custom-error',
+    errorPlacement: function (error, element) {
+      if ($(element).is('select')) {
+          element.next().after(error);
+      } else {
+          error.insertAfter(element);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });
+
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
+  });
+  
+  $('#add').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('.form-group').removeClass('has-error');
+    $('#chapter, #final').val("");
+    $('.selectpicker').selectpicker('val', null);
+    $('#addForm').validate().resetForm();
+  });
 
 });
