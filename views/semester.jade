@@ -71,7 +71,7 @@ block navcPanel
                           span.glyphicon.glyphicon-screenshot
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
-      form.form(action="/semester/#{semester.id}/updateSemester/", method="post",accept-charset="utf-8", role="form")
+      form.form#editSemester(action="/semester/#{semester.id}/updateSemester/", method="post",accept-charset="utf-8", role="form")
         .modal-content
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -93,7 +93,7 @@ block navcPanel
                 .col-xs-6.col-md-6 
                   lable السنة الدراسية
                   .input-group.date#year
-                    input.form-control(type="text", name="year", value="#{semester.year.getFullYear()}", placeholder="السنة الدراسية")
+                    input.form-control.prevent(type="text", name="year", value="#{semester.year.getFullYear()}", placeholder="السنة الدراسية")
                     span.input-group-addon.success
                       span.fa.fa-calendar
             .form-group
@@ -101,13 +101,13 @@ block navcPanel
                 .col-xs-6.col-md-6
                   lable تاريخ بداية الفصل الدراسي
                   .input-group.date#starting_date
-                    input.form-control(type="text", name="starting_date", value="#{semester.starting_date.getFullYear()}-#{semester.starting_date.getMonth()+1}-#{semester.starting_date.getDate()}", placeholder="تاريخ البداية")
+                    input.form-control.prevent(type="text", name="starting_date", value="#{semester.starting_date.getFullYear()}-#{semester.starting_date.getMonth()+1}-#{semester.starting_date.getDate()}", placeholder="تاريخ البداية")
                     span.input-group-addon.success
                       span.fa.fa-calendar
                 .col-xs-6.col-md-6 
                   lable تاريخ نهاية الفصل الدراسي
                   .input-group.date#ending_date
-                    input.form-control(type="text", name="ending_date", value="#{semester.ending_date.getFullYear()}-#{semester.ending_date.getMonth()+1}-#{semester.ending_date.getDate()}", placeholder="تاريخ النهاية")
+                    input.form-control.prevent(type="text", name="ending_date", value="#{semester.ending_date.getFullYear()}-#{semester.ending_date.getMonth()+1}-#{semester.ending_date.getDate()}", placeholder="تاريخ النهاية")
                     span.input-group-addon.success
                       span.fa.fa-calendar
           .modal-footer

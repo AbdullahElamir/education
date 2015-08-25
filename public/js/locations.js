@@ -47,11 +47,16 @@ $(document).ready(function(){
       },
     },
     highlight: function(element) {
-      $(element).closest('.row').addClass('has-error');
+      $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error');
+      $(element).closest('.form-group').removeClass('has-error');
     },
+  });
+  $('#edit').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('.form-group').removeClass('has-error');
+    $('#updateLocation').validate().resetForm();
   });
 
   var qs = (function(a) {

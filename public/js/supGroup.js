@@ -123,7 +123,7 @@ $(document).ready(function(){
     $('#sub_group').validate().resetForm();
   });
 
-  $("#sub_group").validate({
+  $("#sub_group, #editForm").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
       FacultyMemberId:{
