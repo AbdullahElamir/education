@@ -18,7 +18,7 @@ $(document).ready(function(){
     {
       iddd.push($(this).val() );
       subject.push($('#subjectId>option:selected').text());
-      $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td></tr>");
+      $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+[$('#subjectId>option:selected').text(),$(this).val()]+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
     }
     else {
       // alert("عفوا لايمكن ادخال المادة مرتين");
@@ -40,6 +40,21 @@ $(document).ready(function(){
         },
       });
     }    
+  });
+
+
+$('body').on('click', '#dela', function(){
+   alert($(this).val());
+   //alert(iddd);
+   //alert(subject);
+/*   iddd.delete($(this).val() );
+   alert(iddd);*/
+   // subject.push($('#subjectId>option:selected').text());
+   /*$('#my').empty();
+   for(var i=0;i<iddd.length;i++){
+    $("#my > tbody").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+$(this).val()+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
+    }*/
+
   });
   $('body').on('click', '#save', function(){
    var isvalidate=$("#newSubject ,#updateSubject").valid();
@@ -160,9 +175,8 @@ $(document).ready(function(){
 
   $('body').on('click', '#delee', function(){
     subj=[];
-      subjId=[];
-        $("#myy ").empty();
-  
+    subjId=[];
+    $("#myy ").empty();
   var objj={pre:$(this).val() ,sub:x}
    $.post('/subject/deletePre/',objj,function(subject){
      $.get('/subject/getpreSubject/'+x,function(sub){
@@ -174,9 +188,6 @@ $(document).ready(function(){
           $("#myy").append("<tr><td class='text-center'>"+sub[i].name+"</td><td><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='delee' value='"+sub[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
         } 
       });
-
-
-
    });
   });
 
@@ -185,7 +196,6 @@ $(document).ready(function(){
 
       $('body').on('click', '#edittt', function(){
        var obj ={subName :subj , subPreId : subjId , subjectId : $(this).val() ,count :count}
-      
         $.post('/subject/updatePree/',obj,function(subject){
         //alert(subject);
         

@@ -175,7 +175,7 @@ var nationality = require('../Nationality');
     });
 
      router.post('/updatePree',function(req, res) {
-      for(var j=0;j<req.body.count ; j++)
+      for(var j=0;j<req.body.count-1 ; j++)
       {
         req.body.subPreId.shift();
       }
