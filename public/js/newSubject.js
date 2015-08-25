@@ -2,6 +2,14 @@ $(document).ready(function(){
   var iddd =[];
   var subject=[];
   var toggle =1;
+
+
+ 
+
+
+
+
+
   $('#subjectId').on('change', function() {
     // $('#subjectId>option:selected').text()
     // $(this).val() 
@@ -128,8 +136,109 @@ $(document).ready(function(){
       $('#user').val(subject[0].User.name);
     });
   });
+        var subj=[];
+        var subjId=[];
+        var count;
+    var x=0;
+    $('body').on('click', '#ed', function(){
+      $('#edittt').val($(this).val());
+      x=$(this).val();
+
+      subj=[];
+      subjId=[];
+        $("#myy ").empty();
+        $.get('/subject/getpreSubject/'+$(this).val(),function(sub){
+        $("#myy").append("<table id='myy' class='table table-bordered'><th class='text-center'>المواد التمهيدية</th></div>");
+        for (i in sub){
+          subj.push(sub[i].name);
+          subjId.push(sub[i].id);
+          count=sub.length;
+          $("#myy").append("<tr><td class='text-center'>"+sub[i].name+"</td><td><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='delee' value='"+sub[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
+        } 
+      });
+   });
+
+  $('body').on('click', '#delee', function(){
+    subj=[];
+      subjId=[];
+        $("#myy ").empty();
+  
+  var objj={pre:$(this).val() ,sub:x}
+   $.post('/subject/deletePre/',objj,function(subject){
+     $.get('/subject/getpreSubject/'+x,function(sub){
+        $("#myy").append("<table id='myy' class='table table-bordered'><th class='text-center'>المواد التمهيدية</th></div>");
+        for (i in sub){
+          subj.push(sub[i].name);
+          subjId.push(sub[i].id);
+          count=sub.length;
+          $("#myy").append("<tr><td class='text-center'>"+sub[i].name+"</td><td><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='delee' value='"+sub[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
+        } 
+      });
+
+
+
+   });
+  });
+
+
+
+
+      $('body').on('click', '#edittt', function(){
+       var obj ={subName :subj , subPreId : subjId , subjectId : $(this).val() ,count :count}
+      
+        $.post('/subject/updatePree/',obj,function(subject){
+        //alert(subject);
+        
+        });
+
+        
+      });
+
+      $('#subject_id').on('change', function() {
+        var subName= $('#subject_id>option:selected').text();
+        var subId=$(this).val();
+        
+         var check=$.inArray(subName,subj);
+        // alert(check);
+         if(check == -1)
+         {
+          subj.push(subName);
+          subjId.push(subId);
+        $("#myy").append("<tr id='hii'><td class='text-center'>"+subName+"</td><td><p ></p><button id='delee' value='"+subId+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
+         }else{
+        //$("#edit").popup("close");
+         $("#edit").modal('hide');
+        $.notify({
+          message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong>  عفوا لقد قمت بإدخال المادة سابقا  </p>"
+          },{
+          type: 'danger',
+          allow_dismiss: true,
+          showProgressbar: false,
+          placement: {
+            from: 'top',
+            align: 'center'
+          },
+          mouse_over: null,
+          newest_on_top: true,
+          animate: {
+            enter: 'animated bounceIn',
+            exit: 'animated bounceOut'
+          },
+        });
+         
+
+
+
+
+
+
+         }
+
+      });
+
   $('body').on('click', '#ed', function(){
     var id = $(this).val();
+
     $.get('/subject/getSubject/'+id,function(subject){
       $('#name').val(subject[0].name);
       $('#name_en').val(subject[0].name_en);
