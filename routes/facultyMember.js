@@ -80,6 +80,11 @@ var nationality = require('../Nationality');
     });
   });
 
+  // getAllNationality
+  router.get('/getAllNationality',function(req, res){
+    res.send(nationality);
+  });
+
   // updateFacultyMember
   router.post('/updateFacultyMember', function(req, res) {
     id = req.body.id;
