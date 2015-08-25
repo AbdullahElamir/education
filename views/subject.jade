@@ -34,8 +34,6 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
-                th
-                  input#checkall(type="checkbox")
                 th أسم المادة
                 th Subject name
                 th رمز المادة
@@ -48,8 +46,6 @@ block cPanel
           
               for i in Sub
                 tr(data-id = '#{i.id}')
-                  td
-                    input.checkthis(type="checkbox")
                   td #{i.name}
                   td #{i.name_en}
                   td #{i.code}
@@ -178,7 +174,6 @@ block cPanel
                 br
                 .form-group
                   .row
-
                     input#id.form-control(type="hidden",name="id")
                     .col-xs-3.col-md-3
                       label
@@ -260,10 +255,7 @@ block cPanel
                         
                     .col-xs-5.col-md-5
                       table#myy.table.table-bordered
-                        th.text-center المواد التمهيدية
-                          
-                         
-                          
+                        th.text-center المواد التمهيدية            
           .modal-footer
             button#edittt.btn.btn-warning.btn-lg(type="submit", style="margin-left:25%;width:50%;")
               span.glyphicon.glyphicon-ok-sign
@@ -298,16 +290,5 @@ block cPanel
   script(src='/js/backToTop.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-            $("#mytable input[type=checkbox]").each(function () {
-              $(this).prop("checked", true);
-            });
-        } else {
-            $("#mytable input[type=checkbox]").each(function () {
-                $(this).prop("checked", false);
-            });
-          }
-      });
-        $("[data-toggle=tooltip]").tooltip();
+      $("[data-toggle=tooltip]").tooltip();
     });
