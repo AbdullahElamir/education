@@ -170,6 +170,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=1;
+  console.log(req.body);
   req.body.sum_dagree= parseInt(req.body.chapter_degree)+parseInt(req.body.final_exam);
   models.Academic_transcript.findOrCreate({where: {status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
