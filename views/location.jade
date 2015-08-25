@@ -34,8 +34,6 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped
               thead
-                th
-                  input#checkall(type="checkbox")
                 th اسم القاعة
                 th.text-center كمية استعاب الطلبة
                 th.text-center تعديل
@@ -43,8 +41,6 @@ block cPanel
               tbody
               for i in loc
                 tr(data-id = '#{i.id}')
-                  td
-                    input.checkthis(type="checkbox")
                   td #{i.name}
                   td.text-center #{i.quantity}
                   td.text-center
@@ -65,7 +61,6 @@ block cPanel
                   a(href='?p=#{page.n}') #{page.n}
               li(class="#{pagination.next.disabled}")
                 a(href='?p=#{pagination.next.n}') التالي
-                
   #edit.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -79,10 +74,10 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label اسم القاعة
-                  input#name.form-control(type="text", name="name", placeholder="عرض اسم القاعة من قاعدة البيانات")
+                  input#name.form-control(type="text", name="name", placeholder="اسم القاعة")
                 .col-xs-6.col-md-6
                   label كمية استعاب الطلبة
-                  input#quantity.form-control(type="text", name="quantity", placeholder="عرض كمية استعاب الطلبة من قاعدة البيانات")
+                  input#quantity.form-control(type="text", name="quantity", placeholder="كمية استعاب الطلبة")
                   input#locid(type="hidden",name="locid")
           .modal-footer
             button#eitLoc.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
@@ -114,17 +109,5 @@ block cPanel
   script(src='/js/locations.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-          $("#mytable input[type=checkbox]").each(function () {
-            $(this).prop("checked", true);
-          });
-        } 
-        else {
-          $("#mytable input[type=checkbox]").each(function () {
-            $(this).prop("checked", false);
-          });
-        }
-      });
       $("[data-toggle=tooltip]").tooltip();   
     });

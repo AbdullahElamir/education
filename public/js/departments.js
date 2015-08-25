@@ -6,7 +6,22 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/department/deleteDepartment/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      console.log(todo);
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نحح","لقد تم مسح القسم بنجاح","ok-sign");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح القسم لوجود كيانات معتمدة عليه","warning-sign");
+          break;
+        case "3" :
+          custNotify("danger","فشل","لايمكن مسح القسم عام وذلك لاعتماد المنظومة عليه","warning-sign");
+          break;
+        default:
+          break; 
+
+      }
     });
   });
 
@@ -34,7 +49,6 @@ $(document).ready(function(){
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
             '<td></td>'+
@@ -51,7 +65,6 @@ $(document).ready(function(){
             },{
             type: 'success',
             allow_dismiss: true,
-            showProgressbar: false,
             placement: {
               from: 'top',
               align: 'center'
@@ -68,7 +81,7 @@ $(document).ready(function(){
     }
     return false;
   });
-
+  
   $("#formDepartment").validate({
     rules:{
       name:{
@@ -89,11 +102,9 @@ $(document).ready(function(){
     errorClass: 'custom-error',
     highlight: function(element) {
       $(element).closest('.form-group').addClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
     },
     unhighlight: function(element) {
       $(element).closest('.form-group').removeClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
   });
 
@@ -132,4 +143,8 @@ $(document).ready(function(){
     var pageUrl = '/department'
     window.history.pushState("","",pageUrl);
   }
+  $('#edit').on('hidden.bs.modal', function(){
+    $('.form-group').removeClass('has-error');
+    $('#formDepartment').validate().resetForm();
+  });
 });

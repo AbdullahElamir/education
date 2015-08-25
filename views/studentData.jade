@@ -41,17 +41,16 @@ block cPanel
                   th.text-center السنة الدراسية
                   th.text-center هل هذا الفصل الحالي
                   th.text-center القــسم
-                  th.text-center الشعــبةس
-                  th.text-center عرض 
+                  th.text-center الشعــبة
                   th.text-center تنزيل 
                 tbody
                 for i in semStudent
                   tr(data-id = '')
                     td
                       if i.Semester.system_type == 1
-                        | سنة 
+                        |  فصل
                       if i.Semester.system_type == 2
-                        | فصل 
+                        |  سنة
 
                      
                     td #{i.Semester.year.getFullYear()}
@@ -59,12 +58,8 @@ block cPanel
                     td #{i.Department.name}
                     td #{i.Division.name}
                     td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="عرض بينات الفصل")  
-                        a.btn.btn-primary.btn-xs(href="/transcript/studentSemesters/",value="#{i.id}",data-title="Delete", data-toggle="modal")
-                          span.glyphicon.glyphicon-eye-open
-                    td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تنزيل المواد")  
-                        a.btn.btn-primary.btn-xs(href='/transcript/addStudentSubject/',value="#{i.id}",data-title="Delete", data-toggle="modal")
+                        a.btn.btn-primary.btn-xs(href='/transcript/addStudentSubject/#{i.id}',value="#{i.id}",data-title="Delete", data-toggle="modal")
                           span.glyphicon.glyphicon-pencil        
  
 

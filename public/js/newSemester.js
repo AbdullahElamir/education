@@ -12,6 +12,12 @@ $(document).ready(function(){
     });
   });
   $('#sem_type').hide();
+  $.validator.addMethod("greaterThan", function(value, element, params) {    
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) > new Date($(params[0]).val());
+    }    
+    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+  },'يجب ان يكون تاريخ النهاية اكبر من البداية!');
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -23,12 +29,14 @@ $(document).ready(function(){
       },
       current:{
         required: true,
+        equalTo: 'input[name="starting_date"]',
       },
       starting_date:{
         required: true,
       },
       ending_date:{
         required: true,
+        greaterThan: '#starting_date',
       },
     },
     messages:{
@@ -40,6 +48,7 @@ $(document).ready(function(){
       },
       current:{
         required: "الرجاء الاجابة بنعم أو لا!",
+        equalTo: "الرجاء ادخال السنة صحصة!"
       },
       starting_date:{
         required: "الرجاء اختيار تاريخ بداية الفصل!",
@@ -151,4 +160,12 @@ $(document).ready(function(){
     var pageUrl = '/semester'
     window.history.pushState("","",pageUrl);
   }
-});newSemester
+
+  $(".prevent").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 122 || key == 27 )
+      {}
+    else
+      e.preventDefault();
+  });
+});

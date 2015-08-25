@@ -127,6 +127,7 @@ $(document).ready(function(){
     rules:{
       name:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       qualification:{
         required: true,
@@ -136,6 +137,7 @@ $(document).ready(function(){
       },
       specialization:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       gender:{
         required: true,
@@ -148,13 +150,16 @@ $(document).ready(function(){
       },
       place_birth:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       physical_address:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       phoneFaculty:{
         required: true,
         number: true,
+        digits: true,
       },
     },
     messages:{
@@ -187,7 +192,8 @@ $(document).ready(function(){
       },
       phoneFaculty:{
         required: "الرجاء ادخال رقم الهاتف!",
-        number: "يجب ان يحتوي رقم الهاتف علي ارقام فقط!"
+        number: "يجب ان يحتوي رقم الهاتف علي ارقام فقط!",
+        digits: "الرجاء ادخال ارقام صحيحة فقط!",
       },
     },
     // errorElement: 'span',
@@ -206,6 +212,16 @@ $(document).ready(function(){
     unhighlight: function(element) {
       $(element).closest('.row').removeClass('has-error');
     },
+  });
+  $('.selectpicker').selectpicker().change(function(){
+    $(this).valid()
+  });
+  $(".prevent").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 122 || key == 27 )
+      {}
+    else
+      e.preventDefault();
   });
 
   var qs = (function(a) {

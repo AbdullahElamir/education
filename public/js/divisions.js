@@ -41,7 +41,6 @@ $(document).ready(function(){
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td>'+data.result[0].name+'</td>'+
             '<td class="text-left">'+data.result[0].name_en+'</td>'+
@@ -149,10 +148,14 @@ $(document).ready(function(){
       }
     },
     highlight: function(element) {
-      $(element).closest('.row').addClass('has-error');
+      $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error');
+      $(element).closest('.form-group').removeClass('has-error');
     },
+  });
+  $('#edit').on('hidden.bs.modal', function(){
+    $('.form-group').removeClass('has-error');
+    $('#formDivision').validate().resetForm();
   });
 });
