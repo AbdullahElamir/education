@@ -27,6 +27,7 @@ $(document).ready(function(){
     var bb = bDate.split(" ");
     var cdate = $('[data-id = "'+myDataAttr+'"]').data('date_cert')
     var cd = cdate.split(" ");
+    console.log(cd);
     $('#first_name').val($('[data-id = "'+myDataAttr+'"]').data('first_name'));
     $('#first_name_en').val($('[data-id = "'+myDataAttr+'"]').data('first_name_en'));
     $('#father_name').val($('[data-id = "'+myDataAttr+'"]').data('father_name'));

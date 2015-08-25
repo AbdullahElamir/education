@@ -51,13 +51,11 @@ var nationality = require('../Nationality');
       }
     }).then(function(Departments) {
       res.render('newFacultyMember', { title: 'إضافة محاضر جديد',nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
-    });
-    
+    });    
   });
 
   router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
-    // req.body.DepartmentId=5;
     models.Faculty_member.create(req.body).then(function() {
       res.redirect('/facultyMember');
     });
@@ -83,6 +81,17 @@ var nationality = require('../Nationality');
   // getAllNationality
   router.get('/getAllNationality',function(req, res){
     res.send(nationality);
+  });
+
+  // getAllDepartment
+  router.get('/getAllDepartment',userHelpers.isLogin, function(req, res) {
+    models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(Departments) {
+      res.send(Departments);
+    });
   });
 
   // updateFacultyMember
