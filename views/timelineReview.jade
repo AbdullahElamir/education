@@ -20,14 +20,14 @@ block cPanel
             .row
               .col-xs-6.col-md-6
                 label.h4 اسم القسم
-                select.form-control.selectpicker#department(name="department")
+                select.form-control.selectpicker#department(name="department", data-size=5)
                   option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
                   option(value="1") قسم1
                   option(value="2") قسم2
                   option(value="2") قسم3
               .col-xs-6.col-md-6
                 label.h4 النظام الدراسي
-                select.form-control.selectpicker#semester(name="semester")
+                select.form-control.selectpicker#semester(name="semester", data-size=5)
                   option(value="", style='color:grey; display:none;') الرجاء النظام الدراسي...
                   option(value="1") ربيع 2014
                   option(value="2") خريف 2015

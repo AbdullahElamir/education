@@ -29,6 +29,7 @@ $(document).ready(function(){
       },
       current:{
         required: true,
+        equalTo: 'input[name="starting_date"]',
       },
       starting_date:{
         required: true,
@@ -47,6 +48,7 @@ $(document).ready(function(){
       },
       current:{
         required: "الرجاء الاجابة بنعم أو لا!",
+        equalTo: "الرجاء ادخال السنة صحصة!"
       },
       starting_date:{
         required: "الرجاء اختيار تاريخ بداية الفصل!",
