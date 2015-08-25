@@ -8,7 +8,20 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/division/deleteDivision/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نحح","لقد تم مسح القسم بنجاح","ok-sign");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح القسم لوجود كيانات معتمدة عليه","warning-sign");
+          break;
+        case "3" :
+          custNotify("danger","فشل","لايمكن مسح القسم عام وذلك لاعتماد المنظومة عليه","warning-sign");
+          break;
+        default:
+          break; 
+      }
     });
   });
 

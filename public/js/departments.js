@@ -6,7 +6,6 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/department/deleteDepartment/'+$(this).val(),function(todo){
-      console.log(todo);
       switch(todo.msg){
         case "1" :
           custNotify("success","نحح","لقد تم مسح القسم بنجاح","ok-sign");
@@ -20,7 +19,6 @@ $(document).ready(function(){
           break;
         default:
           break; 
-
       }
     });
   });
