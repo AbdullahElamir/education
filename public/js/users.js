@@ -41,7 +41,6 @@ $(document).ready(function(){
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td>'+$("form").serializeObject().email1+'</td>'+
             '<td>'+$("form").serializeObject().phone+'</td>'+
@@ -156,4 +155,11 @@ $(document).ready(function(){
     var pageUrl = '/users'
     window.history.pushState("","",pageUrl);
   }
+
+  // This function to remove and reset "form" from validation and value when close or hide bootstrap modal!
+  $('#edit').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('#password, #newPassword, #newConfirmPassword').val("");
+    $('#formUsers').validate().resetForm();
+  });
 });    
