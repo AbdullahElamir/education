@@ -10,13 +10,15 @@ block content
     .row
       .col-xs-10.col-xs-offset-1.col-md-6.col-md-offset-3
         .panel.panel-login
+          br
+          .text-center
+            span.text-muted.h3 المعهد‪ ‬العالي‪ ‬للمهن‪ ‬الطبية‪ ‬القره‪ ‬بوللي‬
+          hr
           .panel-heading
-            .row
-              .col-xs-6
-                a#loginFormLink.active(href="#") دخول
-              .col-xs-6
-                a#registerFormLink(href="#") تسجيل
-            hr
+            .text-center
+              span.text-muted.h4 شاشة الدخول
+              //- .col-xs-6
+              //-   a#registerFormLink(href="#") تسجيل
           .panel-body
             .row
               .col-lg-12
@@ -25,20 +27,20 @@ block content
                     input#username.form-control(type="text", name="username", tabindex="1", placeholder="اسم المستخدم")
                   .form-group.text-center
                     input#password.form-control(type="password", name="password", tabindex="2", placeholder="كلمة المرور")
-                  .form-group.text-center
-                    input#remember(type="checkbox", tabindex="3", name="remember")                    
-                    | 
-                    label(for="remember")  ذكرني
+                  //- .form-group.text-center
+                  //-   input#remember(type="checkbox", tabindex="3", name="remember")                    
+                  //-   | 
+                  //-   label(for="remember")  ذكرني
                   .form-group
                     .row
                       .col-lg-12
                         .text-center
                           input#loginSubmit.form-control.btn.btn-login(type="submit", name="login-submit", tabindex="4", value="تسجيل الدخول")
-                  .form-group
-                    .row
-                      .col-lg-12
-                        .text-center
-                          a#forgetFormLink.forgot-password(href="#", tabindex="5") هل نسيت كلمة المرور؟
+                  //- .form-group
+                  //-   .row
+                  //-     .col-lg-12
+                  //-       .text-center
+                  //-         a#forgetFormLink.forgot-password(href="#", tabindex="5") هل نسيت كلمة المرور؟
                 form#registerForm(action="", method="post", role="form", style="display: none;")
                   .form-group.text-center
                     input#username.form-control(type="text", name="username", tabindex="1", placeholder="اسم المستخدم", value="")
