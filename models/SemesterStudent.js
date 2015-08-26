@@ -8,31 +8,31 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         SemesterStudent.belongsTo(models.Student, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         SemesterStudent.belongsTo(models.Division, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         SemesterStudent.belongsTo(models.Department, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         SemesterStudent.belongsTo(models.User, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         SemesterStudent.belongsTo(models.Semester, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }

@@ -35,11 +35,6 @@ $(document).ready(function(){
       };
     });
   });
-  
-  $('body').on('click', '#save', function (e) {
-    e.preventDefault();
-    $('#updateFacultyMember').submit();
-  });
 
   $.get('/facultyMember/getAllNationality/',function(todo){
     for (var i = 0; i < todo.length; i++) {
@@ -50,13 +45,14 @@ $(document).ready(function(){
 
   $.get('/facultyMember/getAllDepartment/',function(todo){
     for (k in todo) {
-      // dept.push(k);
       dept.push(todo[k]);
-      // console.log(dept);
     };
   });
-  
-  
+
+  $('body').on('click', '#save', function (e) {
+    e.preventDefault();
+    $('#updateFacultyMember').submit();
+  });
   
   $("#updateFacultyMember").submit(function(e) {
     var isvalidate = $("#updateFacultyMember").valid();
@@ -71,12 +67,6 @@ $(document).ready(function(){
             else {
               var gender = "أنثى";
             }
-          for (var i = 0; i < dept.length; i++) {
-            if ($("form").serializeObject().DepartmentId == i) {
-              // console.log(dept[i].name-1);
-              console.log(dept[i-1].name);
-            };
-          };
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'" data-name="'+$("form").serializeObject().name+'" data-qualification="'+$("form").serializeObject().qualification+'" data-specialization="'+$("form").serializeObject().specialization+'" data-gender="'+$("form").serializeObject().gender+'" data-nationality="'+$("form").serializeObject().nationality+'" data-birth_date="'+$("form").serializeObject().birth_date+'" data-physical_address="'+$("form").serializeObject().physical_address+'" data-phone="'+$("form").serializeObject().phone+'" data-place_birth="'+$("form").serializeObject().place_birth+'">'+
               '<td>'+

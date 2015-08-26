@@ -22,6 +22,7 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         Division.belongsToMany(models.Subject, {
+          onDelete: "restrict",
           through: 'DivisionSubject'
         });
         

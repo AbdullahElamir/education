@@ -106,19 +106,19 @@ var nationality = require('../Nationality');
   });
 
   router.get('/deleteDivision/:id', function(req, res) {
-    models.Division.find({
-      where: {
-        id: req.params.id
-      }
+    if (userHelpers.checkGeneral(req.params.id)){
+      models.Division.destroy({
+        where: {
+          id: req.params.id
+        }      
       }).then(function (todo) {
-      todo.updateAttributes({
-          status: 0
-      }).then(function (todo) {
-          res.send(todo);
+        res.send({msg:"1"});
       }).catch(function (err) {
-          console.log(err);
+        res.send({msg:"2"});
       });
-    });
+    } else {
+      res.send({msg:"3"});
+    }
   });
 // ///  End division  ////////////////////////////////////////////////
 
