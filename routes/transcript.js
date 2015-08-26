@@ -32,6 +32,33 @@ var nationality = require('../Nationality');
       response.result.pipe(res);
     });
   });
+
+  // getAllNationality
+  router.get('/',function(req, res){
+    models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+      ).then(function(subjectsS){
+      console.log(subjectsS);
+      res.render();
+      });
+    });
+
+
+       /*  router.get('/transcript', function(req,res) {
+       models.SemesterStudents.findAll({
+        where: { 
+        status: 1 , 
+        
+      },
+      "include" : [
+        {"model" : models.Semester},
+        {"model"  : models.Divisions},
+        {"model"  : models.Departments},
+        {"model"  : models.Users}
+      ],
+    }).then(function(sem) {
+      console.log(sem);
+      res.send(sem);
+    });*/
 // End transcript /////////////////////////////////////////////////////////
 
 
