@@ -9,13 +9,13 @@ block cPanel
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default تنزيل المواد
-          .btn.btn-default.active عرض الطلبة
+          a.btn.btn-default(href="/transcript/Academictranscripts") تنزيل المواد للطلبة
+          a.btn.btn-default(href="#") عرض فصول الطلبة
+          .btn.btn-default.active سنة
         .pull-left(style="margin-left: 15px;")
-          a.btn.btn-success(href='/transcript/studentData/', role='button',data-toggle='modal')
+          a.btn.btn-success(href='#', role='button',data-toggle='modal')
             i.fa.fa-arrow-left
-            span  رجوع   
-   
+            span  رجوع 
         br
         br
         br
@@ -36,9 +36,9 @@ block cPanel
               .panel-heading
                 .row
                   .pull-right(style="margin-right: 10px;")
-                    h3#h3.panel-title تنزيل مواد ..
+                    .panel-title تنزيل مواد ..
               .table-responsive
-                table#mytable.table.table-bordred.table-striped.text-right
+                table.table.table-bordred.table-striped.text-right
                   thead
                     th اسم المادة
                     th Subject Name
@@ -68,95 +68,73 @@ block cPanel
                 .panel-heading
                   .row
                     .pull-right(style="margin-right: 10px;")
-                      h3#h3.panel-title عرض المواد القسم  
-                    .col-xs-6.col-md-6
-                      .input-group
-                        input.form-control(type='text', placeholder='بحث...')
-                        .input-group-btn
-                          button.btn.btn-default
-                            i.glyphicon.glyphicon-search    
-                          
-                  .table-responsive
-                    table#mytable.table.table-bordred.table-striped.text-right
-                      thead
-                        th اسم المادة
-                        th رمز المادة
-                        th المجموعة
-                        th.text-center إضافة
-                      tbody
-                        for d in dept
-                          if d.Subject != null
-                            tr()
-                              td #{d.Subject.name}
-                              td #{d.Subject.code}
-                              td #{d.sub_group_name}
-                              td.text-center
-                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                  button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                    span.glyphicon.glyphicon-hand-right                   
+                      .panel-title عرض المواد القسم
+                .table-responsive
+                  table#mytable.table.table-bordred.table-striped.text-right
+                    thead
+                      th اسم المادة
+                      th رمز المادة
+                      th المجموعة
+                      th.text-center إضافة
+                    tbody
+                      for d in dept
+                        if d.Subject != null
+                          tr()
+                            td #{d.Subject.name}
+                            td #{d.Subject.code}
+                            td #{d.sub_group_name}
+                            td.text-center
+                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                  span.glyphicon.glyphicon-hand-right                   
             #generale_teble
               .panel.panel-default
                 .panel-heading
                   .row
                     .pull-right(style="margin-right: 10px;")
-                      h3#h3.panel-title عرض المواد العامة 
-                    .col-xs-6.col-md-6
-                      .input-group
-                        input.form-control(type='text', placeholder='بحث...')
-                        .input-group-btn
-                          button.btn.btn-default
-                            i.glyphicon.glyphicon-search     
-                      
-                  .table-responsive
-                    table#mytable.table.table-bordred.table-striped.text-right
-                      thead
-                        th اسم المادة
-                        th رمز المادة
-                        th المجموعة
-                        th.text-center إضافة
-                      tbody
-                        for g in gen
-                          if g.Subject != nul
-                            tr()
-                              td #{g.Subject.name}
-                              td #{g.Subject.code}
-                              td #{g.sub_group_name}
-                              td.text-center
-                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                  button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                    span.glyphicon.glyphicon-hand-right              
-
+                      .panel-title عرض المواد العامة    
+                .table-responsive
+                  table#mytable.table.table-bordred.table-striped.text-right
+                    thead
+                      th اسم المادة
+                      th رمز المادة
+                      th المجموعة
+                      th.text-center إضافة
+                    tbody
+                      for g in gen
+                        if g.Subject != nul
+                          tr()
+                            td #{g.Subject.name}
+                            td #{g.Subject.code}
+                            td #{g.sub_group_name}
+                            td.text-center
+                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                  span.glyphicon.glyphicon-hand-right
             #Division_teble
               .panel.panel-default
                 .panel-heading
                   .row
                     .pull-right(style="margin-right: 10px;")
-                      h3#h3.panel-title عرض المواد الشعبة
-                    .col-xs-6.col-md-6
-                      .input-group
-                        input.form-control(type='text', placeholder='بحث...')
-                        .input-group-btn
-                          button.btn.btn-default
-                            i.glyphicon.glyphicon-search     
-                      
-                  .table-responsive
-                    table#mytable.table.table-bordred.table-striped.text-right
-                      thead
-                        th اسم المادة
-                        th رمز المادة
-                        th المجموعة
-                        th.text-center إضافة
-                      tbody
-                        for di in div
-                          if di.Subject != nul
-                            tr()
-                              td #{di.Subject.name}
-                              td #{di.Subject.code}
-                              td #{di.sub_group_name}
-                              td.text-center
-                                p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                  button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                    span.glyphicon.glyphicon-hand-right
+                      .panel-title عرض المواد الشعبة   
+                .table-responsive
+                  table#mytable.table.table-bordred.table-striped.text-right
+                    thead
+                      th اسم المادة
+                      th رمز المادة
+                      th المجموعة
+                      th.text-center إضافة
+                    tbody
+                      for di in div
+                        if di.Subject != nul
+                          tr()
+                            td #{di.Subject.name}
+                            td #{di.Subject.code}
+                            td #{di.sub_group_name}
+                            td.text-center
+                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                                button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                  span.glyphicon.glyphicon-hand-right
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#updateG.form(role="form")
@@ -192,7 +170,6 @@ block cPanel
                     option(value="4") مقبول  
                     option(value="5") ضعيف
                     option(value="6") ضعيف جدا
-
           .modal-footer
             button#upres.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign   
@@ -214,7 +191,6 @@ block cPanel
           button.btn.btn-default(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-remove
             |  لا
-  
   #add.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -228,17 +204,18 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   lable أعمال السنة
-                  input.form-control#chapter(type="text", name="chapter_degree", value="0", placeholder="أعمال السنة")
+                  input.form-control#chapter(type="text", name="chapter_degree", placeholder="أعمال السنة")
                 .col-xs-6.col-md-6 
                   lable درجة النهائي
-                  input.form-control#final(type="text", name="final_exam", value="0", placeholder="درجة النهائي")
+                  input.form-control#final(type="text", name="final_exam", placeholder="درجة النهائي")
             .form-group
               .row
                 .col-xs-6.col-md-6
                   lable حالة المادة
                   input(type="hidden",name="StudentId",value="#{sem.StudentId}")
                   select.form-control.selectpicker(name="subject_status", data-live-search="true", data-size=5)
-                    option(value="1", selected) تنزيل  
+                    option(value="", style='color:grey; display:none;') اختر الحالة...
+                    option(value="1") تنزيل  
                     option(value="2") إضافة
                     option(value="3") إسقاط
                 .col-xs-6.col-md-6
@@ -255,11 +232,9 @@ block cPanel
                   input#subG(type="hidden",name="SubGroupId",value="")
         .modal-footer
           button#submit.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign                               
-
-
-
-
+            span.glyphicon.glyphicon-ok-sign
+            | 
+            span حسنا
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/backToTop.js')

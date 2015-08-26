@@ -23,19 +23,20 @@ module.exports = function(sequelize, DataTypes) {
           through: 'SubjectHasPrerequisites'
         });
         Subject.belongsTo(models.User, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Subject.belongsTo(models.Department, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
 
         Subject.belongsToMany(models.Division, {
+          onDelete: "restrict",
           through: 'DivisionSubject'
         });
         

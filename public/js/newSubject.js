@@ -315,7 +315,17 @@ $('body').on('click', '#dela', function(){
   $('body').on('click','#ok', function(){
     var id=$(this).val();
     $.get('/subject/deleteSubject/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح المادة بنجاح","ok-sign");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح المادة لوجود كيانات معتمدة عليها","warning-sign");
+          break;
+        default:
+          break; 
+      }
     });
   });
   $('#department_select').hide(0);

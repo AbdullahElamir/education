@@ -8,7 +8,20 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/division/deleteDivision/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح الشعبة بنجاح","ok-sign");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح الشعبة لوجود كيانات معتمدة عليها","warning-sign");
+          break;
+        case "3" :
+          custNotify("danger","فشل","لايمكن مسح الشعبة عام وذلك لاعتماد المنظومة عليها","warning-sign");
+          break;
+        default:
+          break; 
+      }
     });
   });
 

@@ -67,9 +67,9 @@ var nationality = require('../Nationality');
           id: req.params.id
         }      
       }).then(function (todo) {
-        res.send({msg:"1"});
+        res.send({msg:"1"});//got deleted successfully
       }).catch(function (err) {
-        res.send({msg:"2"});
+        res.send({msg:"2"});//has foreign-key restriction
       });
     } else {
       res.send({msg:"3"});
