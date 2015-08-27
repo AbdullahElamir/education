@@ -78,7 +78,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
 
          models.SemesterStudent.findAll({
           where: {
-          status: 1
+          status: 1,
+          id: req.params.id
           },
       "include" : [
         {"model" : models.Division},
@@ -87,7 +88,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
         {"model"  : models.Semester},
       ],
          }).then(function(semstudent) {
-
         res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
       });
       });
