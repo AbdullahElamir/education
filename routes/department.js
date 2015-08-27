@@ -80,6 +80,8 @@ var nationality = require('../Nationality');
     res.render('newDepartment', { title: 'إضافة قسم جديد', collapseFour: 'collapse in', activeFourTwo: 'active' });
   });
 
+
+
   router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
     models.Department.create(req.body).then(function() {

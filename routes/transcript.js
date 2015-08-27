@@ -16,7 +16,7 @@ var nationality = require('../Nationality');
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
 
-var objStudent=0;
+
 
 // Start transcript /////////////////////////////////////////////////////////
   router.get('/transcript', function(req, res, next) {
@@ -32,6 +32,33 @@ var objStudent=0;
       response.result.pipe(res);
     });
   });
+
+  // getAllNationality
+  router.get('/',function(req, res){
+    models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
+      ).then(function(subjectsS){
+      console.log(subjectsS);
+      res.render();
+      });
+    });
+
+
+       /*  router.get('/transcript', function(req,res) {
+       models.SemesterStudents.findAll({
+        where: { 
+        status: 1 , 
+        
+      },
+      "include" : [
+        {"model" : models.Semester},
+        {"model"  : models.Divisions},
+        {"model"  : models.Departments},
+        {"model"  : models.Users}
+      ],
+    }).then(function(sem) {
+      console.log(sem);
+      res.send(sem);
+    });*/
 // End transcript /////////////////////////////////////////////////////////
 
 
@@ -78,7 +105,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
 
          models.SemesterStudent.findAll({
           where: {
-          status: 1
+          status: 1,
+          id: req.params.id
           },
       "include" : [
         {"model" : models.Division},
@@ -87,7 +115,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
         {"model"  : models.Semester},
       ],
          }).then(function(semstudent) {
-
         res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
       });
       });
@@ -170,7 +197,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=1;
-  req.body.sum_dagree= parseInt(req.body.chapter_degree)+parseInt(req.body.final_exam);
+  req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
   models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
@@ -203,7 +230,7 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
 });
 
 router.post('/updateG',userHelpers.isLogin,function(req,res){
-  req.body.body.sum_dagree= parseInt(req.body.body.chapter_degree)+parseInt(req.body.body.final_exam);
+  req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
   models.Academic_transcript.update(req.body.body,{
     where: {
       id:req.body.id
