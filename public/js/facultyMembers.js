@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
   $.nat = new Array();
+  var dept = [] ; 
 
-  // delete faculityMembers
   $('body').on('click', '#Deletee', function(){
     $('#ok').val($(this).val());
   });
@@ -17,29 +17,23 @@ $(document).ready(function(){
   $('body').on('click', '#editt',function(){
     $('#id_faculty_Member').val($(this).val());
     var myDataAttr = $(this).val();
-    var dates= $('[data-id = "'+myDataAttr+'"]').data('birth_date');
-    console.log(dates);
-    console.log($('[data-id = "'+myDataAttr+'"]').data('gender'));
-    date = new Date(dates);
-    var day = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-    console.log(year+"-"+monthIndex+"-"+day);
-    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));// الاسم
-    $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));//المؤهل العلمي
-    $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));// الجنس
-    $('#departmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('ddepartmentid'));//القسم
-    $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));//الجنسيه
-    $('#birth_date').val("hjk");//
+    var cdate = $('[data-id = "'+myDataAttr+'"]').data('birth_date')
+    var cd = cdate.split(" ");
+    $('#birth_date').val(cd[2]+"-"+cd[3]+"-"+cd[1]);
+    $('#name').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+    $('#qualification').val($('[data-id = "'+myDataAttr+'"]').data('qualification'));
+    $('#gender').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('gender'));
+    $('#departmentId').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('ddepartmentid'));
+    $('#nationality').selectpicker('val' ,$('[data-id = "'+myDataAttr+'"]').data('nationality'));
     $('#place_birth').val($('[data-id = "'+myDataAttr+'"]').data('place_birth'));
     $('#physical_address').val($('[data-id = "'+myDataAttr+'"]').data('physical_address'));
-    $('#phone').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
-    $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));// التخصص
-  });
-  
-  $('body').on('click', '#save', function (e) {
-    e.preventDefault();
-    $('#updateFacultyMember').submit();
+    $('#phoneFaculty').val($('[data-id = "'+myDataAttr+'"]').data('phone'));
+    $('#specialization').val($('[data-id = "'+myDataAttr+'"]').data('specialization'));
+    $.get('/facultyMember/getAllDepartment/',function(todo){
+      for (k in todo) {
+        dept.push(todo[k]);
+      };
+    });
   });
 
   $.get('/facultyMember/getAllNationality/',function(todo){
@@ -48,12 +42,22 @@ $(document).ready(function(){
       $.nat.push(k);
     };
   });
-    
 
+  $.get('/facultyMember/getAllDepartment/',function(todo){
+    for (k in todo) {
+      dept.push(todo[k]);
+    };
+  });
+
+  $('body').on('click', '#save', function (e) {
+    e.preventDefault();
+    $('#updateFacultyMember').submit();
+  });
+  
   $("#updateFacultyMember").submit(function(e) {
     var isvalidate = $("#updateFacultyMember").valid();
     if(isvalidate){
-      $.post("/facultyMember/updateFacultyMember", $("form").serializeObject(), function(data, error){
+      $.post("/facultyMember/updateFacultyMember", $("#updateFacultyMember").serializeObject(), function(data, error){
         if(data !=true){
         } 
         else {
@@ -69,14 +73,15 @@ $(document).ready(function(){
                 $("form").serializeObject().name+
               '</td>'+
               '<td>'+
-                $("form").serializeObject().qualification+'  '+
+                $("form").serializeObject().qualification+
               '</td>'+
               '<td>'+
                 $("form").serializeObject().specialization+
               '</td><td>'+
                 gender+
               '</td><td>'+
-                $("form").serializeObject().departmentId+
+                  dept[$("form").serializeObject().DepartmentId-1].name+
+                  // $("form").serializeObject().DepartmentId+
               '</td>'+
               '<td>'+
                 $.nat[$("form").serializeObject().nationality-1].text+
@@ -141,7 +146,7 @@ $(document).ready(function(){
         required: true,
         arabicLettersWithSpacesOnly: true,
       },
-      phone:{
+      phoneFaculty:{
         required: true,
         number: true,
         digits: true,
@@ -175,7 +180,7 @@ $(document).ready(function(){
       physical_address:{
         required: "الرجاء ادخال عنوان اﻹقامة!",
       },
-      phone:{
+      phoneFaculty:{
         required: "الرجاء ادخال رقم الهاتف!",
         number: "يجب ان يحتوي رقم الهاتف علي ارقام فقط!",
         digits: "الرجاء ادخال ارقام صحيحة فقط!",

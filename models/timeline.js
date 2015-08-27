@@ -10,31 +10,31 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Timeline.belongsTo(models.Subject, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Timeline.belongsTo(models.Location, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Timeline.belongsTo(models.Semester, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Timeline.belongsTo(models.Sub_group, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Timeline.belongsTo(models.User, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }

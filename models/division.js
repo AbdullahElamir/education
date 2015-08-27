@@ -9,31 +9,32 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Division.belongsTo(models.User, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Division.belongsTo(models.Department, {
-          onDelete: "Restrict",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
 
         Division.belongsToMany(models.Subject, {
+          onDelete: "restrict",
           through: 'DivisionSubject'
         });
         
         Division.hasMany(models.Sub_group, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
 
         Division.hasMany(models.DivisionSubject, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }

@@ -146,7 +146,7 @@ block cPanel
                       input#place_birth.form-control(type="text", name="place_birth", placeholder="مكان الميلاد")
                     .col-xs-3.col-md-3
                       label سنة الميلاد
-                      .input-group.date#birth_dat
+                      .input-group.date#birth_date1
                         input#birth_date.form-control(type="text", name="birth_date", placeholder="سنة الميلاد")
                         span.input-group-addon.success
                           span.fa.fa-calendar
@@ -197,7 +197,7 @@ block cPanel
                       input#cust_last_cert.form-control(type="text", name="cust_last_cert", placeholder="تخصيص اخر شهادة")
                     .col-xs-3.col-md-3
                       label تاريخ الحصول علي الشهادة
-                      .input-group.date
+                      .input-group.date#date_cert1
                         input#date_cert.form-control(type="text", name="date_cert", placeholder="تاريخ الشهادة")
                         span.input-group-addon.success
                           span.fa.fa-calendar
@@ -263,12 +263,23 @@ block cPanel
         }
       });
       $("[data-toggle=tooltip]").tooltip();
-      $('#birth_date #birth_date').datetimepicker({
+      $('#birth_date').datetimepicker({
+        useCurrent: false,
+        viewMode: 'years',
+        format: 'YYYY'
+      });
+      $('#birth_date1').datetimepicker({
         useCurrent: false,
         viewMode: 'years',
         format: 'YYYY'
       });
       $('#date_cert').datetimepicker({
+        useCurrent: false,
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        locale: 'ar-sa'
+      });
+      $('#date_cert1').datetimepicker({
         useCurrent: false,
         viewMode: 'years',
         format: 'YYYY-MM-DD',

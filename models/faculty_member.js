@@ -16,13 +16,13 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Faculty_member.belongsTo(models.Department, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Faculty_member.belongsTo(models.User, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }

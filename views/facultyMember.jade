@@ -120,8 +120,8 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label تاريخ الميلاد
-                  .input-group.date#birth_date
-                    input.form-control.prevent(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                  .input-group.date#birth_date1
+                    input.form-control#birth_date(type="text", name="birth_date", placeholder="تاريخ الميلاد")
                     span.input-group-addon.success
                       span.fa.fa-calendar
                 .col-xs-6.col-md-6
@@ -134,7 +134,7 @@ block cPanel
                   input#physical_address.form-control(type="text", name="physical_address", placeholder="عنوان اﻹقامة")
                 .col-xs-6.col-md-6
                   label رقم الهاتف
-                  input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
+                  input.form-control#phoneFaculty(value="", name="phone", type="text", placeholder="رقم الهاتف")
                   input#id_faculty_Member(name="id" , type="hidden")  
           .modal-footer
             button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
@@ -163,16 +163,22 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/helpers.js')
+  script(src='/js/facultyMembers.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
   script(src='/js/backToTop.js')
-  script(src='/js/helpers.js')
-  script(src='/js/facultiMembers.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();
       $('#birth_date').datetimepicker({
+        useCurrent: false,
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        locale: 'ar-sa'
+      });
+      $('#birth_date1').datetimepicker({
         useCurrent: false,
         viewMode: 'years',
         format: 'YYYY-MM-DD',

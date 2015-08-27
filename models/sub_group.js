@@ -9,37 +9,37 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Sub_group.belongsTo(models.Subject, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Sub_group.belongsTo(models.Location, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Sub_group.belongsTo(models.User, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Sub_group.belongsTo(models.Semester, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Sub_group.belongsTo(models.Division, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
         Sub_group.belongsTo(models.Faculty_member, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
