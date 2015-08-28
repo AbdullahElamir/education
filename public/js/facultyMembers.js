@@ -43,17 +43,11 @@ $(document).ready(function(){
     };
   });
 
-  $.get('/facultyMember/getAllDepartment/',function(todo){
-    for (k in todo) {
-      dept.push(todo[k]);
-    };
-  });
-
   $('body').on('click', '#save', function (e) {
     e.preventDefault();
     $('#updateFacultyMember').submit();
   });
-  
+
   $("#updateFacultyMember").submit(function(e) {
     var isvalidate = $("#updateFacultyMember").valid();
     if(isvalidate){
@@ -67,6 +61,7 @@ $(document).ready(function(){
             else {
               var gender = "أنثى";
             }
+          
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'" data-name="'+$("form").serializeObject().name+'" data-qualification="'+$("form").serializeObject().qualification+'" data-specialization="'+$("form").serializeObject().specialization+'" data-gender="'+$("form").serializeObject().gender+'" data-nationality="'+$("form").serializeObject().nationality+'" data-birth_date="'+$("form").serializeObject().birth_date+'" data-physical_address="'+$("form").serializeObject().physical_address+'" data-phone="'+$("form").serializeObject().phone+'" data-place_birth="'+$("form").serializeObject().place_birth+'">'+
               '<td>'+
@@ -81,7 +76,6 @@ $(document).ready(function(){
                 gender+
               '</td><td>'+
                   dept[$("form").serializeObject().DepartmentId-1].name+
-                  // $("form").serializeObject().DepartmentId+
               '</td>'+
               '<td>'+
                 $.nat[$("form").serializeObject().nationality-1].text+
