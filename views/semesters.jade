@@ -36,7 +36,6 @@ block cPanel
               thead
                 th النظام الدراسي
                 th السنة الدراسية
-                th هل هذا الفصل الحالي
                 th بداية الفصل الدراسي
                 th نهاية الفصل الدراسي
                 th.text-center عرض
@@ -54,11 +53,6 @@ block cPanel
                     if i.sem_type == 3
                       | فصل "صيفي"
                   td #{i.year.getFullYear()} 
-                  td 
-                    if i.current == 1
-                      | نعم
-                    else 
-                      | لا 
                   td #{i.starting_date.getDate()} / #{i.starting_date.getMonth()+1} / #{i.starting_date.getFullYear()} 
                   td #{i.ending_date.getDate()} / #{i.ending_date.getMonth()+1} / #{i.ending_date.getFullYear()} 
                   td.text-center
