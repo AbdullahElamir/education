@@ -154,8 +154,6 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
             }]
         },
 
-
-
         {
           model: models.Sub_group,
           required:false,
@@ -243,19 +241,7 @@ router.post('/subGroup',userHelpers.isLogin, function(req, res) {
   });
 });
 router.post('/updateSub',userHelpers.isLogin, function(req, res) {
-  // obj={
-  //   starting_time:req.body.body.starting_time,
-  //   day:req.body.body.day,
-  //   ending_time:req.body.body.ending_time,
-  //   LocationId:req.body.body.LocationId
-  // }
-  // models.Timeline.update(obj,{
-    // where: {
-    //   SubGroupId:req.body.id
-    // }
-    // }).then(function(){
-
-models.Sub_group.update(req.body.body,{
+  models.Sub_group.update(req.body.body,{
     where: {
       id:req.body.id
     }
@@ -283,12 +269,10 @@ models.Sub_group.update(req.body.body,{
               status:1
             }
         }]
-
     }).then(function(result){
       res.send(result);  
     });
   });
-// });
 });
 
 
