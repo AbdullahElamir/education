@@ -116,11 +116,11 @@ $(document).ready(function(){
   });
   
   // This function to remove and reset "form" from validation and value when close or hide bootstrap modal!
-  $('#add').on('hidden.bs.modal', function(){
+  $('#add, #edit').on('hidden.bs.modal', function(){
     $(this).removeData('bs.modal');
     $('#sub_group_name, #quantity').val("");
     $('.selectpicker').selectpicker('val', null);
-    $('#sub_group').validate().resetForm();
+    $('#sub_group, #editForm').validate().resetForm();
   });
 
   $("#sub_group").validate({
@@ -172,6 +172,57 @@ $(document).ready(function(){
       $(element).closest('.form-group').removeClass('has-error');
     },
   });
+  
+  $("#editForm").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      faculty_Members:{
+        required: true,
+      },
+      sub_group_name:{
+        required: true,
+      },
+      quantity:{
+        required:true,
+        number:true,
+        digits:true,
+      },
+      locations:{
+        required:true,
+      },
+    },
+    messages:{
+      faculty_Members:{
+        required: "الرجاء اختيار اسم المحاضر/ة!",
+      },
+      sub_group_name:{
+        required: "الرجاء ادخال رقم المجموعة!",
+      },
+      quantity:{
+        required:"الرجاء ادخال عدد الطلبة!",
+        number:"الرجاء ادخال ارقام فقط!",
+        digits:"الرجاء ادخال ارقام صحيحة فقط!",
+      },
+      locations:{
+        required:"الرجاء اختيار القاعة الدراسية!",
+      },
+    },
+    errorClass: 'custom-error',
+    errorPlacement: function (error, element) {
+      if ($(element).is('select')) {
+          element.next().after(error);
+      } else {
+          error.insertAfter(element);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });
+
   $('.selectpicker').selectpicker().change(function(){
     $(this).valid()
   });
