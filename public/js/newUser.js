@@ -1,6 +1,5 @@
 $(document).ready(function(){
   $("#newUser").validate({
-    ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
       name:{
         required: true,
@@ -25,7 +24,7 @@ $(document).ready(function(){
       },
       confirmPassword:{
         required: true,
-        equalTo: "#password",
+        equalTo: "#pass",
       },
     },
     messages:{

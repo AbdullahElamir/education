@@ -63,7 +63,7 @@ block content
               li(class="#{pagination.next.disabled}")
                 a(href='?p=#{pagination.next.n}') التالي
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-    .modal-dialog.modal-lg
+    .modal-dialog
       .modal-content
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -73,21 +73,18 @@ block content
           form#formUsers.form-signin(role="form",name='formUsers')
             .form-group
               .row
-                .col-xs-6.col-md-4.col-md-offset-2
+                .col-xs-6.col-md-6
                   label.h4 اسم المستخدم
                   input.form-control#name(type="text", name="name",value="فاروق")
-                .col-xs-6.col-md-4
+                .col-xs-6.col-md-6
                   label.h4 رقم الهاتف
                   input.form-control#phone(type="text", name="phone", placeholder="رقم الهاتف")          
-              br
+            .form-group
               .row
-                .col-xs-4.col-md-4
-                  label.h4 كلمة المرور الحالية
-                  input.form-control#password(type="password", name="password", placeholder="الرقم السري")
-                .col-xs-4.col-md-4
+                .col-xs-6.col-md-6
                   label.h4 كلمة المرور الجديدة
-                  input.form-control#newPassword(type="password", name="newPassword", placeholder="كلمة المرور الجديدة")
-                .col-xs-4.col-md-4
+                  input.form-control#pass(type="password", name="password", placeholder="كلمة المرور الجديدة")
+                .col-xs-6.col-md-6
                   label.h4 تأكيد كلمة المرور الجديدة
                   input.form-control#newConfirmPassword(type="password", name="newConfirmPassword", placeholder="تأكيد كلمة المرور الجديدة")
                   input#id(name="id",type="hidden")

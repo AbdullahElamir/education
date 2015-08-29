@@ -5,7 +5,7 @@ var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
 
 /* GET users listing. */
-router.get('/', function(req, res) {
+router.get('/',userHelpers.isLogin, function(req, res) {
   var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     models.User.findAndCountAll({
