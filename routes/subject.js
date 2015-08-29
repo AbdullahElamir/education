@@ -1,23 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var models  = require('../models');
-var url=require('url');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
 var Sequelize = require('sequelize')
-var jsr = require("jsreport");
-var fs = require("fs");
-var path = require("path");
-var nationality = require('../Nationality');
 
-  var obj = {
-    subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
-    classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
-  }
-
-
-
-// //////Start Subjects /////////////////////////////////////////
+// ************* start subject ******************
   router.get('/', function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
@@ -59,8 +47,8 @@ var nationality = require('../Nationality');
       }
     }).then(function(result){
       res.send(result);
+      });
     });
-  });
   });
 
   router.post('/addDivisionSubject',function(req,res){
@@ -83,13 +71,12 @@ var nationality = require('../Nationality');
         where: {
           status: 1
         }
-      }).then(function(departments) {
+    }).then(function(departments) {
         res.render('newSubject', {title: 'إضافة مادة دراسية جديدة',dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
       });
     });
   });
 
-  // select data from 3 table
   router.get('/getSubject/:id', function(req, res) {
     models.Subject.findAll({
       where: { 
@@ -105,23 +92,15 @@ var nationality = require('../Nationality');
     });
   });
 
-  //getSub/
-//3333
-    router.post('/getSub',function(req, res) {
-        models.sequelize.query('SELECT `id`, `name`, `name_en`, `code`, `no_th_unit`, `no_th_hour`, `no_pr_unit`, `no_pr_hour`, `chapter_degree`, `final_theor`, `final_practical`, `subject_type`, `system_type`, `status`, `createdAt`, `updatedAt`, `DepartmentId`, `UserId` FROM `Subjects` WHERE `id` in ('+req.body.x+")").then(function(results){
-       console.log(results[0]);
-        res.send(results[0]);
+
+  router.post('/getSub',function(req, res) {
+    models.sequelize.query('SELECT `id`, `name`, `name_en`, `code`, `no_th_unit`, `no_th_hour`, `no_pr_unit`, `no_pr_hour`, `chapter_degree`, `final_theor`, `final_practical`, `subject_type`, `system_type`, `status`, `createdAt`, `updatedAt`, `DepartmentId`, `UserId` FROM `Subjects` WHERE `id` in ('+req.body.x+")").then(function(results){
+      res.send(results[0]);
     });
-    //console.log(req.body.x);
   });
 
 
-
-
-
-  ///editSubject
   router.post('/editSubject', function(req, res) {
-    // genral عام
     if(req.body.subject_type==1){
       req.body.DepartmentId=1;
       req.body.UserId=1;
@@ -129,13 +108,13 @@ var nationality = require('../Nationality');
         where: {
           id: req.body.id
         }
-      }).then(function (todo) {
+    }).then(function (todo) {
         todo.updateAttributes(req.body).then(function (todo) {
           res.redirect('/subject');
-        }).catch(function (err) {
+      }).catch(function (err) {
           console.log(err);
-        });
       });
+    });
     } else if(req.body.subject_type==2){
       req.body.UserId=1;
       models.Subject.find({
@@ -179,45 +158,35 @@ var nationality = require('../Nationality');
 
   router.get('/getpreSubject/:id',function(req, res) {
     var id = req.params.id
-    models.sequelize.query('select * from Subjects where id in (SELECT PrerequisiteId FROM `SubjectHasPrerequisites` WHERE SubjectId="'+id+'")').then(function(results){
-//      console.log(results[0]);
-      res.send(results[0]);
+    models.sequelize.query('select * from Subjects where id in (SELECT PrerequisiteId FROM `SubjectHasPrerequisites` WHERE SubjectId="'+id+'")')
+      .then(function(results){
+        res.send(results[0]);
+      });
     });
 
-     router.post('/updatePree',function(req, res) {
-      for(var j=0;j<req.body.count-1 ; j++)
+  router.post('/updatePree',function(req, res) {
+    for(var j=0;j<req.body.count-1 ; j++)
+    {
+      req.body.subPreId.shift();
+    }
+    var date = new Date();
+    if(req.body.subPreId.length != 0)
+    {
+      for(var i=0;i<req.body.subPreId.length ;i++)
       {
-        req.body.subPreId.shift();
+        models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`createdAt`, `updatedAt`,`SubjectId`, `PrerequisiteId`) VALUES ("'+date+'","'+date+'",'+req.body.subjectId+','+req.body.subPreId[i]+')').then(function(results){
+        res.send(results[0]);
+        });
       }
-      var date = new Date();
-      if(req.body.subPreId.length != 0)
-      {
-        for(var i=0;i<req.body.subPreId.length ;i++)
-        {
-          models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`createdAt`, `updatedAt`,`SubjectId`, `PrerequisiteId`) VALUES ("'+date+'","'+date+'",'+req.body.subjectId+','+req.body.subPreId[i]+')').then(function(results){
-          res.send(results[0]);
-          });
-        }
-      }
-
-    /*var id = req.params.id
-    models.sequelize.query('select * from Subjects where id in (SELECT PrerequisiteId FROM `SubjectHasPrerequisites` WHERE SubjectId="'+id+'")').then(function(results){
-      console.log(results[0]);
-      res.send(results[0]);*/
-    });
-   });
-
-
-router.post('/deletePre/',function(req, res) {
-  console.log(req.body);
-   models.sequelize.query('DELETE FROM `SubjectHasPrerequisites` WHERE SubjectId='+req.body.sub+' and PrerequisiteId='+req.body.pre+'').then(function(results){
-    res.send(results);
+    }
   });
- 
-});
+   
 
-
-
+  router.post('/deletePre/',function(req, res) {
+     models.sequelize.query('DELETE FROM `SubjectHasPrerequisites` WHERE SubjectId='+req.body.sub+' and PrerequisiteId='+req.body.pre+'').then(function(results){
+      res.send(results);
+    });
+  });
 
 
   router.post('/saveSubject',function(req, res) {
@@ -243,7 +212,5 @@ router.post('/deletePre/',function(req, res) {
       });
     }
   });
-
 // End Subject //////////////////////////////////////////////////////////
-
 module.exports = router;
