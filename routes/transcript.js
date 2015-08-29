@@ -7,6 +7,7 @@ var Sequelize = require('sequelize')
 var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
+var Math = require("math");
 var nationality = require('../Nationality');
 
   var obj = {
@@ -108,9 +109,10 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 if(mix[0][i].SemesterId==tt)
                 {
                   if(mix[0][i].sum_dagree>=50){
-                  summ=summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit);
-                  sumUnitt=sumUnitt+mix[0][i].no_th_unit;
-                }
+
+                  summ=Math.round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+                  sumUnitt=Math.round(sumUnitt+mix[0][i].no_th_unit,3);
+                  }
                 } else {
                    arrayy.push(summ/sumUnitt);
                   summ=0.0;
@@ -150,8 +152,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               {
                 if(mix[0][i].SemesterId==t)
                 {
-                  sum=sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit);
-                  sumUnit=sumUnit+mix[0][i].no_th_unit;
+                  sum=Math.round(sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+                  sumUnit=Math.round(sumUnit+mix[0][i].no_th_unit,3);
                 } else {
                    array.push(sum/sumUnit);
                   sum=0.0;
