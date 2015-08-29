@@ -121,7 +121,7 @@ html
               .modal-footer
                 button.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
                   span.glyphicon.glyphicon-ok-sign
-                  |  تعديل
+                  span  تعديل
     block navcPanel
       .container.font
         .row
@@ -237,54 +237,7 @@ html
                       tr
                         td(class=activeSevenOne)
                           a(href="/transcript/Academictranscripts")  تنزيل مواد للطلبة
-          block cPanel  
-            .col-xs-12.col-md-6.col-md-offset-2
-              .panel.panel-primary.font
-                .panel-heading
-                  h3.panel-title#panel-title
-                    span.fa.fa-bookmark.fa-lg
-                    | 
-                    span لوحة التحكم
-                .panel-body
-                  .row
-                    .col-xs-6.col-md-6.animated.fadeInRight
-                      a.btn.btn-danger.btn-lg.btn-block(href="/semester", role="button")
-                        span.fa.fa-calendar-check-o.fa-lg
-                        br
-                        span اﻷنظمة الدراسية
-                      a.btn.btn-warning.btn-lg.btn-block(href="/location", role="button")
-                        span.fa.fa-map-marker.fa-lg
-                        br
-                        span القاعات الدراسية
-                      a.btn.btn-primary.btn-lg.btn-block(href="/subject", role="button")
-                        span.fa.fa-book.fa-lg
-                        br
-                        span المواد الدراسية
-                      a.btn.btn-info.btn-lg.btn-block(href="/department", role="button")
-                        span.fa.fa-cube.fa-lg
-                        br
-                        span اﻷقسام
-                    .col-xs-6.col-md-6.animated.fadeInLeft
-                      a.btn.btn-success.btn-lg.btn-block(href="/division", role="button")
-                        span.fa.fa-cubes.fa-lg
-                        br
-                        span الشعب
-                      a.btn.btn-info.btn-lg.btn-block(href="/student", role="button")
-                        span.fa.fa-graduation-cap.fa-lg
-                        br
-                        span الطلبة المسجلين
-                      a.btn.btn-primary.btn-lg.btn-block(href="/facultyMember", role="button")
-                        span.fa.fa-users.fa-lg
-                        br
-                        span المحاضرين
-                      a.btn.btn-warning.btn-lg.btn-block(href="/users", role="button")
-                        span.fa.fa-user.fa-lg
-                        br
-                        span المستخدمين  
-                  a.btn.btn-success.btn-lg.btn-block.animated.fadeInUp(href="http://www.naga.ly/", role="button", target="_blank", style="margin-bottom:0px;")
-                    span.fa.fa-globe.fa-lg
-                    span  الاتصال بالدعم
-    block content
+          block content
     block footer
       footer.footer.font
         .container
