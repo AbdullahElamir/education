@@ -101,24 +101,6 @@ $(document).ready(function(){
           $('[data-id = "'+subGId+'"]').data('quantity',data.quantity);
           $('#Location-'+subGId).html(data.Location.name);
           $('[data-id = "'+subGId+'"]').data('loc',data.Location.id);
-
-
-          //$('[data-id = "'+$('#editSubGr').val()+'"]').remove();
-          // $("#tbody"+$('#editSubGr').data('idd')+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" data-name = "'+data.Subject.name+'" data-code ="'+data.Subject.code+'" data-fac ="'+data.Faculty_member.id+'" data-groupname="'+data.sub_group_name+'" data-quantity="'+data.quantity+'" data-loc="'+data.Location.id+'">'+
-          //   '<td>'+data.Subject.name+'</td>'+
-          //   '<td>'+data.Subject.code+'</td>'+
-          //   '<td>'+data.Faculty_member.name+'</td>'+
-          //   '<td>'+data.sub_group_name+'</td>'+
-          //   '<td>'+data.quantity+'</td>'+
-          //   '<td>'+data.Location.name+'</td>'+
-          //   '<td class="text-center">'+
-          //     '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
-          //       '<button value="'+data.id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
-          //     '</p></td>'+
-          //   '<td class="text-center">'+
-          //     '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
-          //       '<button id="delSub" value="'+data.id+'" data-title="Edit" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>'+
-          //     '</p></td></tr>');
           $('#edit').modal('hide');
         }
       });
