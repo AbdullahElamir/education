@@ -27,7 +27,6 @@ block navcPanel
               thead
                 th.text-center النظام الدراسي
                 th.text-center السنة الدراسية
-                th.text-center هل هذا الفصل الحالي
                 th.text-center بداية الفصل الدراسي
                 th.text-center نهاية الفصل الدراسي
                 th.text-center تعديل
@@ -35,12 +34,7 @@ block navcPanel
                 tr
                   td.text-center 
                     | #{sem}
-                  td.text-center #{semester.year.getFullYear()} 
-                  td.text-center
-                    if semester.current == 1
-                      | نعم
-                    else 
-                      | لا
+                  td.text-center #{semester.year.getFullYear()}
                   td.text-center #{semester.starting_date.getDate()} / #{semester.starting_date.getMonth()+1} / #{semester.starting_date.getFullYear()}
                   td.text-center #{semester.ending_date.getDate()} / #{semester.ending_date.getMonth()+1} / #{semester.ending_date.getFullYear()} 
                   td.text-center
