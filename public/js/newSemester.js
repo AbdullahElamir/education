@@ -5,6 +5,21 @@ $(document).ready(function(){
     $('#ok').val($(this).val());
   });
 
+  $('#startDate').click(function () {
+    var d = new Date();
+    var n = d.getFullYear();
+    alert(n);
+  });
+
+  // $('#starting_date').datetimepicker().on('changeDate', function(){
+  //   alert($(this).data('date'));
+  // });
+  // $('#startDate').click(function () {
+  //   var date1 = $(this).getFullYear();
+
+  //   alert(date1);
+  // });
+  
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/semester/deleteSemesters/'+$(this).val(),function(todo){
