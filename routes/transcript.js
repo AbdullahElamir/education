@@ -106,7 +106,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
-          id: req.params.id
+          StudentId: req.params.id
           },
       "include" : [
         {"model" : models.Division},
