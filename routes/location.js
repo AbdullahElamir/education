@@ -43,17 +43,22 @@ var userHelpers = require('../app/userHelpers');
   });
 
   router.post('/editLocation', function(req, res) {
-    id = req.body.locid;
-    models.Location.find({
-      where: {
-        id: id
+    var locid = req.body.locid;
+    delete req.body.locid;
+    models.Location.update(req.body,{
+      where:{
+        id:locid
       }
-      }).then(function (todo) {
-      todo.updateAttributes(req.body).then(function (todo) {
-        res.redirect('/location/');
-      }).catch(function (err) {
-          console.log(err);
+    }).then(function (result) {
+      models.Location.findOne({
+        where : {
+          id : locid
+        }
+      }).then(function(result){
+        res.send(result);
       });
+    }).catch(function (err) {
+        console.log(err);
     });
   });
 

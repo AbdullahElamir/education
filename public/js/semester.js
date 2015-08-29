@@ -1,9 +1,9 @@
 $(document).ready(function(){
-  $.validator.addMethod("greaterThan", function(value, element, params) {    
+  jQuery.validator.addMethod("greaterThan",function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
-      return new Date(value) > new Date($(params[0]).val());
-    }    
-    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+        return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
   },'يجب ان يكون تاريخ النهاية اكبر من البداية!');
   $("#editSemester").validate({
     rules:{
@@ -21,7 +21,7 @@ $(document).ready(function(){
       },
       ending_date:{
         required: true,
-        greaterThan: "#starting_date",
+        greaterThan: "#startDate",
       },
     },
     messages:{

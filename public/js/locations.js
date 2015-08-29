@@ -9,6 +9,27 @@ $(document).ready(function(){
     });
   });
 
+  $("#updateLocation").submit(function(e) {
+    var isvalidate=$("#updateLocation").valid();
+    if(isvalidate){
+      $.post("/location/editLocation", $("#updateLocation").serializeObject(), function(data, error){
+        if(data == null){
+          // to do something for back-end validation
+        } 
+        else {
+          var locId = $('#eitLoc').val();
+          $('#name-'+locId).html(data.name);
+          $('[data-id = "'+locId+'"]').data('name',data.name);
+          $('#quantity-'+locId).html(data.quantity);
+          $('[data-id = "'+locId+'"]').data('quantity',data.quantity);
+          $('#edit').modal('hide');
+          custNotify("success","نجح","تمت التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+        }
+      });
+    }
+    return false;
+  });
+
   $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
   });

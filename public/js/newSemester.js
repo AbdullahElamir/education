@@ -11,13 +11,15 @@ $(document).ready(function(){
       $('[data-id = "'+id+'"]').remove();
     });
   });
+
   $('#sem_type').hide();
-  $.validator.addMethod("greaterThan", function(value, element, params) {    
+  jQuery.validator.addMethod("greaterThan",function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
-      return new Date(value) > new Date($(params[0]).val());
-    }    
-    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+        return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
   },'يجب ان يكون تاريخ النهاية اكبر من البداية!');
+  
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -29,14 +31,13 @@ $(document).ready(function(){
       },
       current:{
         required: true,
-        equalTo: 'input[name="starting_date"]',
       },
       starting_date:{
         required: true,
       },
       ending_date:{
         required: true,
-        greaterThan: '#starting_date',
+        greaterThan: '#startDate',
       },
     },
     messages:{

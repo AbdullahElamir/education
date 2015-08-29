@@ -95,7 +95,7 @@ block navcPanel
                 .col-xs-6.col-md-6
                   lable تاريخ بداية الفصل الدراسي
                   .input-group.date#starting_date
-                    input.form-control.prevent(type="text", name="starting_date", value="#{semester.starting_date.getFullYear()}-#{semester.starting_date.getMonth()+1}-#{semester.starting_date.getDate()}", placeholder="تاريخ البداية")
+                    input.form-control.prevent#startDate(type="text", name="starting_date", value="#{semester.starting_date.getFullYear()}-#{semester.starting_date.getMonth()+1}-#{semester.starting_date.getDate()}", placeholder="تاريخ البداية")
                     span.input-group-addon.success
                       span.fa.fa-calendar
                 .col-xs-6.col-md-6 

@@ -40,9 +40,9 @@ block cPanel
                 th.text-center إلغاء
               tbody
               for i in loc
-                tr(data-id = '#{i.id}')
-                  td #{i.name}
-                  td.text-center #{i.quantity}
+                tr(data-id = '#{i.id}',data-name="#{i.name}",data-quantity="#{i.quantity}")
+                  td(id="name-#{i.id}") #{i.name}
+                  td.text-center(id="quantity-#{i.id}") #{i.quantity}
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="تعديل")
                       button#Edit.btn.btn-primary.btn-xs(data-title="Edit", data-toggle="modal",value="#{i.id}", data-target="#edit")
@@ -80,7 +80,7 @@ block cPanel
                   input#quantity.form-control(type="text", name="quantity", placeholder="كمية استعاب الطلبة")
                   input#locid(type="hidden",name="locid")
           .modal-footer
-            button#eitLoc.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+            button#eitLoc.btn.btn-warning.btn-lg(data-idd="",type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
   #delete.modal.fade(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -104,8 +104,10 @@ block cPanel
               |  لا
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
-  script(src='/js/jquery.validate.min.js')    
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')  
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
   script(src='/js/locations.js')
   script.
     $(document).ready(function(){
