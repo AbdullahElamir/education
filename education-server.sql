@@ -24,7 +24,8 @@
 --
 -- Dumping data for table `Departments`
 --
-
+INSERT INTO `Users` (`id`, `name`, `email`, `password`, `salt`, `phone`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'احمد الفيتوري', 'ahmed.elfituri@gmail.com', 'KL42X+S3paArqe/8vkwQ76KNmg2NpbuBBvP8xGfmTN0JnGZALQN0R8/xEHZ9L1B9nQiQxNERevMJIc9RLVgCyoRYijiddnDVz5VDvu3lyplmQP2Pv/ndOETLTivI3J4EuSmUsqsaa8UgHDxzK4sfpWm2jwsaCGmsTOP2yEAiimGI4H3Jce1FPCZ8OMiBRxqa5Iyul+ClWz3vYEiwl/8kToc6eTuxnsEGI6iml2MhyaHsMIyZf57Iaqw43ZGrm2ms8YGLjvYAnnVzpebb0BL8p8OeV4tjJCI2bapp8rVGPomh5k/TM2Pe9HIhkyLgAf0UUeFSOtb9rULVTLIASHehfw==', '200.Y8QKo9Grr6Aew+uh4AKlR1zz9PEJ9VmJZ3rT+cLO/ZI=', '0925032654', 1, '2015-08-23 19:15:03', '2015-08-29 22:00:02');
 INSERT INTO `Departments` (`id`, `name`, `name_en`, `status`, `createdAt`, `updatedAt`, `UserId`) VALUES
 (1, 'العام', 'General', 1, '2015-08-23 00:00:00', '2015-08-23 00:00:00', 1);
 -- (2, 'الحاسب الآلي', 'Computer Science', 1, '2015-08-23 19:20:11', '2015-08-23 19:20:11', 1),
@@ -51,8 +52,7 @@ INSERT INTO `Divisions` (`id`, `name`, `name_en`, `status`, `createdAt`, `update
 -- Dumping data for table `Users`
 --
 
-INSERT INTO `Users` (`id`, `name`, `email`, `password`, `salt`, `phone`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'احمد الفيتوري', 'ahmed.elfituri@gmail.com', 'KL42X+S3paArqe/8vkwQ76KNmg2NpbuBBvP8xGfmTN0JnGZALQN0R8/xEHZ9L1B9nQiQxNERevMJIc9RLVgCyoRYijiddnDVz5VDvu3lyplmQP2Pv/ndOETLTivI3J4EuSmUsqsaa8UgHDxzK4sfpWm2jwsaCGmsTOP2yEAiimGI4H3Jce1FPCZ8OMiBRxqa5Iyul+ClWz3vYEiwl/8kToc6eTuxnsEGI6iml2MhyaHsMIyZf57Iaqw43ZGrm2ms8YGLjvYAnnVzpebb0BL8p8OeV4tjJCI2bapp8rVGPomh5k/TM2Pe9HIhkyLgAf0UUeFSOtb9rULVTLIASHehfw==', '200.Y8QKo9Grr6Aew+uh4AKlR1zz9PEJ9VmJZ3rT+cLO/ZI=', '0925032654', 1, '2015-08-23 19:15:03', '2015-08-29 22:00:02');
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
