@@ -42,7 +42,7 @@ block cPanel
               .col-xs-6.col-md-6
                 label.h4 يبدأ النظام الدراسي
                 .input-group.date#starting_date
-                  input.form-control.prevent(type="text", name="starting_date", placeholder="تاريخ بداية النظام الدراسي")
+                  input.form-control.prevent#startDate(type="text", name="starting_date", placeholder="تاريخ بداية النظام الدراسي")
                   span.input-group-addon.success
                     span.fa.fa-calendar
               .col-xs-6.col-md-6
@@ -74,6 +74,7 @@ block cPanel
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
   script(src='/js/newSemester.js')
   script.
     $(function () {

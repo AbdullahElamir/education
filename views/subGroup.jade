@@ -42,15 +42,15 @@ block navcPanel
                 tbody(id="tbody#{div.id}")
                   for sub in div.Sub_groups
                     tr(data-idd="#{div.id}",data-id="#{sub.id}",data-name="#{sub.Subject.name}",data-code="#{sub.Subject.code}",data-fac="#{sub.Faculty_member.id}",data-groupname="#{sub.sub_group_name}",data-quantity="#{sub.quantity}",data-loc="#{sub.Location.id}")
-                      td #{sub.Subject.name}
-                      td #{sub.Subject.code}
-                      td #{sub.Faculty_member.name}
-                      td #{sub.sub_group_name}
-                      td #{sub.quantity}
-                      td #{sub.Location.name}
+                      td(id="name-#{sub.id}") #{sub.Subject.name}
+                      td(id="code-#{sub.id}") #{sub.Subject.code}
+                      td(id="Faculty_member-#{sub.id}") #{sub.Faculty_member.name}
+                      td(id="sub_group_name-#{sub.id}") #{sub.sub_group_name}
+                      td(id="quantity-#{sub.id}") #{sub.quantity}
+                      td(id="Location-#{sub.id}") #{sub.Location.name}
                       td.text-center
                         p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                          button#editSub.btn.btn-primary.btn-xs(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
+                          button#editSub.btn.btn-primary.btn-xs.editSub(value="#{sub.id}",data-title="Edit", data-toggle="modal", data-target="#edit")
                             span.glyphicon.glyphicon-pencil
                       td.text-center
                         p(data-placement="top", data-toggle="tooltip", title="تعديل")
@@ -116,7 +116,7 @@ block navcPanel
                   input.form-control#quantit(name="quantity",type="text", placeholder="رقم المجموعة")
                 .col-xs-6.col-md-6
                   lable اسم القاعة الدراسية
-                  select.form-control.selectpicker#location(name="locations", data-live-search="true")
+                  select.form-control.selectpicker#location(name="LocationId", data-live-search="true")
                     option(value="", style='color:grey; display:none;') الرجاء اختيار اسم القاعة الدراسية...
                       for loc in location                 
                         option(value="#{loc.id}") #{loc.name}
@@ -199,7 +199,7 @@ block navcPanel
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
   script(src='/js/backToTop.js')
-  script(src='/js/helpers.js') 
+  script(src='/js/helpers.js')
   script(src='/js/supGroup.js')  
   script.
     $(document).ready(function(){

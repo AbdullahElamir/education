@@ -11,13 +11,15 @@ $(document).ready(function(){
       $('[data-id = "'+id+'"]').remove();
     });
   });
+
   $('#sem_type').hide();
-  $.validator.addMethod("greaterThan", function(value, element, params) {    
+  jQuery.validator.addMethod("greaterThan",function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
-      return new Date(value) > new Date($(params[0]).val());
-    }    
-    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+        return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
   },'يجب ان يكون تاريخ النهاية اكبر من البداية!');
+  
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -29,14 +31,13 @@ $(document).ready(function(){
       },
       current:{
         required: true,
-        equalTo: 'input[name="starting_date"]',
       },
       starting_date:{
         required: true,
       },
       ending_date:{
         required: true,
-        greaterThan: '#starting_date',
+        greaterThan: '#startDate',
       },
     },
     messages:{
@@ -124,23 +125,7 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
   
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة نظام دراسي جديد بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
+    custNotify("success","نجح","تمت إضافة نظام دراسي جديد بنجاح","ok-sign","bounceIn","bounceOut");
     var pageUrl = '/semester'
     window.history.pushState("","",pageUrl);
   }

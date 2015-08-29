@@ -68,8 +68,9 @@ html
                             span.input-group-btn
                               button.btn.btn-primary(type="submit")
                                 | بحث!
-            .navbar-brand
-              span.text-muted المعهد‪ ‬العالي‪ ‬للمهن‪ ‬الطبية‪ ‬القره‪ ‬بوللي‬
+            .col-md-4.col-md-offset-1
+              .navbar-brand
+                span.text-muted المعهد‪ ‬العالي‪ ‬للمهن‪ ‬الطبية‪ ‬القره‪ ‬بوللي‬
             ul.nav.navbar-nav.navbar-right
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
@@ -246,7 +247,7 @@ html
                     span لوحة التحكم
                 .panel-body
                   .row
-                    .col-xs-6.col-md-6
+                    .col-xs-6.col-md-6.animated.fadeInRight
                       a.btn.btn-danger.btn-lg.btn-block(href="/semester", role="button")
                         span.fa.fa-calendar-check-o.fa-lg
                         br
@@ -263,7 +264,7 @@ html
                         span.fa.fa-cube.fa-lg
                         br
                         span اﻷقسام
-                    .col-xs-6.col-md-6
+                    .col-xs-6.col-md-6.animated.fadeInLeft
                       a.btn.btn-success.btn-lg.btn-block(href="/division", role="button")
                         span.fa.fa-cubes.fa-lg
                         br
@@ -280,7 +281,7 @@ html
                         span.fa.fa-user.fa-lg
                         br
                         span المستخدمين  
-                  a.btn.btn-success.btn-lg.btn-block(href="http://www.naga.ly/", role="button", target="_blank", style="margin-bottom:0px;")
+                  a.btn.btn-success.btn-lg.btn-block.animated.fadeInUp(href="http://www.naga.ly/", role="button", target="_blank", style="margin-bottom:0px;")
                     span.fa.fa-globe.fa-lg
                     span  الاتصال بالدعم
     block content
