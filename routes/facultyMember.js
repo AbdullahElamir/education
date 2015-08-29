@@ -27,7 +27,7 @@ var nationality = require('../Nationality');
     }).then(function(allDepartments) {
       var pageCount = userHelpers.getPageCount(facultyMembers.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+      res.render('facultyMember', { title: 'عرض المحاضرين', name:req.session.name,nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
     });
     });
   });
@@ -38,14 +38,14 @@ var nationality = require('../Nationality');
         status: 1
       }
     }).then(function(Departments) {
-      res.render('newFacultyMember', { title: 'إضافة محاضر جديد',nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+      res.render('newFacultyMember', { title: 'إضافة محاضر جديد', name:req.session.name,nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
     });    
   });
 
   router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
     req.body.UserId=1;//req,session.id
     models.Faculty_member.create(req.body).then(function() {
-      res.redirect('/facultyMember');
+      res.redirect('/facultyMember?msg=1');
     });
   });
 

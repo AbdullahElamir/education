@@ -50,13 +50,13 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+      res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
     });
 });
 
 
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
-  res.render('studentSemesters', { title: 'Academic Transcripts' });
+  res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
 
 
@@ -164,7 +164,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               }
                 array.push(sum/sumUnit);
               }
-              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
             });
           });
         });
@@ -237,7 +237,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
               }]
             }]
           }).then(function(result){
-            res.render('addStudentSubject', { title: 'Add Student Subject',res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
+            res.render('addStudentSubject', { title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
           });
         });
       });

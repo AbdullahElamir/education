@@ -18,12 +18,12 @@ router.get('/',userHelpers.isLogin, function(req, res) {
   }).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
-  res.render('students', { title: 'عرض الطلبة',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
+  res.render('students', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
   });
 });
 
 router.get('/newStudent',userHelpers.isLogin, function(req, res) {
-  res.render('newStudent', { title: 'تسجيل طالب جديد', collapseFive: 'collapse in',nats:nationality, activeFiveTwo: 'active' });
+  res.render('newStudent', { title: 'تسجيل طالب جديد', name:req.session.name, collapseFive: 'collapse in',nats:nationality, activeFiveTwo: 'active' });
 });
 
 router.post('/newStudent',userHelpers.isLogin,function(req, res) {
