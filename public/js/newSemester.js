@@ -131,10 +131,6 @@ $(document).ready(function(){
     }
   });
 
-  $('.selectpicker').selectpicker().change(function(){
-    $(this).valid()
-  });
-
   $('#addSemester').on('click',function(){
     if($('#newSemester').valid){
       $('#addSemester').prop('disabled', true);
