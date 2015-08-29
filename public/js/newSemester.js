@@ -5,17 +5,40 @@ $(document).ready(function(){
     $('#ok').val($(this).val());
   });
 
+  $('#startDate').click(function () {
+    var d = new Date();
+    var n = d.getFullYear();
+    alert(n);
+  });
+
+  // $('#starting_date').datetimepicker().on('changeDate', function(){
+  //   alert($(this).data('date'));
+  // });
+  // $('#startDate').click(function () {
+  //   var date1 = $(this).getFullYear();
+
+  //   alert(date1);
+  // });
+  
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/semester/deleteSemesters/'+$(this).val(),function(todo){
       $('[data-id = "'+id+'"]').remove();
     });
   });
-  $('#system_type').hide();
+
+  $('#sem_type').hide();
+  jQuery.validator.addMethod("greaterThan",function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+        return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
+  },'يجب ان يكون تاريخ النهاية اكبر من البداية!');
+  
   $("#newSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
-      sem_type:{
+      system_type:{
         required: true,
       },
       year:{
@@ -29,10 +52,11 @@ $(document).ready(function(){
       },
       ending_date:{
         required: true,
+        greaterThan: '#startDate',
       },
     },
     messages:{
-      sem_type:{
+      system_type:{
         required: "الرجاء اختيار نظام الدراسي!",
       },
       year:{
@@ -40,6 +64,7 @@ $(document).ready(function(){
       },
       current:{
         required: "الرجاء الاجابة بنعم أو لا!",
+        equalTo: "الرجاء ادخال السنة صحصة!"
       },
       starting_date:{
         required: "الرجاء اختيار تاريخ بداية الفصل!",
@@ -67,29 +92,13 @@ $(document).ready(function(){
     invalidHandler: function(event, validator) {
       var errors = validator.numberOfInvalids();
       if (errors) {
-        $.notify({
-          message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من صحة ادخال البيانات </p>"
-          },{
-          type: 'danger',
-          allow_dismiss: true,
-          showProgressbar: false,
-          placement: {
-            from: 'top',
-            align: 'center'
-          },
-          mouse_over: null,
-          newest_on_top: true,
-          animate: {
-            enter: 'animated bounceIn',
-            exit: 'animated bounceOut'
-          },
-        });
+        custNotify("danger","خطأ","الرجاء التأكد من صحة ادخال البيانات","warning-sign","bounceIn","bounceOut");
       }
     },
   });
-  $('#sem_type').on('change',function() {
-    $('select[name="system_type"]').each(function() {
-      var id = $('#sem_type').val();
+  $('#system_type').on('change',function() {
+    $('select[name="sem_type"]').each(function() {
+      var id = $('#system_type').val();
       if(id==1){
         $(this).rules("add", {
           required: true,
@@ -102,13 +111,13 @@ $(document).ready(function(){
         $(this).rules( 'remove', 'required' );
       }    
     });
-    var id = $('#sem_type').val();
+    var id = $('#system_type').val();
     if(id==1){
-      $('#system_type').show();
+      $('#sem_type').show();
     }
     else {
-      $('#system_type').hide();
-      $('.system_type').selectpicker('val', '');
+      $('#sem_type').hide();
+      $('.sem_type').selectpicker('val', '');
     }
   });
 
@@ -131,24 +140,16 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
   
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة نظام دراسي جديد بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
-    var pageUrl = '/location/'
+    custNotify("success","نجح","تمت إضافة نظام دراسي جديد بنجاح","ok-sign","bounceIn","bounceOut");
+    var pageUrl = '/semester'
     window.history.pushState("","",pageUrl);
   }
+
+  $(".prevent").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 122 || key == 27 )
+      {}
+    else
+      e.preventDefault();
+  });
 });

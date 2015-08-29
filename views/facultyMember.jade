@@ -2,14 +2,12 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-block cPanel
   .container
     .row
       .col-md-10
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default المحاضرين
           .btn.btn-default.active عرض المحاضرين
         br
         br
@@ -25,7 +23,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/facultiMember/newFacultyMember', role='button',data-toggle='modal')
+                a.btn.btn-success(href='/facultyMember/newFacultyMember', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة محاضر/ة
               .pull-left(style="margin-left: 10px;")
@@ -116,14 +114,13 @@ block cPanel
                   label الجنسية
                   select.form-control.selectpicker#nationality(name="nationality", data-live-search="true", data-size=5)
                     for nat in nationalityJade
-                      option(value="#{nat.id}") #{nat.name}
-                    
+                      option(value="#{nat.id}") #{nat.name}     
             .form-group
               .row
                 .col-xs-6.col-md-6
                   label تاريخ الميلاد
-                  .input-group.date#birth_date
-                    input.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                  .input-group.date#birth_date1
+                    input.form-control#birth_date(type="text", name="birth_date", placeholder="تاريخ الميلاد")
                     span.input-group-addon.success
                       span.fa.fa-calendar
                 .col-xs-6.col-md-6
@@ -136,16 +133,12 @@ block cPanel
                   input#physical_address.form-control(type="text", name="physical_address", placeholder="عنوان اﻹقامة")
                 .col-xs-6.col-md-6
                   label رقم الهاتف
-                  input.form-control#phone(name="phone", type="text", placeholder="رقم الهاتف")
-                  input#id_faculty_Member(name="id" , type="hidden")
-                  
+                  input.form-control#phoneFaculty(value="", name="phone", type="text", placeholder="رقم الهاتف")
+                  input#id_faculty_Member(name="id" , type="hidden")  
           .modal-footer
             button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
-  
-
-
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -164,34 +157,21 @@ block cPanel
           button.btn.btn-default(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-remove
             |  لا
-      // /.modal-content
-    // /.modal-dialog
+      
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/helpers.js')
-  script(src='/js/newFacultyMember.js')
-  script(src='/js/facultiMembers.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/facultyMembers.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-          $("#mytable input[type=checkbox]").each(function () {
-            $(this).prop("checked", true);
-          });
-        } 
-        else {
-          $("#mytable input[type=checkbox]").each(function () {
-            $(this).prop("checked", false);
-          });
-        }
-      });
       $("[data-toggle=tooltip]").tooltip();
-      $('#birth_date').datetimepicker({
+      $('#birth_date1').datetimepicker({
         useCurrent: false,
         viewMode: 'years',
         format: 'YYYY-MM-DD',

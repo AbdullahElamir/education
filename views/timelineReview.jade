@@ -1,0 +1,48 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .pull-right
+        .btn-group.btn-breadcrumb
+            a.btn.btn-default(href="/cPanel")
+              i.glyphicon.glyphicon-home
+            .btn.btn-default الجدول الدراسي
+            .btn.btn-default.active اختيار الجدول الدراسي
+      .col-md-6.col-md-offset-2
+        br
+        br
+        form.form#timelineReview(action="#", method="post", accept-charset="utf-8", role="form")
+          legend  اختيار الجدول الدراسي
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اسم القسم
+                select.form-control.selectpicker#department(name="department", data-size=5)
+                  option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
+                  option(value="1") قسم1
+                  option(value="2") قسم2
+                  option(value="2") قسم3
+              .col-xs-6.col-md-6
+                label.h4 النظام الدراسي
+                select.form-control.selectpicker#semester(name="semester", data-size=5)
+                  option(value="", style='color:grey; display:none;') الرجاء النظام الدراسي...
+                  option(value="1") ربيع 2014
+                  option(value="2") خريف 2015
+                  option(value="2") سنة 2016
+          br
+          hr
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
+              | اختيار
+    br
+    br
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/timelineReview.js')

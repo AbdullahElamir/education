@@ -9,6 +9,27 @@ $(document).ready(function(){
     });
   });
 
+  $("#updateLocation").submit(function(e) {
+    var isvalidate=$("#updateLocation").valid();
+    if(isvalidate){
+      $.post("/location/editLocation", $("#updateLocation").serializeObject(), function(data, error){
+        if(data == null){
+          // to do something for back-end validation
+        } 
+        else {
+          var locId = $('#eitLoc').val();
+          $('#name-'+locId).html(data.name);
+          $('[data-id = "'+locId+'"]').data('name',data.name);
+          $('#quantity-'+locId).html(data.quantity);
+          $('[data-id = "'+locId+'"]').data('quantity',data.quantity);
+          $('#edit').modal('hide');
+          custNotify("success","نجح","تمت التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+        }
+      });
+    }
+    return false;
+  });
+
   $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
   });
@@ -47,11 +68,16 @@ $(document).ready(function(){
       },
     },
     highlight: function(element) {
-      $(element).closest('.row').addClass('has-error');
+      $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error');
+      $(element).closest('.form-group').removeClass('has-error');
     },
+  });
+  $('#edit').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('.form-group').removeClass('has-error');
+    $('#updateLocation').validate().resetForm();
   });
 
   var qs = (function(a) {
@@ -69,24 +95,8 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
   
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة قاعة دراسية جديدة بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
-    var pageUrl = '/locations'
+    custNotify("success","نجح","تمت إضافة قاعة دراسية جديدة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    var pageUrl = '/location'
     window.history.pushState("","",pageUrl);
   }
 });

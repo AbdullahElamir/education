@@ -6,7 +6,20 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/department/deleteDepartment/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح القسم لوجود كيانات معتمدة عليه","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        case "3" :
+          custNotify("danger","فشل","لايمكن مسح القسم عام وذلك لاعتماد المنظومة عليه","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        default:
+          break; 
+      }
     });
   });
 
@@ -27,7 +40,6 @@ $(document).ready(function(){
     if(isvalidate){
       $.post("/department/updateDepartment", $("form").serializeObject(), function(data, error){
         if(data.stat !=true){
-          alert("errormohammed");
         } 
         else {
           if($("#tbody").children().length>=10){
@@ -35,7 +47,6 @@ $(document).ready(function(){
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td class="text-left">'+$("form").serializeObject().name_en+'</td>'+
             '<td></td>'+
@@ -47,29 +58,13 @@ $(document).ready(function(){
           $('#name').val($("form").serializeObject().name);
           $('#name_en').val($("form").serializeObject().name_en);
           $('#edit').modal('hide');
-           $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
+          custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
         }
       });
     }
     return false;
   });
-
+  
   $("#formDepartment").validate({
     rules:{
       name:{
@@ -90,11 +85,9 @@ $(document).ready(function(){
     errorClass: 'custom-error',
     highlight: function(element) {
       $(element).closest('.form-group').addClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
     },
     unhighlight: function(element) {
       $(element).closest('.form-group').removeClass('has-error');
-      // $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
     },
   });
 
@@ -113,24 +106,8 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
 
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
-    var pageUrl = '/department/'
+    custNotify("success","نجح","تمت إضافة قسم جديد بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    var pageUrl = '/department'
     window.history.pushState("","",pageUrl);
   }
   $('#department_search').on('input', function(){
@@ -139,9 +116,14 @@ $(document).ready(function(){
         $('#tbody').empty();
         $('.pagination').hide();
         for(key in result){
-          $('#tbody').append('<tr data-id = "'+result[key].id+'" data-name = "'+result[key].name+'" data-name_en = "'+result[key].name_en+'"><td><input class="checkthis" type="checkbox"/></td><td>'+result[key].name+'</td><td class="text-left">'+result[key].name_en+'</td><td></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><button id="Edit" class="btn btn-primary btn-xs editDepartment" value="'+result[key].id+'"data-title="Edit" data-nn="'+result[key].id+'" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></spam></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="إلغاء"><button id="Delete" class="btn btn-danger btn-xs" value="'+result[key].id+'"data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
+          $('#tbody').append('<tr data-id = "'+result[key].id+'" data-name = "'+result[key].name+'" data-name_en = "'+result[key].name_en+'"><td>'+result[key].name+'</td><td class="text-left">'+result[key].name_en+'</td><td></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><button id="Edit" class="btn btn-primary btn-xs editDepartment" value="'+result[key].id+'"data-title="Edit" data-nn="'+result[key].id+'" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></spam></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="إلغاء"><button id="Delete" class="btn btn-danger btn-xs" value="'+result[key].id+'"data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
         }
       });
     }
+  });
+
+  $('#edit').on('hidden.bs.modal', function(){
+    $('.form-group').removeClass('has-error');
+    $('#formDepartment').validate().resetForm();
   });
 });

@@ -4,6 +4,7 @@ var generatePassword = require('password-generator'),
 var models  = require('../models');
 
 module.exports = {
+
   /* here we add a new user to the system */
   addUser: function (body, cb) {
     var salt = easyPbkdf2.generateSalt(), //we generate a new salt for every new user
@@ -45,7 +46,8 @@ module.exports = {
   },
   /* here we check if the user have root access */
    isLogin : function (req,res,next) {
-    //if (req.isAuthenticated()) { return next(); }
+    // if (req.isAuthenticated()) { return next(); }
+    // res.redirect('/');
     return next();
   },
   getPage : function (req){
@@ -115,5 +117,17 @@ module.exports = {
     }
     pagination = {pages : pages, next : next, previous : previous};
     return pagination;
-  }
+  },
+  checkGeneral : function(id){
+    if (id!=1){
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+
 };
+
+
+

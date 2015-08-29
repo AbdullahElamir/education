@@ -36,13 +36,11 @@ $(document).ready(function(){
 
         } 
         else {
-         // alert($("form").serializeObject().name);
           if($("#tbody").children().length>=10){
             $("#tbody tr:last-child").remove();
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td>'+$("form").serializeObject().email1+'</td>'+
             '<td>'+$("form").serializeObject().phone+'</td>'+
@@ -56,23 +54,7 @@ $(document).ready(function(){
           $('#confirm_password').val("");
           $('#password').val("");
           $('#edit').modal('hide');
-           $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
+          custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
         }
       });
     }
@@ -137,24 +119,15 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
 
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة مستخدم جديد بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
-    var pageUrl = '/users/'
+    custNotify("success","نجح","تمت إضافة مستخدم جديد بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    var pageUrl = '/users'
     window.history.pushState("","",pageUrl);
   }
+
+  // This function to remove and reset "form" from validation and value when close or hide bootstrap modal!
+  $('#edit').on('hidden.bs.modal', function(){
+    $(this).removeData('bs.modal');
+    $('#password, #newPassword, #newConfirmPassword').val("");
+    $('#formUsers').validate().resetForm();
+  });
 });    

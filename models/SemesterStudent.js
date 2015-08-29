@@ -1,44 +1,37 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Sub_group = sequelize.define("Sub_group", {
-    sub_group_name: DataTypes.INTEGER(1),
-    quantity: DataTypes.INTEGER(11),
+  var SemesterStudent = sequelize.define("SemesterStudent", {
+    student_status :{type: DataTypes.INTEGER(1),defaultValue:1},
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
   },{
     classMethods: {
       associate: function(models) {
-        Sub_group.belongsTo(models.Subject, {
+        SemesterStudent.belongsTo(models.Student, {
           onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Sub_group.belongsTo(models.Location, {
+        SemesterStudent.belongsTo(models.Division, {
           onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Sub_group.belongsTo(models.User, {
+        SemesterStudent.belongsTo(models.Department, {
           onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Sub_group.belongsTo(models.Semester, {
+        SemesterStudent.belongsTo(models.User, {
           onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }
         });
-        Sub_group.belongsTo(models.Division, {
-          onDelete: "restrict",
-          foreignKey: {
-            allowNull: false
-          }
-        });
-        Sub_group.belongsTo(models.Faculty_member, {
+        SemesterStudent.belongsTo(models.Semester, {
           onDelete: "restrict",
           foreignKey: {
             allowNull: false
@@ -48,5 +41,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  return Sub_group;
+  return SemesterStudent;
 };

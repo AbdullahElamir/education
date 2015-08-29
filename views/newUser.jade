@@ -2,19 +2,18 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-block cPanel
   .container
     .row
       .pull-right
         .btn-group.btn-breadcrumb
             a.btn.btn-default(href="/cPanel")
               i.glyphicon.glyphicon-home
-            .btn.btn-default المستخدمين
+            a.btn.btn-default(href="/users") عرض المستخدمين
             .btn.btn-default.active إضافة مستخدم جديد
       .col-md-6.col-md-offset-2
         br
         br
-        form#newUser.form(action="/newUser", method="post", accept-charset="utf-8", role="form")
+        form#newUser.form(action="/users/newUser", method="post", accept-charset="utf-8", role="form")
           legend  إضافة مستخدم جديد
             .pull-left
               a.btn.btn-primary(href='/users', role='button')
@@ -55,5 +54,7 @@ block cPanel
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
   script(src='/js/newUser.js')

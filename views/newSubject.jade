@@ -2,14 +2,13 @@ extends layout
 block authenticationStyle
 block errorStyle  
 block content
-block cPanel
   .container
     .row
       .col-md-10
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default المواد الدراسية
+          a.btn.btn-default(href="/subject") عرض المواد الدراسية
           .btn.btn-default.active إضافة مادة دراسية جديدة
         br
         br
@@ -66,15 +65,15 @@ block cPanel
                   label تندرج تحت قسم
                   br
                   label.radio-inline
-                    input#radio(type='radio', name='department',value="1")
+                    input#radio.radio_js(type='radio', name='department',value="1")
                     | عامة
                   label.radio-inline
-                    input#radio(type='radio', name='department',value="2")
+                    input#radio.radioo(type='radio', name='department',value="2")
                     | خاصة
                   label.radio-inline
-                    input#radio(type='radio', name='department',value="3")
+                    input#radio.radiooo(type='radio', name='department',value="3")
                     | كلاهما
-                
+                #department_select
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
@@ -106,13 +105,13 @@ block cPanel
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-toggle.min.js') 
-  script(src='/metisMenu/dist/metisMenu.min.js')   
-  script(src='/js/backToTop.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
   script(src='/js/newSubject.js')  
 
    

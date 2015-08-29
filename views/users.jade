@@ -2,14 +2,12 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-block cPanel
   .container
     .row
       .col-md-10
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default المستخدمين
           .btn.btn-default.active عرض المستخدمين
         br
         br
@@ -25,7 +23,7 @@ block cPanel
                     button.btn.btn-default
                       i.glyphicon.glyphicon-search
               .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/newUser', role='button',data-toggle='modal')
+                a.btn.btn-success(href='users/newUser', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة مستخدم جديد
               .pull-left(style="margin-left: 10px;")
@@ -35,8 +33,6 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
-                th
-                  input#checkall(type="checkbox")
                 th اسم المستخدم
                 th البريد الالكتروني
                 th رقم الهاتف
@@ -45,8 +41,6 @@ block cPanel
               tbody#tbody
                 for users in Users
                   tr(data-id = '#{users.id}',data-name = '#{users.name}',data-email = '#{users.email}',data-phone = '#{users.phone}')
-                    td
-                      input.checkthis(type="checkbox")
                     td #{users.name}
                     td #{users.email}
                     td #{users.phone}
@@ -134,16 +128,5 @@ block cPanel
   script(src='/js/users.js')
   script.
     $(document).ready(function(){
-      $("#mytable #checkall").click(function () {
-        if ($("#mytable #checkall").is(':checked')) {
-            $("#mytable input[type=checkbox]").each(function () {
-              $(this).prop("checked", true);
-            });
-        } else {
-            $("#mytable input[type=checkbox]").each(function () {
-                $(this).prop("checked", false);
-            });
-          }
-      });
-        $("[data-toggle=tooltip]").tooltip();
+      $("[data-toggle=tooltip]").tooltip();
     });

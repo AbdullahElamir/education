@@ -2,22 +2,23 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-block cPanel
   .container
     .row
-      .pull-right
-        .btn-group.btn-breadcrumb
-            a.btn.btn-default(href="/cPanel")
-              i.glyphicon.glyphicon-home
-            .btn.btn-default المحاضرين
-            .btn.btn-default.active إضافة محاضر/ة جديد
+      .col-md-6
+        .pull-right
+          .btn-group.btn-breadcrumb
+              a.btn.btn-default(href="/cPanel")
+                i.glyphicon.glyphicon-home
+              a.btn.btn-default(href="/facultyMember") عرض المحاضرين
+              .btn.btn-default.active إضافة محاضر/ة جديد
+      br
+      br
+      br
       .col-md-6.col-md-offset-2
-        br
-        br
-        form.form#newFacultyMember(action="/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
+        form.form#newFacultyMember(action="/facultyMember/addFacultyMembers", method="post", accept-charset="utf-8", role="form")
           legend  إضافة محاضر/ة جديد
             .pull-left
-              a.btn.btn-primary(href='/facultyMembers', role='button')
+              a.btn.btn-primary(href='/facultyMember', role='button')
                 span.glyphicon.glyphicon-th-list
                 span  عرض المحاضرين
           .form-group
@@ -36,7 +37,6 @@ block cPanel
                   option(value="", style='color:grey; display:none;') الرجاء اختيار القسم...
                   for department in departments
                     option(value="#{department.id}") #{department.name}
-                  
               .col-xs-6.col-md-6
                 label التخصص
                 input#specialization.form-control(type="text", name="specialization", placeholder="التخصص")
@@ -53,14 +53,13 @@ block cPanel
                 select.form-control.selectpicker#nationality(name="nationality", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
                   for nat in nationalityJade
-                    option(value="#{nat.id}") #{nat.name}
-                  
+                    option(value="#{nat.id}") #{nat.name}    
           .form-group
             .row
               .col-xs-6.col-md-6
                 label تاريخ الميلاد
                 .input-group.date#birth_date
-                  input.form-control(type="text", name="birth_date", placeholder="تاريخ الميلاد")
+                  input.form-control.prevent(type="text", name="birth_date", placeholder="تاريخ الميلاد")
                   span.input-group-addon.success
                     span.fa.fa-calendar
               .col-xs-6.col-md-6
@@ -85,9 +84,11 @@ block cPanel
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/newFacultyMember.js')
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/newFacultyMember.js')
   script.
     $(function () {
       $('#birth_date').datetimepicker({

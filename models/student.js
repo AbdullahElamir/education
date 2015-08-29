@@ -13,11 +13,11 @@ module.exports = function(sequelize, DataTypes) {
     mother_name: DataTypes.STRING(150),
     mother_name_en: DataTypes.STRING(150),
     birth_date: DataTypes.DATE(),
-    place_birth: DataTypes.INTEGER,
+    place_birth: DataTypes.STRING(150),
     nationality: DataTypes.INTEGER,
     gender: DataTypes.INTEGER,
-    no_paper_family: DataTypes.INTEGER,
-    no_reg_family: DataTypes.INTEGER,
+    no_paper_family: DataTypes.STRING(150),
+    no_reg_family: DataTypes.STRING(150),
     physical_address: DataTypes.TEXT(),
     civil_reg: DataTypes.STRING(150),
     phone: DataTypes.STRING(50),
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     cust_last_cert: DataTypes.STRING(150),
     date_cert: DataTypes.DATE(),
     place_cert: DataTypes.STRING(150),
-    set_number: DataTypes.INTEGER,
+    set_number: DataTypes.STRING(150),
     student_rate: DataTypes.FLOAT(),
     nid: DataTypes.TEXT(),
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Student.belongsTo(models.User, {
-          onDelete: "CASCADE",
+          onDelete: "restrict",
           foreignKey: {
             allowNull: false
           }

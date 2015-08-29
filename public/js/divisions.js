@@ -8,7 +8,20 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/division/deleteDivision/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح الشعبة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح الشعبة لوجود كيانات معتمدة عليها","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        case "3" :
+          custNotify("danger","فشل","لايمكن مسح الشعبة عام وذلك لاعتماد المنظومة عليها","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        default:
+          break; 
+      }
     });
   });
 
@@ -41,7 +54,6 @@ $(document).ready(function(){
           }
           $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'">'+
-            '<td> <input type="checkbox"></td>'+
             '<td>'+$("form").serializeObject().name+'</td>'+
             '<td>'+data.result[0].name+'</td>'+
             '<td class="text-left">'+data.result[0].name_en+'</td>'+
@@ -59,23 +71,7 @@ $(document).ready(function(){
           $('#name_en').val($("form").serializeObject().name_en);
           $('#DepartmentId').selectpicker('val' ,$("form").serializeObject().id);////selected in select
           $('#edit').modal('hide');
-           $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت التعديل بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
+          custNotify("success","نجح","تمت التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
         }
       });
     }
@@ -95,24 +91,8 @@ $(document).ready(function(){
     return b;
   })(window.location.search.substr(1).split('&'));
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة شعبه جديدة بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
-    var pageUrl = '/division/'
+    custNotify("success","نجح","تمت إضافة شعبه جديدة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    var pageUrl = '/division'
     window.history.pushState("","",pageUrl);
   }
   $("#formDivision").validate({
@@ -149,10 +129,10 @@ $(document).ready(function(){
       }
     },
     highlight: function(element) {
-      $(element).closest('.row').addClass('has-error');
+      $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
-      $(element).closest('.row').removeClass('has-error');
+      $(element).closest('.form-group').removeClass('has-error');
     },
   });
   $('#division_search').on('input', function(){
@@ -168,5 +148,9 @@ $(document).ready(function(){
         }
       });
     }
+  });
+  $('#edit').on('hidden.bs.modal', function(){
+    $('.form-group').removeClass('has-error');
+    $('#formDivision').validate().resetForm();
   });
 });

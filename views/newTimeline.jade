@@ -1,0 +1,46 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .pull-right
+        .btn-group.btn-breadcrumb
+            a.btn.btn-default(href="/cPanel")
+              i.glyphicon.glyphicon-home
+            .btn.btn-default الجدول الدراسي
+            .btn.btn-default.active إضافة جدول دراسي
+      .col-md-6.col-md-offset-2
+        br
+        br
+        form.form#newTimeline(action="#", method="post", accept-charset="utf-8", role="form")
+          legend  إضافة جدول دراسي جديد
+            .pull-left
+              a.btn.btn-primary(href='/timeline/timelineReview', role='button')
+                span.glyphicon.glyphicon-th-list
+                span  عرض الجدول الدراسي
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اسم القسم
+                input#name.form-control(type="text", name="name", placeholder="اسم القسم")
+              .col-xs-6.col-md-6.text-left
+                label.h4.pull-left Department name
+                input#name_en.form-control(type="text", name="name_en", placeholder="Department name", dir="ltr")
+          br
+          hr
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
+              | إضافة
+    br
+    br
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/newTimeline.js')

@@ -2,14 +2,12 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-block cPanel
   .container
     .row
       .col-md-10
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default اﻷقسام والشعب
           .btn.btn-default.active عرض اﻷقسام
         br
         br
@@ -35,8 +33,6 @@ block cPanel
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right(border="0")
               thead
-                th
-                  input#checkall(type="checkbox")
                 th اسم القسم
                 th.text-left Department Name
                 th(style="width:25%;")
@@ -45,8 +41,6 @@ block cPanel
               tbody#tbody
                 for Department in dept
                   tr(data-id = '#{Department.id}',data-name = '#{Department.name}',data-name_en = '#{Department.name_en}')
-                    td
-                      input.checkthis(type="checkbox")
                     td #{Department.name}
                     td.text-left #{Department.name_en}
                     td
@@ -81,10 +75,10 @@ block cPanel
               .row
                 .col-xs-6.col-md-6
                   label.h4 اسم القسم
-                  input#name.form-control(type="text", placeholder="اسم القسم بالعربي", name="name")
-                .col-xs-6.col-md-6
+                  input#name.form-control(type="text", placeholder="اسم القسم", name="name")
+                .col-xs-6.col-md-6.text-left
                   label.h4.pull-left Department name
-                  input#name_en.form-control(type="text", placeholder="اسم القسم بالانجليزي", name="name_en", dir="ltr")
+                  input#name_en.form-control(type="text", placeholder="Department name", name="name_en", dir="ltr")
                   input#id(name="id",type="hidden")
         .modal-footer
           button#save.btn.btn-warning.btn-lg(style="width: 100%;")
@@ -117,9 +111,8 @@ block cPanel
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/jquery.validate.min.js')
-  script(src='/js/helpers.js')
-  script(src='/js/department.js') 
   script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
   script(src='/js/departments.js')
   script.
     $(document).ready(function(){
