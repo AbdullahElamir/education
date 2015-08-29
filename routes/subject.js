@@ -29,6 +29,7 @@ var Sequelize = require('sequelize')
         status: 1
       }
     }).then(function(sub) {
+            console.log(sub);
           res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
       }); 
     });

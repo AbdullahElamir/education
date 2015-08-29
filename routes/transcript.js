@@ -162,7 +162,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               }
                 array.push(sum/sumUnit);
               }
-             // console.log(array);
               res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
             });
           });

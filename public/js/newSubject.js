@@ -88,12 +88,17 @@ $(document).ready(function(){
   $('body').on('click', '#sh', function(){
     var id = $(this).val();
     $.get('/subject/getSubject/'+id,function(subject){
-      $('#no_pr_unit').val(subject[0].no_pr_unit);
-      $('#no_pr_hour').val(subject[0].no_pr_hour);
+
+      //name
+      
+      $('#subject_name').val(subject[0].name);
+       $('#subject_name_en').val(subject[0].name_en);     
+
+      $('#subject_no_th_unit').val(subject[0].no_th_unit);
       $('#chapter_degree').val(subject[0].chapter_degree);
       $('#final_theor').val(subject[0].final_theor);
       $('#final_practical').val(subject[0].final_practical);
-      //$('#sub_Type').val(subject[0].sub_type);
+      $('#subject_code').val(subject[0].code);
       if(subject[0].subject_type==1)
       {
       var x= "عامة";
