@@ -52,8 +52,7 @@ INSERT INTO `Divisions` (`id`, `name`, `name_en`, `status`, `createdAt`, `update
 --
 
 INSERT INTO `Users` (`id`, `name`, `email`, `password`, `salt`, `phone`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'احمد الفيتوري', 'ahmed.elfituri@gmail.com', 'JA+dUSkF9SqvovwTkas2fB79d5cYRJhrv2NfKndQXxQn2nCH+ElXTiZKOuUKP0N6qTA9kRdqIdyu/McmX5t/Kxtb70Qpz8x6XqPYmV1vOaSwaVj62fH44zNQDQ7RTe4xfuTphSlYkdqMns3zxP+Nwlf86+/HP8NwAkCsIk+wZKQb5tQFMY0wA6SZHkcNcqgQf4v/EgvEFKhX4qzlR8tI3Mzrl2PppxPlpuwK3yNtT6YCRLTgKTWfLL0haQtBOM0Bgq8SA4F68Q2yvjhzHmDJccM/IzPDtYtJ5eXyXy6qIt8XbZcQ2ZtYNaIvCwr5vkDN0eKvOop83SzJL+CNZDSSqA==', '200.R9+bVO7LHvjm9U+moDxu55lIjMgE86SHS/IfLQAcTlk=', '0925032654', 1, '2015-08-23 19:15:03', '2015-08-23 19:15:03'),
-SET FOREIGN_KEY_CHECKS=1;
+(1, 'احمد الفيتوري', 'ahmed.elfituri@gmail.com', 'KL42X+S3paArqe/8vkwQ76KNmg2NpbuBBvP8xGfmTN0JnGZALQN0R8/xEHZ9L1B9nQiQxNERevMJIc9RLVgCyoRYijiddnDVz5VDvu3lyplmQP2Pv/ndOETLTivI3J4EuSmUsqsaa8UgHDxzK4sfpWm2jwsaCGmsTOP2yEAiimGI4H3Jce1FPCZ8OMiBRxqa5Iyul+ClWz3vYEiwl/8kToc6eTuxnsEGI6iml2MhyaHsMIyZf57Iaqw43ZGrm2ms8YGLjvYAnnVzpebb0BL8p8OeV4tjJCI2bapp8rVGPomh5k/TM2Pe9HIhkyLgAf0UUeFSOtb9rULVTLIASHehfw==', '200.Y8QKo9Grr6Aew+uh4AKlR1zz9PEJ9VmJZ3rT+cLO/ZI=', '0925032654', 1, '2015-08-23 19:15:03', '2015-08-29 22:00:02');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
