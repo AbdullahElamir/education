@@ -88,4 +88,7 @@ block content
         format: 'YYYY-MM-DD',
         locale: 'ar-sa'
       });
+      $('.selectpicker').selectpicker().change(function(){
+        $(this).valid()
+      });
     });
