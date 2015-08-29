@@ -55,6 +55,20 @@ module.exports = {
     }
     return page;
   },
+  getQuery : function (req){
+    var Q = '';
+    if(url.parse(req.url, true).query.q){
+      Q = url.parse(req.url, true).query.q;
+    }
+    return Q;
+  },
+  getSearchType : function (req){
+    var S = '';
+    if(url.parse(req.url, true).query.s){
+      S = url.parse(req.url, true).query.s;
+    }
+    return S;
+  },
   getPageCount : function(count){
     return Math.ceil(count/10);
   },

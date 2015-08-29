@@ -215,4 +215,31 @@ $(document).ready(function(){
     var pageUrl = '/facultyMember/'
     window.history.pushState("","",pageUrl);
   }
+  $('#FacultyMember_search').on('input', function(){
+    if($('#FacultyMember_search').val().length >=3) {
+      alert("you are in ");
+      $.get('/facultyMember/facultyMembersearch/'+$('#FacultyMember_search').val(),function(result){
+        alert(result);
+        $('#tbody').empty();
+        $('.pagination').hide();
+        var gender= "";
+        var national ="";
+        var nat= {} ;
+
+        console.log(result);
+        for(key in result){
+            if(result[key].gender === 1){
+              gender= "ذكر";
+            }
+            else{
+              gender="أنثى";
+            }
+          $('#tbody').append('<tr data-id = "'+result[key].id+'"data-dDepartmentId="'+result[key].DepartmentId+'" data-name = "'+result[key].name+'" data-qualification = "'+result[key].qualification+'" data-specialization='+result[key].specialization+'"data-gender="'+result[key].gender+'"data-phone="'+result[key].phone+'"data-physical_address="'+result[key].physical_address+'"data-place_birth="'+result[key].place_birth+'"data-birth_date="'+result[key].birth_date+'"data-nationality="'+result[key].nationality+'"><td>'+result[key].name+'</td><td>'+result[key].qualification+'</td><td>'+result[key].specialization+'</td><td>'
+            +gender+'</td><td>'+national+'</td>'
+            +'<td>'+result[key].Department.name+'</td><td>'+national+'</td>'
+            +'</td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><button id="edit" class="btn btn-primary btn-xs " value="'+result[key].id+'"data-title="edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><button id="Deletee" class="btn btn-danger btn-xs" value='+result[key].id+'data-title="Deletee" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td></tr>');
+        }
+      });
+    }
+  });
 });

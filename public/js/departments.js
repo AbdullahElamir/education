@@ -133,4 +133,15 @@ $(document).ready(function(){
     var pageUrl = '/department/'
     window.history.pushState("","",pageUrl);
   }
+  $('#department_search').on('input', function(){
+    if($('#department_search').val().length >=3) {
+      $.get('/department/departmentsearch/'+$('#department_search').val(),function(result){
+        $('#tbody').empty();
+        $('.pagination').hide();
+        for(key in result){
+          $('#tbody').append('<tr data-id = "'+result[key].id+'" data-name = "'+result[key].name+'" data-name_en = "'+result[key].name_en+'"><td><input class="checkthis" type="checkbox"/></td><td>'+result[key].name+'</td><td class="text-left">'+result[key].name_en+'</td><td></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><button id="Edit" class="btn btn-primary btn-xs editDepartment" value="'+result[key].id+'"data-title="Edit" data-nn="'+result[key].id+'" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></spam></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="إلغاء"><button id="Delete" class="btn btn-danger btn-xs" value="'+result[key].id+'"data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
+        }
+      });
+    }
+  });
 });

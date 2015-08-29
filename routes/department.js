@@ -86,6 +86,18 @@ var nationality = require('../Nationality');
       res.redirect('/department');
     });
   });
+//search department by name
+router.get('/departmentsearch/:name',function(req, res) {
+   models.Department.findAll({
+    where: {
+      name:{
+        $like:'%'+req.params.name+'%'
+      } 
+    }
+  }).then(function(departments) {
+    res.send(departments);
+  });
+});
 // End department ////////////////////////////////////////////////////////
 
 module.exports = router;

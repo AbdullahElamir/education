@@ -96,6 +96,22 @@ var nationality = require('../Nationality');
       });
     });
   });
+router.get('/facultyMembersearch/:name',function(req, res) {
+  console.log('sssssssssssssss');
+   models.Faculty_member.findAll({      
+    include: [{
+        model: models.Department,
+        where: { status: 1 }
+      }],
+      where: {
+        status: 1,
+        name: {$like:'%'+req.params.name+'%'} 
+      }
+  }).then(function(facultymember) {
+    console.log(nationality);
+    res.send(facultymember);
+  });
+});
 // ///  End facility member  //////////////////////////////////////////////
 
 module.exports = router;

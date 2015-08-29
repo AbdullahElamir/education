@@ -20,8 +20,15 @@ var nationality = require('../Nationality');
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
+    var q = userHelpers.getQuery(req);
+    var s = userHelpers.getSearchType(req);
+    console.log(s);
+    var w={};
+    w =q.split(" ");
+    if(s==0){
     models.Student.findAndCountAll({
       where: {
+        first_name:{$like:'%'+q+'%'},
         status: 1
       },
       limit : 10,
@@ -29,8 +36,50 @@ var nationality = require('../Nationality');
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
+    });}  
+    if(s==1){
+    models.Student.findAndCountAll({
+      where: {
+        father_name:{$like:'%'+q+'%'},
+        status: 1
+      },
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
     });
+    }
+    if(s==2){
+    models.Student.findAndCountAll({
+      where: {
+        last_name:{$like:'%'+q+'%'},
+        status: 1
+      },
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
+    });
+    }
+    if(s==3){
+    models.Student.findAndCountAll({
+      where: {
+        set_number:{$like:'%'+q+'%'},
+         status: 1
+      },
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
+    });
+    }
   });
 
   router.get('/newStudent',userHelpers.isLogin, function(req, res) {
@@ -77,6 +126,25 @@ var nationality = require('../Nationality');
       });
     });
   });
+router.get('/studentsearch/:name',function(req, res) {
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+   models.Student.findAndCountAll({
+    where: {
+      first_name:{
+        $like:'%'+req.params.name+'%'
+      } 
+    },
+    limit : 10,
+    offset : limit,
+  }).then(function(students) {
+    var pageCount = userHelpers.getPageCount(students.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+    console.log(students,pagination);
+    var obj = {students:students,pagination:pagination};
+    res.send(obj);
+  });
+});
 // //////End students /////////////////////////////////////////
 
 module.exports = router;
