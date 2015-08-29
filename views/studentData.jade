@@ -83,16 +83,16 @@ block content
                 option(value="2") غير نظامي
                 option(value="3") إيقاف قيد
             .col-xs-2.col-md-2
+              select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                for i in dept
+                  option(value="#{i.id} ") #{i.name}  
+            .col-xs-2.col-md-2
               select.form-control.selectpicker#division_iddivision(name="DivisionId", data-live-search="true", data-size=5)
                 option(value="", style='color:grey; display:none;') اختر اسم الشعبة...
                 for i in dev
                   option(value="#{i.id}") #{i.name}
-              input#studentId.form-control(value="#{std}",type="hidden")
-            .col-xs-2.col-md-2
-              select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
-                option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                for i in dept
-                  option(value="#{i.id} ") #{i.name}                   
+              input#studentId.form-control(value="#{std}",type="hidden")             
         .table-responsive
           table#mytable.table.table-bordred.table-striped.text-right
             thead
