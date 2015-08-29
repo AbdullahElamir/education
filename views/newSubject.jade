@@ -73,12 +73,12 @@ block content
                   label.radio-inline
                     input#radio.radiooo(type='radio', name='department',value="3")
                     | كلاهما
-                #department_select
-                  label تندرج تحت قسم
-                  select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
-                    option(value="", style='color:grey; display:none;') اختر اسم القسم...
-                    for i in dept
-                      option(value="#{i.id}") #{i.name}
+                //- #department_select
+                //-   label تندرج تحت قسم
+                //-   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                //-     option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                //-     for i in dept
+                //-       option(value="#{i.id}") #{i.name}
           .form-group 
             .row
               .col-xs-3.col-md-3
@@ -88,14 +88,19 @@ block content
                   option(value="", style='color:grey; display:none;') اختر اسم المواد...
                   for u in sub
                     option(value="#{u.id}", style='color:grey; ') #{u.name}
-
+              .col-xs-3.col-md-3.col-md-offset-6
+                #department_select(style="position: absolute;")
+                  label تندرج تحت قسم
+                  select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                    option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                    for i in dept
+                      option(value="#{i.id}") #{i.name}
               .col-xs-5.col-md-5
                 table#my.table.table-bordered
                   tbody
                   //- for u in sub
                   //-   tr
-                  //-     td.text-center #{u.name} 
-                     
+                  //-     td.text-center #{u.name}        
           hr
           .col-xs-2.col-xs-offset-4.col-md-2.col-md-offset-5
             button#save.btn.btn-primary(type="button")
