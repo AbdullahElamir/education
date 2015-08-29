@@ -33,6 +33,7 @@ router.get('/',userHelpers.isLogin, function(req, res) {
   });
 
   router.post('/updateUser',userHelpers.isLogin, function(req, res) {
+    delete req.body.newConfirmPassword;
     userHelpers.updateUser(req.body,function(result){
       var rel = {result : result ,stat : true};
           res.send(rel);
