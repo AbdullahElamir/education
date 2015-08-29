@@ -8,14 +8,14 @@ $(document).ready(function(){
     $.get('/department/deleteDepartment/'+$(this).val(),function(todo){
       switch(todo.msg){
         case "1" :
-          custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign");
+          custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
           $('[data-id = "'+id+'"]').remove();
           break;
         case "2" :
-          custNotify("danger","فشل","لايمكن مسح القسم لوجود كيانات معتمدة عليه","warning-sign");
+          custNotify("danger","فشل","لايمكن مسح القسم لوجود كيانات معتمدة عليه","warning-sign","bounceInDown","bounceOutUp");
           break;
         case "3" :
-          custNotify("danger","فشل","لايمكن مسح القسم عام وذلك لاعتماد المنظومة عليه","warning-sign");
+          custNotify("danger","فشل","لايمكن مسح القسم عام وذلك لاعتماد المنظومة عليه","warning-sign","bounceInDown","bounceOutUp");
           break;
         default:
           break; 
@@ -58,22 +58,7 @@ $(document).ready(function(){
           $('#name').val($("form").serializeObject().name);
           $('#name_en').val($("form").serializeObject().name_en);
           $('#edit').modal('hide');
-           $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
+          custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
         }
       });
     }
@@ -121,23 +106,7 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
 
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة قسم جديد بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
+    custNotify("success","نجح","تمت إضافة قسم جديد بنجاح","ok-sign","bounceInDown","bounceOutUp");
     var pageUrl = '/department'
     window.history.pushState("","",pageUrl);
   }

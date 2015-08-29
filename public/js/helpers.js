@@ -22,8 +22,8 @@ $(document).ready(function(){
     else
       e.preventDefault();
   });
-
-  custNotify = function(notType,msgType,msg,sign){
+  // Custom function for bootstrap notify
+  custNotify = function(notType,msgType,msg,sign,enterAnimat,exitAnimat){
     $.notify({
       message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-"+sign+"'></i>&nbsp;<strong>"+msgType+":</strong> "+msg+" </p>"
       },{
@@ -37,8 +37,8 @@ $(document).ready(function(){
       mouse_over: null,
       newest_on_top: true,
       animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
+        enter: 'animated '+enterAnimat,
+        exit: 'animated '+exitAnimat,
       },
     });
   }

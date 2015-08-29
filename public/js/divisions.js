@@ -10,14 +10,14 @@ $(document).ready(function(){
     $.get('/division/deleteDivision/'+$(this).val(),function(todo){
       switch(todo.msg){
         case "1" :
-          custNotify("success","نجح","لقد تم مسح الشعبة بنجاح","ok-sign");
+          custNotify("success","نجح","لقد تم مسح الشعبة بنجاح","ok-sign","bounceInDown","bounceOutUp");
           $('[data-id = "'+id+'"]').remove();
           break;
         case "2" :
-          custNotify("danger","فشل","لايمكن مسح الشعبة لوجود كيانات معتمدة عليها","warning-sign");
+          custNotify("danger","فشل","لايمكن مسح الشعبة لوجود كيانات معتمدة عليها","warning-sign","bounceInDown","bounceOutUp");
           break;
         case "3" :
-          custNotify("danger","فشل","لايمكن مسح الشعبة عام وذلك لاعتماد المنظومة عليها","warning-sign");
+          custNotify("danger","فشل","لايمكن مسح الشعبة عام وذلك لاعتماد المنظومة عليها","warning-sign","bounceInDown","bounceOutUp");
           break;
         default:
           break; 
@@ -71,23 +71,7 @@ $(document).ready(function(){
           $('#name_en').val($("form").serializeObject().name_en);
           $('#DepartmentId').selectpicker('val' ,$("form").serializeObject().id);////selected in select
           $('#edit').modal('hide');
-           $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت التعديل بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
+          custNotify("success","نجح","تمت التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
         }
       });
     }
@@ -107,23 +91,7 @@ $(document).ready(function(){
     return b;
   })(window.location.search.substr(1).split('&'));
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة شعبه جديدة بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
+    custNotify("success","نجح","تمت إضافة شعبه جديدة بنجاح","ok-sign","bounceInDown","bounceOutUp");
     var pageUrl = '/division'
     window.history.pushState("","",pageUrl);
   }
