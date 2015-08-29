@@ -286,19 +286,15 @@ router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
 });
 });
   router.get('/deleteSemesters/:id', function(req, res) {
-    models.Semester.find({
-      where: {
-        id: req.params.id
-      }
+    models.Semester.destroy({
+        where: {
+          id: req.params.id
+        }      
       }).then(function (todo) {
-      todo.updateAttributes({
-          status: 0
-      }).then(function (todo) {
-          res.send(todo);
+        res.send({msg:"1"});
       }).catch(function (err) {
-          console.log(err);
+        res.send({msg:"2"});
       });
-    });
   });
 // End Semester /////////////////////////////////////////////////////////
 

@@ -72,26 +72,6 @@ block content
                   a(href='?p=#{page.n}') #{page.n}
               li(class="#{pagination.next.disabled}")
                 a(href='?p=#{pagination.next.n}') التالي
-  #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align تعديل فصل دراسي
-        .modal-body
-          .form-group
-            input.form-control(type="text", placeholder="Mohsin")
-          .form-group
-            input.form-control(type="text", placeholder="Irshad")
-          .form-group
-            textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
-        .modal-footer
-          button.btn.btn-warning.btn-lg(type="button", style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign
-            |  تعديل
-      // /.modal-content
-    // /.modal-dialog
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
