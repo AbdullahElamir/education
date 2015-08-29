@@ -9,4 +9,9 @@ router.get('/', function(req, res) {
   res.render('authentication', { title: 'شاشة الدخول' });
 });
 
+/* GET home page. */
+router.get('/login', function(req, res) {
+  res.render('authentication', { title: 'شاشة الدخول' });
+});
+
 module.exports = router

@@ -27,7 +27,7 @@ var Sequelize = require('sequelize')
         status: 1
       }
     }).then(function(department) { 
-    res.render('divisions', { title: 'عرض الشعب', departments: department, divisions: division.rows,pagination:pagination, collapseFour: 'collapse in', activeFourThree: 'active' });
+    res.render('divisions', { title: 'عرض الشعب', name:req.session.name, departments: department, divisions: division.rows,pagination:pagination, collapseFour: 'collapse in', activeFourThree: 'active' });
     });
     });
   });
@@ -47,7 +47,7 @@ var Sequelize = require('sequelize')
           ).then(function(semester){
             models.sequelize.query('SELECT * FROM `DivisionSubjects` d ,`Subjects` s WHERE `d`.`DivisionId` = ? AND `d`.`SubjectId`= `s`.`id` AND `s`.`system_type`=2 AND `s`.`status`=1; ', { replacements: [req.params.id] }
             ).then(function(year){
-              res.render('division', { title: 'View division',division:division,subjectsS:subjectsS[0],subjectsY:subjectsY[0],semester:semester[0],year:year[0],id_div:req.params.id ,collapseFour: 'collapse in', activeFourThree: 'active' });
+              res.render('division', { title: 'View division', name:req.session.name,division:division,subjectsS:subjectsS[0],subjectsY:subjectsY[0],semester:semester[0],year:year[0],id_div:req.params.id ,collapseFour: 'collapse in', activeFourThree: 'active' });
             });
           });
         });
@@ -84,7 +84,7 @@ var Sequelize = require('sequelize')
         status: 1
       }
     }).then(function(departments) {
-      res.render('newDivision', { title: 'إضافة شعبه جديدة', departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
+      res.render('newDivision', { title: 'إضافة شعبه جديدة', name:req.session.name, departments: departments, collapseFour: 'collapse in', activeFourFour: 'active' });
     });
   });
 

@@ -26,10 +26,6 @@ block content
                 a.btn.btn-success(href='/subject/newSubject', role='button',data-toggle='modal')
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة مادة دراسية
-              .pull-left(style="margin-left: 10px;")
-                a.btn.btn-primary(href='#', role='button',data-toggle='modal')
-                  span.glyphicon.glyphicon-print
-                  span.text-none  طباعة
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
@@ -37,19 +33,17 @@ block content
                 th Subject name
                 th رمز المادة
                 th عدد الوحدات النظري
-                th عدد الساعات العملي
-                th.text-center عرض
+                th.text-center عرض المزيد
                 th.text-center تعديل
                 th.text-center إلغاء
               tbody
           
-              for i in Sub
+              for i,u in Sub
                 tr(data-id = '#{i.id}')
                   td #{i.name}
                   td #{i.name_en}
                   td #{i.code}
                   td #{i.no_th_unit}
-                  td #{i.no_th_hour}
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="عرض")
                       button#sh.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#show")
@@ -73,7 +67,7 @@ block content
               li(class="#{pagination.next.disabled}")
                 a(href='?p=#{pagination.next.n}') التالي
   #show.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-    .modal-dialog.modal-lg
+    .modal-dialog
       .modal-content
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -83,59 +77,56 @@ block content
           form.form(action="", method="post", accept-charset="utf-8", role="form")
             .form-group
               .row
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  اسم المادة
                   input#subject_name.form-control(type="text", name="subject_name", placeholder="عدد الوحدات العملي", disabled)
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  Subject Name
                   input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="عدد ساعات العملي", disabled)
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  رمز المادة
                   input#subject_code.form-control(type="text", name="subject_code", placeholder="عدد ساعات العملي", disabled)
             .form-group
               .row
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  عدد الوحدات النظري
                   input#subject_no_th_unit.form-control(type="text", name="subject_no_th_unit", placeholder="عدد ساعات العملي", disabled)
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label               
                     span  تندرج تحت قسم
                   input#subject_type.form-control(type="text", name="subject_type", placeholder="subject_type", disabled)
-            .form-group
-              .row
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  درجات امتحانات النصفيات
                   input#chapter_degree.form-control(type="text", name="chapter_degree", placeholder="درجات امتحانات النصفيات", disabled)
-                .col-xs-3.col-md-3
+            .form-group
+              .row
+                .col-xs-4.col-md-4
                   label
                     span  الدرجة النهائية
                   input#final_theor.form-control(type="text", name="final_theor", placeholder="الدرجة النهائية", disabled)
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  درجة العملي
                   input#final_practical.form-control(type="text", name="final_practical", placeholder="درجة العملي", disabled)
-                .col-xs-3.col-md-3
-
-            .form-group
-              .row
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span   نظام الدراسة 
                   input#System_Type.form-control(type="text", name="System_Type", placeholder="System Type", disabled)
-                .col-xs-3.col-md-3
+            .form-group
+              .row
+                .col-xs-4.col-xs-offset-2.col-md-4.col-md-offset-2
                   label
                     span  اسم القسم
                   input#department.form-control(type="text", name="department", placeholder="اسم القسم", disabled)
-                .col-xs-3.col-md-3
+                .col-xs-4.col-md-4
                   label
                     span  إســم المستخدم
                   input#user.form-control(type="text", name="user", placeholder="إســم المستخدم", disabled)
-
         .modal-footer
           button.btn.btn-warning.btn-lg(type="button", style="margin-left:25%;width:50%;", data-dismiss="modal")
             span.glyphicon.glyphicon-eye-close
@@ -215,7 +206,7 @@ block content
                         select#department_iddepartment.form-control.selectpicker(name="DepartmentId", data-live-search="true", data-size=5)
                           option(value="", style='color:grey; display:none;') اختر اسم القسم...
                           for l in dep
-                            option(value="#{l.id}", style='color:grey; ') #{l.name} 
+                            option(value="#{l.id}") #{l.name} 
                            
                #tabTow.tab-pane(role="tabpanel")
                 br
@@ -227,7 +218,7 @@ block content
                       select.form-control.selectpicker#subject_id(name="SubjectId", data-live-search="true", data-size=5)
                         option(value="", style='color:grey; display:none;') اختر اسم المواد...
                         for i in subb
-                          option(value="#{i.id}", style='color:grey;') #{i.name}
+                          option(value="#{i.id}") #{i.name}
                         
                     .col-xs-5.col-md-5
                       table#myy.table.table-bordered

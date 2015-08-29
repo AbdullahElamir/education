@@ -17,7 +17,7 @@ var userHelpers = require('../app/userHelpers');
     }).then(function(department) {
       var pageCount = userHelpers.getPageCount(department.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('department', { title: 'عرض اﻷقسام',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
+      res.render('department', { title: 'عرض اﻷقسام', name:req.session.name,pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
     });
   });
 
@@ -67,7 +67,7 @@ var userHelpers = require('../app/userHelpers');
   });
 
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
-    res.render('newDepartment', { title: 'إضافة قسم جديد', collapseFour: 'collapse in', activeFourTwo: 'active' });
+    res.render('newDepartment', { title: 'إضافة قسم جديد', name:req.session.name, collapseFour: 'collapse in', activeFourTwo: 'active' });
   });
 
 

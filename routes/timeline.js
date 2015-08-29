@@ -6,15 +6,15 @@ var userHelpers = require('../app/userHelpers');
 
 // Start timelines /////////////////////////////////////////////////////////
   router.get('/',userHelpers.isLogin, function(req, res) {
-    res.render('timelines', { title: 'عرض الجدول الدراسي' });
+    res.render('timelines', { title: 'عرض الجدول الدراسي', name:req.session.name });
   });
 
   router.get('/newTimeline',userHelpers.isLogin, function(req, res) {
-    res.render('newTimeline', { title: 'إضافة جدول دراسي' });
+    res.render('newTimeline', { title: 'إضافة جدول دراسي', name:req.session.name });
   });
 
   router.get('/timelineReview',userHelpers.isLogin, function(req, res) {
-    res.render('timelineReview', { title: 'اختيار الجدول الدراسي' });
+    res.render('timelineReview', { title: 'اختيار الجدول الدراسي', name:req.session.name });
   });
 // End timelines /////////////////////////////////////////////////////////
  
