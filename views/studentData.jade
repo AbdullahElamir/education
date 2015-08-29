@@ -46,21 +46,30 @@ block cPanel
                   th.text-center المعدل التراكمي
                   th.text-center تنزيل 
                 tbody
-                for i in semStudent
+                for i,u in semStudent
                   tr(data-id = '')
                     td.text-center
                       if i.Semester.system_type == 1
                         |  فصل
                       if i.Semester.system_type == 2
                         |  سنة
-
-                     
                     td.text-center #{i.Semester.year.getFullYear()}
                     td.text-center #{i.Semester.starting_date.getDate()} / #{i.Semester.starting_date.getMonth()+1} / #{i.Semester.starting_date.getFullYear()} 
                     td.text-center #{i.Semester.ending_date.getDate()} / #{i.Semester.ending_date.getMonth()+1} / #{i.Semester.ending_date.getFullYear()} 
                     td.text-center #{i.Division.name}
-                    td.text-center
-                    td.text-center
+                    td.text-center 
+                      if arr[u] ==Nan 
+                        |0
+                      else
+                        | #{arr[u]}
+
+                    td.text-center 
+                      if arr[u] ==Nan 
+                        |0
+                      else
+                        | #{ar[u]}
+
+                    
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تنزيل المواد")  
                         a.btn.btn-primary.btn-xs(href='/transcript/addStudentSubject/#{i.id}',value="#{i.id}",data-title="Delete", data-toggle="modal")

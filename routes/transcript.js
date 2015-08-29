@@ -16,24 +16,19 @@ var nationality = require('../Nationality');
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
 
-
-
 // Start transcript /////////////////////////////////////////////////////////
   router.get('/transcript', function(req, res, next) {
     jsr.render({
       template: { 
         content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-          // content: "<h1>Hello world</h1>",
         recipe: "phantom-pdf"
       },
       data:obj
     }).then(function (response) {
-      //you can for example pipe it to express.js response
       response.result.pipe(res);
     });
   });
 
-  // getAllNationality
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -42,27 +37,6 @@ var nationality = require('../Nationality');
       });
     });
 
-
-       /*  router.get('/transcript', function(req,res) {
-       models.SemesterStudents.findAll({
-        where: { 
-        status: 1 , 
-        
-      },
-      "include" : [
-        {"model" : models.Semester},
-        {"model"  : models.Divisions},
-        {"model"  : models.Departments},
-        {"model"  : models.Users}
-      ],
-    }).then(function(sem) {
-      console.log(sem);
-      res.send(sem);
-    });*/
-// End transcript /////////////////////////////////////////////////////////
-
-
-////////تنزيل المواد ////////////////
 
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
   var page = userHelpers.getPage(req);
@@ -79,14 +53,16 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
       var pagination = userHelpers.paginate(page,pageCount);
       res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
     });
-  //res.render('academicTranscripts', { title: 'Academic Transcripts' });
 });
+
+
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts' });
 });
 
+
+
 router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
-   
    models.Department.findAll({
       where: {
         status: 1
@@ -112,16 +88,91 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
         {"model" : models.Division},
         {"model"  : models.Department},
         {"model"  : models.User},
-        {"model"  : models.Semester},
+        {"model"  : models.Semester,
+      },
       ],
          }).then(function(semstudent) {
-        res.render('studentData', { title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
-      });
-      });
-     });
-    });
-  });
+          var idstudent =req.params.id;
+            models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
+            ).then(function(mix){
 
+         var arrayy=[];
+              if(mix[0][0]!= undefined)
+              {
+              var t=mix[0][0].SemesterId;
+              var tt=mix[0][0].SemesterId;
+              var summ=0.0;
+              var sumUnitt=0.0;
+              var semesterCount=0;
+            // make the nested for 
+              for(var i=0;i<mix[0].length;i++)
+              { 
+                if(mix[0][i].SemesterId==tt)
+                {
+                  if(mix[0][i].sum_dagree>=50){
+                  summ=summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit);
+                  sumUnitt=sumUnitt+mix[0][i].no_th_unit;
+                }
+                } else {
+                   arrayy.push(summ/sumUnitt);
+                  summ=0.0;
+                  sumUnitt=0.0;
+                  tt=mix[0][i].SemesterId;
+                  --i;
+                }      
+              }
+                arrayy.push(summ/sumUnitt);
+              }
+
+              console.log(arrayy);
+              var ratio=[];
+              var sum=0;
+              var l=0;
+              for(var i=0;i<arrayy.length;i++)
+              {
+               sum=sum+arrayy[i];
+               console.log(sum);
+               l=sum/(i+1);
+               ratio.push(l);
+              }
+            //  console.log(ratio);
+
+
+ //****************************************************************************
+
+              var array=[];
+              if(mix[0][0]!= undefined)
+              {
+              var t=mix[0][0].SemesterId;
+              var tt=mix[0][0].SemesterId;
+              var sum=0.0;
+              var sumUnit=0.0;
+              var semesterCount=0;
+              for(var i=0;i<mix[0].length;i++)
+              {
+                if(mix[0][i].SemesterId==t)
+                {
+                  sum=sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit);
+                  sumUnit=sumUnit+mix[0][i].no_th_unit;
+                } else {
+                   array.push(sum/sumUnit);
+                  sum=0.0;
+                  sumUnit=0.0;
+                  t=mix[0][i].SemesterId
+                  --i;
+                }      
+              }
+                array.push(sum/sumUnit);
+              }
+             // console.log(array);
+              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+            });
+          });
+        });
+      });
+    });
+ });
+  
 router.post('/addSemesterStudent',function(req,res){
  objStudent=req.body;
  objStudent.UserId=1;
@@ -271,9 +322,5 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
       res.send(true);
     });
 });
-
-
-//////////////
-
 
 module.exports = router;

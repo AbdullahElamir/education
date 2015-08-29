@@ -4,6 +4,7 @@ var generatePassword = require('password-generator'),
 var models  = require('../models');
 
 module.exports = {
+
   /* here we add a new user to the system */
   addUser: function (body, cb) {
     var salt = easyPbkdf2.generateSalt(), //we generate a new salt for every new user
@@ -110,4 +111,9 @@ module.exports = {
       return false;
     }
   },
+
+
 };
+
+
+
