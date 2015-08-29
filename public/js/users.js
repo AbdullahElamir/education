@@ -54,23 +54,7 @@ $(document).ready(function(){
           $('#confirm_password').val("");
           $('#password').val("");
           $('#edit').modal('hide');
-           $.notify({
-            message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تم التعديل بنجاح </p>"
-            },{
-            type: 'success',
-            allow_dismiss: true,
-            showProgressbar: false,
-            placement: {
-              from: 'top',
-              align: 'center'
-            },
-            mouse_over: null,
-            newest_on_top: true,
-            animate: {
-              enter: 'animated bounceInDown',
-              exit: 'animated bounceOutUp'
-            },
-          });
+          custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
         }
       });
     }
@@ -135,23 +119,7 @@ $(document).ready(function(){
   })(window.location.search.substr(1).split('&'));
 
   if(qs["msg"]==1){
-    $.notify({
-      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-ok-sign'></i>&nbsp;<strong>نجح:</strong> تمت إضافة مستخدم جديد بنجاح </p>"
-      },{
-      type: 'success',
-      allow_dismiss: true,
-      showProgressbar: false,
-      placement: {
-        from: 'top',
-        align: 'center'
-      },
-      mouse_over: null,
-      newest_on_top: true,
-      animate: {
-        enter: 'animated bounceInDown',
-        exit: 'animated bounceOutUp'
-      },
-    });
+    custNotify("success","نجح","تمت إضافة مستخدم جديد بنجاح","ok-sign","bounceInDown","bounceOutUp");
     var pageUrl = '/users'
     window.history.pushState("","",pageUrl);
   }
