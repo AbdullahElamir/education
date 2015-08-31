@@ -36,6 +36,7 @@ module.exports = function (router) {
   router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), function(req, res) {
     findById(req.session.passport.user, function (err, user) {
       req.session.iduser=user.id;
+      req.session.name=user[0].name;
       res.redirect('/cPanel');
     });
   });

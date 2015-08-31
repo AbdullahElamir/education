@@ -3,7 +3,6 @@ $(document).ready(function(){
   $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
   });
-
   // $('#startDate').click(function () {
   //   alert(n);
   // });
@@ -20,7 +19,17 @@ $(document).ready(function(){
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/semester/deleteSemesters/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+     switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح النظام الدراسي بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          $('[data-id = "'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح النظام الدراسي لوجود كيانات معتمدة عليه","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        default:
+          break; 
+      }
     });
   });
 
@@ -118,8 +127,12 @@ $(document).ready(function(){
     }
   });
 
-  $('.selectpicker').selectpicker().change(function(){
-    $(this).valid()
+  $('#addSemester').on('click',function(e){
+    e.preventDefault();
+    if($('#newSemester').valid()){
+      $('#addSemester').prop('disabled', true);
+      $('#newSemester').submit();
+    }
   });
 
   var qs = (function(a) {

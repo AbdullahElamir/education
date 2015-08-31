@@ -1,15 +1,13 @@
 $(document).ready(function(){
+  
   var iddd =[];
   var subject=[];
   var toggle =1;
-
   $('#subjectId').on('change', function() {
     var check=$.inArray($('#subjectId>option:selected').text(),subject)
-    if(check == -1 )
-    {
+    if(check == -1 ) {
       iddd.push($(this).val() );
       subject.push($('#subjectId>option:selected').text());
-    //  alert($('#subjectId>option:selected').text());
       $("#my").append("<tr><td class='text-center'>"+$('#subjectId>option:selected').text()+"</td><td class='text-left'><p data-placement='top' data-toggle='tooltip' title='إلغاء'><button type='button' id='dela' value='"+$(this).val()+"' data-id"+$(this).val()+"="+$('#subjectId>option:selected').text()+"  class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr>");
     }
     else {
@@ -18,8 +16,8 @@ $(document).ready(function(){
   });
 
   function removeItem(array, item){
-    for(var i in array){
-      if(array[i]==item){
+    for(var i in array) {
+      if(array[i]==item) {
         array.splice(i,1);
         break;
       }
@@ -28,7 +26,7 @@ $(document).ready(function(){
   }
 
   var x,y=[];
-  $('body').on('click', '#dela', function(){
+  $('body').on('click', '#dela', function() {
     x=removeItem(iddd,$(this).val());
     if(x== 0) {
       $("#my").empty();
@@ -36,7 +34,7 @@ $(document).ready(function(){
       subject=[];
     }
     else {
-      $.post('/subject/getSub/',{x:x},function(subject){
+      $.post('/subject/getSub/',{x:x},function(subject) {
         var is=[];
         var su=[];
         for(i in subject) {
@@ -55,7 +53,7 @@ $(document).ready(function(){
     }
   });
 
-  $('body').on('click', '#save', function(){
+  $('body').on('click', '#save', function() {
     var isvalidate=$("#newSubject ,#updateSubject").valid();
     if($("#newSubject input[type='radio']:checked").val() == 1) {
       var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd}; 
@@ -85,29 +83,31 @@ $(document).ready(function(){
     }
   });
 
-  $('body').on('click', '#sh', function(){
+  $('body').on('click', '#sh', function() {
     var id = $(this).val();
     $.get('/subject/getSubject/'+id,function(subject){
-      $('#no_pr_unit').val(subject[0].no_pr_unit);
-      $('#no_pr_hour').val(subject[0].no_pr_hour);
+      $('#subject_name').val(subject[0].name);
+      $('#subject_name_en').val(subject[0].name_en);     
+      $('#subject_no_th_unit').val(subject[0].no_th_unit);
       $('#chapter_degree').val(subject[0].chapter_degree);
       $('#final_theor').val(subject[0].final_theor);
       $('#final_practical').val(subject[0].final_practical);
-      //$('#sub_Type').val(subject[0].sub_type);
-      if(subject[0].subject_type==1)
-      {
-      var x= "عامة";
-      } else if (subject[0].subject_type==2){
+      $('#subject_code').val(subject[0].code);
+      if(subject[0].subject_type==1) {
+        var x= "عامة";
+      } 
+      else if (subject[0].subject_type==2) {
        var x= "خاصة";
-      } else {
+      } 
+      else {
         var x= "كلاهما";
       }
       $('#subject_type').val(x);
-       if(subject[0].system_type==1)
-      {
-      var y= "فصل";
-      } else if (subject[0].system_type==2){
-       var y= "عام";
+      if(subject[0].system_type==1) {
+        var y= "فصل";
+      } 
+      else if (subject[0].system_type==2) {
+        var y= "عام";
       }
       $('#System_Type').val(y);
       $('#department').val(subject[0].Department.name);
@@ -119,7 +119,7 @@ $(document).ready(function(){
   var subjId=[];
   var count;
   var x=0;
-  $('body').on('click', '#ed', function(){
+  $('body').on('click', '#ed', function() {
     $('#edittt').val($(this).val());
     x=$(this).val();
     subj=[];
@@ -136,7 +136,7 @@ $(document).ready(function(){
     });
   });
 
-  $('body').on('click', '#delee', function(){
+  $('body').on('click', '#delee', function() {
     subj=[];
     subjId=[];
     $("#myy ").empty();
@@ -154,10 +154,9 @@ $(document).ready(function(){
     });
   });
 
-  $('body').on('click', '#edittt', function(){
+  $('body').on('click', '#edittt', function() {
     var obj ={subName :subj , subPreId : subjId , subjectId : $(this).val() ,count :count}
     $.post('/subject/updatePree/',obj,function(subject){
-    //alert(subject);
     });   
   });
 
@@ -165,20 +164,18 @@ $(document).ready(function(){
     var subName= $('#subject_id>option:selected').text();
     var subId=$(this).val();
     var check=$.inArray(subName,subj);
-    // alert(check);
     if(check == -1) {
       subj.push(subName);
       subjId.push(subId);
       $("#myy").append("<tr id='hii'><td class='text-center'>"+subName+"</td><td><p ></p><button id='delee' value='"+subId+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
     }
     else { 
-      //$("#edit").popup("close");
       $("#edit").modal('hide');
       custNotify("danger","خطأ","عفوا لقد قمت بإدخال المادة سابقا","warning-sign","bounceIn","bounceOut");
     }
   });
 
-  $('body').on('click', '#ed', function(){
+  $('body').on('click', '#ed', function() {
     var id = $(this).val();
     $.get('/subject/getSubject/'+id,function(subject){
       $('#name').val(subject[0].name);
@@ -198,29 +195,28 @@ $(document).ready(function(){
         $('#js_radio').prop("checked",true);
         $('[id^="department_select"]').hide(200);
       }
-      else if(subject[0].subject_type == 2){
+      else if(subject[0].subject_type == 2) {
         // خاص
         $('#radio').prop("checked",true);
         $('[id^="department_select"]').show(200);
         $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }
-      else if(subject[0].subject_type==3){
+      else if(subject[0].subject_type==3) {
         //كلاهما
         $('#radioo').prop("checked",true);
         $('[id^="department_select"]').show(200);
         $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
-        //  $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }
     });  
   });
 
-  $('body').on('click', '#del', function(){
+  $('body').on('click', '#del', function() {
     $('#ok').val($(this).val());
   });
 
-  $('body').on('click','#ok', function(){
+  $('body').on('click','#ok', function() {
     var id=$(this).val();
-    $.get('/subject/deleteSubject/'+$(this).val(),function(todo){
+    $.get('/subject/deleteSubject/'+$(this).val(),function(todo) {
       switch(todo.msg){
         case "1" :
           custNotify("success","نجح","لقد تم مسح المادة بنجاح","ok-sign","bounceInDown","bounceOutUp");
@@ -300,7 +296,7 @@ $(document).ready(function(){
         required: "الرجاء أدخال اسم المادة",
       },
       name_en:{
-        required: "<div style='padding-right:35px; '>!Please enter Subject name</div>",
+        required: "!Please enter Subject name",
       },
       no_th_unit:{
         required: "الرجاء أدخال عدد الوحدات النظري",
@@ -334,7 +330,6 @@ $(document).ready(function(){
         required: "الرجاء اختيار المواد التمهدية!",
       },
     },
-    // errorElement: 'label',
     errorClass: 'custom-error',
     errorPlacement: function(error, element) {
       if(element.parent('.input-group').length) {
@@ -403,7 +398,7 @@ $(document).ready(function(){
         required: "الرجاء أدخال اسم المادة",
       },
       name_en:{
-        required: "<div style='padding-right:35px; '>!Please enter Subject name</div>",
+        required: "!Please enter Subject name",
       },
       no_th_unit:{
         required: "الرجاء أدخال عدد الوحدات النظري",
@@ -437,7 +432,6 @@ $(document).ready(function(){
         required: "الرجاء اختيار المواد التمهدية!",
       },
     },
-    // errorElement: 'label',
     errorClass: 'custom-error',
     errorPlacement: function(error, element) {
       if(element.parent('.input-group').length) {
@@ -458,8 +452,7 @@ $(document).ready(function(){
   var qs = (function(a) {
     if (a == "") return {};
     var b = {};
-    for (var i = 0; i < a.length; ++i)
-    {
+    for (var i = 0; i < a.length; ++i) {
       var p=a[i].split('=', 2);
       if (p.length == 1)
         b[p[0]] = "";
@@ -474,4 +467,5 @@ $(document).ready(function(){
     var pageUrl = '/subject'
     window.history.pushState("","",pageUrl);
   }
+  
 });

@@ -29,7 +29,8 @@ var Sequelize = require('sequelize')
         status: 1
       }
     }).then(function(sub) {
-          res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
+            console.log(sub);
+          res.render('subject', {subb:sub, title: 'عرض المواد الدراسية', name:req.session.name,dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
       }); 
     });
     }); 
@@ -72,7 +73,7 @@ var Sequelize = require('sequelize')
           status: 1
         }
     }).then(function(departments) {
-        res.render('newSubject', {title: 'إضافة مادة دراسية جديدة',dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+        res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
       });
     });
   });

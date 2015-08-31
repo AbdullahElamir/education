@@ -7,6 +7,7 @@ var Sequelize = require('sequelize')
 var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
+var Math = require("math");
 var nationality = require('../Nationality');
 
   var obj = {
@@ -49,13 +50,13 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+      res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
     });
 });
 
 
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
-  res.render('studentSemesters', { title: 'Academic Transcripts' });
+  res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
 
 
@@ -108,9 +109,10 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 if(mix[0][i].SemesterId==tt)
                 {
                   if(mix[0][i].sum_dagree>=50){
-                  summ=summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit);
-                  sumUnitt=sumUnitt+mix[0][i].no_th_unit;
-                }
+
+                  summ=Math.round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+                  sumUnitt=Math.round(sumUnitt+mix[0][i].no_th_unit,3);
+                  }
                 } else {
                    arrayy.push(summ/sumUnitt);
                   summ=0.0;
@@ -150,8 +152,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               {
                 if(mix[0][i].SemesterId==t)
                 {
-                  sum=sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit);
-                  sumUnit=sumUnit+mix[0][i].no_th_unit;
+                  sum=Math.round(sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+                  sumUnit=Math.round(sumUnit+mix[0][i].no_th_unit,3);
                 } else {
                    array.push(sum/sumUnit);
                   sum=0.0;
@@ -162,8 +164,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               }
                 array.push(sum/sumUnit);
               }
-             // console.log(array);
-              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' ,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
             });
           });
         });
@@ -236,7 +237,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
               }]
             }]
           }).then(function(result){
-            res.render('addStudentSubject', { title: 'Add Student Subject',res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
+            res.render('addStudentSubject', { title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
           });
         });
       });
