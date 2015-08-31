@@ -27,12 +27,12 @@ block content
                   span.glyphicon.glyphicon-plus
                   span.text-none  إضافة مادة دراسية
           .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right
+            table#mytable.table.table-bordred.table-striped
               thead
                 th أسم المادة
-                th Subject name
-                th رمز المادة
-                th عدد الوحدات النظري
+                th.text-left(style="padding-left:60px;") Subject name
+                th.text-center رمز المادة
+                th.text-center عدد الوحدات النظري
                 th.text-center عرض المزيد
                 th.text-center تعديل
                 th.text-center إلغاء
@@ -41,11 +41,11 @@ block content
               for i,u in Sub
                 tr(data-id = '#{i.id}')
                   td #{i.name}
-                  td #{i.name_en}
-                  td #{i.code}
-                  td #{i.no_th_unit}
+                  td.text-left(style="padding-left:60px;") #{i.name_en}
+                  td.text-center #{i.code}
+                  td.text-center #{i.no_th_unit} وحدات
                   td.text-center
-                    p(data-placement="top", data-toggle="tooltip", title="عرض")
+                    p(data-placement="top", data-toggle="tooltip", title="عرض المزيد")
                       button#sh.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Edit", data-toggle="modal", data-target="#show")
                         span.glyphicon.glyphicon-eye-open
                   td.text-center
@@ -72,19 +72,19 @@ block content
         .modal-header
           button.close(type="button", data-dismiss="modal", aria-hidden="true")
             span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading1.modal-title.custom_align عرض بيانات المادة 
+          h4#Heading1.modal-title.custom_align عرض المزيد عن بيانات المادة 
         .modal-body
           form.form(action="", method="post", accept-charset="utf-8", role="form")
             .form-group
               .row
                 .col-xs-4.col-md-4
                   label
-                    span  اسم المادة
+                    span اسم المادة
                   input#subject_name.form-control(type="text", name="subject_name", placeholder="عدد الوحدات العملي", disabled)
                 .col-xs-4.col-md-4
-                  label
-                    span  Subject Name
-                  input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="عدد ساعات العملي", disabled)
+                  label.pull-left
+                    span  Subject name
+                  input#subject_name_en.form-control(type="text", name="subject_name_en", placeholder="عدد ساعات العملي", disabled, dir="ltr")
                 .col-xs-4.col-md-4
                   label
                     span  رمز المادة
@@ -128,7 +128,7 @@ block content
                     span  إســم المستخدم
                   input#user.form-control(type="text", name="user", placeholder="إســم المستخدم", disabled)
         .modal-footer
-          button.btn.btn-warning.btn-lg(type="button", style="margin-left:25%;width:50%;", data-dismiss="modal")
+          button.btn.btn-warning.btn-lg(type="button", style="width:100%;", data-dismiss="modal")
             span.glyphicon.glyphicon-eye-close
             |  إخفاء
       // /.modal-content
