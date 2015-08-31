@@ -1,15 +1,12 @@
 $(document).ready(function(){
-  ///semester/#{semester.id}/updateSemester/
-     $('body').on('click', '#del', function(){
-      //alert("ff");
+  // semester/#{semester.id}/updateSemester/
+  $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
   });
 
-  $('#startDate').click(function () {
-    var d = new Date();
-    var n = d.getFullYear();
-    alert(n);
-  });
+  // $('#startDate').click(function () {
+  //   alert(n);
+  // });
 
   // $('#starting_date').datetimepicker().on('changeDate', function(){
   //   alert($(this).data('date'));
