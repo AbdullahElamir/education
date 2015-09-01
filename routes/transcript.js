@@ -103,7 +103,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
-            models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
+            models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
             ).then(function(mix){
          // console.log(ratioo.getRatio());
          var arrayy=[];
@@ -119,11 +119,11 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               { 
                 if(mix[0][i].SemesterId==tt)
                 {
-                  if(mix[0][i].sum_dagree>=50){
+                 // if(mix[0][i].sum_dagree>=50){
 
                   summ=Math.round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
                   sumUnitt=Math.round(sumUnitt+mix[0][i].no_th_unit,3);
-                  }
+                  //}
                 } else {
                    arrayy.push(summ/sumUnitt);
                   summ=0.0;
@@ -135,7 +135,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 arrayy.push(summ/sumUnitt);
               }
 
-              console.log(arrayy);
+              console.log("this "+arrayy);
               var ratio=[];
               var sum=0;
               var l=0;
@@ -146,7 +146,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                l=sum/(i+1);
                ratio.push(l);
               }
-            //  console.log(ratio);
+              console.log("rat"+ratio);
 
 
  //****************************************************************************
@@ -174,8 +174,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 }      
               }
                 array.push(sum/sumUnit);
+                console.log(array);
               }
-              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              res.render('studentData', {ar:ratio,arr:array,arrr:arrayy, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
             });
           });
         });
