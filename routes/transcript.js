@@ -17,11 +17,21 @@ var ratioo = require('../app/ratio');
   }
 
 
+function draw(obj){
+  var str='';
+  for(key in obj){
+    str+="<p>"+key+"</p>";
+  }
+  return str;
+}
+
+
   router.get('/transcript', function(req, res, next) {
     jsr.render({
       template: { 
         content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-        recipe: "phantom-pdf"
+        recipe: "phantom-pdf",
+        helpers: draw.toString()
       },
       data:obj
     }).then(function (response) {
@@ -34,8 +44,8 @@ var ratioo = require('../app/ratio');
       ).then(function(subjectsS){
       console.log(subjectsS);
       res.render();
-      });
     });
+  });
 
 
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
