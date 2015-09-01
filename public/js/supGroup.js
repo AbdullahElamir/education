@@ -27,12 +27,12 @@ $(document).ready(function(){
         } 
         else {
           $("#tbody"+$('#addd').val()+" ").prepend('<tr  data-idd="'+data.DivisionId+'" data-id="'+data.id+'" data-name = "'+data.Subject.name+'" data-code ="'+data.Subject.code+'" data-fac ="'+data.Faculty_member.id+'" data-groupname="'+data.sub_group_name+'" data-quantity="'+data.quantity+'" data-loc="'+data.Location.id+'">'+
-            '<td>'+data.Subject.name+'</td>'+
-            '<td>'+data.Subject.code+'</td>'+
-            '<td>'+data.Faculty_member.name+'</td>'+
-            '<td>'+data.sub_group_name+'</td>'+
-            '<td>'+data.quantity+'</td>'+
-            '<td>'+data.Location.name+'</td>'+
+            '<td id="name-'+data.id+'">'+data.Subject.name+'</td>'+
+            '<td id="code-'+data.id+'">'+data.Subject.code+'</td>'+
+            '<td id="Faculty_member-'+data.id+'">'+data.Faculty_member.name+'</td>'+
+            '<td id="sub_group_name-'+data.id+'">'+data.sub_group_name+'</td>'+
+            '<td id="quantity-'+data.id+'">'+data.quantity+'</td>'+
+            '<td id="Location-'+data.id+'">'+data.Location.name+'</td>'+
             '<td class="text-center">'+
               '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
                 '<button id="editSub" value="'+data.id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs editSub"><span class="glyphicon glyphicon-pencil"></span></button>'+
@@ -42,7 +42,6 @@ $(document).ready(function(){
                 '<button id="delSub" value="'+data.id+'" data-title="Edit" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>'+
               '</p></td></tr>');
           $('#add').modal('hide');
-
         }
       });
     }
@@ -90,7 +89,9 @@ $(document).ready(function(){
           // }
         } 
         else {
+          console.log("gothere");
           var subGId = $('#editSubGr').val();
+          console.log(subGId);
           $('#name-'+subGId).html(data.Subject.name);
           $('#code-'+subGId).html(data.Subject.code);
           $('#Faculty_member-'+subGId).html(data.Faculty_member.name);
