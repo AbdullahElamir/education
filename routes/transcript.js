@@ -9,6 +9,7 @@ var fs = require("fs");
 var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
+var ratioo = require('../app/ratio');
 
   var obj = {
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
@@ -16,11 +17,19 @@ var nationality = require('../Nationality');
   }
 
 
-  router.get('/transcript', function(req, res, next) {
+  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
+function draw(obj){
+  var str='';
+  for(key in obj){
+    str+="<p>"+key+"</p>";
+  }
+  return str;
+}
     jsr.render({
       template: { 
         content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-        recipe: "phantom-pdf"
+        recipe: "phantom-pdf",
+        helpers: draw.toString()
       },
       data:obj
     }).then(function (response) {
@@ -45,8 +54,8 @@ var nationality = require('../Nationality');
       ).then(function(subjectsS){
       console.log(subjectsS);
       res.render();
-      });
     });
+  });
 
 
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
@@ -104,9 +113,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
-            models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
+            models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
             ).then(function(mix){
-
+         // console.log(ratioo.getRatio());
          var arrayy=[];
               if(mix[0][0]!= undefined)
               {
@@ -120,11 +129,11 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               { 
                 if(mix[0][i].SemesterId==tt)
                 {
-                  if(mix[0][i].sum_dagree>=50){
+                 // if(mix[0][i].sum_dagree>=50){
 
                   summ=Math.round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
                   sumUnitt=Math.round(sumUnitt+mix[0][i].no_th_unit,3);
-                  }
+                  //}
                 } else {
                    arrayy.push(summ/sumUnitt);
                   summ=0.0;
@@ -136,7 +145,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 arrayy.push(summ/sumUnitt);
               }
 
-              console.log(arrayy);
+              console.log("this "+arrayy);
               var ratio=[];
               var sum=0;
               var l=0;
@@ -147,7 +156,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                l=sum/(i+1);
                ratio.push(l);
               }
-            //  console.log(ratio);
+              console.log("rat"+ratio);
 
 
  //****************************************************************************
@@ -175,8 +184,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 }      
               }
                 array.push(sum/sumUnit);
+                console.log(array);
               }
-              res.render('studentData', {ar:ratio,arr:array, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              res.render('studentData', {ar:ratio,arr:array,arrr:arrayy, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
             });
           });
         });
@@ -184,15 +194,16 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
     });
  });
   
-router.post('/addSemesterStudent',function(req,res){
+router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
  objStudent=req.body;
- objStudent.UserId=1;
+ objStudent.UserId=req.session.idu;
   models.SemesterStudent.create(req.body).then(function(result) {
         res.send(true);
       });
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
+  console.log("fff");
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,
@@ -249,6 +260,12 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
               }]
             }]
           }).then(function(result){
+            for(var i in result){
+              console.log(result);
+               console.log(result[i].Sub_group.Subject.chapter_degree);
+               console.log(result[i].Sub_group.Subject.final_theor);
+            }
+            //console.log(result);
             res.render('addStudentSubject', { title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
           });
         });
@@ -258,7 +275,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
-  req.body.UserId=1;
+  req.body.UserId=req.session.idu;
   req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
   models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {

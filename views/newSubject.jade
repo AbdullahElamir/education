@@ -63,6 +63,9 @@ block content
                   label.radio-inline
                     input#radio.radiooo(type='radio', name='department',value="3")
                     | كلاهما
+                  label.radio-inline
+                    input#radio.radioM(type='radio', name='department',value="4")
+                    | اقسام
                 //- #department_select
                 //-   label تندرج تحت قسم
                 //-   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
@@ -82,6 +85,13 @@ block content
                 #department_select(style="position: absolute;")
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                    option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                    for i in dept
+                      option(value="#{i.id}") #{i.name}
+              .col-xs-3.col-md-3.col-md-offset-6
+                #departmentMul(style="position: absolute;")
+                  label تندرج تحت اقسام
+                  select.form-control.selectpicker#departmentMulSel(name="mult",multiple, data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
                     for i in dept
                       option(value="#{i.id}") #{i.name}

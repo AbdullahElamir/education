@@ -26,13 +26,13 @@ var userHelpers = require('../app/userHelpers');
   });
 
   router.post('/newLocation',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Location.create(req.body).then(function() {
       res.redirect('/location');
     });
   });
 
-  router.get('/getLocation/:id', function(req, res) {
+  router.get('/getLocation/:id',userHelpers.isLogin, function(req, res) {
      models.Location.findAll({
       where: {
         id: req.params.id
@@ -42,7 +42,7 @@ var userHelpers = require('../app/userHelpers');
     });
   });
 
-  router.post('/editLocation', function(req, res) {
+  router.post('/editLocation', userHelpers.isLogin,function(req, res) {
     var locid = req.body.locid;
     delete req.body.locid;
     models.Location.update(req.body,{
@@ -62,7 +62,7 @@ var userHelpers = require('../app/userHelpers');
     });
   });
 
-  router.get('/deleteLocation/:id', function(req, res) {
+  router.get('/deleteLocation/:id',userHelpers.isLogin, function(req, res) {
     models.Location.find({
       where: {
         id: req.params.id

@@ -72,14 +72,14 @@ var userHelpers = require('../app/userHelpers');
 
   router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Semester.create(req.body).then(function() {
       res.redirect('/semester?msg=1');
     });
   });
 
   // semester/#{semester.id}/updateSemester
-  router.post('/:id/updateSemester/', function(req, res) {
+  router.post('/:id/updateSemester/',userHelpers.isLogin, function(req, res) {
     if(req.body.sem_type == "ربيعي")
       {
         req.body.sem_type= 1;
@@ -191,7 +191,7 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
 }); 
 
 router.post('/subGroup',userHelpers.isLogin, function(req, res) {
-  req.body.UserId=1;
+  req.body.UserId=req.session.idu;
   models.Sub_group.create(req.body).then(function(sub) {
     // obj={
     //   UserId:1,

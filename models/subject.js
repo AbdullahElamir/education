@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
         Subject.belongsTo(models.Department, {
           onDelete: "restrict",
           foreignKey: {
-            allowNull: false
+            allowNull: true
           }
         });
 
