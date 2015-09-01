@@ -6,6 +6,7 @@ var userHelpers = require('../app/userHelpers');
 var nationality = require('../Nationality');
 
 // /// Start students //////////////////////////////
+<<<<<<< HEAD
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
@@ -69,10 +70,26 @@ var nationality = require('../Nationality');
     res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
     });
     }
+=======
+router.get('/',userHelpers.isLogin, function(req, res) {
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Student.findAndCountAll({
+    where: {
+      status: 1
+    },
+    limit : 10,
+    offset: limit,
+  }).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+  res.render('students', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
+  });
+>>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
 });
 
 router.get('/newStudent',userHelpers.isLogin, function(req, res) {
-  res.render('newStudent', { title: 'تسجيل طالب جديد', collapseFive: 'collapse in',nats:nationality, activeFiveTwo: 'active' });
+  res.render('newStudent', { title: 'تسجيل طالب جديد', name:req.session.name, collapseFive: 'collapse in',nats:nationality, activeFiveTwo: 'active' });
 });
 
 router.post('/newStudent',userHelpers.isLogin,function(req, res) {
@@ -83,12 +100,12 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
 });
 
   // getAllNationality
-  router.get('/getAllNationality',function(req, res){
+  router.get('/getAllNationality',userHelpers.isLogin,function(req, res){
     res.send(nationality);
   });
 
   /////////////// delete deleteStudent 
-  router.get('/deleteStudent/:id', function(req, res) {
+  router.get('/deleteStudent/:id',userHelpers.isLogin, function(req, res) {
     models.Student.find({
       where: {
         id: req.params.id
@@ -105,7 +122,7 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
   });
 
 // updateStudent
-router.post('/updateStudent', function(req, res) {
+router.post('/updateStudent',userHelpers.isLogin, function(req, res) {
   id = req.body.id;
   delete req.body.id;
   models.Student.find({

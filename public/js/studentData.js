@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
   $('body').on('click', '#addStudentData', function() {
   	var obj = {student_status:$('#student_status').val(),StudentId:$('#studentId').val(),DepartmentId:parseInt($('#department_iddepartment').val()),SemesterId:$(this).val(),DivisionId:$('#division_iddivision').val()} ;
@@ -10,6 +11,26 @@ $(document).ready(function(){
 	  	});
   	}
   });
+
+  
+  // alert($('#std').val());
+   $('body').on('click', '#std', function() {
+    window.location.href='/transcript/addStudentSubject/'+$(this).val();
+   });
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
 
 	$('#year_teble').hide(0);
 	$('body').on('click', '#Semesters', function(){

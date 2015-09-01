@@ -17,11 +17,11 @@ var userHelpers = require('../app/userHelpers');
     }).then(function(department) {
       var pageCount = userHelpers.getPageCount(department.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('department', { title: 'عرض اﻷقسام',pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
+      res.render('department', { title: 'عرض اﻷقسام', name:req.session.name,pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
     });
   });
 
-  router.get('/editDepartments/:id', function(req, res) {
+  router.get('/editDepartments/:id',userHelpers.isLogin, function(req, res) {
      models.Department.findAll({
       where: {
         id: req.params.id
@@ -32,7 +32,7 @@ var userHelpers = require('../app/userHelpers');
   });
 
   // edit department
-  router.post('/updateDepartment', function(req, res) {
+  router.post('/updateDepartment',userHelpers.isLogin,function(req, res) {
     id = req.body.id;
     delete req.body.id;
     models.Department.find({
@@ -50,7 +50,7 @@ var userHelpers = require('../app/userHelpers');
   });
    
   // delete Department
-  router.get('/deleteDepartment/:id', function(req, res) {
+  router.get('/deleteDepartment/:id', userHelpers.isLogin,function(req, res) {
     if (userHelpers.checkGeneral(req.params.id)){
       models.Department.destroy({
         where: {
@@ -67,13 +67,13 @@ var userHelpers = require('../app/userHelpers');
   });
 
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
-    res.render('newDepartment', { title: 'إضافة قسم جديد', collapseFour: 'collapse in', activeFourTwo: 'active' });
+    res.render('newDepartment', { title: 'إضافة قسم جديد', name:req.session.name, collapseFour: 'collapse in', activeFourTwo: 'active' });
   });
 
 
 
   router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Department.create(req.body).then(function() {
       res.redirect('/department?msg=1');
     });

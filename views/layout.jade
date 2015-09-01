@@ -75,20 +75,20 @@ html
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
                   span.glyphicon.glyphicon-user.text-info
-                  span.text-info  اسم المستخدم
+                  span.text-info  #{name}
                   b.caret
                 ul.dropdown-menu
+                  //- li
+                  //-   a(href="#",data-title="Edit", data-toggle="modal", data-target="#UserLoggedIn")
+                  //-     span.glyphicon.glyphicon-cog.text-primary
+                  //-     span.text-info  تعديل الملف الشخصي
+                  //- li.divider
                   li
-                    a(href="#",data-title="Edit", data-toggle="modal", data-target="#UserLoggedIn")
-                      span.glyphicon.glyphicon-cog.text-primary
-                      span.text-info  تعديل الملف الشخصي
-                  li.divider
-                  li
-                    a(href="/")
+                    a(href="/logout")
                       span.glyphicon.glyphicon-off.text-primary
                       span.text-info  خروج
           // /.navbar-collapse
-      #UserLoggedIn.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+      //- #UserLoggedIn.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
         .modal-dialog
           .modal-content
             form.form#editeUserLoggedIn(role="form",name='editeUserLoggedIn')

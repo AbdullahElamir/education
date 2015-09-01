@@ -76,7 +76,8 @@ $(document).ready(function(){
         required: true,
       },
       newConfirmPassword:{
-        equalTo: "#newPassword",
+        required: true,
+        equalTo: "#pass",
       },
     },
     messages:{
@@ -93,6 +94,7 @@ $(document).ready(function(){
         required: "الرجاء ادخال كلمة المرور الحالية!",
       },
       newConfirmPassword:{
+        required: "الرجاء ادخال كلمة المرور مرة اخري!",
         equalTo: "خطأ:كلمة المرور الجديدة ليست متطابقة!",
       },
     },

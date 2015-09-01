@@ -4,21 +4,6 @@ $(document).ready(function(){
       //alert("ff");
     $('#ok').val($(this).val());
   });
-
-  $('#startDate').click(function () {
-    var d = new Date();
-    var n = d.getFullYear();
-    alert(n);
-  });
-
-  // $('#starting_date').datetimepicker().on('changeDate', function(){
-  //   alert($(this).data('date'));
-  // });
-  // $('#startDate').click(function () {
-  //   var date1 = $(this).getFullYear();
-
-  //   alert(date1);
-  // });
   
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
@@ -131,8 +116,9 @@ $(document).ready(function(){
     }
   });
 
-  $('#addSemester').on('click',function(){
-    if($('#newSemester').valid){
+  $('#addSemester').on('click',function(e){
+    e.preventDefault();
+    if($('#newSemester').valid()){
       $('#addSemester').prop('disabled', true);
       $('#newSemester').submit();
     }

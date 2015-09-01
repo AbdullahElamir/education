@@ -17,22 +17,22 @@ var userHelpers = require('../app/userHelpers');
     }).then(function(location) {
       var pageCount = userHelpers.getPageCount(location.count);
       var pagination = userHelpers.paginate(page,pageCount);
-        res.render('location', { title: 'عرض القاعات الدراسية', loc: location.rows,pagination:pagination, collapseTwo: 'collapse in', activeTwoOne: 'active' });
+        res.render('location', { title: 'عرض القاعات الدراسية', name:req.session.name, loc: location.rows,pagination:pagination, collapseTwo: 'collapse in', activeTwoOne: 'active' });
     });
   });
 
   router.get('/newLocation',userHelpers.isLogin, function(req, res) {
-    res.render('newLocation', { title: 'إضافة قاعة دراسية جديدة', collapseTwo: 'collapse in', activeTwoTwo: 'active' });
+    res.render('newLocation', { title: 'إضافة قاعة دراسية جديدة', name:req.session.name, collapseTwo: 'collapse in', activeTwoTwo: 'active' });
   });
 
   router.post('/newLocation',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Location.create(req.body).then(function() {
       res.redirect('/location');
     });
   });
 
-  router.get('/getLocation/:id', function(req, res) {
+  router.get('/getLocation/:id',userHelpers.isLogin, function(req, res) {
      models.Location.findAll({
       where: {
         id: req.params.id
@@ -42,7 +42,7 @@ var userHelpers = require('../app/userHelpers');
     });
   });
 
-  router.post('/editLocation', function(req, res) {
+  router.post('/editLocation', userHelpers.isLogin,function(req, res) {
     var locid = req.body.locid;
     delete req.body.locid;
     models.Location.update(req.body,{
@@ -62,7 +62,7 @@ var userHelpers = require('../app/userHelpers');
     });
   });
 
-  router.get('/deleteLocation/:id', function(req, res) {
+  router.get('/deleteLocation/:id',userHelpers.isLogin, function(req, res) {
     models.Location.find({
       where: {
         id: req.params.id

@@ -26,29 +26,19 @@ block content
           hr
           .form-group
             .row
-              .col-xs-4.col-md-4
+              .col-xs-3.col-md-3
                 label اسم المادة
                 input#name.form-control(type="text", name="name", placeholder="اسم المادة")
-              .col-xs-4.col-md-4.text-left
+              .col-xs-3.col-md-3.text-left
                 label.pull-left Subject name
                 input#name_en.form-control(type="text", name="name_en", placeholder="Subject name", dir="ltr")
-              .col-xs-4.col-md-4
+              .col-xs-3.col-md-3
                 label رمز المادة
-                input#code.form-control(type="text", name="code", placeholder="رمز المادة")           
-          .form-group
-            .row         
+                input#code.form-control(type="text", name="code", placeholder="رمز المادة")                 
               .col-xs-3.col-md-3
                 label عدد وحدات النظري
                 input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")
-              .col-xs-3.col-md-3
-                label عدد ساعات النظري
-                input#no_th_hour.form-control(type="text", name="no_th_hour", placeholder="عدد ساعات النظري")
-              .col-xs-3.col-md-3
-                label عدد وحدات العملي
-                input#no_pr_unit.form-control(type="text", name="no_pr_unit", placeholder="عدد وحات العملي")
-              .col-xs-3.col-md-3
-                label عدد ساعات العملي
-                input#no_pr_hour.form-control(type="text", name="no_pr_hour", placeholder="عدد ساعات العملي")           
+                      
           .form-group
             .row
               .col-xs-3.col-md-3
@@ -73,6 +63,9 @@ block content
                   label.radio-inline
                     input#radio.radiooo(type='radio', name='department',value="3")
                     | كلاهما
+                  label.radio-inline
+                    input#radio.radioM(type='radio', name='department',value="4")
+                    | اقسام
                 //- #department_select
                 //-   label تندرج تحت قسم
                 //-   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
@@ -92,6 +85,13 @@ block content
                 #department_select(style="position: absolute;")
                   label تندرج تحت قسم
                   select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                    option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                    for i in dept
+                      option(value="#{i.id}") #{i.name}
+              .col-xs-3.col-md-3.col-md-offset-6
+                #departmentMul(style="position: absolute;")
+                  label تندرج تحت اقسام
+                  select.form-control.selectpicker#departmentMulSel(name="mult",multiple, data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
                     for i in dept
                       option(value="#{i.id}") #{i.name}

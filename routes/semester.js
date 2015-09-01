@@ -24,12 +24,12 @@ var userHelpers = require('../app/userHelpers');
     }).then(function(semester) {
       var pageCount = userHelpers.getPageCount(semester.count);
       var pagination = userHelpers.paginate(page,pageCount);
-        res.render('semesters', { title: 'عرض النظم الدراسية', semester: semester.rows,pagination:pagination, collapseOne: 'collapse in', activeOneOne: 'active' });
+        res.render('semesters', { title: 'عرض النظم الدراسية', name:req.session.name, semester: semester.rows,pagination:pagination, collapseOne: 'collapse in', activeOneOne: 'active' });
     });
   });
 
   router.get('/newSemester',userHelpers.isLogin, function(req, res) {
-    res.render('newSemester', { title: 'إضافة نظام دراسي جديد',collapseOne: 'collapse in', activeOneTwo: 'active' });
+    res.render('newSemester', { title: 'إضافة نظام دراسي جديد', name:req.session.name,collapseOne: 'collapse in', activeOneTwo: 'active' });
   });
 
   router.get('/:id',userHelpers.isLogin, function(req, res) {
@@ -62,7 +62,7 @@ var userHelpers = require('../app/userHelpers');
         semType = "صيفي";
         }
 
-        res.render('semester', { title: 'Semester',sem:semType,semester:semester,departments:departments });
+        res.render('semester', { title: 'Semester', name:req.session.name,sem:semType,semester:semester,departments:departments });
           //res.render('locations', { title: 'View Locations', loc: location, collapseTwo: 'collapse in', activeTwoOne: 'active' });
       });
     });
@@ -72,14 +72,14 @@ var userHelpers = require('../app/userHelpers');
 
   router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Semester.create(req.body).then(function() {
       res.redirect('/semester?msg=1');
     });
   });
 
   // semester/#{semester.id}/updateSemester
-  router.post('/:id/updateSemester/', function(req, res) {
+  router.post('/:id/updateSemester/',userHelpers.isLogin, function(req, res) {
     if(req.body.sem_type == "ربيعي")
       {
         req.body.sem_type= 1;
@@ -180,7 +180,7 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
         models.Department.findOne({
           where:{id:req.params.id}
         }).then(function(dep){
-          res.render('subGroup', { title: 'Get Sub Group',departmentID:req.params.id,semesterID:req.params.ids,faculty:faculty,location:location ,division:sub,semester:sem,dep:dep}); 
+          res.render('subGroup', { title: 'Get Sub Group', name:req.session.name,departmentID:req.params.id,semesterID:req.params.ids,faculty:faculty,location:location ,division:sub,semester:sem,dep:dep}); 
         });
         
 
@@ -191,7 +191,7 @@ router.get('/semester/:ids/:id',userHelpers.isLogin, function(req, res) {
 }); 
 
 router.post('/subGroup',userHelpers.isLogin, function(req, res) {
-  req.body.UserId=1;
+  req.body.UserId=req.session.idu;
   models.Sub_group.create(req.body).then(function(sub) {
     // obj={
     //   UserId:1,

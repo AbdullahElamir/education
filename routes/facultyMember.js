@@ -9,6 +9,7 @@ var nationality = require('../Nationality');
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
+<<<<<<< HEAD
     var q = userHelpers.getQuery(req);
     if (q == undefined)
     {
@@ -32,6 +33,27 @@ var nationality = require('../Nationality');
         var pagination = userHelpers.paginate(page,pageCount);
         res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
       });
+=======
+    models.Faculty_member.findAndCountAll({
+      include: [{
+        model: models.Department,
+        where: { status: 1 }
+      }],
+      where: {
+        status: 1
+      },
+      limit : 10,
+      offset: limit,
+    }).then(function(facultyMembers) {
+      models.Department.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(allDepartments) {
+      var pageCount = userHelpers.getPageCount(facultyMembers.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+      res.render('facultyMember', { title: 'عرض المحاضرين', name:req.session.name,nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+>>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
     });
     }else{
       models.Faculty_member.findAndCountAll({
@@ -65,19 +87,19 @@ var nationality = require('../Nationality');
         status: 1
       }
     }).then(function(Departments) {
-      res.render('newFacultyMember', { title: 'إضافة محاضر جديد',nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
+      res.render('newFacultyMember', { title: 'إضافة محاضر جديد', name:req.session.name,nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
     });    
   });
 
   router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Faculty_member.create(req.body).then(function() {
-      res.redirect('/facultyMember');
+      res.redirect('/facultyMember?msg=1');
     });
   });
 
   // delete FaculityMembers
-  router.get('/deleteFaculityMembers/:id', function(req, res) {
+  router.get('/deleteFaculityMembers/:id',userHelpers.isLogin, function(req, res) {
     models.Faculty_member.find({
       where: {
         id: req.params.id
@@ -94,7 +116,7 @@ var nationality = require('../Nationality');
   });
 
   // getAllNationality
-  router.get('/getAllNationality',function(req, res){
+  router.get('/getAllNationality',userHelpers.isLogin,function(req, res){
     res.send(nationality);
   });
 
@@ -110,7 +132,7 @@ var nationality = require('../Nationality');
   });
 
   // updateFacultyMember
-  router.post('/updateFacultyMember', function(req, res) {
+  router.post('/updateFacultyMember',userHelpers.isLogin, function(req, res) {
     id = req.body.id;
     delete req.body.id;
     models.Faculty_member.find({

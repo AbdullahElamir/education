@@ -32,6 +32,7 @@
                 <script type="text/javascript">
                 // document.write(obbs[0].SemesterId);
 
+<<<<<<< HEAD
                       // var currentS=obbs[0].SemesterId;
                       // console.log("open table");
                       // for (i=0 ;i<obj.length ;i++){
@@ -49,5 +50,43 @@
                 
                       {{final_theor}}/{{no_pr_unit:}}/{{code}}/{{name_en}}/{{name}}<span>:</span>{{chapter_degree}}
                   {{/obbs}}
+=======
+                                <tbody>
+<!--                                   {{#each subjects}}
+ -->                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                        <!--             <tr>
+                                        <td class="text-center h6">%70</td>
+                                        <td class="text-center h6">{{subject_ar}}</td>
+                                        <td class="text-center h6">{{subject_en}}</td>
+                                        <td class="text-center h6">{{degree}}</td>
+                                    </tr>   -->
+<!--                                     {{/each}}    
+ -->                                    <tr>
+                                        <td class="no-line h5" align="left h5"><strong>المعدل التراكمي<span>:</span> {{{draw subjects}}} </strong></td>
+                                        <td class="no-line h5"></td>
+                                        <td class="no-line h5">المعدل الفصلي <span>:</span> %60</td>
+                                        <td class="no-line text-center h5"><strong>التقدير <span>:</span> جيد </strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <script type="text/javascript">
+         if (i % 2 === 0 ) {
+        document.write(" <div class='page-break'></div> ");
+      }
+        i ++;
+        </script>
+     <!-- break pages -->
+        <!-- endpage -->      
+        {{/classes}}
+                <!-- page -->
+                <!-- head -->
+               <!-- endpage -->      
+    </div>
+>>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
   </body>
 </html>
