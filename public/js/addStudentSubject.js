@@ -94,7 +94,16 @@ isSuccessful();
     var isvalidate=$("#addForm").valid();
     if(isvalidate){
       $.post("/transcript/addStudentSubject", $("#addForm").serializeObject(), function(data, error){
-        if(data!=false){
+          url=document.URL;
+          var id = url.substring(url.lastIndexOf('/') + 1);
+          if(data==false){
+            $('#add').modal('hide');
+            custNotify("danger","خطا","هذه المادة موجودة","warning-sign","bounceInDown","bounceOutUp");
+          } else  {
+          window.location.href='/transcript/addStudentSubject/'+id;
+          }
+
+/*        if(data!=false){
           $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
             '<td>'+data.Sub_group.Subject.name+'</td>'+
             '<td>'+data.Sub_group.Subject.name_en+'</td>'+
@@ -114,6 +123,7 @@ isSuccessful();
           $('#add').modal('hide');
           custNotify("danger","خطا","هذه المادة موجودة","warning-sign","bounceInDown","bounceOutUp");
         }
+        */
       });
     }
     return false;
