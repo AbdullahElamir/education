@@ -28,6 +28,18 @@ var nationality = require('../Nationality');
     });
   });
 
+  router.get('/newTranscript', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/newTranscript.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
