@@ -98,7 +98,7 @@ var Sequelize = require('sequelize')
   });
 
   router.post('/newDivision',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Division.create(req.body).then(function() {
       res.redirect('/division?msg=1');
     });

@@ -16,7 +16,7 @@ var nationality = require('../Nationality');
   }
 
 
-  router.get('/transcript', function(req, res, next) {
+  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     jsr.render({
       template: { 
         content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
@@ -172,9 +172,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
     });
  });
   
-router.post('/addSemesterStudent',function(req,res){
+router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
  objStudent=req.body;
- objStudent.UserId=1;
+ objStudent.UserId=req.session.idu;
   models.SemesterStudent.create(req.body).then(function(result) {
         res.send(true);
       });
@@ -246,7 +246,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 });
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
-  req.body.UserId=1;
+  req.body.UserId=req.session.idu;
   req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
   models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
