@@ -77,15 +77,14 @@ block content
                       th.text-center إضافة
                     tbody
                       for d in dept
-                        if d.Subject != null
-                          tr()
-                            td #{d.Subject.name}
-                            td #{d.Subject.code}
-                            td #{d.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right                   
+                        tr()
+                          td #{d.name}
+                          td #{d.code}
+                          td #{d.sub_group_name}
+                          td.text-center
+                            p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                              button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                                span.glyphicon.glyphicon-hand-right                   
             #generale_teble
               .panel.panel-default
                 .panel-heading

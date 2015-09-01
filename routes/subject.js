@@ -29,7 +29,6 @@ var Sequelize = require('sequelize')
         status: 1
       }
     }).then(function(sub) {
-            console.log(sub);
           res.render('subject', {subb:sub, title: 'عرض المواد الدراسية', name:req.session.name,dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
       }); 
     });
@@ -191,6 +190,12 @@ var Sequelize = require('sequelize')
 
 
   router.post('/saveSubject',function(req, res) {
+    delete req.body.mul;
+    if(req.body.subject_type== 4){
+      req.body.DepartmentId=null;
+    }
+    // console.log(req.body);
+
     var PrerequisiteId=req.body.idd;
     if(PrerequisiteId == undefined){
       req.body.UserId=1;
