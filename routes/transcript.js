@@ -37,6 +37,18 @@ function draw(obj){
     });
   });
 
+  router.get('/newTranscript', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/newTranscript.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -86,7 +98,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           status: 1
           }
          }).then(function(semester) {
-
          models.SemesterStudent.findAll({
           where: {
           status: 1,
@@ -100,6 +111,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       },
       ],
          }).then(function(semstudent) {
+          console.log(semstudent);
           var idstudent =req.params.id;
             models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
             ).then(function(mix){
@@ -117,11 +129,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               { 
                 if(mix[0][i].SemesterId==tt)
                 {
-                 // if(mix[0][i].sum_dagree>=50){
-
-                  summ=Math.round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
-                  sumUnitt=Math.round(sumUnitt+mix[0][i].no_th_unit,3);
-                  //}
+                  summ=round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+                  sumUnitt=round(sumUnitt+mix[0][i].no_th_unit,3);
+                  
                 } else {
                    arrayy.push(summ/sumUnitt);
                   summ=0.0;
@@ -130,7 +140,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                   --i;
                 }      
               }
-                arrayy.push(summ/sumUnitt);
+                arrayy.push(round((summ/sumUnitt),3));
               }
 
               console.log("this "+arrayy);
@@ -142,7 +152,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                sum=sum+arrayy[i];
                console.log(sum);
                l=sum/(i+1);
-               ratio.push(l);
+               ratio.push(round(l,3));
               }
               console.log("rat"+ratio);
 
@@ -161,8 +171,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               {
                 if(mix[0][i].SemesterId==t)
                 {
-                  sum=Math.round(sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
-                  sumUnit=Math.round(sumUnit+mix[0][i].no_th_unit,3);
+                  sum=round(sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+                  sumUnit=round(sumUnit+mix[0][i].no_th_unit,3);
                 } else {
                    array.push(sum/sumUnit);
                   sum=0.0;
@@ -171,7 +181,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                   --i;
                 }      
               }
-                array.push(sum/sumUnit);
+                array.push(round((sum/sumUnit),3));
                 console.log(array);
               }
               res.render('studentData', {ar:ratio,arr:array,arrr:arrayy, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
@@ -181,6 +191,19 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       });
     });
  });
+
+ function round(value, ndec){
+    var n = 10;
+    for(var i = 1; i < ndec; i++){
+        n *=10;
+    }
+
+    if(!ndec || ndec <= 0)
+        return Math.round(value);
+    else
+        return Math.round(value * n) / n;
+}
+
   
 router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
  objStudent=req.body;
@@ -195,7 +218,14 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
     where:{
       id:req.params.id,
       status:1
-    }
+    },
+      include:[{
+        model: models.Semester,
+          required:false,
+          where:{
+            status:1
+          }
+      }]
   }).then(function(sem){
     models.Sub_group.findAll({
       where:{
@@ -210,6 +240,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
             status:1
           }
       }]
+
     }).then(function(gen){
       models.Sub_group.findAll({
         where:{
@@ -247,13 +278,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
               }]
             }]
           }).then(function(result){
-            for(var i in result){
-              console.log(result);
-               console.log(result[i].Sub_group.Subject.chapter_degree);
-               console.log(result[i].Sub_group.Subject.final_theor);
-            }
-            //console.log(result);
-            res.render('addStudentSubject', { title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
+            res.render('addStudentSubject', { sys:sem.Semester.system_type,title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
           });
         });
       });
