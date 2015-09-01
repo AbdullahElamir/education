@@ -18,9 +18,9 @@ var timeline = require('./routes/timeline');
 var transcript = require('./routes/transcript');
 var users = require('./routes/users');
 var cPanel = require('./routes/cPanel');
-var redis = require("redis"),
-    client = redis.createClient();
-var RedisStore = require('connect-redis')(session);
+// var redis = require("redis"),
+//     client = redis.createClient();
+// var RedisStore = require('connect-redis')(session);
 var app = express();
 
 // view engine setup
@@ -33,12 +33,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ store: new RedisStore({
-  client: client,
-  host:'127.0.0.1',
-  port:6380,
-  prefix:'sess'
-}), secret: 'SEKR37' }));
+// app.use(session({ store: new RedisStore({
+//   client: client,
+//   host:'127.0.0.1',
+//   port:6379,
+//   prefix:'sess'
+// }), secret: 'SEKR37' }));
+app.use(session({secret: 'naga_app',resave: true,saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', routes);
