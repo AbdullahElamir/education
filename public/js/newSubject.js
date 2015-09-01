@@ -474,4 +474,17 @@ $(document).ready(function(){
     var pageUrl = '/subject'
     window.history.pushState("","",pageUrl);
   }
+
+  $('#subject_search_btn').on('click', function(){
+    window.location.href="/subject?q="+$('#subject_search').val();
+  });  
+
+ 
+  $("#subject_search").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#subject_search_btn").click(); 
+      }
+  });
 });

@@ -10,34 +10,36 @@ var path = require("path");
 var nationality = require('../Nationality');
 
 // Start transcript /////////////////////////////////////////////////////////
-   router.get('/transcript/:id', function(req, res, next) {
-      models.sequelize.query('SELECT * FROM SemesterStudents AS ss INNER JOIN Semesters AS s ON ( ss.semesterId = s.id ) INNER JOIN Students AS st ON ( ss.studentId = st.id ) INNER JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) INNER JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) INNER JOIN Subjects AS sb ON ( sg.SubjectId = sb.id ) where st.id ='+req.params.id+' ORDER BY s.starting_date LIMIT 0 , 30').then(function(subjectsS){   
-        var obb = {obbs:subjectsS[0]}
-        models.Subject.findAll({
-          where: { 
-          status: 1 
-          
-        }
-       
-      }).then(function(sem) {
-        console.log(sem);
-
-      });
-      jsr.render({
-        template: { 
-          content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-          recipe: "phantom-pdf"
-        },
-        data:obb
-      }).then(function (response) {
-        response.result.pipe(res);
-        });
-      });
+// Start transcript ////////////////////////////////
+  router.get('/transcript/:id', function(req, res, next) {
+    models.sequelize.query('SELECT * FROM SemesterStudents AS ss INNER JOIN Semesters AS s ON ( ss.semesterId = s.id ) INNER JOIN Students AS st ON ( ss.studentId = st.id ) INNER JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) INNER JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) INNER JOIN Subjects AS sb ON ( sg.SubjectId = sb.id ) where st.id ='+5+' ORDER BY s.starting_date LIMIT 0 , 30').then(function(subjectsS){   
+    var obb = {obbs:subjectsS[0]}
+    console.log(subjectsS[0]);
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+          // content: "<h1>Hello world</h1>",
+        recipe: "phantom-pdf"
+      },
+      data:obb
+    }).then(function (response) {
+      //you can for example pipe it to express.js response
+      response.result.pipe(res);
     });
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+    // console.log(obb);
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+  });
+});
+
+
+
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
-  var page = userHelpers.getPage(req);
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
+    var q = userHelpers.getQuery(req);
+    if (q == undefined)
+    {
     models.Student.findAndCountAll({
       where: {
         status: 1
@@ -49,6 +51,22 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
       var pagination = userHelpers.paginate(page,pageCount);
       res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
     });
+  }
+  else
+  {
+  models.Student.findAndCountAll({
+    where: {
+      set_number:{$like:'%'+q+'%'},
+      status: 1
+    },
+    limit : 10,
+    offset: limit,
+    }).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+    res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+   });
+  }
 });
 
 
