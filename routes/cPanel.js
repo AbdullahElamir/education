@@ -5,7 +5,6 @@ var userHelpers = require('../app/userHelpers');
 
 // Start cPanel /////////////////////////////////////////////////////////
 router.get('/',userHelpers.isLogin, function(req, res) {
-  console.log(req.session);
   res.render('cPanel', { title: 'لوحة التحكم', name:req.session.name, activeCPanel: 'active' });
 });
 // End Panel /////////////////////////////////////////////////////////

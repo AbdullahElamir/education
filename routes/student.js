@@ -34,12 +34,12 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
 });
 
   // getAllNationality
-  router.get('/getAllNationality',function(req, res){
+  router.get('/getAllNationality',userHelpers.isLogin,function(req, res){
     res.send(nationality);
   });
 
   /////////////// delete deleteStudent 
-  router.get('/deleteStudent/:id', function(req, res) {
+  router.get('/deleteStudent/:id',userHelpers.isLogin, function(req, res) {
     models.Student.find({
       where: {
         id: req.params.id
@@ -56,7 +56,7 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
   });
 
 // updateStudent
-router.post('/updateStudent', function(req, res) {
+router.post('/updateStudent',userHelpers.isLogin, function(req, res) {
   id = req.body.id;
   delete req.body.id;
   models.Student.find({
