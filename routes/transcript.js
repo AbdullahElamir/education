@@ -191,7 +191,6 @@ router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
-  console.log("fff");
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,

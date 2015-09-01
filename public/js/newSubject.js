@@ -85,33 +85,38 @@ $(document).ready(function(){
 
   $('body').on('click', '#sh', function() {
     var id = $(this).val();
-    $.get('/subject/getSubject/'+id,function(subject){
-      $('#subject_name').val(subject[0].name);
-      $('#subject_name_en').val(subject[0].name_en);     
-      $('#subject_no_th_unit').val(subject[0].no_th_unit);
-      $('#chapter_degree').val(subject[0].chapter_degree);
-      $('#final_theor').val(subject[0].final_theor);
-      $('#final_practical').val(subject[0].final_practical);
-      $('#subject_code').val(subject[0].code);
-      if(subject[0].subject_type==1) {
+    $.get('/subject/getSubject/'+id,function(sub){
+      $('#subject_name').val(sub.subject[0].name);
+      $('#subject_name_en').val(sub.subject[0].name_en);     
+      $('#subject_no_th_unit').val(sub.subject[0].no_th_unit);
+      $('#chapter_degree').val(sub.subject[0].chapter_degree);
+      $('#final_theor').val(sub.subject[0].final_theor);
+      $('#final_practical').val(sub.subject[0].final_practical);
+      $('#subject_code').val(sub.subject[0].code);
+      if(sub.subject[0].subject_type==1) {
         var x= "عامة";
+        $('#department').val(sub.subject[0].Department.name);
       } 
-      else if (subject[0].subject_type==2) {
+      else if (sub.subject[0].subject_type==2) {
+        $('#department').val(sub.subject[0].Department.name);
        var x= "خاصة";
       } 
-      else {
+      else if(sub.subject[0].subject_type==3){
+        $('#department').val(sub.subject[0].Department.name);
         var x= "كلاهما";
+      }else if(sub.subject[0].subject_type==4){
+        var x = "اقسام";
       }
       $('#subject_type').val(x);
-      if(subject[0].system_type==1) {
+      if(sub.subject[0].system_type==1) {
         var y= "فصل";
       } 
-      else if (subject[0].system_type==2) {
+      else if (sub.subject[0].system_type==2) {
         var y= "عام";
       }
       $('#System_Type').val(y);
-      $('#department').val(subject[0].Department.name);
-      $('#user').val(subject[0].User.name);
+      
+      $('#user').val(sub.subject[0].User.name);
     });
   });
 
@@ -177,35 +182,42 @@ $(document).ready(function(){
 
   $('body').on('click', '#ed', function() {
     var id = $(this).val();
-    $.get('/subject/getSubject/'+id,function(subject){
-      $('#name').val(subject[0].name);
-      $('#name_en').val(subject[0].name_en);
-      $('#code').val(subject[0].code);
-      $('#subject_type').val(subject[0].subject_type);
-      $('#no_th_unit').val(subject[0].no_th_unit);
-      $('#no_prr_unit').val(subject[0].no_pr_unit); 
-      $('#no_th_hour').val(subject[0].no_th_hour);
-      $('#no_prr_hour').val(subject[0].no_pr_hour);
-      $('#chapter_degre').val(subject[0].chapter_degree);
-      $('#final_theorr').val(subject[0].final_theor);
-      $('#final_practicall').val(subject[0].final_practical);
-      $('#id').val(subject[0].id);
-      if(subject[0].subject_type == 1) {
+    $.get('/subject/getSubject/'+id,function(sub){
+      console.log(sub);
+      $('#name').val(sub.subject[0].name);
+      $('#name_en').val(sub.subject[0].name_en);
+      $('#code').val(sub.subject[0].code);
+      $('#subject_type').val(sub.subject[0].subject_type);
+      $('#no_th_unit').val(sub.subject[0].no_th_unit);
+      $('#no_prr_unit').val(sub.subject[0].no_pr_unit); 
+      $('#no_th_hour').val(sub.subject[0].no_th_hour);
+      $('#no_prr_hour').val(sub.subject[0].no_pr_hour);
+      $('#chapter_degre').val(sub.subject[0].chapter_degree);
+      $('#final_theorr').val(sub.subject[0].final_theor);
+      $('#final_practicall').val(sub.subject[0].final_practical);
+      $('#id').val(sub.subject[0].id);
+      if(sub.subject[0].subject_type == 1) {
         //عام
         $('#js_radio').prop("checked",true);
         $('[id^="department_select"]').hide(200);
       }
-      else if(subject[0].subject_type == 2) {
+      else if(sub.subject[0].subject_type == 2) {
         // خاص
         $('#radio').prop("checked",true);
         $('[id^="department_select"]').show(200);
-        $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
+        $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }
-      else if(subject[0].subject_type==3) {
+      else if(sub.subject[0].subject_type==3) {
         //كلاهما
         $('#radioo').prop("checked",true);
         $('[id^="department_select"]').show(200);
-        $('#department_select option[value="'+subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
+        $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
+      }else if(sub.subject[0].subject_type==4){
+        $('#radiod').prop("checked",true);
+        $('#myS').empty();
+        for(var i=0;i<sub.resl.length;i++){
+          $('#myS').append("<tr data-id='ds"+sub.resl[i].id+"'><td class='text-center'>"+sub.resl[i].Department.name+"</td><td><p ></p><button id='delS' value='"+sub.resl[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
+        }
       }
     });  
   });
@@ -213,7 +225,35 @@ $(document).ready(function(){
   $('body').on('click', '#del', function() {
     $('#ok').val($(this).val());
   });
-
+  
+  $('body').on('click', '#delS', function() {
+    var id=$(this).val();
+    $.get('/subject/deleteDepartSubject/'+$(this).val(),function(todo) {
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          $('#myS [data-id = "ds'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح القسم","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        default:
+          break; 
+      }
+    });
+  });
+  $('#departmentMul').on('change', function() {
+    var ob={SubjectId:$('#id').val(),DepartmentId:$(this).val()}
+    $.post('/subject/addDepatSub/',ob,function(sub) {
+      if(sub){
+        $("#edit").modal('hide');
+        custNotify("success","نجح","لقد تم اضافة القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
+      }else{
+        $("#edit").modal('hide'); 
+        custNotify("danger","فشل","لايمكن اضافة القسم","warning-sign","bounceInDown","bounceOutUp");
+      }
+    });
+  });
   $('body').on('click','#ok', function() {
     var id=$(this).val();
     $.get('/subject/deleteSubject/'+$(this).val(),function(todo) {

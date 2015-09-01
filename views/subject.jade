@@ -148,6 +148,8 @@ block content
                 a(href="#tabOne", aria-controls="tabOne", role="tab", data-toggle="tab")  بيانات المادة
               li(role="presentation")
                 a(href="#tabTow", aria-controls="tabTow", role="tab", data-toggle="tab")  المواد التمهدية
+              li(role="presentation")
+                a(href="#tabThree", aria-controls="tabThree", role="tab", data-toggle="tab")  الاقسام
             // Tab panes
             .tab-content
               #tabOne.tab-pane.active(role="tabpanel")
@@ -201,14 +203,18 @@ block content
                         label.radio-inline
                           input#radioo.radiooo(type='radio',value="3" ,name="subject_type")
                           | كلاهما
+                        label.radio-inline
+                          input#radiod.radioM(type='radio', name='department',value="4")
+                          | اقسام
                       #department_select
                         label تندرج تحت قسم
                         select#department_iddepartment.form-control.selectpicker(name="DepartmentId", data-live-search="true", data-size=5)
                           option(value="", style='color:grey; display:none;') اختر اسم القسم...
                           for l in dep
                             option(value="#{l.id}") #{l.name} 
+                       
                            
-               #tabTow.tab-pane(role="tabpanel")
+              #tabTow.tab-pane(role="tabpanel")
                 br
                 .form-group
                   .row
@@ -222,7 +228,23 @@ block content
                         
                     .col-xs-5.col-md-5
                       table#myy.table.table-bordered
-                        th.text-center المواد التمهيدية            
+                        th.text-center المواد التمهيدية 
+
+              #tabThree.tab-pane(role="tabpanel")
+                br
+                .form-group
+                  .row
+                    .col-xs-3.col-md-3
+                      label
+                        span  الاقسام
+                      select#departmentMul.form-control.selectpicker(name="departmentMulSel", data-live-search="true", data-size=5)
+                          option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                          for l in dep
+                            option(value="#{l.id}") #{l.name} 
+                        
+                    .col-xs-5.col-md-5
+                      table#myS.table.table-bordered
+                        th.text-center الاقسام             
           .modal-footer
             button#edittt.btn.btn-warning.btn-lg(type="submit", style="margin-left:25%;width:50%;")
               span.glyphicon.glyphicon-ok-sign
@@ -245,6 +267,7 @@ block content
           button.btn.btn-default(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-remove
             |  لا
+  
       // /.modal-content
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
