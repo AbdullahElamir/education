@@ -200,20 +200,25 @@ $(document).ready(function(){
         //عام
         $('#js_radio').prop("checked",true);
         $('[id^="department_select"]').hide(200);
+        $('#tabThree').hide();
+        
       }
       else if(sub.subject[0].subject_type == 2) {
         // خاص
         $('#radio').prop("checked",true);
         $('[id^="department_select"]').show(200);
+        $('#tabThree').hide();
         $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }
       else if(sub.subject[0].subject_type==3) {
         //كلاهما
         $('#radioo').prop("checked",true);
+        $('#tabThree').hide();
         $('[id^="department_select"]').show(200);
         $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }else if(sub.subject[0].subject_type==4){
         $('#radiod').prop("checked",true);
+        $('#tabThree').show();
         $('#myS').empty();
         for(var i=0;i<sub.resl.length;i++){
           $('#myS').append("<tr data-id='ds"+sub.resl[i].id+"'><td class='text-center'>"+sub.resl[i].Department.name+"</td><td><p ></p><button id='delS' value='"+sub.resl[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
