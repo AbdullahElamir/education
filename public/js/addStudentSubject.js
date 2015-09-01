@@ -6,14 +6,11 @@ $(document).ready(function(){
      var ratioDegre=[];
      var degreeChapter,degreeFinal,degreeSum;
      var ratioDegreChapter,ratioDegreFinal,RatioSum;
-
         for(var i=0;i<($('#degree tr').length-1) ;i++ ){
           degreeChapter=$("#degree #chapter"+i).text();
           ratioDegreChapter=$("#degree #chap"+i).text();
-
           degreeFinal=$("#degree #fina"+i).text();
           ratioDegreFinal=$("#degree #fin"+i).text();
-
           degreeSum=$("#degree #summm"+i).text();
           RatioSum=$("#degree #summ"+i).text();
           var t=0,r=0;
@@ -41,9 +38,6 @@ $(document).ready(function(){
 },
 isSuccessful();
 
-
-
-
   $('#generale_teble').hide(0);
   $('#Division_teble').hide(0);
   $('body').on('click', '#Department_bt', function(){
@@ -61,7 +55,6 @@ isSuccessful();
     $('#Department_teble').hide(200);
     $('#Division_teble').show(200);
     $('#generale_teble').hide(200);
-
   });
   
   $('body').on('click', '#viw', function (e) {
@@ -69,8 +62,7 @@ isSuccessful();
     $('#chapter_degree').val($('[data-id = "'+$(this).val()+'"]').data('deg'));
     $('#final_exam').val($('[data-id = "'+$(this).val()+'"]').data('fin'));
     $('#subject_status').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('sub'));
-    $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case'));
-    
+    $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case')); 
   });
   $('body').on('click', '#del', function (e) {
     $('#ok').val($(this).val());
