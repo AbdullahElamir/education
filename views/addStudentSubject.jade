@@ -30,29 +30,42 @@ block content
               span.glyphicon.glyphicon-pencil 
         br 
         .row       
-          .col-md-7    
+          .col-md-12   
             .panel.panel-default
               .panel-heading
                 .row
                   .pull-right(style="margin-right: 10px;")
                     .panel-title تنزيل مواد ..
               .table-responsive
-                table.table.table-bordred.table-striped.text-right
+                table#degree.table.table-bordred.table-striped.text-right
                   thead
                     th اسم المادة
                     th Subject Name
                     th رمز المادة
                     th المجموعة
-                    th.text-center أضافة الدرجة
+                    th الإمتحان النصفي
+                    th الإمتحان النهائي
+                    th الدرجة النهائية
+                    th  حالة الطالب
+                    th.text-center تسجيل الدرجة
                     th.text-center حذف
                   tbody#Acbody
-                    for re in res
+                    for re,u in res
                       if re.Sub_group.Subject != null
                         tr(data-id = '#{re.id}',data-sub="#{re.subject_status}",data-case="#{re.result_case}",data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}")
                           td #{re.Sub_group.Subject.name}
                           td #{re.Sub_group.Subject.name_en}
                           td #{re.Sub_group.Subject.code}
                           td #{re.Sub_group.sub_group_name}
+                          td(id='chapter'+u) #{re.chapter_degree} \  #{re.Sub_group.Subject.chapter_degree}
+                          td(id='chap'+u ,hidden) #{re.Sub_group.Subject.chapter_degree}
+                          td(id='final'+u) #{re.final_exam} \ #{re.Sub_group.Subject.final_theor}
+                          td(id='fina'+u,hidden) #{re.final_exam}
+                          td(id='fin'+u,hidden) #{re.Sub_group.Subject.final_theor}
+                          td(id='sum'+u) #{re.sum_dagree} \ #{re.Sub_group.Subject.final_theor + re.Sub_group.Subject.chapter_degree}
+                          td(id='summ'+u,hidden) #{re.Sub_group.Subject.final_theor + re.Sub_group.Subject.chapter_degree}
+                          td(id='summm'+u,hidden) #{re.sum_dagree}
+                          td(id='status'+u)
                           td.text-center
                             p(data-placement="top", data-toggle="tooltip", title="تعديل")  
                               button#viw.btn.btn-primary.btn-xs(value="#{re.id}",data-title="تعديل", data-toggle="modal", data-target="#Show_Semester")
@@ -61,79 +74,81 @@ block content
                             p(data-placement="top", data-toggle="tooltip", title="حذف")  
                               button#del.btn.btn-danger.btn-xs(value="#{re.id}",data-title="حذف", data-toggle="modal", data-target="#delete")
                                 span.glyphicon.glyphicon-trash
-          .col-md-5.pull-left   
-            #Department_teble  
-              .panel.panel-default
-                .panel-heading
-                  .row
-                    .pull-right(style="margin-right: 10px;")
-                      .panel-title عرض المواد القسم
-                .table-responsive
-                  table#mytable.table.table-bordred.table-striped.text-right
-                    thead
-                      th اسم المادة
-                      th رمز المادة
-                      th المجموعة
-                      th.text-center إضافة
-                    tbody
-                      for d in dept
-                        if d.Subject != null
-                          tr()
-                            td #{d.Subject.name}
-                            td #{d.Subject.code}
-                            td #{d.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right                   
-            #generale_teble
-              .panel.panel-default
-                .panel-heading
-                  .row
-                    .pull-right(style="margin-right: 10px;")
-                      .panel-title عرض المواد العامة    
-                .table-responsive
-                  table#mytable.table.table-bordred.table-striped.text-right
-                    thead
-                      th اسم المادة
-                      th رمز المادة
-                      th المجموعة
-                      th.text-center إضافة
-                    tbody
-                      for g in gen
-                        if g.Subject != nul
-                          tr()
-                            td #{g.Subject.name}
-                            td #{g.Subject.code}
-                            td #{g.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right
-            #Division_teble
-              .panel.panel-default
-                .panel-heading
-                  .row
-                    .pull-right(style="margin-right: 10px;")
-                      .panel-title عرض المواد الشعبة   
-                .table-responsive
-                  table#mytable.table.table-bordred.table-striped.text-right
-                    thead
-                      th اسم المادة
-                      th رمز المادة
-                      th المجموعة
-                      th.text-center إضافة
-                    tbody
-                      for di in div
-                        if di.Subject != nul
-                          tr()
-                            td #{di.Subject.name}
-                            td #{di.Subject.code}
-                            td #{di.sub_group_name}
-                            td.text-center
-                              p(data-placement="top", data-toggle="tooltip", title="إضافة")
-                                button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
-                                  span.glyphicon.glyphicon-hand-right
+
+    .row
+      .col-md-12
+        #Department_teble  
+          .panel.panel-default
+            .panel-heading
+              .row
+                .pull-right(style="margin-right: 10px;")
+                  .panel-title عرض المواد القسم
+            .table-responsive
+              table#mytable.table.table-bordred.table-striped.text-right
+                thead
+                  th اسم المادة
+                  th رمز المادة
+                  th المجموعة
+                  th.text-center إضافة
+                tbody
+                  for d in dept
+                    if d.Subject != null
+                      tr()
+                        td #{d.Subject.name}
+                        td #{d.Subject.code}
+                        td #{d.sub_group_name}
+                        td.text-center
+                          p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                            button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                              span.glyphicon.glyphicon-hand-right                   
+        #generale_teble
+          .panel.panel-default
+            .panel-heading
+              .row
+                .pull-right(style="margin-right: 10px;")
+                  .panel-title عرض المواد العامة    
+            .table-responsive
+              table#mytable.table.table-bordred.table-striped.text-right
+                thead
+                  th اسم المادة
+                  th رمز المادة
+                  th المجموعة
+                  th.text-center إضافة
+                tbody
+                  for g in gen
+                    if g.Subject != nul
+                      tr()
+                        td #{g.Subject.name}
+                        td #{g.Subject.code}
+                        td #{g.sub_group_name}
+                        td.text-center
+                          p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                            button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                              span.glyphicon.glyphicon-hand-right
+        #Division_teble
+          .panel.panel-default
+            .panel-heading
+              .row
+                .pull-right(style="margin-right: 10px;")
+                  .panel-title عرض المواد الشعبة   
+            .table-responsive
+              table#mytable.table.table-bordred.table-striped.text-right
+                thead
+                  th اسم المادة
+                  th رمز المادة
+                  th المجموعة
+                  th.text-center إضافة
+                tbody
+                  for di in div
+                    if di.Subject != nul
+                      tr()
+                        td #{di.Subject.name}
+                        td #{di.Subject.code}
+                        td #{di.sub_group_name}
+                        td.text-center
+                          p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                            button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
+                              span.glyphicon.glyphicon-hand-right
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#updateG.form(role="form")
@@ -241,4 +256,6 @@ block content
   script(src='/js/jquery.validate.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js') 
-  script(src='/js/addStudentSubject.js')  
+ 
+  script(src='/js/addStudentSubject.js') 
+  script(src='/js/studentData.js')   

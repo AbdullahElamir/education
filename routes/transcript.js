@@ -9,6 +9,7 @@ var fs = require("fs");
 var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
+var ratioo = require('../app/ratio');
 
   var obj = {
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
@@ -94,7 +95,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           var idstudent =req.params.id;
             models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
             ).then(function(mix){
-
+         // console.log(ratioo.getRatio());
          var arrayy=[];
               if(mix[0][0]!= undefined)
               {
@@ -181,6 +182,7 @@ router.post('/addSemesterStudent',function(req,res){
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
+  console.log("fff");
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,
@@ -237,6 +239,12 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
               }]
             }]
           }).then(function(result){
+            for(var i in result){
+              console.log(result);
+               console.log(result[i].Sub_group.Subject.chapter_degree);
+               console.log(result[i].Sub_group.Subject.final_theor);
+            }
+            //console.log(result);
             res.render('addStudentSubject', { title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
           });
         });
