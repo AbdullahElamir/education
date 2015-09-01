@@ -1,4 +1,49 @@
 $(document).ready(function(){
+
+
+  isSuccessful = function(){
+     var degre=[];
+     var ratioDegre=[];
+     var degreeChapter,degreeFinal,degreeSum;
+     var ratioDegreChapter,ratioDegreFinal,RatioSum;
+
+        for(var i=0;i<($('#degree tr').length-1) ;i++ ){
+          degreeChapter=$("#degree #chapter"+i).text();
+          ratioDegreChapter=$("#degree #chap"+i).text();
+
+          degreeFinal=$("#degree #fina"+i).text();
+          ratioDegreFinal=$("#degree #fin"+i).text();
+
+          degreeSum=$("#degree #summm"+i).text();
+          RatioSum=$("#degree #summ"+i).text();
+          var t=0,r=0;
+          if(degreeFinal<parseInt((0.55*ratioDegreFinal))){
+            $("#degree #final"+i).css({ 'background-color' : '  #ee9ca7'}); 
+            t=1; 
+          } else {
+            t=0;
+          }
+          if(degreeSum<parseInt((RatioSum*0.55))){
+            $("#degree #sum"+i).css({ 'background-color' : '  #ee9ca7'});  
+            r=1;
+          } else {
+            r=0;
+          }
+
+          if(t==0 && r==0){
+            $("#status"+i).html('نــاجح');
+          }
+           
+          if(t==1 || r==1){
+            $("#status"+i).html('راســب');
+          }
+    }
+},
+isSuccessful();
+
+
+
+
   $('#generale_teble').hide(0);
   $('#Division_teble').hide(0);
   $('body').on('click', '#Department_bt', function(){
@@ -49,7 +94,16 @@ $(document).ready(function(){
     var isvalidate=$("#addForm").valid();
     if(isvalidate){
       $.post("/transcript/addStudentSubject", $("#addForm").serializeObject(), function(data, error){
-        if(data!=false){
+          url=document.URL;
+          var id = url.substring(url.lastIndexOf('/') + 1);
+          if(data==false){
+            $('#add').modal('hide');
+            custNotify("danger","خطا","هذه المادة موجودة","warning-sign","bounceInDown","bounceOutUp");
+          } else  {
+          window.location.href='/transcript/addStudentSubject/'+id;
+          }
+
+/*        if(data!=false){
           $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
             '<td>'+data.Sub_group.Subject.name+'</td>'+
             '<td>'+data.Sub_group.Subject.name_en+'</td>'+
@@ -69,6 +123,7 @@ $(document).ready(function(){
           $('#add').modal('hide');
           custNotify("danger","خطا","هذه المادة موجودة","warning-sign","bounceInDown","bounceOutUp");
         }
+        */
       });
     }
     return false;
@@ -79,16 +134,23 @@ $(document).ready(function(){
     $('#updateG').submit();
   });
 
+  
   $("#updateG").submit(function(e) {
     var isvalidate=$("#updateG").valid();
     if(isvalidate){
       $.post("/transcript/updateG", {body:$("#updateG").serializeObject(),id:$('#upres').val()}, function(data, error){
-        $('[data-id = "'+$('#upres').val()+'"]').remove();
+          url=document.URL;
+          var id = url.substring(url.lastIndexOf('/') + 1);
+          window.location.href='/transcript/addStudentSubject/'+id;
+/*        $('[data-id = "'+$('#upres').val()+'"]').remove();
         $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
                 '<td>'+data.Sub_group.Subject.name+'</td>'+
                 '<td>'+data.Sub_group.Subject.name_en+'</td>'+
                 '<td>'+data.Sub_group.Subject.code+'</td>'+
                 '<td>'+data.Sub_group.sub_group_name+'</td>'+
+                '<td>'+data.chapter_degree+ '\\'+data.Sub_group.Subject.chapter_degree+'</td>'+
+                '<td>'+data.final_exam +'\\'+ data.Sub_group.Subject.final_theor+'</td>'+
+                '<td>'+data.sum_dagree+'\\'+ (data.Sub_group.Subject.final_theor + data.Sub_group.Subject.chapter_degree)+'</td>'+
                 '<td class="text-center">'+
                   '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
                     '<button id="viw" value="'+data.id+'" data-title="تعديل" data-toggle="modal" data-target="#Show_Semester" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>'+
@@ -96,7 +158,7 @@ $(document).ready(function(){
                   '<p data-placement="top" data-toggle="tooltip" title="حذف">'+
                     '<button id="del" value="'+data.id+'" data-title="حذف" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
         $('#Show_Semester').modal('hide');
-        custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+        custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");*/
       });
     }
     return false;

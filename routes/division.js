@@ -42,11 +42,11 @@ var Sequelize = require('sequelize')
       var qS='';
       var qY='';
       if (req.params.id==1){
-        qS='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR `s`.`subject_type` = 3) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
-        qY='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 2 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR `s`.`subject_type` = 3) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
+        qS='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR `s`.`subject_type` = 3 OR   `s`.`id` IN (SELECT `SubjectId` FROM   `DepartmentSubjects` ds WHERE `d`.`DepartmentId` = `ds`.`DepartmentId`  )) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
+        qY='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 2 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR `s`.`subject_type` = 3 OR   `s`.`id` IN (SELECT `SubjectId` FROM   `DepartmentSubjects` ds WHERE `d`.`DepartmentId` = `ds`.`DepartmentId`  )) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
       }else{
-        qS='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
-        qY='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 2 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR `s`.`subject_type` = 3) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
+        qS='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR   `s`.`id` IN (SELECT `SubjectId` FROM   `DepartmentSubjects` ds WHERE `d`.`DepartmentId` = `ds`.`DepartmentId`  )) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
+        qY='SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 2 AND `d`.`id` = ? AND `s`.`status`=1 AND (`d`.`DepartmentId`= `s`.`DepartmentId` OR   `s`.`id` IN (SELECT `SubjectId` FROM   `DepartmentSubjects` ds WHERE `d`.`DepartmentId` = `ds`.`DepartmentId`  )) AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );';
       }
       models.sequelize.query(qS, { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -98,7 +98,7 @@ var Sequelize = require('sequelize')
   });
 
   router.post('/newDivision',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Division.create(req.body).then(function() {
       res.redirect('/division?msg=1');
     });

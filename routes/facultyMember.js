@@ -43,14 +43,14 @@ var nationality = require('../Nationality');
   });
 
   router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=1;//req,session.id
+    req.body.UserId=req.session.idu;
     models.Faculty_member.create(req.body).then(function() {
       res.redirect('/facultyMember?msg=1');
     });
   });
 
   // delete FaculityMembers
-  router.get('/deleteFaculityMembers/:id', function(req, res) {
+  router.get('/deleteFaculityMembers/:id',userHelpers.isLogin, function(req, res) {
     models.Faculty_member.find({
       where: {
         id: req.params.id
@@ -67,7 +67,7 @@ var nationality = require('../Nationality');
   });
 
   // getAllNationality
-  router.get('/getAllNationality',function(req, res){
+  router.get('/getAllNationality',userHelpers.isLogin,function(req, res){
     res.send(nationality);
   });
 
@@ -83,7 +83,7 @@ var nationality = require('../Nationality');
   });
 
   // updateFacultyMember
-  router.post('/updateFacultyMember', function(req, res) {
+  router.post('/updateFacultyMember',userHelpers.isLogin, function(req, res) {
     id = req.body.id;
     delete req.body.id;
     models.Faculty_member.find({

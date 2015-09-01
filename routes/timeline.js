@@ -18,7 +18,7 @@ var userHelpers = require('../app/userHelpers');
   });
 // End timelines /////////////////////////////////////////////////////////
  
-  router.get('/getTimeline', function(req, res) {
+  router.get('/getTimeline',userHelpers.isLogin, function(req, res) {
     models.Timeline.findAll({
       where: { 
         status: 1 , 
