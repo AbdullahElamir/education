@@ -13,8 +13,15 @@ $(document).ready(function(){
       email:{
         required: true,
         email: true,
-        url: "/newUser/selectUserForValidation",
-t       type: "post",
+        remote:{
+        url: "/users/checkUser",
+        type: "post",
+        data: {
+            email : function(){
+              return $("#email").val();
+            }
+          }
+        }
       },
       confirmEmail:{
         required: true,
@@ -42,6 +49,7 @@ t       type: "post",
       email:{
         required: "الرجاء ادخال البريد اﻻلكتروني!",
         email: "خطأ:الرجاء ادخال بريد الكتروني صالح",
+        remote: "عفوا لقد تم التسجيل بهذا الإيميل مسبقا"
       },
       confirmEmail:{
         required: "الرجاء اعادة ادخال البريد اﻻلكتروني!",
@@ -70,5 +78,5 @@ t       type: "post",
         custNotify("danger","خطأ","الرجاء التأكد من صحة ادخال البيانات","warning-sign","bounceIn","bounceOut");
       }
     },
-  });
+ });
 });
