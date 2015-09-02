@@ -56,7 +56,7 @@ $(document).ready(function(){
   $('body').on('click', '#save', function() {
     var isvalidate=$("#newSubject ,#updateSubject").valid();
     if($("#newSubject input[type='radio']:checked").val() == 1) {
-      var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd,mul:$('#departmentMulSel').val()}; 
+      var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: 1 ,subject_type :  1,idd:iddd,mul:$('#departmentMulSeln').val()}; 
       if(isvalidate){
         $.post('/subject/saveSubject',obj,function(todo){
           if(todo == true) {
@@ -69,7 +69,7 @@ $(document).ready(function(){
       } 
     } 
     else {
-      var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd,mul:$('#departmentMulSel').val()}; 
+      var obj = {name: $('#name').val(), name_en: $('#name_en').val() , code : $('#code').val() ,no_th_unit : $('#no_th_unit').val() , no_th_hour : $('#no_th_hour').val(), no_pr_unit: $('#no_pr_unit').val() ,no_pr_hour: $('#no_pr_hour').val(),chapter_degree: $('#chapter_degree').val() ,final_theor:  $('#final_theor').val(),final_practical: $('#final_practical').val() ,system_type : toggle,DepartmentId: $('#department_iddepartment').val() ,subject_type :  $("#newSubject input[type='radio']:checked").val(),idd:iddd,mul:$('#departmentMulSeln').val()}; 
       if(isvalidate){
         $.post('/subject/saveSubject',obj,function(todo){
           if(todo == true) {
@@ -218,7 +218,7 @@ $(document).ready(function(){
         $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }else if(sub.subject[0].subject_type==4){
         $('#radiod').prop("checked",true);
-        $('#tabThree').show();
+        // $('#tabThree').show();
         $('#myS').empty();
         for(var i=0;i<sub.resl.length;i++){
           $('#myS').append("<tr data-id='ds"+sub.resl[i].id+"'><td class='text-center'>"+sub.resl[i].Department.name+"</td><td><p ></p><button id='delS' value='"+sub.resl[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
@@ -281,15 +281,15 @@ $(document).ready(function(){
   
   $('.radiooo ,.radioo').change(function() { 
     $('#department_select').show(200);
-    $('#departmentMul').hide(200);
+    $('#departmentMuln').hide(200);
   });
 
   $('.radio_js').change(function() {
     $('#department_select').hide(200);
-    $('#departmentMul').hide(200);
+    $('#departmentMuln').hide(200);
   });
   $('.radioM').change(function() {
-    $('#departmentMul').show(200);
+    $('#departmentMuln').show(200);
     $('#department_select').hide(200);
   });
   $("#Semesters").show(0); 
