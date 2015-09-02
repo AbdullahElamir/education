@@ -68,7 +68,25 @@ var userHelpers = require('../app/userHelpers');
     });
   });
 
-
+  /*This route is to check if the semester exist before or not*/
+  router.post('/checkSemester',userHelpers.isLogin, function(req, res) {
+    models.Semester.findOne({
+      where: {
+        system_type: req.body.system_type,
+        sem_type: req.body.sem_type,
+        year: {
+          $like : req.body.year+'%'
+        },
+        status: 1
+      }
+    }).then(function(result){
+      if(result){
+        res.send(false);// not safe to add semester
+      } else {
+        res.send(true);// safe to add semester
+      }
+    });
+  });
 
   router.post('/newSemester',userHelpers.isLogin, function(req, res) {
 

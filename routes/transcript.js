@@ -214,7 +214,6 @@ router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
-  console.log(req.params.id);
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,
@@ -228,7 +227,6 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
           }
       }]
   }).then(function(sem){
-   // console.log(sem.Semester.system_type);
     models.Sub_group.findAll({
       where:{
         SemesterId:sem.SemesterId,
@@ -280,13 +278,6 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
               }]
             }]
           }).then(function(result){
-          //  console.log("ffffffffffff"+sem.Semester.system_type);
-          /*  for(var i in result){
-              console.log(result);
-               console.log(result[i].Sub_group.Subject.chapter_degree);
-               console.log(result[i].Sub_group.Subject.final_theor);
-            }*/
-            //console.log(result);
             res.render('addStudentSubject', { sys:sem.Semester.system_type,title: 'Add Student Subject', name:req.session.name,res:result ,sem:sem,dept:dept[0],gen:gen,div:div});
           });
         });

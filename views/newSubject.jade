@@ -89,9 +89,9 @@ block content
                     for i in dept
                       option(value="#{i.id}") #{i.name}
               .col-xs-3.col-md-3.col-md-offset-6
-                #departmentMul(style="position: absolute;")
+                #departmentMuln(style="position: absolute;")
                   label تندرج تحت اقسام
-                  select.form-control.selectpicker#departmentMulSel(name="mult",multiple, data-live-search="true", data-size=5)
+                  select.form-control.selectpicker#departmentMulSeln(name="mult",multiple, data-live-search="true", data-size=5)
                     option(value="", style='color:grey; display:none;') اختر اسم القسم...
                     for i in dept
                       option(value="#{i.id}") #{i.name}

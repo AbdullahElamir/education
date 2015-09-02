@@ -31,7 +31,7 @@ block content
                   option(value="2") سنة
               .col-xs-6.col-md-6#sem_type
                 label.h4 الفصل الدراسي
-                select.form-control.sem_type.selectpicker(name="sem_type")
+                select#sem_type_value.form-control.sem_type.selectpicker(name="sem_type")
                   option(value="", style='color:grey; display:none;') اختر الفصل الدراسي...
                   option(value="1") ربيعي
                   option(value="2") خريفي
@@ -55,7 +55,7 @@ block content
               .col-xs-6.col-xs-offset-3.col-md-6.col-md-offset-3
                 label.h4 سنة النظام  الدراسي
                 .input-group.date#year
-                  input.form-control.prevent(name="year",type="text", placeholder="سنة النظام الدراسي")
+                  input#year_value.form-control.prevent(name="year",type="text", placeholder="سنة النظام الدراسي")
                   span.input-group-addon.success
                     span.fa.fa-calendar
           hr
