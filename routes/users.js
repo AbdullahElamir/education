@@ -21,6 +21,14 @@ router.get('/',userHelpers.isLogin, function(req, res) {
   });
 });
 
+
+  router.post('/selectUserForValidation',userHelpers.isLogin, function(req, res) {
+    console.log("hii");
+/*    userHelpers.addUser(req.body,function(result){
+      res.redirect('/users?msg=1');
+    });*/
+  });
+
 // //////Start User /////////////////////////////////////////
   router.get('/newUser',userHelpers.isLogin, function(req, res) {
       res.render('newUser', { title: 'إضافة مستخدم جديد', name:req.session.name, activeUser: 'active' });

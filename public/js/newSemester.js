@@ -38,6 +38,21 @@ $(document).ready(function(){
       },
       year:{
         required: true,
+        remote:{
+          url: "/semester/checkSemester",
+          type:"post",
+          data: {
+            year : function(){
+              return $("#year_value").val();
+            },
+            sem_type : function(){
+              return $("#sem_type_value").val();
+            },
+            system_type : function(){
+              return $("#system_type").val();
+            }
+          }
+        }
       },
       current:{
         required: true,
@@ -56,6 +71,7 @@ $(document).ready(function(){
       },
       year:{
         required: "الرجاء اختيار سنة الفصل الدراسي!",
+        remote: "هذا النظام مدخل مسبقاً الرجاء التحقق من بياناتك المدخلة!"
       },
       current:{
         required: "الرجاء الاجابة بنعم أو لا!",

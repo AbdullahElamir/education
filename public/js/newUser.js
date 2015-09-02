@@ -13,6 +13,8 @@ $(document).ready(function(){
       email:{
         required: true,
         email: true,
+        url: "/newUser/selectUserForValidation",
+t       type: "post",
       },
       confirmEmail:{
         required: true,
