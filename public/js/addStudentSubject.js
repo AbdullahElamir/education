@@ -1,46 +1,41 @@
 $(document).ready(function(){
-
-
   isSuccessful = function(){
-     var degre=[];
-     var ratioDegre=[];
-     var degreeChapter,degreeFinal,degreeSum;
-     var ratioDegreChapter,ratioDegreFinal,RatioSum;
-        for(var i=0;i<($('#degree tr').length-1) ;i++ ){
-          degreeChapter=$("#degree #chapter"+i).text();
-          ratioDegreChapter=$("#degree #chap"+i).text();
-          degreeFinal=$("#degree #fina"+i).text();
-          ratioDegreFinal=$("#degree #fin"+i).text();
-          degreeSum=$("#degree #summm"+i).text();
-          RatioSum=$("#degree #summ"+i).text();
-          var t=0,r=0;
-          if(degreeFinal<parseInt((0.55*ratioDegreFinal))){
-            $("#degree #final"+i).css({ 'background-color' : '  #ee9ca7'}); 
-            t=1; 
-          } else {
-            t=0;
-          }
-          if(degreeSum<parseInt((RatioSum*0.55))){
-            $("#degree #sum"+i).css({ 'background-color' : '  #ee9ca7'});  
-            r=1;
-          } else {
-            r=0;
-          }
-
-          if(t==0 && r==0){
-            $("#status"+i).html('نــاجح');
-          }
-           
-          if(t==1 || r==1){
-            $("#status"+i).html('راســب');
-          }
+    var degre=[];
+    var ratioDegre=[];
+    var degreeChapter,degreeFinal,degreeSum;
+    var ratioDegreChapter,ratioDegreFinal,RatioSum;
+    for(var i=0;i<($('#degree tr').length-1) ;i++ ){
+      degreeChapter=$("#degree #chapter"+i).text();
+      ratioDegreChapter=$("#degree #chap"+i).text();
+      degreeFinal=$("#degree #fina"+i).text();
+      ratioDegreFinal=$("#degree #fin"+i).text();
+      degreeSum=$("#degree #summm"+i).text();
+      RatioSum=$("#degree #summ"+i).text();
+      var t=0,r=0;
+      if(degreeFinal<parseInt((0.55*ratioDegreFinal))){
+        $("#degree #final"+i).css({ 'background-color' : '  #ee9ca7'});
+        t=1; 
+      } else {
+        t=0;
+      } 
+      if(degreeSum<parseInt((RatioSum*0.55))){
+        $("#degree #sum"+i).css({ 'background-color' : '  #ee9ca7'});  
+        r=1;
+      } else {
+        r=0;
+      }
+      if(t==0 && r==0){
+        $("#status"+i).html('نــاجح');
+      }          
+      if(t==1 || r==1){
+        $("#status"+i).html('راســب');
+      }
     }
-},
-isSuccessful();
-
-  $('#generale_teble').hide(0);
-  $('#Division_teble').hide(0);
-  $('body').on('click', '#Department_bt', function(){
+  },
+  isSuccessful();
+    $('#generale_teble').hide(0);
+    $('#Division_teble').hide(0);
+    $('body').on('click', '#Department_bt', function(){
     $('#generale_teble').hide(200);
     $('#Department_teble').show(200);
     $('#Division_teble').hide(200);
@@ -49,7 +44,6 @@ isSuccessful();
     $('#Department_teble').hide(200);
     $('#Division_teble').hide(200);
     $('#generale_teble').show(200);
-
   });
   $('body').on('click', '#Division_bt', function(){
     $('#Department_teble').hide(200);
