@@ -120,9 +120,10 @@ var Sequelize = require('sequelize')
 
 
   router.post('/editSubject', userHelpers.isLogin,function(req, res) {
+    delete req.body.departmentMulSel;
     if(req.body.subject_type==1){
       req.body.DepartmentId=1;
-      req.body.UserId=1;
+      req.body.UserId=req.session.idu;
       models.Subject.find({
         where: {
           id: req.body.id
@@ -135,7 +136,7 @@ var Sequelize = require('sequelize')
       });
     });
     } else if(req.body.subject_type==2){
-      req.body.UserId=1;
+      req.body.UserId=req.session.idu;
       models.Subject.find({
         where: {
           id: req.body.id
@@ -148,7 +149,21 @@ var Sequelize = require('sequelize')
         });
       });
     } else if(req.body.subject_type==3){
-      req.body.UserId=1;
+      req.body.UserId=req.session.idu;
+      models.Subject.find({
+        where: {
+          id: req.body.id
+        }
+      }).then(function (todo) {
+        todo.updateAttributes(req.body).then(function (todo) {
+          res.redirect('/subject');
+        }).catch(function (err) {
+          console.log(err);
+        });
+      });
+    }else if(req.body.subject_type==4){
+      req.body.UserId=req.session.idu;
+      req.body.DepartmentId=null;
       models.Subject.find({
         where: {
           id: req.body.id
@@ -220,14 +235,17 @@ router.get('/deleteDepartSubject/:id', userHelpers.isLogin,function(req, res) {
 });
   router.post('/updatePree',userHelpers.isLogin,function(req, res) {
     for(var j=0;j<req.body.count-1 ; j++)
-    {
+    {     
+
       req.body.subPreId.shift();
     }
     var date = new Date();
     if(req.body.subPreId.length != 0)
-    {
+    {    
+
       for(var i=0;i<req.body.subPreId.length ;i++)
-      {
+      {    
+
         models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`createdAt`, `updatedAt`,`SubjectId`, `PrerequisiteId`) VALUES ("'+date+'","'+date+'",'+req.body.subjectId+','+req.body.subPreId[i]+')').then(function(results){
         res.send(results[0]);
         });

@@ -179,11 +179,16 @@ $(document).ready(function(){
       custNotify("danger","خطأ","عفوا لقد قمت بإدخال المادة سابقا","warning-sign","bounceIn","bounceOut");
     }
   });
-
+  $('#radiod').on('change', function() {
+    if($(this).val()==4){
+      // $('#tabThree').tab('show');
+      $('a[href=#tabThree]').tab('show');
+      $('#tabThreec').show();
+    }
+  });
   $('body').on('click', '#ed', function() {
     var id = $(this).val();
     $.get('/subject/getSubject/'+id,function(sub){
-      console.log(sub);
       $('#name').val(sub.subject[0].name);
       $('#name_en').val(sub.subject[0].name_en);
       $('#code').val(sub.subject[0].code);
@@ -207,18 +212,18 @@ $(document).ready(function(){
         // خاص
         $('#radio').prop("checked",true);
         $('[id^="department_select"]').show(200);
-        $('#tabThree').hide();
+        $('#tabThreec').hide();
         $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }
       else if(sub.subject[0].subject_type==3) {
         //كلاهما
         $('#radioo').prop("checked",true);
-        $('#tabThree').hide();
+        $('#tabThreec').hide();
         $('[id^="department_select"]').show(200);
         $('#department_select option[value="'+sub.subject[0].DepartmentId+'"]').prop('selected', 'selected').change();
       }else if(sub.subject[0].subject_type==4){
         $('#radiod').prop("checked",true);
-        // $('#tabThree').show();
+        $('#tabThreec').show();
         $('#myS').empty();
         for(var i=0;i<sub.resl.length;i++){
           $('#myS').append("<tr data-id='ds"+sub.resl[i].id+"'><td class='text-center'>"+sub.resl[i].Department.name+"</td><td><p ></p><button id='delS' value='"+sub.resl[i].id+"'   class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button></td></tr></table>");    
@@ -251,10 +256,11 @@ $(document).ready(function(){
     var ob={SubjectId:$('#id').val(),DepartmentId:$(this).val()}
     $.post('/subject/addDepatSub/',ob,function(sub) {
       if(sub){
-        $("#edit").modal('hide');
+        // $("#edit").modal('hide');
+        $('#myS').append('<tr data-id="ds'+sub.id+'"><td class="text-center">'+sub.Department.name+'</td><td><p></p><button id="delS" value="'+sub.id+'" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></td></tr>');
         custNotify("success","نجح","لقد تم اضافة القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
       }else{
-        $("#edit").modal('hide'); 
+        // $("#edit").modal('hide'); 
         custNotify("danger","فشل","لايمكن اضافة القسم","warning-sign","bounceInDown","bounceOutUp");
       }
     });
@@ -280,12 +286,15 @@ $(document).ready(function(){
   $('#departmentMul').hide(0);
   
   $('.radiooo ,.radioo').change(function() { 
+    // $('#tabThreec').hide();
+
     $('#department_select').show(200);
     $('#departmentMuln').hide(200);
   });
 
   $('.radio_js').change(function() {
     $('#department_select').hide(200);
+    // $('#tabThreec').hide();
     $('#departmentMuln').hide(200);
   });
   $('.radioM').change(function() {
