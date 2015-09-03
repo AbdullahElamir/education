@@ -37,6 +37,7 @@ block content
                 thead
                   th.text-center النظام الدراسي
                   th.text-center السنة الدراسية
+                  th.text-center الفصل - السنة
                   th.text-center بداية الفصل 
                   th.text-center نهاية الفصل
                   th.text-center الشعــبة
@@ -56,6 +57,7 @@ block content
                       if i.Semester.system_type == 4
                         |  سنة
                     td.text-center #{i.Semester.year.getFullYear()}
+                    td.text-center #{semty[i.level-1]}
                     td.text-center #{i.Semester.starting_date.getDate()} / #{i.Semester.starting_date.getMonth()+1} / #{i.Semester.starting_date.getFullYear()} 
                     td.text-center #{i.Semester.ending_date.getDate()} / #{i.Semester.ending_date.getMonth()+1} / #{i.Semester.ending_date.getFullYear()} 
                     td.text-center #{i.Division.name}
@@ -82,7 +84,7 @@ block content
           .row
             .pull-right(style="margin-right: 10px;")
               h3#h3.panel-title عرض الفصول الدراسية
-            .col-xs-4.col-md-4
+            .col-xs-2.col-md-2
               .input-group
                 input.form-control(type='text', placeholder='بحث...')
                 .input-group-btn
@@ -94,6 +96,20 @@ block content
                 option(value="2") غير نظامي
                 option(value="3") إيقاف قيد
             .col-xs-2.col-md-2
+              select.form-control.selectpicker#level(name="level", data-live-search="true", data-size=5)
+                option(value="1") الاول  
+                option(value="2") الثاني
+                option(value="3") الثالث
+                option(value="4") الرابع
+                option(value="5") الخامس
+                option(value="6") السادس
+                option(value="7") السابع
+                option(value="8") الثامن
+                option(value="9") التاسع
+                option(value="10") العاشر
+                option(value="11") الحادي العاشر
+                option(value="12") الثاني عشر
+            .col-xs-2.col-md-2
               select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
                 option(value="", style='color:grey; display:none;') اختر اسم القسم...
                 for i in dept
@@ -101,8 +117,8 @@ block content
             .col-xs-2.col-md-2
               select.form-control.selectpicker#division_iddivision(name="DivisionId", data-live-search="true", data-size=5)
                 option(value="", style='color:grey; display:none;') اختر اسم الشعبة...
-                for i in dev
-                  option(value="#{i.id}") #{i.name}
+                //- for i in dev
+                //-   option(value="#{i.id}") #{i.name}
               input#studentId.form-control(value="#{std}",type="hidden")             
         .table-responsive
           table#mytable.table.table-bordred.table-striped.text-right

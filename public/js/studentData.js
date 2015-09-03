@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
   $('body').on('click', '#addStudentData', function() {
-  	var obj = {student_status:$('#student_status').val(),StudentId:$('#studentId').val(),DepartmentId:parseInt($('#department_iddepartment').val()),SemesterId:$(this).val(),DivisionId:$('#division_iddivision').val()} ;
+  	var obj = {student_status:$('#student_status').val(),StudentId:$('#studentId').val(),DepartmentId:parseInt($('#department_iddepartment').val()),SemesterId:$(this).val(),DivisionId:$('#division_iddivision').val(),level:$('#level').val()} ;
   	var isvalidate=$("#addSemester").valid();
     if(isvalidate){
 	  	$.post('/transcript/addSemesterStudent',obj,function(todo){
@@ -11,6 +11,7 @@ $(document).ready(function(){
 	  	});
   	}
   });
+
 
   // alert($('#std').val());
    $('body').on('click', '#std', function() {
@@ -27,7 +28,16 @@ $(document).ready(function(){
 		$('#Semesters_teble').hide(200);
 		$('#year_teble').show(200);
 	});
-
+  $('body').on('change', '#department_iddepartment', function(){
+    var id = $(this).val();
+    $('#division_iddivision').empty();
+    $.get('/transcript/division/'+id,function(data){
+      for(key in data){
+          $('#division_iddivision').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');;
+        }
+      console.log(data);
+    });
+  });
 	$("#addSemester").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
@@ -37,6 +47,9 @@ $(document).ready(function(){
       DepartmentId:{
         required: true,
       },
+      level:{
+        required: true,
+      },
     },
     messages:{
       DivisionId:{
@@ -44,6 +57,9 @@ $(document).ready(function(){
       },
       DepartmentId:{
         required: "الرجاء اختيار اسم القسم!",
+      },
+      level:{
+        required: "الرجاء اختيار الفصل - السنة!",
       },
     },
     // errorElement: 'label',
