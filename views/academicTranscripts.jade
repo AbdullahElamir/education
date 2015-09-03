@@ -22,6 +22,19 @@ block content
                   .input-group-btn
                     button.btn.btn-default#student_searchbtn
                       i.glyphicon.glyphicon-search
+                  .input-group-btn
+                    a.btn.dropdown-toggle(data-toggle='dropdown', href='#')
+                      | بحث متقدم
+                      span.caret
+                    ul.dropdown-menu
+                      .nav.nav-tabs
+                        .row
+                          .col-md-4
+                            input.search-query(type='text', placeholder='الأسم')
+                          .col-md-4
+                            input.search-query(type='text', placeholder='أسم الأب')
+                          .col-md-4
+                          input.search-query(type='text', placeholder='اللقب')
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
