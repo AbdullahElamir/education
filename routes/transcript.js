@@ -37,10 +37,38 @@ function draw(obj){
     });
   });
 
-  router.get('/newTranscript', function(req, res, next) {
+  router.get('/arabicTranscript', function(req, res, next) {
     jsr.render({
       template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/newTranscript.html"), "utf8"),
+        content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  router.get('/englishTranscript', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  router.get('/detection', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
+        phantom: {
+          format: 'A3',
+          orientation: "landscape",
+        },
         recipe: "phantom-pdf"
       },
       data:obj
