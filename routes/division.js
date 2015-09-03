@@ -131,7 +131,6 @@ router.get('/divisionsearch/:name',function(req, res) {
       },
     name: {$like:'%'+req.params.name+'%'} 
   }).then(function(division) {
-    console.log(division)
     res.send(division);
   });
 });

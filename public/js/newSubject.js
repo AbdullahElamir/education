@@ -474,13 +474,9 @@ $(document).ready(function(){
     var pageUrl = '/subject'
     window.history.pushState("","",pageUrl);
   }
-<<<<<<< HEAD
-
   $('#subject_search_btn').on('click', function(){
     window.location.href="/subject?q="+$('#subject_search').val();
   });  
-
- 
   $("#subject_search").on('keydown',function(e) { 
     var key = e.charCode || e.keyCode;
     if(key == 13  )
@@ -488,7 +484,4 @@ $(document).ready(function(){
       $("#subject_search_btn").click(); 
       }
   });
-=======
-  
->>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
 });

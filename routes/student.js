@@ -6,7 +6,6 @@ var userHelpers = require('../app/userHelpers');
 var nationality = require('../Nationality');
 
 // /// Start students //////////////////////////////
-<<<<<<< HEAD
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
@@ -70,22 +69,6 @@ var nationality = require('../Nationality');
     res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
     });
     }
-=======
-router.get('/',userHelpers.isLogin, function(req, res) {
-  var page = userHelpers.getPage(req);
-  var limit = userHelpers.getLimit(page);
-  models.Student.findAndCountAll({
-    where: {
-      status: 1
-    },
-    limit : 10,
-    offset: limit,
-  }).then(function(student) {
-    var pageCount = userHelpers.getPageCount(student.count);
-    var pagination = userHelpers.paginate(page,pageCount);
-  res.render('students', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
-  });
->>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
 });
 
 router.get('/newStudent',userHelpers.isLogin, function(req, res) {

@@ -11,7 +11,6 @@ var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
 
-<<<<<<< HEAD
 // Start transcript /////////////////////////////////////////////////////////
 // Start transcript ////////////////////////////////
   router.get('/transcript/:id', function(req, res, next) {
@@ -22,39 +21,7 @@ var ratioo = require('../app/ratio');
       template: { 
         content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
           // content: "<h1>Hello world</h1>",
-=======
-  var obj = {
-    subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
-    classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
-  }
-
-
-  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
-function draw(obj){
-  var str='';
-  for(key in obj){
-    str+="<p>"+key+"</p>";
-  }
-  return str;
-}
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-        recipe: "phantom-pdf",
-        helpers: draw.toString()
-      },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
-    });
-  });
-
-  router.get('/newTranscript', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/newTranscript.html"), "utf8"),
->>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
-        recipe: "phantom-pdf"
+                  recipe: "phantom-pdf"
       },
       data:obb
     }).then(function (response) {
@@ -67,8 +34,41 @@ function draw(obj){
   });
 });
 
-<<<<<<< HEAD
-=======
+  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
+    function draw(obj){
+      var str='';
+      for(key in obj){
+        str+="<p>"+key+"</p>";
+      }
+      return str;
+    }
+        jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+            recipe: "phantom-pdf",
+            helpers: draw.toString()
+          },
+          data:obj
+        }).then(function (response) {
+          response.result.pipe(res);
+        });
+      });
+
+  router.get('/newTranscript', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/newTranscript.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obb
+    }).then(function (response) {
+      //you can for example pipe it to express.js response
+      response.result.pipe(res);
+    });
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+    // console.log(obb);
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+  });
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -76,9 +76,6 @@ function draw(obj){
       res.render();
     });
   });
->>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
-
-
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);

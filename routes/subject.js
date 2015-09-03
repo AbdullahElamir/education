@@ -31,22 +31,11 @@ var Sequelize = require('sequelize')
         where: {
           status: 1
         }
-<<<<<<< HEAD
       }).then(function(sub) {
             res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
         }); 
       });
-=======
-      }).then(function(departments) {
-
-         models.Subject.findAll({
-      where: {
-        status: 1
-      }
-    }).then(function(sub) {
-          res.render('subject', {subb:sub, title: 'عرض المواد الدراسية', name:req.session.name,dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
->>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
-      }); 
+      });
   }
   else
   {
