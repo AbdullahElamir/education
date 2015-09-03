@@ -3,7 +3,8 @@
 module.exports = function(sequelize, DataTypes) {
   var SemesterStudent = sequelize.define("SemesterStudent", {
     student_status :{type: DataTypes.INTEGER(1),defaultValue:1},
-    status :{type: DataTypes.INTEGER(1),defaultValue:1}
+    status :{type: DataTypes.INTEGER(1),defaultValue:1},
+    level :{type: DataTypes.INTEGER(2)}
   },{
     classMethods: {
       associate: function(models) {

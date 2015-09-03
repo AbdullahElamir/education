@@ -210,9 +210,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 }      
               }
                 array.push(round((sum/sumUnit),3));
-                console.log(array);
               }
-              res.render('studentData', {ar:ratio,arr:array,arrr:arrayy, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+              res.render('studentData', {ar:ratio,arr:array,arrr:arrayy, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
@@ -390,5 +390,17 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
       res.send(true);
     });
 });
+
+router.get('/division/:id',userHelpers.isLogin,function(req,res){
+  models.Division.findAll({
+    where:{
+      status:1,
+      DepartmentId:req.params.id
+    }
+  }).then(function(div){
+    res.send(div);
+  });
+});
+
 
 module.exports = router;
