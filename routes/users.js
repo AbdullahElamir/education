@@ -21,6 +21,26 @@ router.get('/',userHelpers.isLogin, function(req, res) {
   });
 });
 
+    /*This route is to check if the email exist before or not*/
+  router.post('/checkUser',userHelpers.isLogin, function(req, res) {
+    console.log("hii");
+    models.User.findOne({
+      where: {
+        email: req.body.email,
+        status: 1
+      }
+    }).then(function(result){
+      console.log(result);
+      if(result){
+        console.log(false);
+        res.send(false);// not safe to add semester
+      } else {
+        console.log(true);
+        res.send(true);// safe to add semester
+      }
+    });
+  });
+
 // //////Start User /////////////////////////////////////////
   router.get('/newUser',userHelpers.isLogin, function(req, res) {
       res.render('newUser', { title: 'إضافة مستخدم جديد', name:req.session.name, activeUser: 'active' });

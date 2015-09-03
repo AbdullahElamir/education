@@ -12,25 +12,10 @@ $(document).ready(function(){
   	}
   });
 
-  
   // alert($('#std').val());
    $('body').on('click', '#std', function() {
-    window.location.href='/transcript/addStudentSubject/'+$(this).val();
+      window.location.href='/transcript/addStudentSubject/'+$(this).val();
    });
-
-
-
-
-     
-
-
-
-
-
-
-
-
-
 
 	$('#year_teble').hide(0);
 	$('body').on('click', '#Semesters', function(){
