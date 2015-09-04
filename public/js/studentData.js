@@ -35,7 +35,16 @@ $(document).ready(function(){
       for(key in data){
           $('#division_iddivision').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
         }
-      console.log(data);
+    });
+  });
+
+  $('body').on('change', '#department_iddepartmentEdit', function(){
+    var id = $(this).val();
+    $('#division_iddivisionEdit').empty();
+    $.get('/transcript/division/'+id,function(data){
+      for(key in data){
+          $('#division_iddivisionEdit').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
+        }
     });
   });
 	$("#addSemester").validate({
@@ -97,6 +106,7 @@ $(document).ready(function(){
           year = new Date(data[key].year);
           start=new Date(data[key].starting_date);
           end=new Date(data[key].ending_date);
+          console.log(start.getDate());
           if(data[key].system_type==1){
             t="فصل";
 
@@ -105,8 +115,8 @@ $(document).ready(function(){
           }
           $('#tbodysem').append('<tr data-id="#"><td>'+t+'</td>'+
             '<td>'+year.getFullYear()+'</td>'+
-            '<td class="text-nowrap">'+start.getFullYear() +'l / '+ (start.getMonth()+1) +' / '+start.getDate() +'</td>'+
-            '<td>'+end.getDate()+'/'+ (end.getMonth()+1)+'/'+ end.getFullYear()+'</td>'+
+            '<td>'+start.getFullYear() +'/'+ (start.getMonth()+1) +'/'+start.getDate() +'</td>'+
+            '<td>'+end.getFullYear()+'/'+ (end.getMonth()+1)+'/'+ end.getDate()+'</td>'+
             '<td class="text-center">'+
               '<p data-placement="top" data-toggle="tooltip" title="عرض">'+
                 '<button id="addStudentData" href="" role="button" value="'+data[key].id+'" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
@@ -115,4 +125,59 @@ $(document).ready(function(){
       });
     }
   });
+  $('body').on('click', '#Editsem', function(){
+    var id = $(this).val();
+    $('#student_statusEdit').selectpicker('val' ,$('[data-id ="smst'+id+'"]').data('stut'));
+    $('#levelEdit').selectpicker('val' ,$('[data-id ="smst'+id+'"]').data('level'));
+    $('#department_iddepartmentEdit').selectpicker('val' ,$('[data-id ="smst'+id+'"]').data('dep'));
+    $('#division_iddivisionEdit').empty();
+    $.get('/transcript/division/'+$('[data-id ="smst'+id+'"]').data('dep'),function(data){
+        for(key in data){
+            $('#division_iddivisionEdit').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
+          }
+      });
+    $('#division_iddivisionEdit').selectpicker('val' ,$('[data-id ="smst'+id+'"]').data('divi'));
+    $('#save').val(id);
+  });
+  $('body').on('click', '#save', function (e) {
+      e.preventDefault();
+      $('#formSemStu').submit();
+  });
+
+  $("#formSemStu").submit(function(e) {
+    e.preventDefault();
+    var id = $('#save').val();
+    $.post("/transcript/updateSemStu/", {body:$("#formSemStu").serializeObject(),id:id}, function(data, error){
+      var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+      $('[data-id = "smst'+id+'"]').data('stut',$("#formSemStu").serializeObject().student_status);
+      $('[data-id = "smst'+id+'"]').data('dep',$("#formSemStu").serializeObject().DepartmentId);
+      $('[data-id = "smst'+id+'"]').data('level',$("#formSemStu").serializeObject().level);
+      $('[data-id = "smst'+id+'"]').data('divi',$("#formSemStu").serializeObject().DivisionId);
+      $('#le'+id).html(semesterTy[($("#formSemStu").serializeObject().level)-1]);
+      $('#div'+id).html(data.name);
+      $('#edit').modal('hide');
+      custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    });  
+  });
+  $('body').on('click', '#Delete', function(){
+    $('#ok').val($(this).val());
+  });
+
+  $('body').on('click', '#ok', function(){
+    var id=$(this).val();
+    $.get('/transcript/deleteSemStu/'+$(this).val(),function(todo){
+      switch(todo.msg){
+        case "1" :
+          custNotify("success","نجح","لقد تم مسح الفصل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          $('[data-id = "smst'+id+'"]').remove();
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن مسح الفصل لوجود كيانات معتمدة عليه","warning-sign","bounceInDown","bounceOutUp");
+          break;
+        default:
+          break; 
+      }
+    });
+  });
+
 });
