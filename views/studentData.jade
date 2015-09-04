@@ -86,7 +86,7 @@ block content
               h3#h3.panel-title عرض الفصول الدراسية
             .col-xs-2.col-md-2
               .input-group
-                input.form-control(type='text', placeholder='بحث...')
+                input.form-control#search(type='text', placeholder='بحث...')
                 .input-group-btn
                   button.btn.btn-default
                     i.glyphicon.glyphicon-search
@@ -128,7 +128,7 @@ block content
               th بداية الفصل الدراسي
               th نهاية الفصل الدراسي
               th.text-center أضافة
-            tbody
+            tbody#tbodysem
             for i in sem
               tr(data-id = '#')
                 td 

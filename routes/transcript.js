@@ -80,7 +80,6 @@ function draw(obj){
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
-      console.log(subjectsS);
       res.render();
     });
   });
@@ -123,8 +122,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       }).then(function(Division) { 
           models.Semester.findAll({
           where: {
-          status: 1
-          }
+          status: 1,
+          },
+          order: '`id` DESC'
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
@@ -139,7 +139,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       },
       ],
          }).then(function(semstudent) {
-          console.log(semstudent);
           var idstudent =req.params.id;
             models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
             ).then(function(mix){
@@ -171,18 +170,15 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
                 arrayy.push(round((summ/sumUnitt),3));
               }
 
-              console.log("this "+arrayy);
               var ratio=[];
               var sum=0;
               var l=0;
               for(var i=0;i<arrayy.length;i++)
               {
                sum=sum+arrayy[i];
-               console.log(sum);
                l=sum/(i+1);
                ratio.push(round(l,3));
               }
-              console.log("rat"+ratio);
 
 
  //****************************************************************************
@@ -402,5 +398,17 @@ router.get('/division/:id',userHelpers.isLogin,function(req,res){
   });
 });
 
+router.get('/getsem/:id',userHelpers.isLogin,function(req,res){
+  if(req.params.id=="false"){
+    var ob = {where:{status:1},order: '`id` DESC'};
+  }else{
+    var date = new Date(req.params.id);
+    var ob = {where:{status:1,year:{$like:date}},order: '`id` DESC'};
 
+  }
+  
+   models.Semester.findAll(ob).then(function(semester) {
+    res.send(semester);
+  });
+});
 module.exports = router;

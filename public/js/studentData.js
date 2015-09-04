@@ -33,7 +33,7 @@ $(document).ready(function(){
     $('#division_iddivision').empty();
     $.get('/transcript/division/'+id,function(data){
       for(key in data){
-          $('#division_iddivision').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');;
+          $('#division_iddivision').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
         }
       console.log(data);
     });
@@ -81,5 +81,38 @@ $(document).ready(function(){
 
   $('.selectpicker').selectpicker().change(function(){
     $(this).valid()
+  });
+
+  $('#search').on('input', function(){
+
+    if($('#search').val().length >=4 || $('#search').val().length ==0) {
+      var id = $('#search').val().trim();
+      if(id.length==0){
+        id="false";
+      }
+      $('#mytable tbody').empty();
+      $.get('/transcript/getsem/'+id,function(data){
+        var t ="",year,start,end;
+        for(key in data){
+          year = new Date(data[key].year);
+          start=new Date(data[key].starting_date);
+          end=new Date(data[key].ending_date);
+          if(data[key].system_type==1){
+            t="فصل";
+
+          }else if(data[key].system_type==2){
+            t="سنة";
+          }
+          $('#tbodysem').append('<tr data-id="#"><td>'+t+'</td>'+
+            '<td>'+year.getFullYear()+'</td>'+
+            '<td class="text-nowrap">'+start.getFullYear() +'l / '+ (start.getMonth()+1) +' / '+start.getDate() +'</td>'+
+            '<td>'+end.getDate()+'/'+ (end.getMonth()+1)+'/'+ end.getFullYear()+'</td>'+
+            '<td class="text-center">'+
+              '<p data-placement="top" data-toggle="tooltip" title="عرض">'+
+                '<button id="addStudentData" href="" role="button" value="'+data[key].id+'" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
+              '</p></td></tr>');
+        }
+      });
+    }
   });
 });
