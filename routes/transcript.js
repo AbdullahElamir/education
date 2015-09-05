@@ -223,7 +223,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
-              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+
+              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
@@ -401,4 +403,14 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
     });
 });
 
+router.get('/division/:id',userHelpers.isLogin,function(req,res){
+  models.Division.findAll({
+    where:{
+      DepartmentId:req.params.id
+    }
+  }).then(function(resl){
+    res.send(resl);
+  });
+
+});
 module.exports = router;
