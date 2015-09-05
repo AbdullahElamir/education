@@ -202,8 +202,7 @@ html
                     table.table
                       tr
                         td(class=activeFiveOne)
-                          a(href="/student")  عرض الطلبة المسجلين
-                          
+                          a(href="/student")  عرض الطلبة المسجلين   
                       tr
                         td(class=activeFiveTwo)
                           a(href="/student/newStudent")  تسجيل طالب/ة
@@ -234,6 +233,18 @@ html
                       tr
                         td(class=activeSevenOne)
                           a(href="/transcript/Academictranscripts")  تنزيل مواد للطلبة
+              .panel.panel-default.font
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle="collapse", data-parent="#accordion", href="#collapseEight")
+                      span.glyphicon.glyphicon-file
+                      |  تقارير
+                #collapseEight.panel-collapse.collapse(class=collapseEight)
+                  .panel-body#panel-body
+                    table.table
+                      tr
+                        td(class=activeEightOne)
+                          a(href="/transcript")  كشف دراجات
           block content
     block footer
       footer.footer.font
