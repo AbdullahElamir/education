@@ -64,6 +64,27 @@ module.exports = {
     }
     return Q;
   },
+  getname : function (req){
+    var first_name = '';
+    if(url.parse(req.url, true).query.first_name){
+      first_name = url.parse(req.url, true).query.first_name;
+    }
+    return first_name;
+  },
+  getfather_name : function (req){
+    var father_name = '';
+    if(url.parse(req.url, true).query.father_name){
+      father_name = url.parse(req.url, true).query.father_name;
+    }
+    return father_name;
+  },
+  getlast_name : function (req){
+    var last_name = '';
+    if(url.parse(req.url, true).query.last_name){
+      last_name = url.parse(req.url, true).query.last_name;
+    }
+    return last_name;
+  },
   getSearchType : function (req){
     var S = '';
     if(url.parse(req.url, true).query.s){

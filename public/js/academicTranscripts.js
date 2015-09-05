@@ -5,7 +5,7 @@ $(document).ready(function(){
     });
 
   $('#student_searchbtn').on('click', function(){
-    window.location.href="/transcript/Academictranscripts?q="+$('#student_search').val();
+    window.location.href="/transcript/Academictranscripts?q="+$('#student_search').val()+"&first_name="+$('#first_name').val()+"&father_name="+$('#father_name').val()+"&last_name="+$('#last_name').val();
   });  
 
  

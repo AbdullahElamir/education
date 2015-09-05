@@ -27,14 +27,13 @@ block content
                       | بحث متقدم
                       span.caret
                     ul.dropdown-menu
-                      .nav.nav-tabs
-                        .row
-                          .col-md-4
-                            input.search-query(type='text', placeholder='الأسم')
-                          .col-md-4
-                            input.search-query(type='text', placeholder='أسم الأب')
-                          .col-md-4
-                          input.search-query(type='text', placeholder='اللقب')
+                      .row
+                        .col-md-4
+                          input.search-query#first_name(name="first_name",type='text', placeholder='الأسم')
+                        .col-md-4
+                          input.search-query#father_name(name="father_name",type='text', placeholder='أسم الأب')
+                        .col-md-4
+                          input.search-query#last_name(name="last_name",type='text', placeholder='اللقب')
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead

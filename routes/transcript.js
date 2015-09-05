@@ -108,15 +108,13 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     var q = userHelpers.getQuery(req);
+    var first_name = userHelpers.getname(req);
+    var father_name = userHelpers.getfather_name(req);
+    var last_name = userHelpers.getlast_name(req);
+    var obj ={where: {status: 1},limit : 10,offset: limit,};
     if (q == undefined)
     {
-    models.Student.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(student) {
+    models.Student.findAndCountAll(obj).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
       res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
