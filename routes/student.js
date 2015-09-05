@@ -18,7 +18,7 @@ router.get('/',userHelpers.isLogin, function(req, res) {
   }).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
-  res.render('students', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
+    res.render('students', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active' });
   });
 });
 
@@ -44,13 +44,13 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
       where: {
         id: req.params.id
       }
-      }).then(function (todo) {
+    }).then(function (todo) {
       todo.updateAttributes({
-          status: 0
+        status: 0
       }).then(function (todo) {
-          res.send(todo);
+        res.send(todo);
       }).catch(function (err) {
-          console.log(err);
+        console.log(err);
       });
     });
   });
@@ -63,11 +63,11 @@ router.post('/updateStudent',userHelpers.isLogin, function(req, res) {
     where: {
       id: id
     }
-    }).then(function (todo) {
+  }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
       res.send(true);
     }).catch(function (err) {
-        console.log(err);
+      console.log(err);
     });
   });
 });
