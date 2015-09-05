@@ -61,20 +61,62 @@ var Sequelize = require('sequelize')
     });
   });
 
-  router.get('/newSubject',userHelpers.isLogin, function(req, res) {
-    models.Subject.findAll({
-      where: {
-        status: 1
+/*----------add new Subject------------*/
+  router.post('/newSubject',userHelpers.isLogin, function(req, res) {
+    req.body.UserId=req.session.idu;
+    models.Subject.create(req.body).then(function(result) {
+      if(req.body.subject_type==1){
+        var date = new Date();
+        models.sequelize.query('INSERT INTO `DepartmentSubjects`(`createdAt`, `updatedAt`,`SubjectId`, `DepartmentId`) VALUES (?,?,?,1)',{ replacements: [date,date,result.id], type: models.sequelize.QueryTypes.INSERT}).then(function(result){
+          console.log(result);
+          res.send(result);
+        });
       }
+      res.send(result);
+    });
+  });
+
+/*----------edit Subject------------*/
+  router.get('/edit/:id', function(req, res) {
+    models.Subject.findAll({
+      where: { 
+        status: 1 , 
+        id: req.params.id
+      },
+      include: [{ all: true}]
     }).then(function(subject) {
       models.Department.findAll({
-        where: {
-          status: 1
+        attributes:['id','name','name_en'],
+        where: { 
+          status: 1 , 
         }
       }).then(function(departments) {
         res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+        models.Subject.findAll({
+          attributes:['id','name','name_en'],
+          where: { 
+            status: 1 , 
+          }
+        }).then(function(subjects){
+          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name, collapseThree: 'collapse in', activeThreeTwo: 'active',subject:subject[0],departments:departments,subjects:subjects});
+        });
       });
     });
+  });
+
+/*----------add Prerequisites------------*/
+  router.post('/addPrereq', function(req, res) {
+    models.sequelize.query('INSERT INTO `SubjectHasPrerequisites` (`SubjectId`,`PrerequisiteId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.INSERT}).then(function(result){
+      res.send({msg:"1"});
+    }).then(function(){
+      models.Subject.findOne({where:{
+        id:req.body.SubjectId
+      }}).then(function(result){
+        res.send({msg:"1",subject:result});
+      });
+    }).catch(function (err) {
+      res.send({msg:"2"});
+    });  
   });
 
   router.get('/getSubject/:id', userHelpers.isLogin,function(req, res) {

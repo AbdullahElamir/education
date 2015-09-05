@@ -34,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: true
           }
         });
+        Subject.belongsToMany(models.Department, { 
+          as: 'DepartmentSubjects', 
+          through: 'DepartmentSubjects'
+        });
 
         Subject.belongsToMany(models.Division, {
           onDelete: "restrict",
