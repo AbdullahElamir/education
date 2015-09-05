@@ -435,4 +435,14 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
     });
 });
 
+router.get('/division/:id',userHelpers.isLogin,function(req,res){
+  models.Division.findAll({
+    where:{
+      DepartmentId:req.params.id
+    }
+  }).then(function(resl){
+    res.send(resl);
+  });
+
+});
 module.exports = router;
