@@ -69,7 +69,7 @@ var nationality = require('../Nationality');
     res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
     });
     }
-});
+  });
 
 router.get('/newStudent',userHelpers.isLogin, function(req, res) {
   res.render('newStudent', { title: 'تسجيل طالب جديد', name:req.session.name, collapseFive: 'collapse in',nats:nationality, activeFiveTwo: 'active' });
@@ -93,13 +93,13 @@ router.post('/newStudent',userHelpers.isLogin,function(req, res) {
       where: {
         id: req.params.id
       }
-      }).then(function (todo) {
+    }).then(function (todo) {
       todo.updateAttributes({
-          status: 0
+        status: 0
       }).then(function (todo) {
-          res.send(todo);
+        res.send(todo);
       }).catch(function (err) {
-          console.log(err);
+        console.log(err);
       });
     });
   });
@@ -112,11 +112,11 @@ router.post('/updateStudent',userHelpers.isLogin, function(req, res) {
     where: {
       id: id
     }
-    }).then(function (todo) {
+  }).then(function (todo) {
     todo.updateAttributes(req.body).then(function (todo) {
       res.send(true);
     }).catch(function (err) {
-        console.log(err);
+      console.log(err);
     });
   }); 
 });

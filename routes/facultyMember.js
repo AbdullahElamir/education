@@ -58,7 +58,6 @@ var nationality = require('../Nationality');
     });
   }
   });
-
   router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
     models.Department.findAll({
       where: {
@@ -82,13 +81,13 @@ var nationality = require('../Nationality');
       where: {
         id: req.params.id
       }
-      }).then(function (todo) {
+    }).then(function (todo) {
       todo.updateAttributes({
-          status: 0
+        status: 0
       }).then(function (todo) {
-          res.send(todo);
+        res.send(todo);
       }).catch(function (err) {
-          console.log(err);
+        console.log(err);
       });
     });
   });
@@ -117,11 +116,11 @@ var nationality = require('../Nationality');
       where: {
         id: id
       }
-      }).then(function (todo) {
+    }).then(function (todo) {
       todo.updateAttributes(req.body).then(function (todo) {
         res.send(true);
       }).catch(function (err) {
-          console.log(err);
+        console.log(err);
       });
     });
   });

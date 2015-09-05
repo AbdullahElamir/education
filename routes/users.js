@@ -23,7 +23,6 @@ router.get('/',userHelpers.isLogin, function(req, res) {
 
     /*This route is to check if the email exist before or not*/
   router.post('/checkUser',userHelpers.isLogin, function(req, res) {
-    console.log("hii");
     models.User.findOne({
       where: {
         email: req.body.email,
