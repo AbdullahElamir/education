@@ -68,7 +68,6 @@ var Sequelize = require('sequelize')
       if(req.body.subject_type==1){
         var date = new Date();
         models.sequelize.query('INSERT INTO `DepartmentSubjects`(`createdAt`, `updatedAt`,`SubjectId`, `DepartmentId`) VALUES (?,?,?,1)',{ replacements: [date,date,result.id], type: models.sequelize.QueryTypes.INSERT}).then(function(result){
-          console.log(result);
           res.send(result);
         });
       }
@@ -106,19 +105,54 @@ var Sequelize = require('sequelize')
 
 /*----------add Prerequisites------------*/
   router.post('/addPrereq', function(req, res) {
-    models.sequelize.query('INSERT INTO `SubjectHasPrerequisites` (`SubjectId`,`PrerequisiteId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.INSERT}).then(function(result){
-      res.send({msg:"1"});
+    models.sequelize.query('INSERT INTO `SubjectHasPrerequisites` (`SubjectId`,`PrerequisiteId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.INSERT
     }).then(function(){
-      models.Subject.findOne({where:{
-        id:req.body.SubjectId
-      }}).then(function(result){
+      models.Subject.findOne({
+        where:{
+          id:req.body.PrerequisiteId
+        }
+      }).then(function(result){
         res.send({msg:"1",subject:result});
       });
-    }).catch(function (err) {
+    }).catch(function (err){
       res.send({msg:"2"});
     });  
   });
 
+/*----------delete Prerequisites------------*/
+  router.post('/deletePrereq', function(req, res) {
+    models.sequelize.query('DELETE FROM `SubjectHasPrerequisites` WHERE `SubjectId` = ? AND `PrerequisiteId` = ?',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.DELETE}
+    ).then(function(result){
+      res.send({msg:"1"});
+    }).catch(function (err){
+      res.send({msg:"2"});
+    });
+  });
+
+/*----------add Department------------*/
+  router.post('/addDepartment', function(req, res) {
+    models.sequelize.query('INSERT INTO `DepartmentSubjects` (`SubjectId`,`DepartmentId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.DepartmentId], type: models.sequelize.QueryTypes.INSERT
+    }).then(function(){
+      models.Department.findOne({
+        where:{
+          id:req.body.DepartmentId
+        }
+      }).then(function(result){
+        res.send({msg:"1",department:result});
+      });
+    }).catch(function (err){
+      res.send({msg:"2"});
+    });  
+  });
+/*----------delete Department------------*/
+  router.post('/deleteDepartment', function(req, res) {
+    models.sequelize.query('DELETE FROM `DepartmentSubjects` WHERE `SubjectId` = ? AND `DepartmentId` = ?',{ replacements: [req.body.SubjectId,req.body.DepartmentId], type: models.sequelize.QueryTypes.DELETE}
+    ).then(function(result){
+      res.send({msg:"1"});
+    }).catch(function (err){
+      res.send({msg:"2"});
+    });
+  });
   router.get('/getSubject/:id', userHelpers.isLogin,function(req, res) {
     models.Subject.findAll({
       where: { 
