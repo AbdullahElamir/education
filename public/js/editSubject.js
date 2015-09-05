@@ -4,7 +4,7 @@ $(document).ready(function(){
 /*------------when select for prereqs changes-------------*/
   $('#prereqs').on('change', function() {
     $("#addPrereq").modal('show');
-    $("#addDialog").replaceWith("<p id='addDialog'> هل انت متأكد من اضافد المادة التمهيدية <b>"+$('#prereqs :selected').text()+" ?</b></p>")
+    $("#addDialog").replaceWith("<p id='addDialog'> هل انت متأكد من إضافة المادة التمهيدية <b>"+$('#prereqs :selected').text()+" ؟</b></p>")
     $("#PrerequisiteId").val($('#prereqs').val());
   });
 /*------------actions when save button clicked on add Prereq-------------*/
@@ -65,7 +65,7 @@ $(document).ready(function(){
 /*------------when select for departments changes-------------*/
   $('#departments').on('change', function() {
     $("#addDepartments").modal('show');
-    $("#departmentAddDialog").replaceWith("<p id='departmentAddDialog'> هل انت متأكد من اضافد هذه المادة لقسم <b>"+$('#departments :selected').text()+" ?</b></p>")
+    $("#departmentAddDialog").replaceWith("<p id='departmentAddDialog'> هل انت متأكد من إضافة هذه المادة لقسم <b>"+$('#departments :selected').text()+" ؟</b></p>")
     $("#DepartmentId").val($('#departments').val());
   });
 /*------------actions when save button clicked on add Department-------------*/

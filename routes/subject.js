@@ -90,14 +90,14 @@ var Sequelize = require('sequelize')
           status: 1 , 
         }
       }).then(function(departments) {
-        res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+        // res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
         models.Subject.findAll({
           attributes:['id','name','name_en'],
           where: { 
             status: 1 , 
           }
         }).then(function(subjects){
-          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name, collapseThree: 'collapse in', activeThreeTwo: 'active',subject:subject[0],departments:departments,subjects:subjects});
+          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name,subject:subject[0],departments:departments,subjects:subjects});
         });
       });
     });
