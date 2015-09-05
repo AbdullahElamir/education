@@ -76,6 +76,7 @@ $(document).ready(function(){
             window.location.href="/subject?msg=1";
           } 
           else {
+            
             custNotify("danger","خطأ","عفوا لايمكن ادخال المادة مرتين","warning-sign","bounceInDown","bounceOutUp");
           }
         });
