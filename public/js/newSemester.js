@@ -1,9 +1,20 @@
 $(document).ready(function(){
-  ///semester/#{semester.id}/updateSemester/
-     $('body').on('click', '#del', function(){
-      //alert("ff");
+  // semester/#{semester.id}/updateSemester/
+  $('body').on('click', '#del', function(){
     $('#ok').val($(this).val());
   });
+  // $('#startDate').click(function () {
+  //   alert(n);
+  // });
+
+  // $('#starting_date').datetimepicker().on('changeDate', function(){
+  //   alert($(this).data('date'));
+  // });
+  // $('#startDate').click(function () {
+  //   var date1 = $(this).getFullYear();
+
+  //   alert(date1);
+  // });
   
   $('body').on('click', '#ok', function(){
     var id=$(this).val();

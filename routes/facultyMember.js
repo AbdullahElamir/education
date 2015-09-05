@@ -12,7 +12,9 @@ var nationality = require('../Nationality');
     models.Faculty_member.findAndCountAll({
       include: [{
         model: models.Department,
-        where: { status: 1 }
+        where: { 
+          status: 1 
+        }
       }],
       where: {
         status: 1
@@ -21,14 +23,14 @@ var nationality = require('../Nationality');
       offset: limit,
     }).then(function(facultyMembers) {
       models.Department.findAll({
-      where: {
-        status: 1
-      }
-    }).then(function(allDepartments) {
-      var pageCount = userHelpers.getPageCount(facultyMembers.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      res.render('facultyMember', { title: 'عرض المحاضرين', name:req.session.name,nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
-    });
+        where: {
+          status: 1
+        }
+      }).then(function(allDepartments) {
+        var pageCount = userHelpers.getPageCount(facultyMembers.count);
+        var pagination = userHelpers.paginate(page,pageCount);
+        res.render('facultyMember', { title: 'عرض المحاضرين', name:req.session.name,nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+      });
     });
   });
 
@@ -55,13 +57,13 @@ var nationality = require('../Nationality');
       where: {
         id: req.params.id
       }
-      }).then(function (todo) {
+    }).then(function (todo) {
       todo.updateAttributes({
-          status: 0
+        status: 0
       }).then(function (todo) {
-          res.send(todo);
+        res.send(todo);
       }).catch(function (err) {
-          console.log(err);
+        console.log(err);
       });
     });
   });
@@ -90,11 +92,11 @@ var nationality = require('../Nationality');
       where: {
         id: id
       }
-      }).then(function (todo) {
+    }).then(function (todo) {
       todo.updateAttributes(req.body).then(function (todo) {
         res.send(true);
       }).catch(function (err) {
-          console.log(err);
+        console.log(err);
       });
     });
   });
