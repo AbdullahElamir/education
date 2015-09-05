@@ -1,48 +1,60 @@
-
-
 $(document).ready(function(){
 
-
- 
-  //1-get the degree from the chapter and final input 
+  //edit section
+  //1-get the degrees from the chapter and final input 
   var ChapterDegree=0,finalDegree=0;
   $('#chapter').on("input", function() {
     ChapterDegree = this.value;
     // set Appreciation automatic to the select #result_case by function sum
-    setSelectedValueToResultCase(sum(ChapterDegree,finalDegree));
+    setSelectedValueToResultCase(sum(ChapterDegree,finalDegree),"#result");
   });
   //1-get the degree from the chapter and final input 
   $('#final').on("input", function() {
     finalDegree = this.value;
     //set Appreciation automatic to the select #result_case by function sum
-    setSelectedValueToResultCase(sum(ChapterDegree,finalDegree));
+    setSelectedValueToResultCase(sum(ChapterDegree,finalDegree),"#result");
   });
+
+  //add section (registration degree)
+  //1-get the degrees from the chapter_degree and final_exam input 
+  $('#chapter_degree').on("input",function(){
+    ChapterDegree = this.value;
+    //set Appreciation automatic to the select #result_case by function sum
+    setSelectedValueToResultCase(sum(ChapterDegree,finalDegree),"#result_case");  
+  });
+
+  //1-get the degrees from the chapter_degree and final_exam input 
+  $('#final_exam').on("input",function(){
+    finalDegree = this.value;
+    //set Appreciation automatic to the select #result_case by function sum
+    setSelectedValueToResultCase(sum(ChapterDegree,finalDegree),"#result_case");
+  });
+
   //2-sumation the two values (cahpter+fianl degree)
   sum = function(Chapter,finall){
-    var add =parseInt(Chapter)+parseInt(finall);
-    return add;
+    return parseFloat(Chapter)+parseFloat(finall);
   },
 
   // 3-set Appreciation automatic to the select #result_case
-  setSelectedValueToResultCase = function(someDegres){
+  setSelectedValueToResultCase = function(someDegres,id){
     // Excelant from 85 to 100 degree
-    if(someDegres>=85 && someDegres<=100){
-      $('#result option[value="1"]').prop('selected', 'selected').change(); 
+    if(someDegres>=85 ){
+      $(id+' option[value="1"]').prop('selected', 'selected').change(); 
     // very good from 85 to 75 degree
     } else if(someDegres>=75 && someDegres<85) {
-      $('#result option[value="2"]').prop('selected', 'selected').change();      
+      $(id+' option[value="2"]').prop('selected', 'selected').change();      
     // good from 75 to 65 degree
     } else if(someDegres>=65 && someDegres<75) {
-      $('#result option[value="3"]').prop('selected', 'selected').change(); 
+      $(id+' option[value="3"]').prop('selected', 'selected').change(); 
     // acceptable from 65 to 50 degree
     } else if(someDegres>=50 && someDegres<65) {
-      $('#result option[value="4"]').prop('selected', 'selected').change(); 
+      $(id+' option[value="4"]').prop('selected', 'selected').change(); 
     // week from 50 to 35 degree 
     } else if(someDegres>=35 && someDegres<50) {
-      $('#result option[value="5"]').prop('selected', 'selected').change(); 
+      $(id+' option[value="5"]').prop('selected', 'selected').change(); 
     // very week from 35 to 0 degree
     } else if(someDegres>=0 && someDegres<35) {
-      $('#result option[value="6"]').prop('selected', 'selected').change(); 
+      $(id+' option[value="6"]').prop('selected', 'selected').change(); 
     } 
   } ,
 
@@ -204,21 +216,24 @@ $(document).ready(function(){
     return false;
   });
 
+
   $("#addForm").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
       chapter_degree:{
         required: true,
         number: true,
+        min:0.0,
         max: function(){
-              return $("#chapterGlobalVaribalButton").val();
+              return parseFloat($("#chapterGlobalVaribalButton").val());
             }
       },
       final_exam:{
         required: true,
         number: true,
+        min:0.0,
         max: function(){
-              return $("#finalGlobalVaribalButton").val();
+              return parseFloat($("#finalGlobalVaribalButton").val());
             }
       },
       subject_status:{
@@ -232,6 +247,7 @@ $(document).ready(function(){
       chapter_degree:{
         required: "الرجاء ادخال أعمال السنة!",
         number: "الرجاء ادخال ارقام فقط!",
+        min: "الرجاء ادخال قيمة اكبر من او تساوي الصفر",
         max: function(){
               return "درجة اعمال هذه المادة من "+$("#chapterGlobalVaribalButton").val() + " الرجاء التأكد من الدرجة المدخلة";
             }
@@ -239,6 +255,7 @@ $(document).ready(function(){
       final_exam:{
         required: "الرجاء ادخال درجة الامتحان النهائي!",
         number: "الرجاء ادخال ارقام فقط!",
+        min: "الرجاء ادخال قيمة اكبر من او تساوي الصفر",
         max: function(){
               return "درجة اعمال هذه المادة من "+$("#finalGlobalVaribalButton").val() + " الرجاء التأكد من الدرجة المدخلة";
             }

@@ -80,6 +80,7 @@ function draw(obj){
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
+      console.log(subjectsS);
       res.render();
     });
   });
@@ -108,6 +109,83 @@ router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
 });
 
 
+// this algorithem to get ratio for all semester it's hard to explain
+getRatioForALlSemester=function(mix){
+  /*console.log(mix[0]!=[]);*/
+  if(mix[0] !=0){
+  var arrayOfObject=[];
+  for(i in mix[0]){
+    arrayOfObject.push({idSubject:mix[0][i].idsubject,degree:mix[0][i].sum_dagree,unit:mix[0][i].no_th_unit,name:mix[0][i].name,semId:mix[0][i].SemesterId,flag:0});
+  }
+  var numberOfSemester=0,counter=0,index=[];
+  var t=arrayOfObject[0].semId;
+  for(i=0;i<arrayOfObject.length;i++){
+    if(t!=arrayOfObject[i].semId){
+      index.push(i);
+      t=arrayOfObject[i].semId; 
+      numberOfSemester++;
+      counter++;
+      arrayOfObject[i].flag=counter;
+    }
+  }
+  index.push(arrayOfObject.length);
+  console.log(index);
+  counter=numberOfSemester++;
+  var sum=0;
+  var another=[];
+  var x=0;
+  var sumUnit=0;
+  var allRatio=[];
+  for(var j=0;j<numberOfSemester;j++){
+    for(var k=0;k<index[j];k++){
+      for(var l=0;l<index[j];l++){  
+        if(arrayOfObject[k].idSubject==arrayOfObject[l].idSubject ){
+          if(arrayOfObject[k].degree>arrayOfObject[l].degree && k!=l){
+            arrayOfObject[l]={idSubject:0,degree:0,unit:0,name:"",semId:0,flag:0} ;        
+          } else if(arrayOfObject[k].degree==arrayOfObject[l].degree && k!=l) {      
+              arrayOfObject[l]={idSubject:0,degree:0,unit:0,name:"",semId:0,flag:0} ;        
+          } else if(arrayOfObject[k].degree<arrayOfObject[l].degree && k!=l){
+              arrayOfObject[k]= {idSubject:0,degree:0,unit:0,name:"",semId:0,flag:0} ;        
+            }         
+          } 
+        }
+      sum=sum+(arrayOfObject[k].degree*arrayOfObject[k].unit);
+      sumUnit=sumUnit+arrayOfObject[k].unit;
+      }
+    allRatio.push(round((sum/sumUnit),3));
+    sum=0;
+    sumUnit=0.0;
+  }
+      return allRatio;
+    }
+},
+
+// this algorithem to get ratio for semester it's hard to explain
+getRatioForSemester = function(mix){
+  var array=[];
+  if(mix[0][0]!= undefined){   
+    var t=mix[0][0].SemesterId;
+    var tt=mix[0][0].SemesterId;
+    var sum=0.0;
+    var sumUnit=0.0;
+    var semesterCount=0;
+    for(var i=0;i<mix[0].length;i++){
+      if(mix[0][i].SemesterId==t){
+        sum=round(sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
+        sumUnit=round(sumUnit+mix[0][i].no_th_unit,3);
+      } else {
+        array.push(round((sum/sumUnit),3));
+        sum=0.0;
+        sumUnit=0.0;
+        t=mix[0][i].SemesterId;
+        --i;
+      }      
+    }
+    array.push(round((sum/sumUnit),3));
+  }
+  return array;
+},
+
 
 router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
    models.Department.findAll({
@@ -122,16 +200,14 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       }).then(function(Division) { 
           models.Semester.findAll({
           where: {
-          status: 1,
-          },
-          order: '`id` DESC'
+          status: 1
+          }
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
           StudentId: req.params.id
           },
-          order: '`id` DESC',
       "include" : [
         {"model" : models.Division},
         {"model"  : models.Department},
@@ -141,75 +217,13 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
-            models.sequelize.query('select SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
+            models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
             ).then(function(mix){
-         // console.log(ratioo.getRatio());
-         var arrayy=[];
-              if(mix[0][0]!= undefined)
-              {
-              var t=mix[0][0].SemesterId;
-              var tt=mix[0][0].SemesterId;
-              var summ=0.0;
-              var sumUnitt=0.0;
-              var semesterCount=0;
-            // make the nested for 
-              for(var i=0;i<mix[0].length;i++)
-              { 
-                if(mix[0][i].SemesterId==tt)
-                {
-                  summ=round(summ+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
-                  sumUnitt=round(sumUnitt+mix[0][i].no_th_unit,3);
-                  
-                } else {
-                   arrayy.push(summ/sumUnitt);
-                  summ=0.0;
-                  sumUnitt=0.0;
-                  tt=mix[0][i].SemesterId;
-                  --i;
-                }      
-              }
-                arrayy.push(round((summ/sumUnitt),3));
-              }
-
-              var ratio=[];
-              var sum=0;
-              var l=0;
-              for(var i=0;i<arrayy.length;i++)
-              {
-               sum=sum+arrayy[i];
-               l=sum/(i+1);
-               ratio.push(round(l,3));
-              }
-
-
- //****************************************************************************
-
-              var array=[];
-              if(mix[0][0]!= undefined)
-              {
-              var t=mix[0][0].SemesterId;
-              var tt=mix[0][0].SemesterId;
-              var sum=0.0;
-              var sumUnit=0.0;
-              var semesterCount=0;
-              for(var i=0;i<mix[0].length;i++)
-              {
-                if(mix[0][i].SemesterId==t)
-                {
-                  sum=round(sum+(mix[0][i].sum_dagree*mix[0][i].no_th_unit),3);
-                  sumUnit=round(sumUnit+mix[0][i].no_th_unit,3);
-                } else {
-                   array.push(sum/sumUnit);
-                  sum=0.0;
-                  sumUnit=0.0;
-                  t=mix[0][i].SemesterId
-                  --i;
-                }      
-              }
-                array.push(round((sum/sumUnit),3));
-              }
-              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-              res.render('studentData', {ar:ratio,arr:array,arrr:arrayy, title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              // this is for semester Ratio
+              var array=getRatioForSemester(mix);
+              // this is for all semester ratio
+              var arrayy=getRatioForALlSemester(mix);
+              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
             });
           });
         });
@@ -222,7 +236,6 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
     for(var i = 1; i < ndec; i++){
         n *=10;
     }
-
     if(!ndec || ndec <= 0)
         return Math.round(value);
     else
@@ -388,54 +401,4 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
     });
 });
 
-router.get('/division/:id',userHelpers.isLogin,function(req,res){
-  models.Division.findAll({
-    where:{
-      status:1,
-      DepartmentId:req.params.id
-    }
-  }).then(function(div){
-    res.send(div);
-  });
-});
-
-router.get('/getsem/:id',userHelpers.isLogin,function(req,res){
-  if(req.params.id=="false"){
-    var ob = {where:{status:1},order: '`id` DESC'};
-  }else{
-    var date = new Date(req.params.id);
-    var ob = {where:{status:1,year:{$like:date}},order: '`id` DESC'};
-
-  }
-  
-   models.Semester.findAll(ob).then(function(semester) {
-    res.send(semester);
-  });
-});
-router.post('/updateSemStu',userHelpers.isLogin,function(req,res){
-  models.SemesterStudent.update(req.body.body,{
-    where: {
-      id:req.body.id
-    }
-  }).then(function(result){
-    models.Division.findOne({
-      where:{
-        id:req.body.body.DivisionId
-      }
-    }).then(function(resl){
-      res.send(resl);
-    });
-  });
-});
-router.get('/deleteSemStu/:id',userHelpers.isLogin,function(req,res){
-  models.SemesterStudent.destroy({
-    where: {
-      id: req.params.id
-    }      
-  }).then(function (todo) {
-    res.send({msg:"1"});//got deleted successfully
-  }).catch(function (err) {
-    res.send({msg:"2"});//has foreign-key restriction
-  });
-});
 module.exports = router;
