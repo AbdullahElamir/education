@@ -85,10 +85,29 @@ var Sequelize = require('sequelize')
       },
       "include" : [
         {"model" : models.User},
-        {"model"  : models.Department}
+        {"model"  : models.Department,"required":false}
       ],
     }).then(function(subject) {
-      res.send(subject);
+      if(subject[0].subject_type==4){
+        models.DepartmentSubject.findAll({
+          where:{
+            status:1,
+            SubjectId:subject[0].id
+          },
+          include:[{
+                model: models.Department,
+                required:false,
+                where:{
+                  status:1
+                }       
+              }]
+        }).then(function(resl){
+          res.send({subject:subject,resl:resl});    
+        });
+      }else{
+        res.send({subject:subject,resl:null});
+      }
+      
     });
   });
 
@@ -101,9 +120,10 @@ var Sequelize = require('sequelize')
 
 
   router.post('/editSubject', userHelpers.isLogin,function(req, res) {
+    delete req.body.departmentMulSel;
     if(req.body.subject_type==1){
       req.body.DepartmentId=1;
-      req.body.UserId=1;
+      req.body.UserId=req.session.idu;
       models.Subject.find({
         where: {
           id: req.body.id
@@ -116,7 +136,7 @@ var Sequelize = require('sequelize')
         });
       });
     } else if(req.body.subject_type==2){
-      req.body.UserId=1;
+      req.body.UserId=req.session.idu;
       models.Subject.find({
         where: {
           id: req.body.id
@@ -129,7 +149,21 @@ var Sequelize = require('sequelize')
         });
       });
     } else if(req.body.subject_type==3){
-      req.body.UserId=1;
+      req.body.UserId=req.session.idu;
+      models.Subject.find({
+        where: {
+          id: req.body.id
+        }
+      }).then(function (todo) {
+        todo.updateAttributes(req.body).then(function (todo) {
+          res.redirect('/subject');
+        }).catch(function (err) {
+          console.log(err);
+        });
+      });
+    }else if(req.body.subject_type==4){
+      req.body.UserId=req.session.idu;
+      req.body.DepartmentId=null;
       models.Subject.find({
         where: {
           id: req.body.id
@@ -156,12 +190,48 @@ var Sequelize = require('sequelize')
     });
   });
 
+router.get('/deleteDepartSubject/:id', userHelpers.isLogin,function(req, res) {
+    models.DepartmentSubject.destroy({
+      where: {
+        id: req.params.id
+      }      
+    }).then(function (todo) {
+      res.send({msg:"1"});//got deleted successfully
+    }).catch(function (err) {
+      res.send({msg:"2"});//has foreign-key restriction
+    });
+  });
   router.get('/getpreSubject/:id',userHelpers.isLogin,function(req, res) {
     var id = req.params.id
     models.sequelize.query('select * from Subjects where id in (SELECT PrerequisiteId FROM `SubjectHasPrerequisites` WHERE SubjectId="'+id+'")')
       .then(function(results){
         res.send(results[0]);
       });
+  });
+    
+  router.post('/addDepatSub',userHelpers.isLogin,function(req,res){
+    req.body.UserId=req.session.idu;
+    models.DepartmentSubject.findOrCreate({where: {SubjectId:req.body.SubjectId,status:1,DepartmentId: req.body.DepartmentId}, defaults: req.body})
+      .spread(function(result, created) {
+      if(created){
+        models.DepartmentSubject.findOne({
+          where:{
+            id:result.id
+          },
+          include:[{
+            model: models.Department,
+            required:false,
+            where:{
+              status:1
+            }
+          }]
+        }).then(function(acTr){
+          res.send(acTr);
+        });
+      }else{
+        res.send(false);
+      }
+    });
   });
 
   router.post('/updatePree',userHelpers.isLogin,function(req, res) {
@@ -171,12 +241,20 @@ var Sequelize = require('sequelize')
     var date = new Date();
     if(req.body.subPreId.length != 0){
       for(var i=0;i<req.body.subPreId.length ;i++){
-        models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`createdAt`, `updatedAt`,`SubjectId`, `PrerequisiteId`) VALUES ("'+date+'","'+date+'",'+req.body.subjectId+','+req.body.subPreId[i]+')').then(function(results){
-        res.send(results[0]);
-        });
+        for(var j=0;j<req.body.count-1 ; j++){
+          req.body.subPreId.shift();
+        }
+        var date = new Date();
+        if(req.body.subPreId.length != 0){
+          for(var i=0;i<req.body.subPreId.length ;i++){
+            models.sequelize.query('INSERT INTO `SubjectHasPrerequisites`(`createdAt`, `updatedAt`,`SubjectId`, `PrerequisiteId`) VALUES ("'+date+'","'+date+'",'+req.body.subjectId+','+req.body.subPreId[i]+')').then(function(results){
+              res.send(results[0]);
+            });
+          }
+        }
       }
     }
-  }); 
+  });  
 
   router.post('/deletePre/',userHelpers.isLogin,function(req, res) {
      models.sequelize.query('DELETE FROM `SubjectHasPrerequisites` WHERE SubjectId='+req.body.sub+' and PrerequisiteId='+req.body.pre+'').then(function(results){
