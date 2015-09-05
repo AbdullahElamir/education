@@ -241,11 +241,11 @@ $(document).ready(function(){
     $.get('/subject/deleteDepartSubject/'+$(this).val(),function(todo) {
       switch(todo.msg){
         case "1" :
-          custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          // custNotify("success","نجح","لقد تم مسح القسم بنجاح","ok-sign","bounceInDown","bounceOutUp");
           $('#myS [data-id = "ds'+id+'"]').remove();
           break;
         case "2" :
-          custNotify("danger","فشل","لايمكن مسح القسم","warning-sign","bounceInDown","bounceOutUp");
+          // custNotify("danger","فشل","لايمكن مسح القسم","warning-sign","bounceInDown","bounceOutUp");
           break;
         default:
           break; 
