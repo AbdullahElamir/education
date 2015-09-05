@@ -111,9 +111,9 @@ block content
                 input#PrerequisiteId(type="hidden" name="PrerequisiteId") 
                 input#SubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
             .modal-footer
-              button.btn.btn-primary#prereqsFormAdd(type='button') حفظ
-                |   
-                button.btn.btn-default(type='button', data-dismiss='modal') إلغاء
+              button.btn.btn-primary#prereqsFormAdd(type='button') نعم
+              |   
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
       .modal.fade#deletePrereq(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
         .modal-dialog
           .modal-content
@@ -127,9 +127,9 @@ block content
                 input#deletePrerequisiteId(type="hidden" name="PrerequisiteId") 
                 input#deleteSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
             .modal-footer
-              button.btn.btn-primary#prereqsFormDelete(type='button') حذف
-                |   
-                button.btn.btn-default(type='button', data-dismiss='modal') إلغاء الحذف
+              button.btn.btn-primary#prereqsFormDelete(type='button') نعم
+              | 
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
       
       //- add department modal
       .modal.fade#addDepartments(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
@@ -145,9 +145,9 @@ block content
                 input#DepartmentId(type="hidden" name="DepartmentId") 
                 input#departmentSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
             .modal-footer
-              button.btn.btn-primary#departmentsFormAdd(type='button') حفظ
-                |   
-                button.btn.btn-default(type='button', data-dismiss='modal') إلغاء
+              button.btn.btn-primary#departmentsFormAdd(type='button') نعم
+              | 
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
       //- delete department modal
       .modal.fade#deleteDepartment(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
         .modal-dialog
@@ -162,9 +162,9 @@ block content
                 input#deleteDepartmentId(type="hidden" name="DepartmentId") 
                 input#deleteSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
             .modal-footer
-              button.btn.btn-primary#departmentFormDelete(type='button') حذف
-                |   
-                button.btn.btn-default(type='button', data-dismiss='modal') إلغاء الحذف
+              button.btn.btn-primary#departmentFormDelete(type='button') نعم
+              | 
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
     br
     br
   script(src='/js/jquery-2.1.1.min.js')

@@ -99,7 +99,7 @@ $(document).ready(function(){
   $('body').on('click','.deleteDepartment', function() {
     var depId = $(this).val();
     $("#deleteDepartmentId").val(depId);
-    $("#deleteDeptDialog").replaceWith("<p id='deleteDeptDialog'> هل انت متأكد من حذف المادة التمهيدية <b>"+$('#dep-'+depId).data("name")+" ؟</b></p>")
+    $("#deleteDeptDialog").replaceWith("<p id='deleteDeptDialog'> هل انت متأكد من إلغاء ادراج هذه المادة من قسم <b>"+$('#dep-'+depId).data("name")+" ؟</b></p>")
   });
 
 /*------------deleting a department-------------*/
