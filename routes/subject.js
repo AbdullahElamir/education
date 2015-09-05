@@ -76,7 +76,7 @@ var Sequelize = require('sequelize')
   });
 
 /*----------edit Subject------------*/
-  router.get('/edit/:id', function(req, res) {
+  router.get('/edit/:id', userHelpers.isLogin, function(req, res) {
     models.Subject.findAll({
       where: { 
         status: 1 , 
@@ -104,7 +104,7 @@ var Sequelize = require('sequelize')
   });
 
 /*----------add Prerequisites------------*/
-  router.post('/addPrereq', function(req, res) {
+  router.post('/addPrereq', userHelpers.isLogin, function(req, res) {
     models.sequelize.query('INSERT INTO `SubjectHasPrerequisites` (`SubjectId`,`PrerequisiteId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.INSERT
     }).then(function(){
       models.Subject.findOne({
@@ -120,7 +120,7 @@ var Sequelize = require('sequelize')
   });
 
 /*----------delete Prerequisites------------*/
-  router.post('/deletePrereq', function(req, res) {
+  router.post('/deletePrereq', userHelpers.isLogin, function(req, res) {
     models.sequelize.query('DELETE FROM `SubjectHasPrerequisites` WHERE `SubjectId` = ? AND `PrerequisiteId` = ?',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.DELETE}
     ).then(function(result){
       res.send({msg:"1"});
@@ -130,7 +130,7 @@ var Sequelize = require('sequelize')
   });
 
 /*----------add Department------------*/
-  router.post('/addDepartment', function(req, res) {
+  router.post('/addDepartment', userHelpers.isLogin, function(req, res) {
     models.sequelize.query('INSERT INTO `DepartmentSubjects` (`SubjectId`,`DepartmentId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.DepartmentId], type: models.sequelize.QueryTypes.INSERT
     }).then(function(){
       models.Department.findOne({
@@ -145,7 +145,7 @@ var Sequelize = require('sequelize')
     });  
   });
 /*----------delete Department------------*/
-  router.post('/deleteDepartment', function(req, res) {
+  router.post('/deleteDepartment', userHelpers.isLogin, function(req, res) {
     models.sequelize.query('DELETE FROM `DepartmentSubjects` WHERE `SubjectId` = ? AND `DepartmentId` = ?',{ replacements: [req.body.SubjectId,req.body.DepartmentId], type: models.sequelize.QueryTypes.DELETE}
     ).then(function(result){
       res.send({msg:"1"});
@@ -153,6 +153,8 @@ var Sequelize = require('sequelize')
       res.send({msg:"2"});
     });
   });
+
+
   router.get('/getSubject/:id', userHelpers.isLogin,function(req, res) {
     models.Subject.findAll({
       where: { 
