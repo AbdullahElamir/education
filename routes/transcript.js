@@ -17,7 +17,7 @@ var ratioo = require('../app/ratio');
   }
 
 
-  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
+router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
 function draw(obj){
   var str='';
   for(key in obj){
@@ -43,7 +43,7 @@ function draw(obj){
         content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
         recipe: "phantom-pdf"
       },
-      data:obj
+      data:{name:"abdullah"}
     }).then(function (response) {
       response.result.pipe(res);
     });
@@ -401,4 +401,14 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
     });
 });
 
+router.get('/division/:id',userHelpers.isLogin,function(req,res){
+  models.Division.findAll({
+    where:{
+      DepartmentId:req.params.id
+    }
+  }).then(function(resl){
+    res.send(resl);
+  });
+
+});
 module.exports = router;
