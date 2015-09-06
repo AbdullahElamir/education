@@ -201,13 +201,15 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           models.Semester.findAll({
           where: {
           status: 1
-          }
+          },
+          order: '`id` DESC'
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
           StudentId: req.params.id
           },
+          order: '`id` DESC',
       "include" : [
         {"model" : models.Division},
         {"model"  : models.Department},
@@ -406,11 +408,51 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
 router.get('/division/:id',userHelpers.isLogin,function(req,res){
   models.Division.findAll({
     where:{
+      status:1,
       DepartmentId:req.params.id
     }
-  }).then(function(resl){
-    res.send(resl);
+  }).then(function(div){
+    res.send(div);
   });
+});
 
+router.get('/getsem/:id',userHelpers.isLogin,function(req,res){
+  if(req.params.id=="false"){
+    var ob = {where:{status:1},order: '`id` DESC'};
+  }else{
+    var date = new Date(req.params.id);
+    var ob = {where:{status:1,year:{$like:date}},order: '`id` DESC'};
+
+  }
+  
+   models.Semester.findAll(ob).then(function(semester) {
+    res.send(semester);
+  });
+});
+router.post('/updateSemStu',userHelpers.isLogin,function(req,res){
+  models.SemesterStudent.update(req.body.body,{
+    where: {
+      id:req.body.id
+    }
+  }).then(function(result){
+    models.Division.findOne({
+      where:{
+        id:req.body.body.DivisionId
+      }
+    }).then(function(resl){
+      res.send(resl);
+    });
+  });
+});
+router.get('/deleteSemStu/:id',userHelpers.isLogin,function(req,res){
+  models.SemesterStudent.destroy({
+    where: {
+      id: req.params.id
+    }      
+  }).then(function (todo) {
+    res.send({msg:"1"});//got deleted successfully
+  }).catch(function (err) {
+    res.send({msg:"2"});//has foreign-key restriction
+  });
 });
 module.exports = router;
