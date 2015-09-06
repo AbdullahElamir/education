@@ -227,4 +227,17 @@ $(document).ready(function(){
     var pageUrl = '/facultyMember'
     window.history.pushState("","",pageUrl);
   }
+    $('#FacultyMember_search_btn').on('click', function(){
+      window.location.href="/facultyMember/?q="+$('#FacultyMember_search').val();
+    });  
+
+   
+    $("#FacultyMember_search").on('keydown',function(e) { 
+      var key = e.charCode || e.keyCode;
+      if(key == 13  )
+        {
+        $("#FacultyMember_search_btn").click(); 
+        }
+  });
+
 });
