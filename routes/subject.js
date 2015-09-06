@@ -136,7 +136,7 @@ var Sequelize = require('sequelize')
             status: 1 , 
           }
         }).then(function(subjects){
-          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name, collapseThree: 'collapse in', activeThreeTwo: 'active',subject:subject[0],departments:departments,subjects:subjects});
+          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name,subject:subject[0],departments:departments,subjects:subjects});
         });
       });
     });

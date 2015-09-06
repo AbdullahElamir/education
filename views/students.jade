@@ -44,8 +44,7 @@ block content
                 th عنوان اﻹقامة
                 th.text-center معدل الطالب/ة
                 th.text-center الجنسية
-                th.text-center عرض المزيد
-                th.text-center تعديل
+                th.text-center عرض - تعديل
                 th.text-center حذف
               tbody#tbody
                 for i in student
@@ -65,11 +64,7 @@ block content
                         if nat.id == i.nationality
                           span #{nat.name}
                     td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="عرض المزيد")
-                        button#showInfo.btn.btn-primary.btn-xs(value="",data-title="Edit", data-toggle="modal", data-target="#show")
-                          span.glyphicon.glyphicon-eye-open
-                    td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                      p(data-placement="top", data-toggle="tooltip", title="عرض - تعديل")
                         button#editt.btn.btn-primary.btn-xs(value='#{i.id}' ,data-title="Edit", data-toggle="modal", data-target="#edit")
                           span.glyphicon.glyphicon-pencil
                     td.text-center
@@ -93,7 +88,7 @@ block content
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
-            h4#Heading.modal-title.custom_align تعديل طالب/ة
+            h4#Heading.modal-title.custom_align عرض - تعديل طالب/ة
           .modal-body
             // Nav tabs
             ul.nav.nav-tabs(role="tablist")

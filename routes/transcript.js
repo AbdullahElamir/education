@@ -10,29 +10,26 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
+  var obj = {
+    subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
+    classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
+  }
 
-// Start transcript /////////////////////////////////////////////////////////
-// Start transcript ////////////////////////////////
-  router.get('/transcript/:id', function(req, res, next) {
-    models.sequelize.query('SELECT * FROM SemesterStudents AS ss INNER JOIN Semesters AS s ON ( ss.semesterId = s.id ) INNER JOIN Students AS st ON ( ss.studentId = st.id ) INNER JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) INNER JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) INNER JOIN Subjects AS sb ON ( sg.SubjectId = sb.id ) where st.id ='+5+' ORDER BY s.starting_date LIMIT 0 , 30').then(function(subjectsS){   
-    var obb = {obbs:subjectsS[0]}
-    console.log(subjectsS[0]);
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-          // content: "<h1>Hello world</h1>",
-                  recipe: "phantom-pdf"
+  router.get('/',userHelpers.isLogin, function(req, res) {
+    var page = userHelpers.getPage(req);
+    var limit = userHelpers.getLimit(page);
+    models.Student.findAndCountAll({
+      where: {
+        status: 1
       },
-      data:obb
-    }).then(function (response) {
-      //you can for example pipe it to express.js response
-      response.result.pipe(res);
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+      res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });
     });
-    // console.log("ssssssssssssssssssssssssssssssssssssssss");
-    // console.log(obb);
-    // console.log("ssssssssssssssssssssssssssssssssssssssss");
   });
-});
 
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     function draw(obj){
@@ -248,7 +245,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
-              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+
+              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
