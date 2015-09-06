@@ -170,9 +170,6 @@ html
                       tr
                         td(class=activeThreeOne)
                           a(href="/subject").font  عرض المواد الدراسية
-                      tr
-                        td(class=activeThreeTwo)
-                          a(href="/subject/newSubject").font  إضافة مادة دراسية
               .panel.panel-default
                 .panel-heading.font
                   h4.panel-title
@@ -205,8 +202,7 @@ html
                     table.table
                       tr
                         td(class=activeFiveOne)
-                          a(href="/student")  عرض الطلبة المسجلين
-                          
+                          a(href="/student")  عرض الطلبة المسجلين   
                       tr
                         td(class=activeFiveTwo)
                           a(href="/student/newStudent")  تسجيل طالب/ة
@@ -237,12 +233,22 @@ html
                       tr
                         td(class=activeSevenOne)
                           a(href="/transcript/Academictranscripts")  تنزيل مواد للطلبة
+              .panel.panel-default.font
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle="collapse", data-parent="#accordion", href="#collapseEight")
+                      span.glyphicon.glyphicon-file
+                      |  تقارير
+                #collapseEight.panel-collapse.collapse(class=collapseEight)
+                  .panel-body#panel-body
+                    table.table
+                      tr
+                        td(class=activeEightOne)
+                          a(href="/transcript")  كشف دراجات
           block content
     block footer
       footer.footer.font
         .container
           .text-muted
             a(href='http://www.naga.ly', target='_blank')
-              p.text-muted جميع الحقوق محفوظة لشركة ناقه للحلول الثقنية 2015 © 
-             
-    
+              p.text-muted جميع الحقوق محفوظة لشركة ناقه للحلول الثقنية 2015 ©

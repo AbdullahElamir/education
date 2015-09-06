@@ -10,32 +10,46 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-
   var obj = {
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
 
-
-  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
-function draw(obj){
-  var str='';
-  for(key in obj){
-    str+="<p>"+key+"</p>";
-  }
-  return str;
-}
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-        recipe: "phantom-pdf",
-        helpers: draw.toString()
+  router.get('/',userHelpers.isLogin, function(req, res) {
+    var page = userHelpers.getPage(req);
+    var limit = userHelpers.getLimit(page);
+    models.Student.findAndCountAll({
+      where: {
+        status: 1
       },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+      res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });
     });
   });
+
+  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
+    function draw(obj){
+      var str='';
+      for(key in obj){
+        str+="<p>"+key+"</p>";
+      }
+      return str;
+    }
+        jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+            recipe: "phantom-pdf",
+            helpers: draw.toString()
+          },
+          data:obj
+        }).then(function (response) {
+          response.result.pipe(res);
+        });
+      });
 
   router.get('/arabicTranscript', function(req, res, next) {
     jsr.render({
@@ -71,12 +85,15 @@ function draw(obj){
         },
         recipe: "phantom-pdf"
       },
-      data:obj
+      data:obb
     }).then(function (response) {
+      //you can for example pipe it to express.js response
       response.result.pipe(res);
     });
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+    // console.log(obb);
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
   });
-
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -84,26 +101,31 @@ function draw(obj){
       res.render();
     });
   });
-
-
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
-  var page = userHelpers.getPage(req);
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Student.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
-    });
+    var q = userHelpers.getQuery(req);
+    var first_name = userHelpers.getname(req);
+    var father_name = userHelpers.getfather_name(req);
+    var last_name = userHelpers.getlast_name(req);
+    var obj ={where: {status: 1}};
+    if(first_name !=""){
+      obj.where.first_name={$like:'%'+first_name+'%'};
+    }
+    if (father_name !=""){
+    obj.where.father_name={$like:'%'+father_name+'%'};
+    }
+    if (last_name != ""){
+      obj.where.last_name={$like:'%'+last_name+'%'};
+    }
+    obj.limit = 10;
+    obj.offset= limit;
+  models.Student.findAndCountAll(obj).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+    res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+  });
 });
-
-
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
