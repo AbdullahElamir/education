@@ -111,33 +111,24 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     var first_name = userHelpers.getname(req);
     var father_name = userHelpers.getfather_name(req);
     var last_name = userHelpers.getlast_name(req);
-    var obj ={where: {status: 1},limit : 10,offset: limit,};
-    if (q == undefined)
-    {
-    models.Student.findAndCountAll(obj).then(function(student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
-    });
-  }
-  else
-  {
-  models.Student.findAndCountAll({
-    where: {
-      set_number:{$like:'%'+q+'%'},
-      status: 1
-    },
-    limit : 10,
-    offset: limit,
-    }).then(function(student) {
+    var obj ={where: {status: 1}};
+    if(first_name !=""){
+      obj.where.first_name={$like:'%'+first_name+'%'};
+    }
+    if (father_name !=""){
+    obj.where.father_name={$like:'%'+father_name+'%'};
+    }
+    if (last_name != ""){
+      obj.where.last_name={$like:'%'+last_name+'%'};
+    }
+    obj.limit = 10;
+    obj.offset= limit;
+  models.Student.findAndCountAll(obj).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
-    res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
-   });
-  }
+    res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+  });
 });
-
-
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
