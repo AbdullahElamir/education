@@ -130,6 +130,7 @@ var Sequelize = require('sequelize')
           status: 1 , 
         }
       }).then(function(departments) {
+        //res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
         models.Subject.findAll({
           attributes:['id','name','name_en'],
           where: { 
