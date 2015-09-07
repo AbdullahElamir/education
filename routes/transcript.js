@@ -283,6 +283,9 @@ router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     var father_name = userHelpers.getfather_name(req);
     var last_name = userHelpers.getlast_name(req);
     var obj ={where: {status: 1}};
+    if(q != ""){
+      obj.where.set_number={$like:'%'+q+'%'};
+    }
     if(first_name !=""){
       obj.where.first_name={$like:'%'+first_name+'%'};
     }
