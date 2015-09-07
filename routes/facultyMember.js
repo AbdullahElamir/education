@@ -30,7 +30,7 @@ var nationality = require('../Nationality');
       }).then(function(allDepartments) {
         var pageCount = userHelpers.getPageCount(facultyMembers.count);
         var pagination = userHelpers.paginate(page,pageCount);
-        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active', name:req.session.name });
       });
     });
     }else{
@@ -53,7 +53,7 @@ var nationality = require('../Nationality');
       }).then(function(allDepartments) {
         var pageCount = userHelpers.getPageCount(facultyMembers.count);
         var pagination = userHelpers.paginate(page,pageCount);
-        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active', name:req.session.name });
       });
     });
   }

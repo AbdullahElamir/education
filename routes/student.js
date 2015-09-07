@@ -10,7 +10,6 @@ var nationality = require('../Nationality');
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     var q = userHelpers.getQuery(req);
-    var s = userHelpers.getSearchType(req);
     var first_name = userHelpers.getname(req);
     var father_name = userHelpers.getfather_name(req);
     var last_name = userHelpers.getlast_name(req);
@@ -32,7 +31,7 @@ var nationality = require('../Nationality');
   models.Student.findAndCountAll(obj).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
-    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q });
   });
 });
 router.get('/newStudent',userHelpers.isLogin, function(req, res) {
