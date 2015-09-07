@@ -14,6 +14,17 @@
   line-height: 30px;
 }
 
+
+.clickable{
+    cursor: pointer;   
+}
+
+
+#panel-heading{
+  font-size: 15px;
+  line-height: 30px;
+}
+
 legend{
   /*color:#141823;*/
   color:#337ab7;

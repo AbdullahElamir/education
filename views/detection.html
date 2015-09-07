@@ -6,11 +6,10 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
     <style>
       @font-face {
-        font-family: 'droidkufi';
         src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
           }
       body {
-        font-family: 'droidkufi', sans-serif;
+        font-family: 'Droid Arabic Kufi';
         font-size: 12px;
       }
       .table,.table>thead>tr>th{
@@ -21,14 +20,25 @@
         font-size: 15px;
         border: 1px dotted #000;
       }
-      .condensed>thead>tr>th,.condensed>tbody>tr>td {
+      .condensed>tbody>tr>td {
         padding: 5px;
+      }
+      .condensed>thead>tr>th{
+        padding-top: 10px;
+        padding-bottom: 11px;
+        font-weight: 100;
+      }
+      .halfSpace{
+        height: 5px;
       }
       .space{
         height: 10px;
       }
-      h3 {
-        font-weight: 900;
+      .twoSpace{
+        height: 20px;
+      }
+      h3,.h4 {
+        font-weight: bold;
       }
     </style>
     <meta charset="utf-8"/>
@@ -36,27 +46,28 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-xs-3">
+        <div class="col-xs-4">
           <div class="text-right"> 
-            <h4>وزارة التعليم العالــــــــــــي والبحث العلــــمي
+            <h4 class="h4">وزارة التعليم العالـــــــــي والبحث العلــــــــــمي
             <div class="space"></div>
-            الهيئة الوطنية للتعليم التقنـــــي والفنــــي
+            الهيئة الوطنية للتعليم التقنــــي والفنــــــي
             <div class="space"></div>
             المعهد العالي للمهن الطبية القره بوللي</h4>
           </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-5">
           <div class="text-center"> 
-            <h2> كشف رصد درجات الامتحان النهائي </h2>
+            <h3> كشف رصد درجات الامتحان النهائي </h3>
           </div>
           <div class="text-center"> 
-            <h3> للفصــــل الدراســـــــي <span>:</span> ربيع 2015 </h3>
+            <h3> للفصـــــل الدراســـــي <span>:</span> ربيع 2015 </h3>
           </div>
         </div>
         <div class="col-xs-3">
+          <div class="halfSpace"></div>
           <div class="text-left">
-            <h3>الفصـــل <span>/ ...................</span></h3>
-            <h3>الشعبة <span>/ ....................</span></h3>
+            <h4 class="h4">الفصـــل <span>/ </span> الخامس </h4>
+            <h4 class="h4">الشعبة <span>/ </span> مختبرات </h4>
           </div>
         </div>
         <div class="col-xs-12">
@@ -64,10 +75,10 @@
           <table class="table condensed">
             <thead>
               <tr style="border-top-style: solid; border-top-width: 2px;">
-                <th class="text-center" width="1%">ت</th>
+                <th class="text-center" width="1%" height="46">ت</th>
                 <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>
                 <th class="text-center" width="6%">رقم القيد</th>
-                <th class="text-center" width="1%">درجــــــــــــة</th>
+                <th class="text-center" width="1%">الدرجــــــــة</th>
                 <th class="text-center"></th>
                 <th class="text-center"></th>
                 <th class="text-center"></th>
@@ -90,7 +101,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 12.3px;">أعمال السنة</td>
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -111,7 +122,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>العملـــــــي</td>
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -132,7 +143,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 14px;">نهاية العام</td>
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -153,93 +164,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>المجمـــــوع</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-            <tbody style="border: 2px solid #000;">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="font-size: 12.3px;">أعمال السنة</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>العملـــــــي</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="font-size: 14px;">نهاية العام</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>المجمـــــوع</td>
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -262,7 +187,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 12.3px;">أعمال السنة</td>
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -283,7 +208,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>العملـــــــي</td>
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -304,7 +229,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 14px;">نهاية العام</td>
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -325,93 +250,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>المجمـــــوع</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-            <tbody style="border: 2px solid #000;">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="font-size: 12.3px;">أعمال السنة</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>العملـــــــي</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="font-size: 14px;">نهاية العام</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>المجمـــــوع</td>
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -434,7 +273,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 12.3px;">أعمال السنة</td>
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -455,7 +294,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>العملـــــــي</td>
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -476,7 +315,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 14px;">نهاية العام</td>
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -497,7 +336,265 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>المجمـــــوع</td>
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tbody style="border: 2px solid #000;">
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tbody style="border: 2px solid #000;">
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tbody style="border: 2px solid #000;">
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -518,29 +615,35 @@
           </table>
         </div>
         <div class="col-xs-3">
+          <div class="space"></div>
           <div class="pull-right"> 
-            <h3>قسم الدراسة واﻷمتحانات</h3>
-            <h3>.................................</h3>
-            <div class="space"></div>
+            <h4 class="h4">قسم الدراسة واﻷمتحانات</h4>
+            <div class="halfSpace"></div>
+            <h4>.....................................</h4>
+            <div class="halfSpace"></div>
             <div class="text-center">
-              <h5> التاريخ <span> ....../ ....../ ......</span></h5>
-              <h5> الموافق <span> ....../ ....../ ......</span></h5>
+              <h6> التاريخ <span> ....../ ....../ ......</span></h6>
+              <h6> الموافق <span> ....../ ....../ ......</span></h6>
             </div>
           </div>
         </div>
         <div class="col-xs-6">
+          <div class="space"></div>
           <div class="text-center"> 
-            <h3> لجنـــة اﻷمتحانات </h3>
-            <h3>................................</h3>
-            <div class="space"></div>
-            <h5> التاريخ <span> ....../ ....../ ......</span></h5>
-            <h5> الموافق <span> ....../ ....../ ......</span></h5>
+            <h4 class="h4"> لجنـــة اﻷمتحانات </h4>
+            <div class="halfSpace"></div>
+            <h4>....................................</h4>
+            <div class="halfSpace"></div>
+            <h6> التاريخ <span> ....../ ....../ ......</span></h6>
+            <h6> الموافق <span> ....../ ....../ ......</span></h6>
           </div>
         </div>
         <div class="col-xs-3">
+          <div class="space"></div>
           <div class="text-left">
-            <h3>يعتمد<span> / </span>مدير عام المعهد</h3>
-            <h3>................................</h3>
+            <h4 class="h4">يعتمد<span> / </span>مدير عام المعهد</h4>
+            <div class="halfSpace"></div>
+            <h4>....................................</h4>
           </div>
         </div>
       </div>

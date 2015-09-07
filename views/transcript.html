@@ -27,68 +27,30 @@
                 <!-- page -->
                 <!-- head -->
                 </div>
+                <h4>
+                {{#obbs}}
                 <script type="text/javascript">
-                    var i = 1;
+                // document.write(obbs[0].SemesterId);
+
+<<<<<<< HEAD
+                      // var currentS=obbs[0].SemesterId;
+                      // console.log("open table");
+                      // for (i=0 ;i<obj.length ;i++){
+                      //     //do somethin
+                      //     if(currentS!=obbs[i].SemesterId){
+                      //         document.write("close table");
+                      //         currentS=obbs[i].SemesterId;
+                      //         document.write("open table");
+                      //     }
+                      //     document.write("obbs[i].SemesterId");
+                      // }
+                      // document.write("close table");
                 </script>
-             {{#classes}}
-        <script type="text/javascript">
-         if (i % 2 === 1  ) {
-        document.write(
-          '<div class="invoice-title">'+
-            '<h2><center> المعهد العالي للمهن الطيبة القرة بوللي </center>'+ 
-              '<hr>'+
-            '</h2>'+
-            '<h3 class="pull-right">كشـف درجات'+
-            '{{#student}}'+
-            '<div class="row">'+
-            '<h6 class="col-md-1 text-right">'+
-                  'الأسم <span>:</span> {{name}} <br>'+
-                  'رقم القيد <span>:</span> {{id}}<br>'+
-            '</h6>'+
-            '</div>'+
-            '</h3>'+
-            '<h3 class="pull-left text-right">'+
-            '<div class="row">'+
-            '<h6 class="col-md-12">'+
-                  'الشعبة <span>:</span> مختبرات طبية <br>'+
-                  'مكان الميلاد <span>:</span> قصر الاخيار <br>'+
-                  'تاريخ الميلاد <span>:</span> 1994 <br>'+
-            '</h6>'+
-            '</div>'+
-            '{{/student}}'+
-            '</h3>'+
-          '<div class="row">'+
-            '<div class="col-xs-6">'+
-            '</div>'+
-            '<div class="col-xs-6 pull-right">'+
-            '</div>'+
-          '</div>');
-      }
-        </script>
-            </div>
-        </div>
-        <!-- end head -->
-
-        <!-- table -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title pull-right"><strong>الفصل <span> : </span> {{class_name}}  </strong></h3>
-                        <h3 class="panel-title pull-center"><strong>الفترة الدراسية خلال <span> : </span> 20/10/2015  </strong></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <td class="text-center h5"><strong>النسبة</strong></td>
-                                        <td class="text-center h5"><strong>class name</strong></td>
-                                        <td class="text-center h5"><strong>إسم المادة </strong></td>
-                                        <td align="center h5"><strong> رمز المادة</strong></td>
-                                    </tr>
-                                </thead>
-
+                </h4>
+                
+                      {{final_theor}}/{{no_pr_unit:}}/{{code}}/{{name_en}}/{{name}}<span>:</span>{{chapter_degree}}
+                  {{/obbs}}
+=======
                                 <tbody>
 <!--                                   {{#each subjects}}
  -->                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
@@ -125,5 +87,6 @@
                 <!-- head -->
                <!-- endpage -->      
     </div>
+>>>>>>> 6668f05c4df42406cfc90097da22e21a3639a3ce
   </body>
 </html>

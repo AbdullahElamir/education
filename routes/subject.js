@@ -9,30 +9,70 @@ var Sequelize = require('sequelize')
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Subject.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(Subject) {
-      var pageCount = userHelpers.getPageCount(Subject.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      models.Department.findAll({
+    var q = userHelpers.getQuery(req);
+    if (q == undefined)
+    {
+      models.Subject.findAndCountAll({
         where: {
           status: 1
-        }
-      }).then(function(departments) {
-        models.Subject.findAll({
+        },
+        limit : 10,
+        offset: limit,
+      }).then(function(Subject) {
+        var pageCount = userHelpers.getPageCount(Subject.count);
+        var pagination = userHelpers.paginate(page,pageCount);    
+       models.Department.findAll({
           where: {
             status: 1
           }
-        }).then(function(sub) {
-          res.render('subject', {subb:sub, title: 'عرض المواد الدراسية', name:req.session.name,dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
-        });
+        }).then(function(departments) {
+
+           models.Subject.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(sub) {
+            res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
+        }); 
       });
-    }); 
-  });
+      });
+  }
+  else
+  {
+      models.Subject.findAndCountAll({
+        where: {
+          status: 1,
+           $or: [
+            {
+          name : {$like:'%'+q+'%'}
+            },
+            {
+          code : {$like:'%'+q+'%'},
+            } 
+          ]   
+        },
+        limit : 10,
+        offset: limit,
+      }).then(function(Subject) {
+        var pageCount = userHelpers.getPageCount(Subject.count);
+        var pagination = userHelpers.paginate(page,pageCount);    
+       models.Department.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function(departments) {
+
+           models.Subject.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(sub) {
+            res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
+        }); 
+      });
+      }); 
+  }
+});
 
   router.get('/deleteDivisionsbject/:ids/:idd', userHelpers.isLogin,function(req, res) {
     models.DivisionSubject.destroy({
@@ -68,7 +108,6 @@ var Sequelize = require('sequelize')
       if(req.body.subject_type==1){
         var date = new Date();
         models.sequelize.query('INSERT INTO `DepartmentSubjects`(`createdAt`, `updatedAt`,`SubjectId`, `DepartmentId`) VALUES (?,?,?,1)',{ replacements: [date,date,result.id], type: models.sequelize.QueryTypes.INSERT}).then(function(result){
-          console.log(result);
           res.send(result);
         });
       }
@@ -91,14 +130,14 @@ var Sequelize = require('sequelize')
           status: 1 , 
         }
       }).then(function(departments) {
-        res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
+        //res.render('newSubject', {title: 'إضافة مادة دراسية جديدة', name:req.session.name,dept:departments, collapseThree: 'collapse in', activeThreeTwo: 'active',sub:subject});
         models.Subject.findAll({
           attributes:['id','name','name_en'],
           where: { 
             status: 1 , 
           }
         }).then(function(subjects){
-          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name, collapseThree: 'collapse in', activeThreeTwo: 'active',subject:subject[0],departments:departments,subjects:subjects});
+          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name,subject:subject[0],departments:departments,subjects:subjects});
         });
       });
     });
@@ -106,19 +145,54 @@ var Sequelize = require('sequelize')
 
 /*----------add Prerequisites------------*/
   router.post('/addPrereq', function(req, res) {
-    models.sequelize.query('INSERT INTO `SubjectHasPrerequisites` (`SubjectId`,`PrerequisiteId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.INSERT}).then(function(result){
-      res.send({msg:"1"});
+    models.sequelize.query('INSERT INTO `SubjectHasPrerequisites` (`SubjectId`,`PrerequisiteId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.INSERT
     }).then(function(){
-      models.Subject.findOne({where:{
-        id:req.body.SubjectId
-      }}).then(function(result){
+      models.Subject.findOne({
+        where:{
+          id:req.body.PrerequisiteId
+        }
+      }).then(function(result){
         res.send({msg:"1",subject:result});
       });
-    }).catch(function (err) {
+    }).catch(function (err){
       res.send({msg:"2"});
     });  
   });
 
+/*----------delete Prerequisites------------*/
+  router.post('/deletePrereq', function(req, res) {
+    models.sequelize.query('DELETE FROM `SubjectHasPrerequisites` WHERE `SubjectId` = ? AND `PrerequisiteId` = ?',{ replacements: [req.body.SubjectId,req.body.PrerequisiteId], type: models.sequelize.QueryTypes.DELETE}
+    ).then(function(result){
+      res.send({msg:"1"});
+    }).catch(function (err){
+      res.send({msg:"2"});
+    });
+  });
+
+/*----------add Department------------*/
+  router.post('/addDepartment', function(req, res) {
+    models.sequelize.query('INSERT INTO `DepartmentSubjects` (`SubjectId`,`DepartmentId`) VALUES (?,?)',{ replacements: [req.body.SubjectId,req.body.DepartmentId], type: models.sequelize.QueryTypes.INSERT
+    }).then(function(){
+      models.Department.findOne({
+        where:{
+          id:req.body.DepartmentId
+        }
+      }).then(function(result){
+        res.send({msg:"1",department:result});
+      });
+    }).catch(function (err){
+      res.send({msg:"2"});
+    });  
+  });
+/*----------delete Department------------*/
+  router.post('/deleteDepartment', function(req, res) {
+    models.sequelize.query('DELETE FROM `DepartmentSubjects` WHERE `SubjectId` = ? AND `DepartmentId` = ?',{ replacements: [req.body.SubjectId,req.body.DepartmentId], type: models.sequelize.QueryTypes.DELETE}
+    ).then(function(result){
+      res.send({msg:"1"});
+    }).catch(function (err){
+      res.send({msg:"2"});
+    });
+  });
   router.get('/getSubject/:id', userHelpers.isLogin,function(req, res) {
     models.Subject.findAll({
       where: { 

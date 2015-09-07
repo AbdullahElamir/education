@@ -12,100 +12,159 @@ block content
           .btn.btn-default.active إضافة مادة دراسية جديدة
         br
         br
-        legend  إضافة مادة دراسية لنظام محدد
-          .pull-left
-            a.btn.btn-primary(href='/subject', role='button')
-              span.glyphicon.glyphicon-th-list
-              span  عرض المواد الدراسية
-      .col-md-10
-        .row
-          table.table
-            tr
-              th اسم المادة
-              th Subject name
-              th رمز المادة
-              th عدد الوحدات النظري
-              th اعمال السنة
-              th الدرجة النهائية
-            tr
-              td #{subject.name}
-              td #{subject.name_en}
-              td #{subject.code}
-              td #{subject.no_th_unit}
-              td #{subject.chapter_degree}
-              td #{subject.final_theor}
-      .row
-        .col-md-4.pull-right
-          .row
-            .panel.panel-default
-              .panel.heading 
-                .row
-                  .pull-right(style="margin-right: 20px;")
-                    h3 المواد التمهيدية
-                  .pull-left(style="margin-left: 10px;")
-                    select#prereqs.form-control.selectpicker(name="prereqs", data-live-search="true", data-size=5,data-style="btn-success" )
-                      option(value="") اختر المادة ..
-                      for subj in subjects
-                        option(value="#{subj.id}") #{subj.name}
-              .panel-body
-                table.table
-                  tr
-                    th اسم المادة
-                    th Subject name
-                    th إلغاء
-                  tbody
-                    for prereq in subject.Prerequisites      
-                      tr
-                        td #{prereq.name}
-                        td #{prereq.name_en}
-                        td.text-center
-                          p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                            button#del.btn.btn-danger.btn-xs(data-title="Delete", data-toggle="modal", data-target="#deletePrereq",value="#{prereq.PrerequisiteId}")
-                              span.glyphicon.glyphicon-trash 
-        .col-md-5.pull-left
-          .row
-            .panel.panel-default
-              .panel.heading 
-                .row
-                  .pull-right(style="margin-right: 20px;")
-                    h3 تندرج تحت الاقسام التالية
-                  .pull-left(style="margin-left: 10px;")
-                    select.form-control.selectpicker(name="DepartmentId", data-live-search="true", data-size=5,data-style="btn-success")
-                      option(value="") اختر اسم القسم ..
-                      for department in departments
-                        option(value="#{department.id}") #{department.name}
-              .panel-body
-                table.table
-                  tr
-                    th اسم القسم
-                    th Department name
-                  for dept in subject.DepartmentSubjects      
-                    tr
-                      td #{dept.name}
-                      td #{dept.name_en}
+        .panel.panel-default
+          .panel-heading
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#h3.panel-title عرض / تعديل
+              .pull-left(style="margin-left: 10px;")
+                a.btn.btn-success(href='/subject', role='button')
+                  i.fa.fa-arrow-left
+                  span  رجوع
+          .table-responsive
+            table.table.table-bordred.table-striped
+              thead
+                tr
+                  th اسم المادة
+                  th Subject name
+                  th رمز المادة
+                  th عدد الوحدات النظري
+                  th اعمال السنة
+                  th الدرجة النهائية
+                  th.text-center تعديل
+              tbody
+                tr
+                  td #{subject.name}
+                  td #{subject.name_en}
+                  td #{subject.code}
+                  td #{subject.no_th_unit}
+                  td #{subject.chapter_degree}
+                  td #{subject.final_theor}
+                  td.text-center
+                    p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                      a.btn.btn-primary.btn-xs(type="button",data-title="Edit", href="")
+                        span.glyphicon.glyphicon-pencil
+      .col-md-5
+        .panel.panel-default
+          .panel-heading
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#panel-heading.panel-title المواد التمهيدية
+              .pull-left(style="margin-left: 10px;")
+                select#prereqs.form-control.selectpicker(name="prereqs", data-live-search="true", data-size=5,data-style="btn-primary" )
+                  option(value="", style='color:grey; display:none;') اختر المادة....
+                  for subj in subjects
+                    option(value="#{subj.id}") #{subj.name}
+          .table-responsive
+            table.table.table-bordred.table-striped
+              thead
+                tr
+                  th اسم المادة
+                  th Subject name
+                  th إلغاء
+              tbody#prereqsTable  
+                for prereq in subject.Prerequisites      
+                  tr(id="pre-#{prereq.id}", data-name="#{prereq.name}")
+                    td #{prereq.name}
+                    td #{prereq.name_en}
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                        button#del.btn.btn-danger.btn-xs.deletePrereq(data-title="Delete", data-toggle="modal", data-target="#deletePrereq",value="#{prereq.id}")
+                          span.glyphicon.glyphicon-trash 
+      .col-md-5
+        .panel.panel-default
+          .panel-heading 
+            .row
+              .pull-right(style="margin-right: 10px;")
+                h3#panel-heading.panel-title تندرج تحت الاقسام التالية
+              .pull-left(style="margin-left: 10px;")
+                select#departments.form-control.selectpicker(name="DepartmentId", data-live-search="true", data-size=5,data-style="btn-primary")
+                  option(value="", style='color:grey; display:none;') اختر اسم القسم....
+                  for department in departments
+                    option(value="#{department.id}") #{department.name}
+          .table-responsive
+            table.table.table-bordred.table-striped
+              thead
+                tr
+                  th اسم القسم
+                  th Department name
+                  th إلغاء
+              tbody#departmentsTable
+                for dept in subject.DepartmentSubjects      
+                  tr(id="dep-#{dept.id}", data-name="#{dept.name}")
+                    td #{dept.name}
+                    td #{dept.name_en}
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                        button#del.btn.btn-danger.btn-xs.deleteDepartment(data-title="Delete", data-toggle="modal", data-target="#deleteDepartment",value="#{dept.id}")
+                          span.glyphicon.glyphicon-trash 
       .modal.fade#addPrereq(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
-        .modal-dialog.modal-sm
+        .modal-dialog
           .modal-content
-            div#addDialog هل انت متأكد من اضافد المادة التمهيدية
-            form#prereqsForm(method="post")
-              input#PrerequisiteId(type="hidden" name="PrerequisiteId") 
-              input#SubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
-          .modal-footer
-            button.btn.btn-primary#prereqsFormAdd(type='button') حفظ
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                span.glyphicon.glyphicon-remove(aria-hidden="true")
+              h4#Heading.modal-title.custom_align إضافة مادة تمهدية
+            .modal-body
+              div#addDialog هل انت متأكد من إضافة المادة التمهيدية1
+              form#prereqsForm(method="post")
+                input#PrerequisiteId(type="hidden" name="PrerequisiteId") 
+                input#SubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
+            .modal-footer
+              button.btn.btn-primary#prereqsFormAdd(type='button') نعم
               |   
-              button.btn.btn-default(type='button', data-dismiss='modal') إلغاء
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
       .modal.fade#deletePrereq(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
-        .modal-dialog.modal-sm
+        .modal-dialog
           .modal-content
-            div#deleteDialog هل انت متأكد من حذف المادة التمهيدية
-            form#prereqsForm(method="post")
-              input#deletePrerequisiteId(type="hidden" name="PrerequisiteId") 
-              input#deleteSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
-          .modal-footer
-            button.btn.btn-primary#prereqsFormDelete(type='button') حفظ
-              |   
-              button.btn.btn-default(type='button', data-dismiss='modal') إلغاء
-
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                span.glyphicon.glyphicon-remove(aria-hidden="true")
+              h4#Heading.modal-title.custom_align إلغاء مادة تمهدية
+            .modal-body
+              div#deleteDialog هل انت متأكد من حذف المادة التمهيدية
+              form#delPrereqsForm(method="post")
+                input#deletePrerequisiteId(type="hidden" name="PrerequisiteId") 
+                input#deleteSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
+            .modal-footer
+              button.btn.btn-primary#prereqsFormDelete(type='button') نعم
+              | 
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
+      
+      //- add department modal
+      .modal.fade#addDepartments(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                span.glyphicon.glyphicon-remove(aria-hidden="true")
+              h4#Heading.modal-title.custom_align ادراج مادة لقسم معين
+            .modal-body
+              div#departmentAddDialog
+              form#departmentsForm(method="post")
+                input#DepartmentId(type="hidden" name="DepartmentId") 
+                input#departmentSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
+            .modal-footer
+              button.btn.btn-primary#departmentsFormAdd(type='button') نعم
+              | 
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
+      //- delete department modal
+      .modal.fade#deleteDepartment(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                span.glyphicon.glyphicon-remove(aria-hidden="true")
+              h4#Heading.modal-title.custom_align إلغاء إدراج مادة دراسية من قسم معين
+            .modal-body
+              div#deleteDeptDialog هل انت متأكد من حذف المادة التمهيدية
+              form#delDepartmentForm(method="post")
+                input#deleteDepartmentId(type="hidden" name="DepartmentId") 
+                input#deleteSubjectId(type="hidden" name="SubjectId" value="#{subject.id}") 
+            .modal-footer
+              button.btn.btn-primary#departmentFormDelete(type='button') نعم
+              | 
+              button.btn.btn-default(type='button', data-dismiss='modal') لا
     br
     br
   script(src='/js/jquery-2.1.1.min.js')
