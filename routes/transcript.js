@@ -268,6 +268,51 @@ var ratioo = require('../app/ratio');
     // console.log(obb);
     // console.log("ssssssssssssssssssssssssssssssssssssssss");
   });
+
+  // this sertificate
+  router.get('/certificate', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/certificate.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  // this sertificate
+  router.get('/giftCertificate', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/giftCertificate.html"), "utf8"),
+        phantom:{
+          orientation: "landscape",
+        },
+        recipe: "phantom-pdf",
+
+        
+        },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+    // this sertificate
+  router.get('/certificateTrue', function(req, res, next) {
+       jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/certificateTrue.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -275,7 +320,8 @@ var ratioo = require('../app/ratio');
       res.render();
     });
   });
-router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
+
+  router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     var q = userHelpers.getQuery(req);
