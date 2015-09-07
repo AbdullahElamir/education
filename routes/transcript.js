@@ -10,31 +10,24 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-
   var obj = {
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
 
-
-
-router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
-function draw(obj){
-  var str='';
-  for(key in obj){
-    str+="<p>"+key+"</p>";
-  }
-  return str;
-}
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-        recipe: "phantom-pdf",
-        helpers: draw.toString()
+  router.get('/',userHelpers.isLogin, function(req, res) {
+    var page = userHelpers.getPage(req);
+    var limit = userHelpers.getLimit(page);
+    models.Student.findAndCountAll({
+      where: {
+        status: 1
       },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+      res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });
     });
   });
 
@@ -199,6 +192,28 @@ function draw(obj){
       return htmldraw;
     }
 
+
+  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
+    function draw(obj){
+      var str='';
+      for(key in obj){
+        str+="<p>"+key+"</p>";
+      }
+      return str;
+    }
+        jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+            recipe: "phantom-pdf",
+            helpers: draw.toString()
+          },
+          data:obj
+        }).then(function (response) {
+          response.result.pipe(res);
+        });
+      });
+
+
   router.get('/arabicTranscript', function(req, res, next) {
     models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_hour`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_hour`,dd.name as deptName,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [1] }
     ).then(function(arabicTranscriptObject){
@@ -244,12 +259,15 @@ function draw(obj){
         },
         recipe: "phantom-pdf"
       },
-      data:obj
+      data:obb
     }).then(function (response) {
+      //you can for example pipe it to express.js response
       response.result.pipe(res);
     });
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+    // console.log(obb);
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
   });
-
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -257,26 +275,31 @@ function draw(obj){
       res.render();
     });
   });
-
-
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
-  var page = userHelpers.getPage(req);
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Student.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
-    });
+    var q = userHelpers.getQuery(req);
+    var first_name = userHelpers.getname(req);
+    var father_name = userHelpers.getfather_name(req);
+    var last_name = userHelpers.getlast_name(req);
+    var obj ={where: {status: 1}};
+    if(first_name !=""){
+      obj.where.first_name={$like:'%'+first_name+'%'};
+    }
+    if (father_name !=""){
+    obj.where.father_name={$like:'%'+father_name+'%'};
+    }
+    if (last_name != ""){
+      obj.where.last_name={$like:'%'+last_name+'%'};
+    }
+    obj.limit = 10;
+    obj.offset= limit;
+  models.Student.findAndCountAll(obj).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+    res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+  });
 });
-
-
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
@@ -374,13 +397,15 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           models.Semester.findAll({
           where: {
           status: 1
-          }
+          },
+          order: '`id` DESC'
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
           StudentId: req.params.id
           },
+          order: '`id` DESC',
       "include" : [
         {"model" : models.Division},
         {"model"  : models.Department},
@@ -396,7 +421,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
-              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+
+              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
@@ -577,11 +604,51 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
 router.get('/division/:id',userHelpers.isLogin,function(req,res){
   models.Division.findAll({
     where:{
+      status:1,
       DepartmentId:req.params.id
     }
-  }).then(function(resl){
-    res.send(resl);
+  }).then(function(div){
+    res.send(div);
   });
+});
 
+router.get('/getsem/:id',userHelpers.isLogin,function(req,res){
+  if(req.params.id=="false"){
+    var ob = {where:{status:1},order: '`id` DESC'};
+  }else{
+    var date = new Date(req.params.id);
+    var ob = {where:{status:1,year:{$like:date}},order: '`id` DESC'};
+
+  }
+  
+   models.Semester.findAll(ob).then(function(semester) {
+    res.send(semester);
+  });
+});
+router.post('/updateSemStu',userHelpers.isLogin,function(req,res){
+  models.SemesterStudent.update(req.body.body,{
+    where: {
+      id:req.body.id
+    }
+  }).then(function(result){
+    models.Division.findOne({
+      where:{
+        id:req.body.body.DivisionId
+      }
+    }).then(function(resl){
+      res.send(resl);
+    });
+  });
+});
+router.get('/deleteSemStu/:id',userHelpers.isLogin,function(req,res){
+  models.SemesterStudent.destroy({
+    where: {
+      id: req.params.id
+    }      
+  }).then(function (todo) {
+    res.send({msg:"1"});//got deleted successfully
+  }).catch(function (err) {
+    res.send({msg:"2"});//has foreign-key restriction
+  });
 });
 module.exports = router;

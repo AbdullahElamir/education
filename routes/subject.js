@@ -9,30 +9,70 @@ var Sequelize = require('sequelize')
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Subject.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(Subject) {
-      var pageCount = userHelpers.getPageCount(Subject.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      models.Department.findAll({
+    var q = userHelpers.getQuery(req);
+    if (q == undefined)
+    {
+      models.Subject.findAndCountAll({
         where: {
           status: 1
-        }
-      }).then(function(departments) {
-        models.Subject.findAll({
+        },
+        limit : 10,
+        offset: limit,
+      }).then(function(Subject) {
+        var pageCount = userHelpers.getPageCount(Subject.count);
+        var pagination = userHelpers.paginate(page,pageCount);    
+       models.Department.findAll({
           where: {
             status: 1
           }
-        }).then(function(sub) {
-          res.render('subject', {subb:sub, title: 'عرض المواد الدراسية', name:req.session.name,dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
-        });
+        }).then(function(departments) {
+
+           models.Subject.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(sub) {
+            res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
+        }); 
       });
-    }); 
-  });
+      });
+  }
+  else
+  {
+      models.Subject.findAndCountAll({
+        where: {
+          status: 1,
+           $or: [
+            {
+          name : {$like:'%'+q+'%'}
+            },
+            {
+          code : {$like:'%'+q+'%'},
+            } 
+          ]   
+        },
+        limit : 10,
+        offset: limit,
+      }).then(function(Subject) {
+        var pageCount = userHelpers.getPageCount(Subject.count);
+        var pagination = userHelpers.paginate(page,pageCount);    
+       models.Department.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function(departments) {
+
+           models.Subject.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(sub) {
+            res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows});
+        }); 
+      });
+      }); 
+  }
+});
 
   router.get('/deleteDivisionsbject/:ids/:idd', userHelpers.isLogin,function(req, res) {
     models.DivisionSubject.destroy({
@@ -97,7 +137,7 @@ var Sequelize = require('sequelize')
             status: 1 , 
           }
         }).then(function(subjects){
-          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name, collapseThree: 'collapse in', activeThreeTwo: 'active',subject:subject[0],departments:departments,subjects:subjects});
+          res.render('editSubject', {title: 'تعديل مادة دراسية', name:req.session.name,subject:subject[0],departments:departments,subjects:subjects});
         });
       });
     });

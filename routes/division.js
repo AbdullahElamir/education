@@ -119,6 +119,22 @@ var Sequelize = require('sequelize')
       res.send({msg:"3"});
     }
   });
+  //search department by name
+router.get('/divisionsearch/:name',function(req, res) {
+   models.Division.findAll({
+      include: [{
+        model: models.Department,
+        where: { status: 1 }
+      }],
+      where: {
+        status: 1
+      },
+    name: {$like:'%'+req.params.name+'%'} 
+  }).then(function(division) {
+    res.send(division);
+  });
+});
+
 // ///  End division  ////////////////////////////////////////////////
 
 module.exports = router;

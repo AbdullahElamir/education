@@ -9,31 +9,55 @@ var nationality = require('../Nationality');
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Faculty_member.findAndCountAll({
-      include: [{
-        model: models.Department,
-        where: { 
-          status: 1 
-        }
-      }],
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(facultyMembers) {
-      models.Department.findAll({
+    var q = userHelpers.getQuery(req);
+    if (q == undefined)
+    {
+      models.Faculty_member.findAndCountAll({
+        include: [{
+          model: models.Department,
+          where: { status: 1 }
+        }],
+        where: {
+          status: 1
+        },
+        limit : 10,
+        offset: limit,
+      }).then(function(facultyMembers) {
+        models.Department.findAll({
         where: {
           status: 1
         }
       }).then(function(allDepartments) {
         var pageCount = userHelpers.getPageCount(facultyMembers.count);
         var pagination = userHelpers.paginate(page,pageCount);
-        res.render('facultyMember', { title: 'عرض المحاضرين', name:req.session.name,nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
       });
     });
+    }else{
+      models.Faculty_member.findAndCountAll({
+        include: [{
+          model: models.Department,
+          where: { status: 1 }
+        }],
+        where: {
+          status: 1,
+          name :{$like:'%'+q+'%'}
+        },
+        limit : 10,
+        offset: limit,
+      }).then(function(facultyMembers) {
+        models.Department.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(allDepartments) {
+        var pageCount = userHelpers.getPageCount(facultyMembers.count);
+        var pagination = userHelpers.paginate(page,pageCount);
+        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active' });
+      });
+    });
+  }
   });
-
   router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
     models.Department.findAll({
       where: {
@@ -100,6 +124,21 @@ var nationality = require('../Nationality');
       });
     });
   });
+router.get('/facultyMembersearch/:name',function(req, res) {
+   models.Faculty_member.findAll({      
+    include: [{
+        model: models.Department,
+        where: { status: 1 }
+      }],
+      where: {
+        status: 1,
+        name: {$like:'%'+req.params.name+'%'} 
+      }
+  }).then(function(facultymember) {
+    console.log(nationality);
+    res.send(facultymember);
+  });
+});
 // ///  End facility member  //////////////////////////////////////////////
 
 module.exports = router;
