@@ -25,7 +25,7 @@ var nationality = require('../Nationality');
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s, name:req.session.name });
     });}  
     if(s==1){
     models.Student.findAndCountAll({
@@ -38,7 +38,7 @@ var nationality = require('../Nationality');
     }).then(function(student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
-    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s });
+    res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q,s:s, name:req.session.name });
     });
     }
     if(s==2){
