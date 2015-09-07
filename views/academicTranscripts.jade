@@ -16,24 +16,38 @@ block content
             .row
               .pull-right(style="margin-right: 10px;")
                 h3#h3.panel-title تنزيل المواد للطلبة
+              span.pull-left.btn.btn-info(style="margin-left: 10px;")
+                i.glyphicon.glyphicon-chevron-down(style="top: 4px;")
+                | 
+                span بحث متقدم
               .col-xs-6.col-md-6
                 .input-group
-                  input.form-control#student_search(type='text', placeholder='بحث...')
+                  input.form-control#student_search(type='text', placeholder='بحث...رقم القيد...')
                   .input-group-btn
-                    button.btn.btn-default#student_searchbtn
+                    button.btn.btn-info#student_searchbtn
                       i.glyphicon.glyphicon-search
-                  .input-group-btn
-                    a.btn.dropdown-toggle(data-toggle='dropdown', href='#')
-                      | بحث متقدم
-                      span.caret
-                    ul.dropdown-menu
-                      .row
-                        .col-md-4
-                          input.search-query#first_name(name="first_name",type='text', placeholder='الأسم')
-                        .col-md-4
-                          input.search-query#father_name(name="father_name",type='text', placeholder='أسم الأب')
-                        .col-md-4
-                          input.search-query#last_name(name="last_name",type='text', placeholder='اللقب')
+                      | 
+                      span بحث
+                  //- .input-group-btn
+                  //-   a.btn.dropdown-toggle(data-toggle='dropdown', href='#')
+                  //-     | بحث متقدم
+                  //-     span.caret
+                  //-   ul.dropdown-menu
+                  //-     .row
+                  //-       .col-md-4
+                  //-         input.search-query#first_name(name="first_name",type='text', placeholder='الأسم')
+                  //-       .col-md-4
+                  //-         input.search-query#father_name(name="father_name",type='text', placeholder='أسم الأب')
+                  //-       .col-md-4
+                  //-         input.search-query#last_name(name="last_name",type='text', placeholder='اللقب')
+          .panel-body(style="display: none;")
+            .row
+              .col-md-4
+                input.search-query.form-control#first_name(name="first_name",type='text', placeholder='الأسم')
+              .col-md-4
+                input.search-query.form-control#father_name(name="father_name",type='text', placeholder='أسم الأب')
+              .col-md-4
+                input.search-query.form-control#last_name(name="last_name",type='text', placeholder='اللقب')
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
@@ -71,3 +85,15 @@ block content
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();
     });
+    $(document).on('click', '.panel-heading span.btn', function(e){
+        var $this = $(this);
+      if(!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+      } else {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+      }
+    })
