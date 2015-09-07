@@ -230,6 +230,22 @@ $(document).ready(function(){
   $('.selectpicker').selectpicker().change(function(){
     $(this).valid()
   });
+  $('#student_searchbtn').on('click', function(){
+    alert($('#student_search').val());
+    window.location.href="/student?q="+$('#student_search').val()+"&s="+$('#student_select').val();
+  });  
+
+ 
+  $("#student_search").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+    else
+      console.log("sssssssss");
+  });
+
   var qs = (function(a) {
     if (a == "") return {};
     var b = {};

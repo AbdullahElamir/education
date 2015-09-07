@@ -78,6 +78,18 @@ var userHelpers = require('../app/userHelpers');
       res.redirect('/department?msg=1');
     });
   });
+//search department by name
+router.get('/departmentsearch/:name',function(req, res) {
+   models.Department.findAll({
+    where: {
+      name:{
+        $like:'%'+req.params.name+'%'
+      } 
+    }
+  }).then(function(departments) {
+    res.send(departments);
+  });
+});
 // End department ////////////////////////////////////////////////////////
 
 module.exports = router;

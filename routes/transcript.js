@@ -10,42 +10,230 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-
   var obj = {
     subjects :[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}],
     classes :[{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:2,class_name:'الثاني',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الاول',subjects:[{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'},{subject_ar:'رياضيات',subject_en:'math',subject_id:'5cs4',degree:'60.6'}]},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:3,class_name:'الثالث'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:4,class_name:'الرابع'},{ student:[{name:'محمد',id:'123450',name_en:'mohammed'}],class_id:5,class_name:'الخامس'}],
   }
 
-
-  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
-function draw(obj){
-  var str='';
-  for(key in obj){
-    str+="<p>"+key+"</p>";
-  }
-  return str;
-}
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-        recipe: "phantom-pdf",
-        helpers: draw.toString()
+  router.get('/',userHelpers.isLogin, function(req, res) {
+    var page = userHelpers.getPage(req);
+    var limit = userHelpers.getLimit(page);
+    models.Student.findAndCountAll({
+      where: {
+        status: 1
       },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+      limit : 10,
+      offset: limit,
+    }).then(function(student) {
+      var pageCount = userHelpers.getPageCount(student.count);
+      var pagination = userHelpers.paginate(page,pageCount);
+      res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });
     });
   });
 
+  returnFullName=function(fullName){
+    var name=fullName[0][1].first_name;
+    var fatherName=fullName[0][1].father_name;
+    var grandName=fullName[0][1].grand_name;
+    var lastName=fullName[0][1].last_name;
+    return name+" "+fatherName+" "+grandName+" "+lastName;
+  },
+
+  // return string system type
+  systemTypeAndSemType=function(system){
+    var sem=system[0][1].system_type;
+    var semType=system[0][1].sem_type;
+    // if seasone system return string season 
+    if(sem==1){
+      if(semType==1){
+        return "ربيع";
+      } else if(semType==2){
+        return "خريف";
+      } else if(semType==3){
+        return "صيف";
+      }
+     // if year system return string year
+    } else if(sem==2){
+      return "سنة";
+    }
+  }
+
+
+
+
+    function htmlTagsDraw(obj){  
+        var sem=obj[0][0].system_type;
+        var semType=obj[0][0].sem_type;
+        var semTypeVaribal;
+        var date=new Date(obj[0][0].year);
+
+        // if seasone system return string season 
+        if(sem==1){
+          if(semType==1){
+            semTypeVaribal="ربيع";
+          } else if(semType==2){
+            semTypeVaribal="خريف";
+          } else if(semType==3){
+            semTypeVaribal="صيف";
+          }
+         // if year system return string year
+        } else if(sem==2){
+          semTypeVaribal="سنة";
+        }
+      var htmldraw=' ';
+      var status;
+      var someDegres;
+      var sumFail=0;
+       for(var j=0;j<2;j++){
+      htmldraw+='<div style="height: 10px;"></div>\
+        <div class="pull-right">\
+          <span> الفصل الدراسي<span>: </span> الاول '+semTypeVaribal +' '+date.getFullYear()+' </span>\
+          <div style="height: 10px;"></div>\
+        </div>\
+        <div class="pull-left">\
+          <span>الصفحة <span>:</span>3/3</span>\
+        </div>';
+      htmldraw+='<table class="table condensed"> \
+                  <thead> \
+                    <tr> \
+                      <th class="text-center" width="1%">ر<span>.</span>م</th> \
+                      <th class="text-center" width="10%">رمز المقرر</th> \
+                      <th class="text-center" width="35%">اسم المقرر</th> \
+                      <th class="text-center" width="1%">الوحدات</th> \
+                      <th class="text-center" width="1%">الدرجة</th> \
+                      <th class="text-center" width="1%">التقييم</th> \
+                      <th class="text-center">ملاحظات</th> \
+                    </tr> \
+                  </thead> \
+                  <tbody>'
+      var sumRatio=0.0,sum=0.0;
+      var counter=1;
+     
+      for(var i=2;i<obj[0].length;i++){
+        if(obj[0][i].SemesterStudentId != null) {
+        
+        if(obj[0][i].sum_dagree>=50){
+          sumFail=sumFail+obj[0][i].no_th_hour;
+        }
+        //******************* student Average quarterly ***********
+        sumRatio=sumRatio+parseFloat(obj[0][i].no_th_hour*obj[0][i].sum_dagree);
+        sum=sum+parseFloat(obj[0][i].no_th_hour);
+        //***************** this section for Assess student  ************
+        someDegres=obj[0][i].sum_dagree;
+        if(someDegres>=85 ){
+          status="ممتاز";
+        } else if(someDegres>=75 && someDegres<85) {
+          status="جيدجدا";
+        } else if(someDegres>=65 && someDegres<75) {
+          status="جيد";
+        } else if(someDegres>=50 && someDegres<65) {
+            status="مقبول";
+        } else if(someDegres>=35 && someDegres<50) {
+            status="ضعيـف";
+        } else if(someDegres>=0 && someDegres<35) {
+            status="ضعيف جدا";
+        } 
+        //***********************************************
+      htmldraw+='<tr> \
+            <td>'+counter+'</td>\
+            <td width="15%" align="center">'+obj[0][i].code+'</td> \
+            <td width="22%" align="center">'+obj[0][i].name+'</td> \
+            <td  align="center">'+obj[0][i].no_th_hour+'</td> \
+            <td  align="center">'+obj[0][i].sum_dagree+'</td> \
+            <td  align="center">'+status+'</td> \
+            <td  align="center"></td> \
+          </tr>';
+          counter++;
+        }
+      }
+
+
+      var Ratiostatus;
+      var sumation=sumRatio/sum;
+      if(sumation>=85 ){
+        Ratiostatus="ممتاز";
+      } else if(sumation>=75 && sumation<85) {
+        Ratiostatus="جيدجدا";
+      } else if(sumation>=65 && sumation<75) {
+        Ratiostatus="جيد";
+      } else if(sumation>=50 && sumation<65) {
+          Ratiostatus="مقبول";
+      } else if(sumation>=35 && sumation<50) {
+          Ratiostatus="ضعيـف";
+      } else if(sumation>=0 && sumation<35) {
+          Ratiostatus="ضعيف جدا";
+      } 
+      htmldraw+='<td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'</td>\
+            <td></td>\
+            <td style="border-bottom-color: #fff;"></td>\
+            <td></td>';
+      htmldraw+='        </tr>\
+        </tbody>\
+      </table>\
+      <div class="row">\
+        <div class="col-xs-10">\
+          <table class="table table-condensed">\
+            <thead>\
+              <tr>\
+                <th class="text-center" width="27%">الوحدات المنجزة الكلية</th>\
+                <th class="text-center">'+sumFail+'</th>\
+                <th class="text-center" width="27%">مجموع الوحدات العام</th>\
+                <th class="text-center">'+sum+'</th>\
+              </tr>\
+              <tr>\
+                <th class="text-center">مجموع التقييم العام</th>\
+                <th class="text-center">'+Ratiostatus+'</th>\
+                <th class="text-center">المعدل التراكمي العام</th>\
+                <th class="text-center"></th>\
+              </tr>\
+            </thead>\
+          </table>';
+        }
+      return htmldraw;
+    }
+
+
+  router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
+    function draw(obj){
+      var str='';
+      for(key in obj){
+        str+="<p>"+key+"</p>";
+      }
+      return str;
+    }
+        jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+            recipe: "phantom-pdf",
+            helpers: draw.toString()
+          },
+          data:obj
+        }).then(function (response) {
+          response.result.pipe(res);
+        });
+      });
+
+
   router.get('/arabicTranscript', function(req, res, next) {
+    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_hour`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_hour`,dd.name as deptName,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [1] }
+    ).then(function(arabicTranscriptObject){
+      var fullName=returnFullName(arabicTranscriptObject);
+      var setNumber=arabicTranscriptObject[0][1].set_number;
+      var department=arabicTranscriptObject[0][1].deptName;
+      var devision=arabicTranscriptObject[0][1].devName;
+      var system=systemTypeAndSemType(arabicTranscriptObject);
+      console.log(arabicTranscriptObject[0]);
     jsr.render({
       template: { 
         content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
-        recipe: "phantom-pdf"
+        recipe: "phantom-pdf",
+        helpers:htmlTagsDraw.toString()
       },
-      data:obj
+      data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject}
+      //{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system}
     }).then(function (response) {
       response.result.pipe(res);
+    });
     });
   });
 
@@ -71,12 +259,15 @@ function draw(obj){
         },
         recipe: "phantom-pdf"
       },
-      data:obj
+      data:obb
     }).then(function (response) {
+      //you can for example pipe it to express.js response
       response.result.pipe(res);
     });
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+    // console.log(obb);
+    // console.log("ssssssssssssssssssssssssssssssssssssssss");
   });
-
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
@@ -84,26 +275,31 @@ function draw(obj){
       res.render();
     });
   });
-
-
 router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
-  var page = userHelpers.getPage(req);
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Student.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
-    });
+    var q = userHelpers.getQuery(req);
+    var first_name = userHelpers.getname(req);
+    var father_name = userHelpers.getfather_name(req);
+    var last_name = userHelpers.getlast_name(req);
+    var obj ={where: {status: 1}};
+    if(first_name !=""){
+      obj.where.first_name={$like:'%'+first_name+'%'};
+    }
+    if (father_name !=""){
+    obj.where.father_name={$like:'%'+father_name+'%'};
+    }
+    if (last_name != ""){
+      obj.where.last_name={$like:'%'+last_name+'%'};
+    }
+    obj.limit = 10;
+    obj.offset= limit;
+  models.Student.findAndCountAll(obj).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
+    res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+  });
 });
-
-
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
@@ -201,13 +397,15 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           models.Semester.findAll({
           where: {
           status: 1
-          }
+          },
+          order: '`id` DESC'
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
           StudentId: req.params.id
           },
+          order: '`id` DESC',
       "include" : [
         {"model" : models.Division},
         {"model"  : models.Department},
@@ -223,7 +421,9 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
-              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent});
+              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+
+              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
@@ -404,11 +604,51 @@ router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
 router.get('/division/:id',userHelpers.isLogin,function(req,res){
   models.Division.findAll({
     where:{
+      status:1,
       DepartmentId:req.params.id
     }
-  }).then(function(resl){
-    res.send(resl);
+  }).then(function(div){
+    res.send(div);
   });
+});
 
+router.get('/getsem/:id',userHelpers.isLogin,function(req,res){
+  if(req.params.id=="false"){
+    var ob = {where:{status:1},order: '`id` DESC'};
+  }else{
+    var date = new Date(req.params.id);
+    var ob = {where:{status:1,year:{$like:date}},order: '`id` DESC'};
+
+  }
+  
+   models.Semester.findAll(ob).then(function(semester) {
+    res.send(semester);
+  });
+});
+router.post('/updateSemStu',userHelpers.isLogin,function(req,res){
+  models.SemesterStudent.update(req.body.body,{
+    where: {
+      id:req.body.id
+    }
+  }).then(function(result){
+    models.Division.findOne({
+      where:{
+        id:req.body.body.DivisionId
+      }
+    }).then(function(resl){
+      res.send(resl);
+    });
+  });
+});
+router.get('/deleteSemStu/:id',userHelpers.isLogin,function(req,res){
+  models.SemesterStudent.destroy({
+    where: {
+      id: req.params.id
+    }      
+  }).then(function (todo) {
+    res.send({msg:"1"});//got deleted successfully
+  }).catch(function (err) {
+    res.send({msg:"2"});//has foreign-key restriction
+  });
 });
 module.exports = router;
