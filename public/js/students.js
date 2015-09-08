@@ -230,9 +230,9 @@ $(document).ready(function(){
   $('.selectpicker').selectpicker().change(function(){
     $(this).valid()
   });
+
   $('#student_searchbtn').on('click', function(){
-    alert($('#student_search').val());
-    window.location.href="/student?q="+$('#student_search').val()+"&s="+$('#student_select').val();
+    window.location.href="/student?q="+$('#student_search').val()+"&first_name="+$('#first_name').val()+"&father_name="+$('#father_name').val()+"&last_name="+$('#last_name').val();
   });  
 
  
@@ -242,10 +242,28 @@ $(document).ready(function(){
       {
       $("#student_searchbtn").click(); 
       }
-    else
-      console.log("sssssssss");
   });
-
+  $("#first_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#father_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#last_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
   var qs = (function(a) {
     if (a == "") return {};
     var b = {};
