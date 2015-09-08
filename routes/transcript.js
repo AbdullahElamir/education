@@ -25,7 +25,6 @@ var ratioo = require('../app/ratio');
       limit : 10,
       offset: limit,
     }).then(function(student) {
-      console.log(student);
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page,pageCount);
       res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });

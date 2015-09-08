@@ -60,7 +60,7 @@ block content
                   tbody#Acbody
                     for re,u in res
                       if re.Sub_group.Subject != null
-                        tr(data-id = '#{re.id}',data-sub="#{re.subject_status}",data-case="#{re.result_case}",data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}")
+                        tr(data-id = '#{re.id}',data-sub="#{re.subject_status}",data-case="#{re.result_case}",data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}",data-notes="#{re.notices}")
                           td #{re.Sub_group.Subject.name}
                           td #{re.Sub_group.Subject.name_en}
                           td #{re.Sub_group.Subject.code}
@@ -199,6 +199,13 @@ block content
                     option(value="4") مقبول  
                     option(value="5") ضعيف
                     option(value="6") ضعيف جدا
+            .form-group
+              .row
+                .col-xs-6.col-md-6.col-md-offset-3
+                  select#notes.form-control.selectpicker(name="notices", data-live-search="true", data-size=5)
+                    option(value="1") تنزيل  
+                    option(value="2") إعادة
+                    option(value="3") تكميلي
           .modal-footer
             button#upres.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign   

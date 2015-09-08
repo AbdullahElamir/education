@@ -117,6 +117,7 @@ $(document).ready(function(){
     $('#final_exam').val($('[data-id = "'+$(this).val()+'"]').data('fin'));
     $('#subject_status').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('sub'));
     $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case')); 
+    $('#notes').selectpicker('val',$('[data-id = "'+$(this).val()+'"]').data('notes'));
   });
   $('body').on('click', '#del', function (e) {
     $('#ok').val($(this).val());
