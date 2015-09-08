@@ -43,7 +43,7 @@
               
               <div> ادارة المعاهد التقنية العليا </div>
               <div style="height: 20px;"></div>
-              <div><b> ( اسم المعهد ) </b></div>
+              <div><b> المعهد العالي للـمهن الطبية القره بوللي </b></div>
               <div style="height: 10px;"></div>
               <span>إشاري<span> : ...................... </span></span>
             </div>
@@ -64,30 +64,30 @@
           <div style="height: 15px;"></div>
           <div class="row" >
             <div class="col-xs-6 pull-right fontSizeBodyEn">
-              <span class="fontSizeBody"> يفيد <span>(</span>اسم المعهد <span>)</span><span>:</span> </span>
+              <span class="fontSizeBody"> يفيد المعهد العالي للـمهن الطبية القره بوللي<span>:</span> </span>
               <div style="height: 30px;"></div>
               <span> الطالب <span>(</span>رباعي<span>)</span> <span>:</span>
-                <b style="font-size: 12px">عبدالقدوس كمال الدين محمد ابوراس</b> </span>
+                <b style="font-size: 12px">{{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}}</b> </span>
               <div style="height: 3px;"></div>
-              <div> رقم القيد <span>:</span>
+              <div> رقم القيد <span>: </span>{{st.set_number}}
                  </div>
               <div style="height: 3px;"></div>
-              <div> الجنسية <span>:</span>
+              <div> الجنسية <span>:</span> {{nat.name}}
                  </div>
               <div style="height: 3px;"></div>
-              <div> الرقم الوطني <span>:</span>
+              <div> الرقم الوطني <span>:</span> {{st.nid}}
                   </div>
               <div style="height: 3px;"></div>
-              <div> تاريـخ و مكان الميلاد <span>:</span>
+              <div> تاريـخ و مكان الميلاد <span>:</span> {{st.place_birth}} {{date}}
                  </div>
               <div style="height: 3px;"></div>
               <div> قد تحصل على <span>:</span>
                 </div>
               <div style="height: 3px;"></div>
-              <div> القسم <span>:</span>
+              <div> القسم <span>:</span> {{st.named}}
                 </div>
               <div style="height: 3px;"></div>
-              <div> الشعبة <span>:</span>
+              <div> الشعبة <span>:</span>  {{st.name}}
                  </div>
               <div style="height: 3px;"></div>
               <div> الفصل الدراسي <span>:</span>
@@ -106,30 +106,30 @@
               <div class="fontSizeBody"> <span>:</span>This is to certify that </div>
               <div style="height: 30px;"></div>
               <div>  
-                Student <span>:</span> <span style="font-size: 11px">Abdulqudoss Kmal-Addin Muhammed Aburass</span>
+                Student <span>:</span> <span style="font-size: 11px">{{st.first_name_en}} {{st.father_name_en}} {{st.grand_name_en}} {{st.last_name_en}}</span>
               </div>
                  
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
+              <div> {{st.set_number}} <span>:</span> 
                 Reg<span>.</span> No </div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
+              <div> {{nat.name}} <span>:</span> 
                 Nationality </div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
+              <div> {{st.nid}} <span>:</span> 
                 Nadival No </div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
+              <div> {{st.place_birth}} {{date}}  <span>:</span> 
                 Date & Place of birth </div>
               <div style="height: 3px;"></div>
               <div>  <span>:</span> 
                 Has been Awarded  </div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
-                Department  </div>
+              <div> Department <span>: </span> 
+                 {{st.namede}} </div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
-                Division  </div>
+              <div> Division <span>:</span> 
+                 {{st.name_en}} </div>
               <div style="height: 3px;"></div>
               <div>  <span>:</span> 
                 Semester  </div>
