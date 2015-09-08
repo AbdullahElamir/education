@@ -29,7 +29,7 @@ block content
                 th اسم الطالب/ة
                 th اسم اﻷم
                 th.text-center الجنس
-                th.text-center معدل الطالب/ة
+                th.text-center الرقم الوطني
                 th.text-center الجنسية
                 th.text-center طباعة
                 th.text-center Print
@@ -44,7 +44,7 @@ block content
                         | أنثى
                       else
                         | ذكر
-                    td.text-center #{i.student_rate}%
+                    td.text-center #{i.nid}
                     td.text-center
                       for nat in nats
                         if nat.id == i.nationality
@@ -73,9 +73,6 @@ block content
   script(src='/js/jquery.validate.min.js')
   script(src='/js/helpers.js')
   script(src='/js/printTranscript.js')
- 
-
-
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();

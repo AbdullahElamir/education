@@ -962,8 +962,7 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
               var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-
-              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
