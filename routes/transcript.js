@@ -320,7 +320,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
             }
         }]
       }).then(function(div){
-        models.sequelize.query('SELECT * FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', { replacements: [sem.DepartmentId] }
+        models.sequelize.query('SELECT *,`sg`.`id` FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', { replacements: [sem.DepartmentId] }
         ).then(function(dept){
           models.Academic_transcript.findAll({
             where:{
@@ -353,7 +353,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=req.session.idu;
   req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
-  models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
+  models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SemesterStudentId:req.body.SemesterStudentId,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
       models.Academic_transcript.findOne({

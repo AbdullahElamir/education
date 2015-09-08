@@ -242,6 +242,9 @@ $(document).ready(function(){
       result_case:{
         required:true,
       },
+      note:{
+        required:true,
+      },
     },
     messages:{
       chapter_degree:{
@@ -265,6 +268,9 @@ $(document).ready(function(){
       },
       result_case:{
         required:"الرجاء اختيار التقدير!",
+      },
+      note:{
+        required:"الرجاء اختيار الملاحضة!",
       },
     },
     errorClass: 'custom-error',

@@ -7,6 +7,7 @@ var Academic_transcript = sequelize.define("Academic_transcript", {
     sum_dagree: DataTypes.FLOAT(),
     final_exam: { type: DataTypes.FLOAT(),defaultValue: null},
     subject_status :{type: DataTypes.INTEGER(1),defaultValue:1},
+    notices: { type: DataTypes.INTEGER(1),defaultValue: 1},
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
   },{
     classMethods: {
