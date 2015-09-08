@@ -80,12 +80,14 @@ var ratioo = require('../app/ratio');
     var t=obj[0][0].SemesterStudentId;
     var printTwoSemesterTableInOnePage=0;
     for(i=0;i<obj[0].length;i++){
-      if(t!=obj[0][i].SemesterStudentId){
+      if(i!=0){
+      if(t!=obj[0][i].SemesterStudentId || obj[0][i].SemesterStudentId==null ){
         index.push(i);
         t=obj[0][i].SemesterStudentId; 
         numberOfSemester++;
         counter++;
       }
+     }
     }
     index.push(obj[0].length);
     var htmldraw=' ';
@@ -369,12 +371,14 @@ var ratioo = require('../app/ratio');
     var t=obj[0][0].SemesterStudentId;
     var printTwoSemesterTableInOnePage=0;
     for(i=0;i<obj[0].length;i++){
-      if(t!=obj[0][i].SemesterStudentId){
+      if(i!=0){
+      if(t!=obj[0][i].SemesterStudentId || obj[0][i].SemesterStudentId==null ){
         index.push(i);
         t=obj[0][i].SemesterStudentId; 
         numberOfSemester++;
         counter++;
       }
+    }
     }
     index.push(obj[0].length);
     var htmldraw=' ';
@@ -671,8 +675,9 @@ var ratioo = require('../app/ratio');
 
 
   router.get('/arabicTranscript/:id', function(req, res, next) {
-    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [req.params.id] }
+    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
+      console.log(arabicTranscriptObject);
        models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
          ).then(function(subj){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
@@ -703,7 +708,7 @@ var ratioo = require('../app/ratio');
   });
 
   router.get('/englishTranscript/:id', function(req, res, next) {
-    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [req.params.id] }
+    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
        models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
          ).then(function(subj){
