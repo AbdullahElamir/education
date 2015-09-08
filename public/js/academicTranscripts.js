@@ -16,6 +16,27 @@ $(document).ready(function(){
       $("#student_searchbtn").click(); 
       }
   });
+  $("#first_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#father_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#last_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
 
 
 });
