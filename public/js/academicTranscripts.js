@@ -1,6 +1,6 @@
 $(document).ready(function(){
    
-   $('body').on('click', '#downloadSubject', function(){
+   $('body').on('click', '#downloadSubject', function(re){
       window.location.href ="/transcript/studentData/"+$(this).val();
     });
 
@@ -10,6 +10,27 @@ $(document).ready(function(){
 
  
   $("#student_search").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#first_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#father_name").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#student_searchbtn").click(); 
+      }
+  });
+  $("#last_name").on('keydown',function(e) { 
     var key = e.charCode || e.keyCode;
     if(key == 13  )
       {
