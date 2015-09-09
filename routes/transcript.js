@@ -116,7 +116,7 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="nothing";
-        htmldraw+='<br><br><br><br>\
+        htmldraw+='<br><br><br>\
         <div style="height: 10px;"></div>\
            <div class="pull-left">\
               <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
@@ -219,9 +219,9 @@ var ratioo = require('../app/ratio');
                         <thead>\
                           <tr>\
                             <th class="text-center" width="27%">Total Registered Credits</th>\
-                            <th class="text-center">'+sumFail+'</th>\
-                            <th class="text-center" width="27%">Total Passed Credits</th>\
                             <th class="text-center">'+sum+'</th>\
+                            <th class="text-center" width="27%">Total Passed Credits</th>\
+                            <th class="text-center">'+sumFail+'</th>\
                           </tr>\
                           <tr>\
                             <th class="text-center">Total Points</th>\
@@ -407,7 +407,7 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="لا يوجد";
-        htmldraw+='<br><br><br><br>\
+        htmldraw+='<br>\
         <div style="height: 10px;></div>\
                       <div class="pull-right" >\
                       <span> الفصل الدراسي<span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
@@ -456,6 +456,13 @@ var ratioo = require('../app/ratio');
               status="ضعيف جدا";
           } 
         //***********************************************
+        var not="";
+        if(obj[0][i].notices ==2){
+          not="إعادة";
+
+        } else if(obj[0][i].notices ==3){
+          not="تكميلي";
+        }
         htmldraw+='<tr> \
               <td>'+counter+'</td>\
               <td  align="center">'+obj[0][i].code+'</td> \
@@ -463,7 +470,7 @@ var ratioo = require('../app/ratio');
               <td  align="center">'+obj[0][i].no_th_unit+'</td> \
               <td  align="center">'+obj[0][i].sum_dagree+'</td> \
               <td  align="center">'+status+'</td> \
-              <td  align="center"></td> \
+              <td  align="center">'+not+'</td> \
             </tr>';
             counter++;
         }
@@ -674,7 +681,7 @@ var ratioo = require('../app/ratio');
 
 
   router.get('/arabicTranscript/:id', function(req, res, next) {
-    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [req.params.id] }
+    models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
       console.log(arabicTranscriptObject);
        models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
@@ -707,7 +714,7 @@ var ratioo = require('../app/ratio');
   });
 
   router.get('/englishTranscript/:id', function(req, res, next) {
-    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [req.params.id] }
+    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
        models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
          ).then(function(subj){
@@ -846,7 +853,6 @@ router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
 
 // this algorithem to get ratio for all semester it's hard to explain
 getRatioForALlSemester=function(mix){
-  /*console.log(mix[0]!=[]);*/
   if(mix[0] !=0){
   var arrayOfObject=[];
   for(i in mix[0]){
@@ -891,14 +897,21 @@ getRatioForALlSemester=function(mix){
     sum=0;
     sumUnit=0.0;
   }
+   
+  for(var i=0;i<allRatio.length;i++){
+    if(!allRatio[i]){
+      allRatio[i]=0;
+    }
+  }
       return allRatio;
     }
 },
 
 // this algorithem to get ratio for semester it's hard to explain
 getRatioForSemester = function(mix){
+  console.log(mix[0]);
   var array=[];
-  if(mix[0][0]!= undefined){   
+ //if(mix[0][0]!= undefined){   
     var t=mix[0][0].SemesterId;
     var tt=mix[0][0].SemesterId;
     var sum=0.0;
@@ -916,8 +929,23 @@ getRatioForSemester = function(mix){
         --i;
       }      
     }
-    array.push(round((sum/sumUnit),3));
+    
+    if(!round((sum/sumUnit),3))
+    {
+       array.push(0);
+    } else {
+      array.push(round((sum/sumUnit),3));
+    }
+   // array.push(round((sum/sumUnit),3));
+  //}
+
+  for(var i=0 ; i<array.length;i++){
+    if(!array[i]){
+      array[i]=0;
+    }
   }
+
+
   return array;
 },
 
@@ -937,14 +965,14 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           where: {
           status: 1
           },
-          order: '`id` DESC'
+          order: '`starting_date` DESC'
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
           StudentId: req.params.id
           },
-          order: '`id` DESC',
+          order: '`starting_date` DESC',
       "include" : [
         {"model" : models.Division},
         {"model"  : models.Department},
@@ -954,14 +982,18 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
-            models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
+
+            models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
             ).then(function(mix){
               // this is for semester Ratio
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
+             // console.log(arrayy);
+              console.log(array);
+              //console.log(array);
               var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-              res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              res.render('studentData', {ar:arrayy.reverse(),arr:array.reverse(),title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
