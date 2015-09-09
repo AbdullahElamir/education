@@ -1,6 +1,27 @@
 $(document).ready(function(){
 /*--Start--*/
-/*--------------------------------Prerequisites------------------------------------------------*/
+/*----------------------------------Subject------------------------------------------------*/
+  $("#submitEdit").on('click', function(){
+    var obj = $('#editSubjectForm').serializeObject();
+    $.post('/subject/edit',obj, function(result){
+      switch(result.msg){
+        case "1" :
+          $("#editMain").modal('hide');
+          $('#subject_name').html(obj.name);
+          $('#subject_name_en').html(obj.name_en);
+          $('#subject_code').html(obj.code);
+          $('#subject_no_th_unit').html(obj.no_th_unit);
+          $('#subject_chapter_degree').html(obj.chapter_degree);
+          $('#subject_final_theor').html(obj.final_theor);
+          custNotify("success","نجح","لقد تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          break;
+        case "2" :
+          custNotify("danger","فشل","لايمكن تعديل هذه المادة لسبب غير معروف!","warning-sign","bounceInDown","bounceOutUp");
+          break;
+      }
+    });
+  });
+/*------------------Prerequisites------------------------------------------------*/
 /*------------when select for prereqs changes-------------*/
   $('#prereqs').on('change', function() {
     $("#addPrereq").modal('show');
@@ -114,7 +135,7 @@ $(document).ready(function(){
           break;
         case "2" :
           custNotify("danger","فشل","لايمكن إلغاء هذه المادة من القسم لسبب غير معروف!","warning-sign","bounceInDown","bounceOutUp");
-        break;
+          break;
       }
     });
   });

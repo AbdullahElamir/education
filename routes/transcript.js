@@ -766,15 +766,18 @@ var ratioo = require('../app/ratio');
   });
 
   // this sertificate
-  router.get('/certificate', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/certificate.html"), "utf8"),
-        recipe: "phantom-pdf"
-      },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+  router.get('/certificate/:id', function(req, res, next) {
+    models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
+    ).then(function(obj){
+      jsr.render({
+        template: { 
+          content:  fs.readFileSync(path.join(__dirname, "../views/certificate.html"), "utf8"),
+          recipe: "phantom-pdf"
+        },
+        data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear()}
+      }).then(function (response) {
+        response.result.pipe(res);
+      });
     });
   });
 
