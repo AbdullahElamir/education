@@ -689,6 +689,7 @@ var ratioo = require('../app/ratio');
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
           ).then(function(mix){
             var array=getRatioForALlSemester(mix);
+            //console.log(arabicTranscriptObject[0][arabicTranscriptObject[0].length-1]);
             if(arabicTranscriptObject[0] != 0){
             var fullName=returnFullName(arabicTranscriptObject);
             var setNumber=arabicTranscriptObject[0][1].set_number;
@@ -1099,7 +1100,17 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=req.session.idu;
-  req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
+  console.log(req.body.SubGroupId);
+  models.sequelize.query('select s.final_theor from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', { replacements: [req.body.SubGroupId] }
+  ).then(function(obj){
+    if(parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
+      req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
+    } else  { 
+        req.body.sum_dagree=parseFloat(req.body.chapter_degree);
+        console.log("**************"+req.body.sum_dagree);
+    }
+ // parseFloat(req.body.final_exam);
+ // req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
   models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SemesterStudentId:req.body.SemesterStudentId,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
@@ -1127,12 +1138,23 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
     }else{
       res.send(false);
     }
-
+    });
   });
 });
 
 router.post('/updateG',userHelpers.isLogin,function(req,res){
-  req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
+  console.log(req.body.body);
+  models.sequelize.query('select s.final_theor from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=1 and at.SubGroupId=sg.id and sg.SubjectId=s.id', { replacements: [req.body.id] }
+  ).then(function(obj){
+    if(parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
+      req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
+    } else  { 
+        req.body.body.sum_dagree=parseFloat(req.body.body.chapter_degree);
+        console.log("**************"+req.body.body.sum_dagree);
+    }
+  
+
+  //req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
   models.Academic_transcript.update(req.body.body,{
     where: {
       id:req.body.id
@@ -1159,6 +1181,7 @@ router.post('/updateG',userHelpers.isLogin,function(req,res){
       }).then(function(acTr){
         res.send(acTr);
       });
+    });
     });
 });
 

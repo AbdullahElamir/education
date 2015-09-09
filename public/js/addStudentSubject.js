@@ -92,7 +92,6 @@ $(document).ready(function(){
     }
   },
   isSuccessful();
-
     $('#generale_teble').hide(0);
     $('#Division_teble').hide(0);
     $('body').on('click', '#Department_bt', function(){
