@@ -748,7 +748,7 @@ var ratioo = require('../app/ratio');
         },
         recipe: "phantom-pdf"
       },
-      data:obb
+      // data:obb
     }).then(function (response) {
       //you can for example pipe it to express.js response
       response.result.pipe(res);
