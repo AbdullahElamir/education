@@ -169,10 +169,10 @@ var ratioo = require('../app/ratio');
         //***********************************************
           var not="";
         if(obj[0][i].notices ==2){
-          not="إعادة";
+          not="Restoration";
 
         } else if(obj[0][i].notices ==3){
-          not="تكميلي";
+          not="Supplementary";
         }
 
         htmldraw+='<tr> \
