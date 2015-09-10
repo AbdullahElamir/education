@@ -116,7 +116,7 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="nothing";
-        htmldraw+='<br><br><br>\
+        htmldraw+='\
         <div style="height: 10px;"></div>\
            <div class="pull-left">\
               <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
@@ -168,17 +168,39 @@ var ratioo = require('../app/ratio');
               status="Very Week";
           } 
         //***********************************************
+          var not="";
+        if(obj[0][i].notices ==2){
+          not="إعادة";
+
+        } else if(obj[0][i].notices ==3){
+          not="تكميلي";
+        }
+
         htmldraw+='<tr> \
               <td>'+counter+'</td>\
-              <td  align="center">'+obj[0][i].code+'</td> \
+              <td  align="center" height="12%">'+obj[0][i].code+'</td> \
               <td  align="center">'+obj[0][i].name+'</td> \
               <td  align="center">'+obj[0][i].no_th_unit+'</td> \
-              <td  align="center">'+obj[0][i].sum_dagree+'</td> \
-              <td  align="center">'+status+'</td> \
-              <td  align="center"></td> \
+              <td  align="center" >'+obj[0][i].sum_dagree+'</td> \
+              <td  align="center" width="10%">'+status+'</td> \
+              <td  align="center">'+not+'</td> \
             </tr>';
             counter++;
         }
+      var tableStatic=0;
+       tableStatic=(7-counter);
+       for(var i=0;i<tableStatic;i++){
+         htmldraw+='<tr> \
+              <td>'+counter+'</td>\
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+            </tr>';
+          counter++;
+       }
         var sumation=sumRatio/sum;
         if(sumation>=85 ){
           Ratiostatus="Excellent";
@@ -207,9 +229,9 @@ var ratioo = require('../app/ratio');
           sumation=0;
         }
         htmldraw+='<td colspan="3" style="padding: 5px;">Semester Average &nbsp;&nbsp; '+sumation+'%</td>\
-            <td></td>\
+            <td align="center">'+sum+'</td>\
             <td style="border-bottom-color: #fff;"></td>\
-            <td></td>';
+            <td align="center">'+Ratiostatus+'</td>';
         htmldraw+='</tr>\
                     </tbody>\
                       </table>\
@@ -289,12 +311,7 @@ var ratioo = require('../app/ratio');
       } else if(xy>=0 && xy<35) {
          ostatus="Very Week";
       } 
-    htmldraw+='<br>\
-      <br>\
-      <br>\
-      <br>\
-      <br>\
-      <br>\
+    htmldraw+='\
       <br>\
       <br>\
       <br>\
@@ -407,7 +424,7 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="لا يوجد";
-        htmldraw+='<br>\
+        htmldraw+='\
         <div style="height: 10px;></div>\
                       <div class="pull-right" >\
                       <span> الفصل الدراسي<span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
@@ -474,9 +491,21 @@ var ratioo = require('../app/ratio');
             </tr>';
             counter++;
         }
-
-      
-        var sumation=sumRatio/sum;
+       var tableStatic=0;
+       tableStatic=(8-counter);
+       for(var i=0;i<tableStatic;i++){
+         htmldraw+='<tr> \
+              <td>'+counter+'</td>\
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+            </tr>';
+          counter++;
+       }
+    var sumation=sumRatio/sum;
         if(sumation>=85 ){
           Ratiostatus="ممتاز";
         } else if(sumation>=75 && sumation<85) {
@@ -503,10 +532,10 @@ var ratioo = require('../app/ratio');
         if(!sumation){
           sumation=0;
         }
-        htmldraw+='<td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'</td>\
-              <td></td>\
+        htmldraw+='<td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'%</td>\
+              <td class="text-center">'+sum+'</td>\
               <td style="border-bottom-color: #fff;"></td>\
-              <td></td>';
+              <td class="text-center">'+Ratiostatus+'</td>';
         htmldraw+='</tr>\
           </tbody>\
         </table>\
@@ -534,6 +563,7 @@ var ratioo = require('../app/ratio');
         printTwoSemesterTableInOnePage++;
         if(printTwoSemesterTableInOnePage==2){
            htmldraw+='<div  style="page-break-before: always;">';
+           htmldraw+='<br><br><br><br><br>';
            printTwoSemesterTableInOnePage=0;
         }
       }
@@ -586,13 +616,7 @@ var ratioo = require('../app/ratio');
       } else if(xy>=0 && xy<35) {
          ostatus="ضعيف جدا";
       } 
-    htmldraw+='<br>\
-      <br>\
-      <br>\
-      <br>\
-      <br>\
-      <br>\
-      <br>\
+    htmldraw+='\
       <br>\
       <br>\
       <table class="table table-condensed">\
@@ -601,7 +625,7 @@ var ratioo = require('../app/ratio');
             <th class="text-center" width="1%">القبول</th>\
             <th class="text-center" width="11%">'+semTypeVariball+' '+date.getFullYear()+'</th>\
             <th class="text-center" width="27%">مجموع الوحدات الكلية النهائية</th>\
-            <th class="text-center">'+allunit+'</th>\
+            <th class="text-center"></th>\
             <th class="text-center" width="24%">مجموع التقييم العام النهائي</th>\
             <th class="text-center">'+ostatus+'</th>\
           </tr>\
@@ -714,7 +738,7 @@ var ratioo = require('../app/ratio');
   });
 
   router.get('/englishTranscript/:id', function(req, res, next) {
-    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
+    models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
        models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
          ).then(function(subj){
