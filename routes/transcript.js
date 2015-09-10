@@ -39,6 +39,14 @@ var ratioo = require('../app/ratio');
     return name+" "+fatherName+" "+grandName+" "+lastName;
   },
 
+   returnFullNameEng=function(fullName){
+    var name=fullName[0][1].first_name_en;
+    var fatherName=fullName[0][1].father_name_en;
+    var grandName=fullName[0][1].grand_name_en;
+    var lastName=fullName[0][1].last_name_en;
+    return name+" "+fatherName+" "+grandName+" "+lastName;
+  }
+
   // return string system type
   systemTypeAndSemType=function(system){
     var sem=system[0][1].system_type;
@@ -60,14 +68,348 @@ var ratioo = require('../app/ratio');
 
 
 
-
-    function htmlTagsDraw(obj){  
-        var sem=obj[0][0].system_type;
-        var semType=obj[0][0].sem_type;
+  function htmlTagsDrawEnglish(obj,ob,o){
+    allunit=0;
+    for(i in ob[0]){
+      allunit+=ob[0][i].no_th_unit;
+    }
+    var unithaveDone=0;
+    var days=["First","Second","Third","Fourth","Fifth","Sixth","Seventh","Eighth","Ninth","Tenth","Eleven","twelveth","Thirteenth","fourteenth","Fifteenth"];
+    var numberOfSemester=0,counter=0,index=[];
+    var t=obj[0][0].SemesterStudentId;
+    var printTwoSemesterTableInOnePage=0;
+    for(i=0;i<obj[0].length;i++){
+      if(i!=0){
+      if(t!=obj[0][i].SemesterStudentId || obj[0][i].SemesterStudentId==null ){
+        index.push(i);
+        t=obj[0][i].SemesterStudentId; 
+        numberOfSemester++;
+        counter++;
+      }
+     }
+    }
+    index.push(obj[0].length);
+    var htmldraw=' ';
+    var status;
+    var someDegres;
+    var zero=0;
+    var k=0;
+    var c=0; 
+      for(var j=0;j<index.length;j++) {
+        var sem=obj[0][k].system_type;
+        var semType=obj[0][k].sem_type;
         var semTypeVaribal;
-        var date=new Date(obj[0][0].year);
+        var date=new Date(obj[0][k].year);
+        k=index[j];
+    // if seasone system return string season 
+        if(sem==1){
+          if(semType==1){
+            semTypeVaribal="Spring";
+          } else if(semType==2){
+            semTypeVaribal="Autumn";
+          } else if(semType==3){
+            semTypeVaribal="Summer";
+          }
+         // if year system return string year
+        } else if(sem==2){
+          semTypeVaribal="Year";
+        }
+        var sumFail=0;
+        var Ratiostatus="nothing";
+        htmldraw+='\
+        <div style="height: 10px;"></div>\
+           <div class="pull-left">\
+              <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
+           <div style="height: 10px;"></div>\
+        </div>\
+        <div class="pull-right">\
+          <span>. <span>: </span></span>\
+        </div>\
+          <div class="pull-left">\
+            <span> <span>.</span></span>\
+          </div>';
+        htmldraw+=' <table class="table condensed">\
+                      <thead>\
+                        <tr>\
+                          <th class="text-center" width="1%">NO</th>\
+                          <th class="text-center" width="10%">Course No</th>\
+                          <th class="text-center" width="35%">Course Name</th>\
+                          <th class="text-center" width="1%">Units</th>\
+                          <th class="text-center" width="1%">Credits</th>\
+                          <th class="text-center" width="1%">Grade</th>\
+                          <th class="text-center">Remarks</th>\
+                        </tr>\
+                      </thead>\
+                    <tbody>';
+        var sumRatio=0.0,sum=0.0;
+        var counter=1;   
+        for(var i=zero;i<index[j];i++){  
+        
+          if(obj[0][i].sum_dagree>=50){
+            sumFail=sumFail+obj[0][i].no_th_unit;
+            unithaveDone+=obj[0][i].no_th_unit;
+          }
+        //******************* student Average quarterly ***********
+          sumRatio=sumRatio+parseFloat(obj[0][i].no_th_unit*obj[0][i].sum_dagree);
+          sum=sum+parseFloat(obj[0][i].no_th_unit);
+        //***************** this section for Assess student  ************
+        someDegres=obj[0][i].sum_dagree;
+          if(someDegres>=85 ){
+            status="Excellent";
+          } else if(someDegres>=75 && someDegres<85) {
+            status="Very Good";
+          } else if(someDegres>=65 && someDegres<75) {
+            status="Good";
+          } else if(someDegres>=50 && someDegres<65) {
+              status="pass";
+          } else if(someDegres>=35 && someDegres<50) {
+              status="Week";
+          } else if(someDegres>=0 && someDegres<35) {
+              status="Very Week";
+          } 
+        //***********************************************
+          var not="";
+        if(obj[0][i].notices ==2){
+          not="إعادة";
 
-        // if seasone system return string season 
+        } else if(obj[0][i].notices ==3){
+          not="تكميلي";
+        }
+
+        htmldraw+='<tr> \
+              <td>'+counter+'</td>\
+              <td  align="center" height="12%">'+obj[0][i].code+'</td> \
+              <td  align="center">'+obj[0][i].name+'</td> \
+              <td  align="center">'+obj[0][i].no_th_unit+'</td> \
+              <td  align="center" >'+obj[0][i].sum_dagree+'</td> \
+              <td  align="center" width="10%">'+status+'</td> \
+              <td  align="center">'+not+'</td> \
+            </tr>';
+            counter++;
+        }
+      var tableStatic=0;
+       tableStatic=(7-counter);
+       for(var i=0;i<tableStatic;i++){
+         htmldraw+='<tr> \
+              <td>'+counter+'</td>\
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+            </tr>';
+          counter++;
+       }
+        var sumation=sumRatio/sum;
+        if(sumation>=85 ){
+          Ratiostatus="Excellent";
+        } else if(sumation>=75 && sumation<85) {
+          Ratiostatus="Very Good";
+        } else if(sumation>=65 && sumation<75) {
+          Ratiostatus="Good";
+        } else if(sumation>=50 && sumation<65) {
+            Ratiostatus="pass";
+        } else if(sumation>=35 && sumation<50) {
+            Ratiostatus="Week";
+        } else if(sumation>=0 && sumation<35) {
+            Ratiostatus="Very Week";
+        } 
+        rat=0;
+        if(obj[0][zero].SemesterStudentId==null){
+            rat = 0;
+        } else {
+           rat=o[c];
+           c++;
+        }
+        if(!sum){
+           sum=0;
+        } 
+        if(!sumation){
+          sumation=0;
+        }
+        htmldraw+='<td colspan="3" style="padding: 5px;">Semester Average &nbsp;&nbsp; '+sumation+'%</td>\
+            <td align="center">'+sum+'</td>\
+            <td style="border-bottom-color: #fff;"></td>\
+            <td align="center">'+Ratiostatus+'</td>';
+        htmldraw+='</tr>\
+                    </tbody>\
+                      </table>\
+                  <div class="row">\
+                    <div class="col-xs-10">\
+                      <table class="table table-condensed">\
+                        <thead>\
+                          <tr>\
+                            <th class="text-center" width="27%">Total Registered Credits</th>\
+                            <th class="text-center">'+sum+'</th>\
+                            <th class="text-center" width="27%">Total Passed Credits</th>\
+                            <th class="text-center">'+sumFail+'</th>\
+                          </tr>\
+                          <tr>\
+                            <th class="text-center">Total Points</th>\
+                            <th class="text-center">'+Ratiostatus+'</th>\
+                            <th class="text-center">General Cumulative Average</th>\
+                            <th class="text-center">'+rat+'</th>\
+                          </tr>\
+                        </thead>\
+                      </table>\
+                    </div>\
+                  </div>';
+        zero=index[j];
+        printTwoSemesterTableInOnePage++;
+        if(printTwoSemesterTableInOnePage==2){
+           htmldraw+='<div  style="page-break-before: always;">';
+           printTwoSemesterTableInOnePage=0;
+        }
+      }
+      var semm=obj[0][0].system_type;
+      var semTypee=obj[0][0].sem_type;
+      var date=new Date(obj[0][0].year);
+      var semTypeVariball;
+    // if seasone system return string season 
+      if(semm==1){
+        if(semTypee==1){
+          semTypeVariball="Spring";
+        } else if(semTypee==2){
+          semTypeVariball="Autumn";
+        } else if(semTypee==3){
+          semTypeVariball="Summer";
+        }
+       // if year system return string year
+      } else if(semm==2){
+        semTypeVariball="year";
+      }
+      var semmm=obj[0][obj[0].length-1].system_type;
+      var semTypeee=obj[0][obj[0].length-1].sem_type;
+      var datee=new Date(obj[0][obj[0].length-1].year);
+      var semTypeVariballl;
+    // if seasone system return string season 
+      if(semmm==1){
+        if(semTypeee==1){
+          semTypeVariballl="Spring";
+        } else if(semTypeee==2){
+          semTypeVariballl="Autumn";
+        } else if(semTypeee==3){
+          semTypeVariballl="Summer";
+        }
+       // if year system return string year
+      } else if(semmm==2){
+        semTypeVariballl="year";
+      }
+      var xy=o[o.length-1];
+      var ostatus;
+      if(xy>=85 ){
+        ostatus="Excellent";
+      } else if(xy>=75 && xy<85) {
+        ostatus="Very Good";
+      } else if(xy>=65 && xy<75) {
+        ostatus="Good";
+      } else if(xy>=50 && xy<65) {
+          ostatus="pass";
+      } else if(xy>=35 && xy<50) {
+          ostatus="Week";
+      } else if(xy>=0 && xy<35) {
+         ostatus="Very Week";
+      } 
+    htmldraw+='\
+      <br>\
+      <br>\
+      <br>\
+      <table class="table table-condensed">\
+        <thead>\
+          <tr>\
+            <th class="text-center" width="27%">Date of Admission</th>\
+            <th class="text-center">'+semTypeVariball+' '+date.getFullYear()+'</th>\
+            <th class="text-center" width="24%">Total Registred Credits</th>\
+            <th class="text-center">'+allunit+'</th>\
+          </tr>\
+          <tr>\
+            <th class="text-center">Date of Graduation</th>\
+            <th class="text-center">'+semTypeVariballl+' '+datee.getFullYear()+'</th>\
+            <th class="text-center">Total Passed Credits</th>\
+            <th class="text-center">'+unithaveDone+'</th>\
+          </tr>\
+          <tr>\
+            <th class="text-center">Final Evaluation Total</th>\
+            <th class="text-center">'+ostatus+'</th>\
+            <th class="text-center">General Cumulative Average</th>\
+            <th class="text-center">'+o[o.length-1]+'</th>\
+          </tr>\
+        </thead>\
+      </table>\
+      <div class="pull-left">\
+        <span>Grading System :</span>\
+      </div>\
+      <div class="row">\
+        <div class="col-xs-8">\
+          <table class="table table-condensed">\
+            <thead>\
+              <tr>\
+                <th class="text-center" width="1%">Excellent</th>\
+                <th class="text-center" width="1%">Very Good</th>\
+                <th class="text-center" width="1%">Good</th>\
+                <th class="text-center" width="1%">Pass</th>\
+              </tr>\
+              <tr>\
+                <th class="text-center">100 - 85 %</th>\
+                <th class="text-center">85 - 75 %</th>\
+                <th class="text-center">75 - 65 %</th>\
+                <th class="text-center">65 - 50 %</th>\
+              </tr>\
+            </thead>\
+          </table>\
+        </div>\
+      </div>\
+      <div class="row">\
+        <div class="col-xs-10 col-xs-offset-1">\
+          <div class="pull-left">\
+            <span>Institute Registrar</span>\
+          </div>\
+          <div class="pull-right">\
+            <span>Dean of Institute</span>\
+          </div>\
+        </div>\
+      </div>\
+    </div>\
+  </body> \
+</html>';
+  return htmldraw;
+  }
+ 
+  function htmlTagsDraw(obj,ob,o){ 
+    allunit=0;
+    for(i in ob[0]){
+      allunit+=ob[0][i].no_th_unit;
+    }
+    var unithaveDone=0;
+    var days=["الاول","الثاني","التالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الأحدي عشر","الثاني عشر","التالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر","التاسع عشر","عشروت"];
+    var numberOfSemester=0,counter=0,index=[];
+    var t=obj[0][0].SemesterStudentId;
+    var printTwoSemesterTableInOnePage=0;
+    for(i=0;i<obj[0].length;i++){
+      if(i!=0){
+      if(t!=obj[0][i].SemesterStudentId || obj[0][i].SemesterStudentId==null ){
+        index.push(i);
+        t=obj[0][i].SemesterStudentId; 
+        numberOfSemester++;
+        counter++;
+      }
+    }
+    }
+    index.push(obj[0].length);
+    var htmldraw=' ';
+    var status;
+    var someDegres;
+    var zero=0;
+    var k=0;
+    var c=0; 
+      for(var j=0;j<index.length;j++) {
+        var sem=obj[0][k].system_type;
+        var semType=obj[0][k].sem_type;
+        var semTypeVaribal;
+        var date=new Date(obj[0][k].year);
+        k=index[j];
+    // if seasone system return string season 
         if(sem==1){
           if(semType==1){
             semTypeVaribal="ربيع";
@@ -80,117 +422,265 @@ var ratioo = require('../app/ratio');
         } else if(sem==2){
           semTypeVaribal="سنة";
         }
-      var htmldraw=' ';
-      var status;
-      var someDegres;
-      var sumFail=0;
-       for(var j=0;j<2;j++){
-      htmldraw+='<div style="height: 10px;"></div>\
-        <div class="pull-right">\
-          <span> الفصل الدراسي<span>: </span> الاول '+semTypeVaribal +' '+date.getFullYear()+' </span>\
-          <div style="height: 10px;"></div>\
-        </div>\
-        <div class="pull-left">\
-          <span>الصفحة <span>:</span>3/3</span>\
-        </div>';
-      htmldraw+='<table class="table condensed"> \
-                  <thead> \
-                    <tr> \
-                      <th class="text-center" width="1%">ر<span>.</span>م</th> \
-                      <th class="text-center" width="10%">رمز المقرر</th> \
-                      <th class="text-center" width="35%">اسم المقرر</th> \
-                      <th class="text-center" width="1%">الوحدات</th> \
-                      <th class="text-center" width="1%">الدرجة</th> \
-                      <th class="text-center" width="1%">التقييم</th> \
-                      <th class="text-center">ملاحظات</th> \
-                    </tr> \
-                  </thead> \
+        var sumFail=0;
+        var Ratiostatus="لا يوجد";
+        htmldraw+='\
+        <div style="height: 10px;></div>\
+                      <div class="pull-right" >\
+                      <span> الفصل الدراسي<span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
+                      <div style="height: 10px;"  ></div>\
+                   </div>\
+                   <div class="pull-left">\
+                      <span> <span>.</span></span>\
+                   </div>';
+        htmldraw+='<table class="table condensed"> \
+                      <thead> \
+                        <tr> \
+                          <th class="text-center" >ر<span>.</span>م</th> \
+                          <th class="text-center" >رمز المقرر</th> \
+                          <th class="text-center">اسم المقرر</th> \
+                          <th class="text-center" >الوحدات</th> \
+                          <th class="text-center" >الدرجة</th> \
+                          <th class="text-center" >التقيم</th> \
+                          <th class="text-center">ملاحظات</th> \
+                        </tr> \
+                    </thead> \
                   <tbody>'
-      var sumRatio=0.0,sum=0.0;
-      var counter=1;
-     
-      for(var i=2;i<obj[0].length;i++){
-        if(obj[0][i].SemesterStudentId != null) {
+        var sumRatio=0.0,sum=0.0;
+        var counter=1;   
+        for(var i=zero;i<index[j];i++){  
         
-        if(obj[0][i].sum_dagree>=50){
-          sumFail=sumFail+obj[0][i].no_th_hour;
-        }
+          if(obj[0][i].sum_dagree>=50){
+            sumFail=sumFail+obj[0][i].no_th_unit;
+            unithaveDone+=obj[0][i].no_th_unit;
+          }
         //******************* student Average quarterly ***********
-        sumRatio=sumRatio+parseFloat(obj[0][i].no_th_hour*obj[0][i].sum_dagree);
-        sum=sum+parseFloat(obj[0][i].no_th_hour);
+          sumRatio=sumRatio+parseFloat(obj[0][i].no_th_unit*obj[0][i].sum_dagree);
+          sum=sum+parseFloat(obj[0][i].no_th_unit);
         //***************** this section for Assess student  ************
         someDegres=obj[0][i].sum_dagree;
-        if(someDegres>=85 ){
-          status="ممتاز";
-        } else if(someDegres>=75 && someDegres<85) {
-          status="جيدجدا";
-        } else if(someDegres>=65 && someDegres<75) {
-          status="جيد";
-        } else if(someDegres>=50 && someDegres<65) {
-            status="مقبول";
-        } else if(someDegres>=35 && someDegres<50) {
-            status="ضعيـف";
-        } else if(someDegres>=0 && someDegres<35) {
-            status="ضعيف جدا";
-        } 
+          if(someDegres>=85 ){
+            status="ممتاز";
+          } else if(someDegres>=75 && someDegres<85) {
+            status="جيدجدا";
+          } else if(someDegres>=65 && someDegres<75) {
+            status="جيد";
+          } else if(someDegres>=50 && someDegres<65) {
+              status="مقبول";
+          } else if(someDegres>=35 && someDegres<50) {
+              status="ضعيـف";
+          } else if(someDegres>=0 && someDegres<35) {
+              status="ضعيف جدا";
+          } 
         //***********************************************
-      htmldraw+='<tr> \
-            <td>'+counter+'</td>\
-            <td width="15%" align="center">'+obj[0][i].code+'</td> \
-            <td width="22%" align="center">'+obj[0][i].name+'</td> \
-            <td  align="center">'+obj[0][i].no_th_hour+'</td> \
-            <td  align="center">'+obj[0][i].sum_dagree+'</td> \
-            <td  align="center">'+status+'</td> \
-            <td  align="center"></td> \
-          </tr>';
+        var not="";
+        if(obj[0][i].notices ==2){
+          not="إعادة";
+
+        } else if(obj[0][i].notices ==3){
+          not="تكميلي";
+        }
+        htmldraw+='<tr> \
+              <td>'+counter+'</td>\
+              <td  align="center">'+obj[0][i].code+'</td> \
+              <td  align="center">'+obj[0][i].name+'</td> \
+              <td  align="center">'+obj[0][i].no_th_unit+'</td> \
+              <td  align="center">'+obj[0][i].sum_dagree+'</td> \
+              <td  align="center">'+status+'</td> \
+              <td  align="center">'+not+'</td> \
+            </tr>';
+            counter++;
+        }
+       var tableStatic=0;
+       tableStatic=(8-counter);
+       for(var i=0;i<tableStatic;i++){
+         htmldraw+='<tr> \
+              <td>'+counter+'</td>\
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+              <td  align="center"></td> \
+            </tr>';
           counter++;
+       }
+    var sumation=sumRatio/sum;
+        if(sumation>=85 ){
+          Ratiostatus="ممتاز";
+        } else if(sumation>=75 && sumation<85) {
+          Ratiostatus="جيدجدا";
+        } else if(sumation>=65 && sumation<75) {
+          Ratiostatus="جيد";
+        } else if(sumation>=50 && sumation<65) {
+            Ratiostatus="مقبول";
+        } else if(sumation>=35 && sumation<50) {
+            Ratiostatus="ضعيـف";
+        } else if(sumation>=0 && sumation<35) {
+            Ratiostatus="ضعيف جدا";
+        } 
+        rat=0;
+        if(obj[0][zero].SemesterStudentId==null){
+            rat = 0;
+        } else {
+           rat=o[c];
+           c++;
+        }
+        if(!sum){
+           sum=0;
+        } 
+        if(!sumation){
+          sumation=0;
+        }
+        htmldraw+='<td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'%</td>\
+              <td class="text-center">'+sum+'</td>\
+              <td style="border-bottom-color: #fff;"></td>\
+              <td class="text-center">'+Ratiostatus+'</td>';
+        htmldraw+='</tr>\
+          </tbody>\
+        </table>\
+        <div class="row">\
+          <div class="col-xs-10">\
+            <table class="table table-condensed">\
+              <thead>\
+                <tr>\
+                  <th class="text-center" width="27%">الوحدات المنجزة الكلية</th>\
+                  <th class="text-center">'+sumFail+'</th>\
+                  <th class="text-center" width="27%">مجموع الوحدات العام</th>\
+                  <th class="text-center">'+sum+'</th>\
+                </tr>\
+                <tr>\
+                  <th class="text-center">مجموع التقييم العام</th>\
+                  <th class="text-center">'+Ratiostatus+'</th>\
+                  <th class="text-center">المعدل التراكمي العام</th>\
+                  <th class="text-center">'+rat+'</th>\
+                </tr>\
+              </thead>\
+            </table>\
+          </div>\
+        </div>';
+        zero=index[j];
+        printTwoSemesterTableInOnePage++;
+        if(printTwoSemesterTableInOnePage==2){
+           htmldraw+='<div  style="page-break-before: always;">';
+           htmldraw+='<br><br><br><br><br>';
+           printTwoSemesterTableInOnePage=0;
         }
       }
-
-
-      var Ratiostatus;
-      var sumation=sumRatio/sum;
-      if(sumation>=85 ){
-        Ratiostatus="ممتاز";
-      } else if(sumation>=75 && sumation<85) {
-        Ratiostatus="جيدجدا";
-      } else if(sumation>=65 && sumation<75) {
-        Ratiostatus="جيد";
-      } else if(sumation>=50 && sumation<65) {
-          Ratiostatus="مقبول";
-      } else if(sumation>=35 && sumation<50) {
-          Ratiostatus="ضعيـف";
-      } else if(sumation>=0 && sumation<35) {
-          Ratiostatus="ضعيف جدا";
+      var semm=obj[0][0].system_type;
+      var semTypee=obj[0][0].sem_type;
+      var date=new Date(obj[0][0].year);
+      var semTypeVariball;
+    // if seasone system return string season 
+      if(semm==1){
+        if(semTypee==1){
+          semTypeVariball="ربيع";
+        } else if(semTypee==2){
+          semTypeVariball="خريف";
+        } else if(semTypee==3){
+          semTypeVariball="صيف";
+        }
+       // if year system return string year
+      } else if(semm==2){
+        semTypeVariball="سنة";
+      }
+      var semmm=obj[0][obj[0].length-1].system_type;
+      var semTypeee=obj[0][obj[0].length-1].sem_type;
+      var datee=new Date(obj[0][obj[0].length-1].year);
+      var semTypeVariballl;
+    // if seasone system return string season 
+      if(semmm==1){
+        if(semTypeee==1){
+          semTypeVariballl="ربيع";
+        } else if(semTypeee==2){
+          semTypeVariballl="خريف";
+        } else if(semTypeee==3){
+          semTypeVariballl="صيف";
+        }
+       // if year system return string year
+      } else if(semmm==2){
+        semTypeVariballl="سنة";
+      }
+      var xy=o[o.length-1];
+      var ostatus;
+      if(xy>=85 ){
+        ostatus="ممتاز";
+      } else if(xy>=75 && xy<85) {
+        ostatus="جيدجدا";
+      } else if(xy>=65 && xy<75) {
+        ostatus="جيد";
+      } else if(xy>=50 && xy<65) {
+          ostatus="مقبول";
+      } else if(xy>=35 && xy<50) {
+          ostatus="ضعيـف";
+      } else if(xy>=0 && xy<35) {
+         ostatus="ضعيف جدا";
       } 
-      htmldraw+='<td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'</td>\
-            <td></td>\
-            <td style="border-bottom-color: #fff;"></td>\
-            <td></td>';
-      htmldraw+='        </tr>\
-        </tbody>\
+    htmldraw+='\
+      <br>\
+      <br>\
+      <table class="table table-condensed">\
+        <thead>\
+          <tr>\
+            <th class="text-center" width="1%">القبول</th>\
+            <th class="text-center" width="11%">'+semTypeVariball+' '+date.getFullYear()+'</th>\
+            <th class="text-center" width="27%">مجموع الوحدات الكلية النهائية</th>\
+            <th class="text-center"></th>\
+            <th class="text-center" width="24%">مجموع التقييم العام النهائي</th>\
+            <th class="text-center">'+ostatus+'</th>\
+          </tr>\
+          <tr>\
+            <th class="text-center">التخرج</th>\
+            <th class="text-center">'+semTypeVariballl+' '+datee.getFullYear()+'</th>\
+            <th class="text-center">مجموع الوحدات المنجزة النهائية</th>\
+            <th class="text-center">'+unithaveDone+'</th>\
+            <th class="text-center">المعدل التراكمي العام</th>\
+            <th class="text-center">'+o[o.length-1]+'</th>\
+          </tr>\
+          <tr>\
+            <th class="text-center" colspan="4">التقدير العام</th>\
+            <th class="text-center" colspan="2"></th>\
+          </tr>\
+        </thead>\
       </table>\
+      <div class="pull-right">\
+        <span>المعدل موزع كالتالي <span>:</span></span>\
+      </div>\
       <div class="row">\
-        <div class="col-xs-10">\
+        <div class="col-xs-8">\
           <table class="table table-condensed">\
             <thead>\
               <tr>\
-                <th class="text-center" width="27%">الوحدات المنجزة الكلية</th>\
-                <th class="text-center">'+sumFail+'</th>\
-                <th class="text-center" width="27%">مجموع الوحدات العام</th>\
-                <th class="text-center">'+sum+'</th>\
+                <th class="text-center" width="1%">ممتاز</th>\
+                <th class="text-center" width="1%">جيد جدا</th>\
+                <th class="text-center" width="1%">جيد</th>\
+                <th class="text-center" width="1%">مقبول</th>\
               </tr>\
               <tr>\
-                <th class="text-center">مجموع التقييم العام</th>\
-                <th class="text-center">'+Ratiostatus+'</th>\
-                <th class="text-center">المعدل التراكمي العام</th>\
-                <th class="text-center"></th>\
+                <th class="text-center">% 100 - 85</th>\
+                <th class="text-center">% 85 - 75</th>\
+                <th class="text-center">% 75 - 65</th>\
+                <th class="text-center">% 65 - 50</th>\
               </tr>\
             </thead>\
-          </table>';
-        }
-      return htmldraw;
-    }
+          </table>\
+        </div>\
+      </div>\
+      <div class="row">\
+        <div class="col-xs-10 col-xs-offset-1">\
+          <div class="pull-right">\
+            <span>مكتب مدير التسجيل والدراسة والامتحانات</span>\
+          </div>\
+          <div class="pull-left">\
+            <span>مدير عام المعهد</span>\
+          </div>\
+        </div>\
+      </div>\
+    </div> \
+  </body>\
+</html>';
+  return htmldraw;
+  }
 
 
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
@@ -214,38 +704,68 @@ var ratioo = require('../app/ratio');
       });
 
 
-  router.get('/arabicTranscript', function(req, res, next) {
-    models.sequelize.query('SELECT at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_hour`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_hour`,dd.name as deptName,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId ) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`id`', { replacements: [1] }
+  router.get('/arabicTranscript/:id', function(req, res, next) {
+    models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
-      var fullName=returnFullName(arabicTranscriptObject);
-      var setNumber=arabicTranscriptObject[0][1].set_number;
-      var department=arabicTranscriptObject[0][1].deptName;
-      var devision=arabicTranscriptObject[0][1].devName;
-      var system=systemTypeAndSemType(arabicTranscriptObject);
-      console.log(arabicTranscriptObject[0]);
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
-        recipe: "phantom-pdf",
-        helpers:htmlTagsDraw.toString()
-      },
-      data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject}
-      //{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system}
-    }).then(function (response) {
-      response.result.pipe(res);
-    });
+       models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
+         ).then(function(subj){
+          models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
+          ).then(function(mix){
+            var array=getRatioForALlSemester(mix);
+            //console.log(arabicTranscriptObject[0][arabicTranscriptObject[0].length-1]);
+            if(arabicTranscriptObject[0] != 0){
+            var fullName=returnFullName(arabicTranscriptObject);
+            var setNumber=arabicTranscriptObject[0][1].set_number;
+            var department=arabicTranscriptObject[0][1].deptName;
+            var devision=arabicTranscriptObject[0][1].devName;
+            var system=systemTypeAndSemType(arabicTranscriptObject);
+            jsr.render({
+              template: { 
+                content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
+                recipe: "phantom-pdf",
+                helpers:htmlTagsDraw.toString()
+              },
+              data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject,ob:subj,o:array}
+            }).then(function (response) {
+              response.result.pipe(res);
+            });
+          } else {
+            res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
+          }
+        });
+      });
     });
   });
 
-  router.get('/englishTranscript', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
-        recipe: "phantom-pdf"
-      },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+  router.get('/englishTranscript/:id', function(req, res, next) {
+    models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
+    ).then(function(arabicTranscriptObject){
+       models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
+         ).then(function(subj){
+          models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
+          ).then(function(mix){
+            var array=getRatioForALlSemester(mix);
+            if(arabicTranscriptObject[0] != 0){
+            var fullName= returnFullNameEng(arabicTranscriptObject);
+            var setNumber=arabicTranscriptObject[0][1].set_number;
+            var department=arabicTranscriptObject[0][1].deptName;
+            var devision=arabicTranscriptObject[0][1].devName;
+            var system=systemTypeAndSemType(arabicTranscriptObject);
+            jsr.render({
+              template: { 
+                content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
+                recipe: "phantom-pdf",
+                helpers:htmlTagsDrawEnglish.toString()
+              },
+              data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject,ob:subj,o:array}
+            }).then(function (response) {
+              response.result.pipe(res);
+            });
+          } else {
+            res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
+          }
+        });
+      });
     });
   });
 
@@ -259,26 +779,71 @@ var ratioo = require('../app/ratio');
         },
         recipe: "phantom-pdf"
       },
-      data:obb
+      // data:obb
     }).then(function (response) {
       //you can for example pipe it to express.js response
       response.result.pipe(res);
     });
-    // console.log("ssssssssssssssssssssssssssssssssssssssss");
-    // console.log(obb);
-    // console.log("ssssssssssssssssssssssssssssssssssssssss");
+
   });
 
   // this sertificate
-  router.get('/certificate', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/certificate.html"), "utf8"),
-        recipe: "phantom-pdf"
-      },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+  router.get('/certificate/:id', function(req, res, next) {
+    models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
+    ).then(function(obj){
+      models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
+      ).then(function(arabicTranscriptObject){
+       var myob=arabicTranscriptObject[0][arabicTranscriptObject[0].length-1];
+        if(myob.system_type==1){
+          if(myob.sem_type==1){
+            var sem='ربيع';
+            var sem_en='Spring';
+          }else if(myob.sem_type==2){
+            var sem='خريف';
+            var sem_en='Autumn';
+          }else{
+            var sem='صيف';
+            var sem_en='Summer';
+          }
+        }else{
+          var sem = 'سنة';
+          var sem_en='year';
+        }
+        var year=myob.year.getFullYear();
+         models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
+          ).then(function(mix){
+          var array=getRatioForALlSemester(mix);
+          var rat = array[array.length-1];
+          if(rat>=85 ){
+            status="ممتاز";
+            var status_en='Excellent';
+          } else if(rat>=75 && rat<85) {
+            status="جيدجدا";
+            var status_en='Very Good';
+          } else if(rat>=65 && rat<75) {
+            status="جيد";
+            var status_en='Good';
+          } else if(rat>=50 && rat<65) {
+              status="مقبول";
+              var status_en='pass';
+          } else if(rat>=35 && rat<50) {
+              status="ضعيـف";
+              var status_en='Week';
+          } else if(rat>=0 && rat<35) {
+              status="ضعيف جدا";
+              var status_en='Very Week';
+          } 
+          jsr.render({
+            template: { 
+              content:  fs.readFileSync(path.join(__dirname, "../views/certificate.html"), "utf8"),
+              recipe: "phantom-pdf"
+            },
+            data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear(),sem:sem,year:year,status:status,rat:rat,sem_en:sem_en,status_en:status_en}
+          }).then(function (response) {
+            response.result.pipe(res);
+          });
+        });
+      });
     });
   });
 
@@ -301,25 +866,72 @@ var ratioo = require('../app/ratio');
   });
 
     // this sertificate
-  router.get('/certificateTrue', function(req, res, next) {
-       jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/certificateTrue.html"), "utf8"),
-        recipe: "phantom-pdf"
-      },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+  router.get('/certificateTrue/:id', function(req, res, next) {
+    models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
+    ).then(function(obj){
+      models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
+      ).then(function(arabicTranscriptObject){
+       var myob=arabicTranscriptObject[0][arabicTranscriptObject[0].length-1];
+        if(myob.system_type==1){
+          if(myob.sem_type==1){
+            var sem='ربيع';
+            var sem_en='Spring';
+          }else if(myob.sem_type==2){
+            var sem='خريف';
+            var sem_en='Autumn';
+          }else{
+            var sem='صيف';
+            var sem_en='Summer';
+          }
+        }else{
+          var sem = 'سنة';
+          var sem_en='year';
+        }
+        var year=myob.year.getFullYear();
+         models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
+          ).then(function(mix){
+          var array=getRatioForALlSemester(mix);
+          var rat = array[array.length-1];
+          if(rat>=85 ){
+            status="ممتاز";
+            var status_en='Excellent';
+          } else if(rat>=75 && rat<85) {
+            status="جيدجدا";
+            var status_en='Very Good';
+          } else if(rat>=65 && rat<75) {
+            status="جيد";
+            var status_en='Good';
+          } else if(rat>=50 && rat<65) {
+              status="مقبول";
+              var status_en='pass';
+          } else if(rat>=35 && rat<50) {
+              status="ضعيـف";
+              var status_en='Week';
+          } else if(rat>=0 && rat<35) {
+              status="ضعيف جدا";
+              var status_en='Very Week';
+          }
+          jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/certificateTrue.html"), "utf8"),
+            recipe: "phantom-pdf"
+          },
+          data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear(),sem:sem,year:year,status:status,rat:rat,sem_en:sem_en,status_en:status_en}
+          }).then(function (response) {
+            response.result.pipe(res);
+          });
+        });
+      });
     });
   });
 
   router.get('/',function(req, res){
     models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', { replacements: [req.params.id,req.params.id] }
       ).then(function(subjectsS){
-      console.log(subjectsS);
       res.render();
     });
   });
+
 
   router.get('/academicTranscripts',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
@@ -356,7 +968,6 @@ router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
 
 // this algorithem to get ratio for all semester it's hard to explain
 getRatioForALlSemester=function(mix){
-  /*console.log(mix[0]!=[]);*/
   if(mix[0] !=0){
   var arrayOfObject=[];
   for(i in mix[0]){
@@ -374,7 +985,6 @@ getRatioForALlSemester=function(mix){
     }
   }
   index.push(arrayOfObject.length);
-  console.log(index);
   counter=numberOfSemester++;
   var sum=0;
   var another=[];
@@ -401,6 +1011,12 @@ getRatioForALlSemester=function(mix){
     sum=0;
     sumUnit=0.0;
   }
+   
+  for(var i=0;i<allRatio.length;i++){
+    if(!allRatio[i]){
+      allRatio[i]=0;
+    }
+  }
       return allRatio;
     }
 },
@@ -408,7 +1024,7 @@ getRatioForALlSemester=function(mix){
 // this algorithem to get ratio for semester it's hard to explain
 getRatioForSemester = function(mix){
   var array=[];
-  if(mix[0][0]!= undefined){   
+ //if(mix[0][0]!= undefined){   
     var t=mix[0][0].SemesterId;
     var tt=mix[0][0].SemesterId;
     var sum=0.0;
@@ -426,8 +1042,23 @@ getRatioForSemester = function(mix){
         --i;
       }      
     }
-    array.push(round((sum/sumUnit),3));
+    
+    if(!round((sum/sumUnit),3))
+    {
+       array.push(0);
+    } else {
+      array.push(round((sum/sumUnit),3));
+    }
+   // array.push(round((sum/sumUnit),3));
+  //}
+
+  for(var i=0 ; i<array.length;i++){
+    if(!array[i]){
+      array[i]=0;
+    }
   }
+
+
   return array;
 },
 
@@ -447,14 +1078,14 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           where: {
           status: 1
           },
-          order: '`id` DESC'
+          order: '`starting_date` DESC'
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
           status: 1,
           StudentId: req.params.id
           },
-          order: '`id` DESC',
+          order: '`starting_date` DESC',
       "include" : [
         {"model" : models.Division},
         {"model"  : models.Department},
@@ -464,15 +1095,15 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
-            models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [idstudent]}
+
+            models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
             ).then(function(mix){
               // this is for semester Ratio
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
               var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-
-              res.render('studentData', {ar:arrayy,arr:array ,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              res.render('studentData', {ar:arrayy.reverse(),arr:array.reverse(),title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
@@ -543,7 +1174,7 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
             }
         }]
       }).then(function(div){
-        models.sequelize.query('SELECT * FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', { replacements: [sem.DepartmentId] }
+        models.sequelize.query('SELECT *,`sg`.`id` FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', { replacements: [sem.DepartmentId] }
         ).then(function(dept){
           models.Academic_transcript.findAll({
             where:{
@@ -575,8 +1206,18 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=req.session.idu;
-  req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
-  models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SubGroupId: req.body.SubGroupId}, defaults: req.body})
+  console.log(req.body.SubGroupId);
+  models.sequelize.query('select s.final_theor from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', { replacements: [req.body.SubGroupId] }
+  ).then(function(obj){
+    if(parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
+      req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
+    } else  { 
+        req.body.sum_dagree=parseFloat(req.body.chapter_degree);
+        console.log("**************"+req.body.sum_dagree);
+    }
+ // parseFloat(req.body.final_exam);
+ // req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
+  models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SemesterStudentId:req.body.SemesterStudentId,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
       models.Academic_transcript.findOne({
@@ -603,12 +1244,23 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
     }else{
       res.send(false);
     }
-
+    });
   });
 });
 
 router.post('/updateG',userHelpers.isLogin,function(req,res){
-  req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
+  console.log(req.body.body);
+  models.sequelize.query('select s.final_theor from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=1 and at.SubGroupId=sg.id and sg.SubjectId=s.id', { replacements: [req.body.id] }
+  ).then(function(obj){
+    if(parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
+      req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
+    } else  { 
+        req.body.body.sum_dagree=parseFloat(req.body.body.chapter_degree);
+        console.log("**************"+req.body.body.sum_dagree);
+    }
+  
+
+  //req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
   models.Academic_transcript.update(req.body.body,{
     where: {
       id:req.body.id
@@ -635,6 +1287,7 @@ router.post('/updateG',userHelpers.isLogin,function(req,res){
       }).then(function(acTr){
         res.send(acTr);
       });
+    });
     });
 });
 

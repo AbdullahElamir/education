@@ -1,6 +1,6 @@
 $(document).ready(function(){
    
-   $('body').on('click', '#downloadSubject', function(){
+   $('body').on('click', '#downloadSubject', function(re){
       window.location.href ="/transcript/studentData/"+$(this).val();
     });
 
