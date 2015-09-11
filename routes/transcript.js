@@ -658,7 +658,115 @@ var ratioo = require('../app/ratio');
   return htmldraw;
   }
 
+function htmlTagsDrawDetection(data){ 
+var html=' ';
+var sub = ' ';
+for(k in data){
+  sub+='<th class="text-center">'+data[k].code+'</th>';
+}
 
+html+='<table class="table condensed">\
+            <thead>\
+              <tr style="border-top-style: solid; border-top-width: 2px;">\
+                <th class="text-center" width="1%" height="46">ت</th>\
+                <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
+                <th class="text-center" width="6%">رقم القيد</th>\
+                <th class="text-center" width="1%">الدرجــــــــة</th>\
+                '+sub+'\
+                <th class="text-center">ملاحظات</th>\
+                <th class="text-center" width="8%">المجموع العام</th>\
+                <th class="text-center" width="8%">التقدير العام</th>\
+                <th class="text-center" width="9%">النتيجة النهائية</th>\
+              </tr>\
+            </thead>\
+            <tbody style="border: 2px solid #000;">\
+              <tr>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>\
+                '+sub+'\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+              </tr>\
+              <tr>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>\
+                '+sub+'\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+              </tr>\
+              <tr>\
+                <td>aaa</td>\
+                <td></td>\
+                <td></td>\
+                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>\
+                '+sub+'\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+              </tr>\
+              <tr>\
+                <td>dd</td>\
+                <td></td>\
+                <td></td>\
+                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>\
+                '+sub+'\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+              </tr>\
+            </tbody>\
+          </table>';
+//          </div>\
+//         <div class="col-xs-3">\
+//           <div class="space"></div>\
+//           <div class="pull-right"> \
+//             <h4 class="h4">قسم الدراسة واﻷمتحانات</h4>\
+//             <div class="halfSpace"></div>/
+//             <h4>.....................................</h4>\
+//             <div class="halfSpace"></div>\
+//             <div class="text-center">\
+//               <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
+//               <h6> الموافق <span> ....../ ....../ ......</span></h6>\
+//             </div>\
+//           </div>\
+//         </div>\
+//         <div class="col-xs-6">\
+//           <div class="space"></div>\
+//           <div class="text-center"> \
+//             <h4 class="h4"> لجنـــة اﻷمتحانات </h4>\
+//             <div class="halfSpace"></div>\
+//             <h4>....................................</h4>\
+//             <div class="halfSpace"></div>\
+//             <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
+//             <h6> الموافق <span> ....../ ....../ ......</span></h6>\
+//           </div>\
+//         </div>\
+//         <div class="col-xs-3">\
+//           <div class="space"></div>\
+//           <div class="text-left">\
+//             <h4 class="h4">يعتمد<span> / </span>مدير عام المعهد</h4>\
+//             <div class="halfSpace"></div>\
+//             <h4>....................................</h4>\
+//           </div>\
+//         </div>\
+//       </div>\
+//     </div>\
+//   </body>\
+// </html>';
+
+return html;
+
+}
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     function draw(obj){
       var str='';
@@ -744,22 +852,26 @@ var ratioo = require('../app/ratio');
     });
   });
 
-  router.get('/detection', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
-        phantom: {
-          format: 'A3',
-          orientation: "landscape",
+  router.get('/detection/:id', function(req, res, next) {
+    models.sequelize.query('SELECT * FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =1 AND `ss`.`level` =1 AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id`;', { replacements: [req.params.id] }
+    ).then(function(obj){
+      console.log(obj[0]);
+      jsr.render({
+        template: { 
+          content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
+          phantom: {
+            format: 'A3',
+            orientation: "landscape",
+          },
+          recipe: "phantom-pdf",
+          helpers:htmlTagsDrawDetection.toString()
         },
-        recipe: "phantom-pdf"
-      },
-      // data:obb
-    }).then(function (response) {
-      //you can for example pipe it to express.js response
-      response.result.pipe(res);
+        data:{data:obj[0]}
+      }).then(function (response) {
+        //you can for example pipe it to express.js response
+        response.result.pipe(res);
+      });
     });
-
   });
 
   // this sertificate
