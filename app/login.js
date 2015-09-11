@@ -33,7 +33,7 @@ passport.deserializeUser(function(id, done) {
 
 module.exports = function (router) {
   //login here we get the email and password and check if they're conrrect
-  router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), function(req, res) {
+  router.post('/login', passport.authenticate('local', { failureRedirect: '/?msg=2' }), function(req, res) {
     findById(req.session.passport.user, function (err, user) {
       req.session.idu=user[0].id;
       req.session.name=user[0].name;

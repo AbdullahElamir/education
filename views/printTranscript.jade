@@ -8,7 +8,7 @@ block content
         .btn-group.btn-breadcrumb
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
-          .btn.btn-default.active طباعة كشف درجات
+          .btn.btn-default.active طباعة كشف درجات وافادة التخرج والشهادة التكريمية
         br
         br
         .panel.panel-default
@@ -29,9 +29,9 @@ block content
                 th اسم الطالب/ة
                 th.text-center الجنس
                 th.text-center الرقم الوطني
-                th.text-center طباعة
-                th.text-center Print
-                th.text-center طباعة إفادة التخرج
+                th.text-center كشف درجات
+                th.text-center Transcript
+                th.text-center إفادة التخرج
                 th.text-center الشهادة التكريمية
               tbody#tbody
                 for i in student
@@ -45,20 +45,20 @@ block content
                         | ذكر
                     td.text-center #{i.nid}
                     td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="طباعة")
-                        button#printArabic.btn.btn-primary.btn-xs(value='#{i.id}')
+                      p(data-placement="top", data-toggle="tooltip", title="كشف درجات")
+                        button#printArabic.btn.btn-primary.btn-xs(value='#{i.id}', target="_blank")
                           span.glyphicon.glyphicon-print
                     td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="Print")
-                        button#printEnglish.btn.btn-success.btn-xs(value='#{i.id}')
+                      p(data-placement="top", data-toggle="tooltip", title="Transcript")
+                        button#printEnglish.btn.btn-success.btn-xs(value='#{i.id}', traget="_blank")
                           span.glyphicon.glyphicon-print
                     td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="Print")
-                        a#printEnglish.btn.btn-success.btn-xs(href='/transcript/certificate/#{i.id}')
+                      p(data-placement="top", data-toggle="tooltip", title="إفادة التخرج")
+                        a#printEnglish.btn.btn-info.btn-xs(href='/transcript/certificate/#{i.id}', traget="_blank")
                           span.glyphicon.glyphicon-print
                     td.text-center
-                      p(data-placement="top", data-toggle="tooltip", title="Print")
-                        a#printEnglish.btn.btn-success.btn-xs(href='/transcript/certificateTrue/#{i.id}')
+                      p(data-placement="top", data-toggle="tooltip", title="الشهادة التكريمية")
+                        a#printEnglish.btn.btn-warning.btn-xs(href='/transcript/certificateTrue/#{i.id}', traget="_blank")
                           span.glyphicon.glyphicon-print
         if pagination
           .text-center

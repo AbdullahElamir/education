@@ -4,7 +4,8 @@
     "username": "root",
     "password": "102030",
     "database": "education",
-    "host": "localhost"
+    "host": "localhost",
+    "logging": false
   },
   "test": {
     "username": "root",

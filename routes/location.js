@@ -28,7 +28,7 @@ var userHelpers = require('../app/userHelpers');
   router.post('/newLocation',userHelpers.isLogin, function(req, res) {
     req.body.UserId=req.session.idu;
     models.Location.create(req.body).then(function() {
-      res.redirect('/location');
+      res.redirect('/location?msg=1');
     });
   });
 
