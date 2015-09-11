@@ -914,13 +914,10 @@ var ratioo = require('../app/ratio');
   });
 
   // this sertificate
-  router.get('/englishCertificateTrue', function(req, res, next) {
+  router.get('/enGradCert', function(req, res, next) {
     jsr.render({
       template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/englishCertificateTrue.html"), "utf8"),
-        phantom:{
-          orientation: "landscape",
-        },
+        content:  fs.readFileSync(path.join(__dirname, "../views/englishGraduationCertificate.html"), "utf8"),
         recipe: "phantom-pdf",
         },
       data:obj
