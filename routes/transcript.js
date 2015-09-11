@@ -846,8 +846,6 @@ var ratioo = require('../app/ratio');
           orientation: "landscape",
         },
         recipe: "phantom-pdf",
-
-        
         },
       data:obj
     }).then(function (response) {
@@ -855,7 +853,7 @@ var ratioo = require('../app/ratio');
     });
   });
 
-    // this sertificate
+  // this certificate
   router.get('/certificateTrue/:id', function(req, res, next) {
     models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
     ).then(function(obj){
@@ -912,6 +910,22 @@ var ratioo = require('../app/ratio');
           });
         });
       });
+    });
+  });
+
+  // this sertificate
+  router.get('/englishCertificateTrue', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/englishCertificateTrue.html"), "utf8"),
+        phantom:{
+          orientation: "landscape",
+        },
+        recipe: "phantom-pdf",
+        },
+      data:obj
+    }).then(function (response) {
+      response.result.pipe(res);
     });
   });
 
