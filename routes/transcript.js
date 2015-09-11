@@ -423,24 +423,21 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="لا يوجد";
-        htmldraw+='\
-        <div style="height: 10px;></div>\
-                      <div class="pull-right" >\
-                      <span> الفصل الدراسي<span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
+        htmldraw+='\<div style="height: 10px;></div>\
+                    <div class="pull-right" >\
+                      <span> الفصل الدراسي <span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
                       <div style="height: 10px;"  ></div>\
                    </div>\
-                   <div class="pull-left">\
-                      <span> <span>.</span></span>\
-                   </div>';
+                   <div style="height: 12px;"  ></div>';
         htmldraw+='<table class="table condensed"> \
                       <thead> \
                         <tr> \
-                          <th class="text-center" >ر<span>.</span>م</th> \
-                          <th class="text-center" >رمز المقرر</th> \
+                          <th class="text-center">ر<span>.</span>م</th> \
+                          <th class="text-center">رمز المقرر</th> \
                           <th class="text-center">اسم المقرر</th> \
-                          <th class="text-center" >الوحدات</th> \
-                          <th class="text-center" >الدرجة</th> \
-                          <th class="text-center" >التقيم</th> \
+                          <th class="text-center">الوحدات</th> \
+                          <th class="text-center">الدرجة</th> \
+                          <th class="text-center">التقيم</th> \
                           <th class="text-center">ملاحظات</th> \
                         </tr> \
                     </thead> \
@@ -480,13 +477,13 @@ var ratioo = require('../app/ratio');
           not="تكميلي";
         }
         htmldraw+='<tr> \
-              <td>'+counter+'</td>\
-              <td  align="center">'+obj[0][i].code+'</td> \
-              <td  align="center">'+obj[0][i].name+'</td> \
-              <td  align="center">'+obj[0][i].no_th_unit+'</td> \
-              <td  align="center">'+obj[0][i].sum_dagree+'</td> \
-              <td  align="center">'+status+'</td> \
-              <td  align="center">'+not+'</td> \
+              <td class="text-center">'+counter+'</td>\
+              <td class="text-center">'+obj[0][i].code+'</td> \
+              <td class="text-center">'+obj[0][i].name+'</td> \
+              <td class="text-center">'+obj[0][i].no_th_unit+'</td> \
+              <td class="text-center">'+obj[0][i].sum_dagree+'</td> \
+              <td class="text-center">'+status+'</td> \
+              <td class="text-center">'+not+'</td> \
             </tr>';
             counter++;
         }
@@ -494,13 +491,13 @@ var ratioo = require('../app/ratio');
        tableStatic=(8-counter);
        for(var i=0;i<tableStatic;i++){
          htmldraw+='<tr> \
-              <td>'+counter+'</td>\
-              <td  align="center"></td> \
-              <td  align="center"></td> \
-              <td  align="center"></td> \
-              <td  align="center"></td> \
-              <td  align="center"></td> \
-              <td  align="center"></td> \
+              <td class="text-center">'+counter+'</td>\
+              <td class="text-center"></td> \
+              <td class="text-center"></td> \
+              <td class="text-center"></td> \
+              <td class="text-center"></td> \
+              <td class="text-center"></td> \
+              <td class="text-center"></td> \
             </tr>';
           counter++;
        }
@@ -1023,7 +1020,7 @@ getRatioForALlSemester=function(mix){
 // this algorithem to get ratio for semester it's hard to explain
 getRatioForSemester = function(mix){
   var array=[];
- //if(mix[0][0]!= undefined){   
+  if(mix[0][0]!= undefined){   
     var t=mix[0][0].SemesterId;
     var tt=mix[0][0].SemesterId;
     var sum=0.0;
@@ -1039,8 +1036,9 @@ getRatioForSemester = function(mix){
         sumUnit=0.0;
         t=mix[0][i].SemesterId;
         --i;
-      }      
+      }
     }
+  }
     
     if(!round((sum/sumUnit),3))
     {
@@ -1101,8 +1099,14 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
               var array=getRatioForSemester(mix);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
+              if (arrayy != undefined) {
+                arrayy=arrayy.reverse();
+              }
+              if (array != undefined) {
+                array=array.reverse();
+              }
               var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-              res.render('studentData', {ar:arrayy.reverse(),arr:array.reverse(),title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
             });
           });
         });
@@ -1131,6 +1135,7 @@ router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
+  console.log(req.url);
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,
