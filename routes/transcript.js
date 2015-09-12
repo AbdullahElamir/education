@@ -755,7 +755,7 @@ var ratioo = require('../app/ratio');
               response.result.pipe(res);
             });
           } else {
-            res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
+            res.redirect('/transcript?msg=3');
           }
         });
       });
@@ -784,7 +784,7 @@ var ratioo = require('../app/ratio');
               response.result.pipe(res);
             });
           } else {
-            res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
+            res.redirect('/transcript?msg=3');
           }
         });
       });

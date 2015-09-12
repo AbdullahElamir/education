@@ -40,19 +40,19 @@ block content
                     td #{i.first_name} #{i.father_name} #{i.grand_name} #{i.last_name}
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="كشف درجات")
-                        a.btn.btn-primary.btn-xs(href='/transcript/arabicTranscript/#{i.id}', target="_blank")
+                        a.btn.btn-primary.btn-xs(href='/transcript/arabicTranscript/#{i.id}')
                           span.glyphicon.glyphicon-print
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="Transcript")
-                        a.btn.btn-success.btn-xs(href ='/transcript/englishTranscript/#{i.id}', target="_blank")
+                        a.btn.btn-success.btn-xs(href ='/transcript/englishTranscript/#{i.id}')
                           span.glyphicon.glyphicon-print
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إفادة التخرج")
-                        a.btn.btn-info.btn-xs(href='/transcript/arGradCert/#{i.id}', target="_blank")
+                        a.btn.btn-info.btn-xs(href='/transcript/arGradCert/#{i.id}')
                           span.glyphicon.glyphicon-print
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إفادة التخرج")
-                        a.btn.btn-warning.btn-xs(href='/transcript/enGradCert/', target="_blank")
+                        a.btn.btn-warning.btn-xs(href='/transcript/enGradCert/')
                           span.glyphicon.glyphicon-print
         if pagination
           .text-center
@@ -67,9 +67,10 @@ block content
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
-  //- script(src='/js/printTranscript.js')
+  script(src='/js/printTranscript.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();

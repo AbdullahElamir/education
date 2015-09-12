@@ -1,10 +1,8 @@
 $(document).ready(function(){
-	$('body').on('click', 'a#printArabic', function(){
-        window.location.href ="/transcript/arabicTranscript/"+$(this).val();
-	 });
-    
 
-    $('body').on('click', '#printEnglish', function(){
-        window.location.href ="/transcript/englishTranscript/"+$(this).val(); 
-     });
+  if($getMsg["msg"]==3){
+    custNotify("danger","خطأ","هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له","ok-sign","bounceIn","bounceOut");
+    replaceUrl('/transcript'); 
+  }
+  
 });
