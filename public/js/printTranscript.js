@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('body').on('click', '#printArabic', function(){
+	$('body').on('click', 'a#printArabic', function(){
         window.location.href ="/transcript/arabicTranscript/"+$(this).val();
 	 });
     
