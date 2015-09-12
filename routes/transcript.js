@@ -1111,7 +1111,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           where: {
           status: 1
           },
-          order: '`starting_date` DESC'
+          order: '`starting_date` DESC',
+          limit : 5
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
