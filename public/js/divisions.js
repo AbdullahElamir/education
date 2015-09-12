@@ -141,11 +141,24 @@ $(document).ready(function(){
         $('#tbody').empty();
         $('.pagination').hide();
         for(key in result){
-          $('#tbody').append('<tr data-id = "'+result[key].id+'" data-name = "'+result[key].name+'" data-name_en = "'+result[key].name_en+'" data-departmentid='+result[key].DepartmentId+'><td><input class="checkthis" type="checkbox"/></td><td>'+result[key].name+'</td><td class="text-left">'+result[key].Department.name+'</td><td class="text-left">'+result[key].Department.name_en+'</td><td class="text-left">'+result[key].Division.name_en+'</td><td></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تنسيب"><button id="Edit" class="btn btn-primary btn-xs " value="'+result[key].id+'"data-title="Edit" data-nn="'+result[key].id+'" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-screenshot"></span></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><a class="btn btn-primary btn-xs " value="" href="/division/division/'+result[key].id+'" role="button"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="إلغاء"><button id="Delete" class="btn btn-danger btn-xs" value="'+result[key].id+'"data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
+          $('#tbody').append('<tr data-id = "'+result[key].id+'" data-name = "'+result[key].name+'" data-name_en = "'+result[key].name_en+'" data-departmentid='+result[key].DepartmentId+'><td>'+result[key].name+'</td><td class="">'+result[key].Department.name+'</td><td class="text-left">'+result[key].Department.name_en+'</td><td class="text-left">'+result[key].name_en+'</td><td></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تعديل"><a class="btn btn-primary btn-xs " value="" href="/division/division/'+result[key].id+'" role="button"><span class="glyphicon  glyphicon-screenshot"></span></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="تنسيب"><button id="Edit" class="btn btn-primary btn-xs " value="'+result[key].id+'"data-title="Edit" data-nn="'+result[key].id+'" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td><td class="text-center"><p data-placement="top" data-toggle="tooltip" title="إلغاء"><button id="Delete" class="btn btn-danger btn-xs" value="'+result[key].id+'"data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
         }
       });
     }
+  });  
+
+$("#division_search").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#division_search_btn").click(); 
+      }
   });
+
+  $('#division_search_btn').on('click', function(){
+    window.location.href="/division";
+  });  
+
   $('#edit').on('hidden.bs.modal', function(){
     $('.form-group').removeClass('has-error');
     $('#formDivision').validate().resetForm();

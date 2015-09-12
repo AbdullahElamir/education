@@ -5,6 +5,12 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
     <style>
+
+    .break { page-break-before: always; }
+
+      @media print {
+      footer {page-break-after: always;}
+      }
       @font-face {
         font-family: 'Droid Arabic Kufi';
         src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
@@ -58,166 +64,6 @@
             <div style="height: 5px;"></div>
             <span> الشعبة <span>: {{dev}}</span></span>
           </div>
-        </div>
-        
-         {{{htmlTagsDraw obj}}}      
+        </div>    
+         {{{htmlTagsDraw obj ob o}}}      
   
-<!--         </div>
-      </div>
-      <span>الفصل الدراسي<span>: </span>السادس خريف 2014</span>
-      <div style="height: 10px;"></div>
-      <table class="table condensed">
-        <thead>
-          <tr>
-            <th class="text-center" width="1%">ر<span>.</span>م</th>
-            <th class="text-center" width="10%">رمز المقرر</th>
-            <th class="text-center" width="35%">اسم المقرر</th>
-            <th class="text-center" width="1%">الوحدات</th>
-            <th class="text-center" width="1%">الدرجة</th>
-            <th class="text-center" width="1%">التقييم</th>
-            <th class="text-center">ملاحظات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td colspan="3" style="padding: 5px;">المعدل الفصلي</td>
-            <td></td>
-            <td style="border-bottom-color: #fff;"></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="row">
-        <div class="col-xs-10">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th class="text-center" width="27%">الوحدات المنجزة الكلية</th>
-                <th class="text-center"></th>
-                <th class="text-center" width="27%">مجموع الوحدات العام</th>
-                <th class="text-center"></th>
-              </tr>
-              <tr>
-                <th class="text-center">مجموع التقييم العام</th>
-                <th class="text-center"></th>
-                <th class="text-center">المعدل التراكمي العام</th>
-                <th class="text-center"></th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </div> -->
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th class="text-center" width="1%">القبول</th>
-            <th class="text-center" width="11%">ربيع 2014</th>
-            <th class="text-center" width="27%">مجموع الوحدات الكلية النهائية</th>
-            <th class="text-center"></th>
-            <th class="text-center" width="24%">مجموع التقييم العام النهائي</th>
-            <th class="text-center"></th>
-          </tr>
-          <tr>
-            <th class="text-center">التخرج</th>
-            <th class="text-center">ربيع 2014</th>
-            <th class="text-center">مجموع الوحدات المنجزة النهائية</th>
-            <th class="text-center"></th>
-            <th class="text-center">المعدل التراكمي العام</th>
-            <th class="text-center"></th>
-          </tr>
-          <tr>
-            <th class="text-center" colspan="4">التقدير العام</th>
-            <th class="text-center" colspan="2"></th>
-          </tr>
-        </thead>
-      </table>
-      <div class="pull-right">
-        <span>المعدل موزع كالتالي <span>:</span></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th class="text-center" width="1%">ممتاز</th>
-                <th class="text-center" width="1%">جيد جدا</th>
-                <th class="text-center" width="1%">جيد</th>
-                <th class="text-center" width="1%">مقبول</th>
-              </tr>
-              <tr>
-                <th class="text-center">% 100 - 85</th>
-                <th class="text-center">% 85 - 75</th>
-                <th class="text-center">% 75 - 65</th>
-                <th class="text-center">% 65 - 50</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-10 col-xs-offset-1">
-          <div class="pull-right">
-            <span>مكتب مدير التسجيل والدراسة والامتحانات</span>
-          </div>
-          <div class="pull-left">
-            <span>مدير عام المعهد</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
