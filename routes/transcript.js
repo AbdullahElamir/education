@@ -124,21 +124,23 @@ var ratioo = require('../app/ratio');
           setNum=' ';
         }
         htmldraw+=' <div class="row">\
+                      <div class="col-xs-12">\
+                        <div class="pull-left">\
+                        <span>'+studentName+' '+name+'</span></span>\
+                        <div style="height: 5px;"></div>\
+                        <span>'+setNu+' '+setNum+'</span></span>\
+                        </div>\
+                        <div class="pull-right">\
+                          <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
+                          <div style="height: 5px;"></div>\
+                          <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
+                        </div>\
+                        </div> \
+                      </div>\
+                      <div style="height: 10px;"></div>\
                       <div class="pull-left">\
-                      <span>'+studentName+' '+name+'</span></span>\
-                      <div style="height: 5px;"></div>\
-                      <span>'+setNu+' '+setNum+'</span></span>\
-                    </div>\
-                    <div class="pull-right">\
-                      <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
-                      <div style="height: 5px;"></div>\
-                      <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
-                    </div>\
-                    </div> \
-                    <div style="height: 10px;"></div>\
-                    <div class="pull-left">\
-                      <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
-                    </div>\
+                        <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
+                      </div>\
                     <div style="height: 12px;"></div>';
         htmldraw+=' <table class="table condensed">\
                       <thead>\
