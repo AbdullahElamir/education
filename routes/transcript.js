@@ -1203,23 +1203,17 @@ getRatioForSemester = function(mix){
       }
     }
   }
-    
     if(!round((sum/sumUnit),3))
     {
        array.push(0);
     } else {
       array.push(round((sum/sumUnit),3));
     }
-   // array.push(round((sum/sumUnit),3));
-  //}
-
   for(var i=0 ; i<array.length;i++){
     if(!array[i]){
       array[i]=0;
     }
   }
-
-
   return array;
 },
 

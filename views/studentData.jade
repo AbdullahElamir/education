@@ -171,21 +171,100 @@ block content
             h4#Heading.modal-title.custom_align تعديل فصل دراسي
           .modal-body
             .table-responsive
+    .modal-dialog.modal-lg(style="width:95%;")
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h3#Heading.modal-title.custom_align عرض الفصول الدراسية
+        .modal-body
+          form.form#addSemester(role="form")
+            .panel.panel-default
+              .panel-heading
+                .row
+                  .col-xs-2.col-md-4
+                    .input-group
+                      input.form-control#search(type='text', placeholder='في حالة عدم وجود النظام الدراسي ابحث بالسنة')
+                      .input-group-btn
+                        button.btn.btn-default
+                          i.glyphicon.glyphicon-search
+                  .col-xs-2.col-md-2
+                    select.form-control.selectpicker#student_status(name="student_status", data-live-search="true", data-size=5)
+                      option(value="1", selected) نظامي  
+                      option(value="2") غير نظامي
+                      option(value="3") إيقاف قيد
+                  .col-xs-2.col-md-2
+                    select.form-control.selectpicker#level(name="level", data-live-search="true", data-size=5)
+                      option(value="1") الاول  
+                      option(value="2") الثاني
+                      option(value="3") الثالث
+                      option(value="4") الرابع
+                      option(value="5") الخامس
+                      option(value="6") السادس
+                      option(value="7") السابع
+                      option(value="8") الثامن
+                      option(value="9") التاسع
+                      option(value="10") العاشر
+                      option(value="11") الحادي العاشر
+                      option(value="12") الثاني عشر
+                  .col-xs-2.col-md-2
+                    select.form-control.selectpicker#department_iddepartment(name="DepartmentId", data-live-search="true", data-size=5)
+                      option(value="", style='color:grey; display:none;') اختر اسم القسم...
+                      for i in dept
+                        option(value="#{i.id}") #{i.name}  
+                  .col-xs-2.col-md-2
+                    select.form-control.selectpicker#division_iddivision(name="DivisionId", data-live-search="true", data-size=5)
+                      option(value="", style='color:grey; display:none;') اختر اسم الشعبة...
+                      //- for i in dev
+                      //-   option(value="#{i.id}") #{i.name}
+                    input#studentId.form-control(value="#{std}",type="hidden")             
+              .table-responsive
                 table#mytable.table.table-bordred.table-striped.text-right
                   thead
-                    th.text-center اسم المادة
-                    th.text-center Subject Name
-                    th.text-center رمز المادة
-                    th.text-center.text-center.text-center.text-center درجة المادة
-                  tbody
-                    tr(data-id = '')                      
-                      td.text-center رياضة 1
-                      td.text-center math
-                      td.text-center ma100
-                      td.text-center 60
-          .modal-footer
-            button.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
-              span.glyphicon.glyphicon-ok-sign    
+                    th.text-center النظام الدراسي
+                    th.text-center السنة الدراسية
+                    th.text-center بداية الفصل الدراسي
+                    th.text-center نهاية الفصل الدراسي
+                    th.text-center إضافة
+                  tbody#tbodysem
+                  for i in sem
+                    tr(data-id = '#')
+                      td.text-center 
+                        if i.system_type == 1
+                          | فصل 
+                        if i.system_type == 2
+                          | سنة
+                      td.text-center #{i.year.getFullYear()}
+                      td.text-center #{i.starting_date.getDate()} / #{i.starting_date.getMonth()+1} / #{i.starting_date.getFullYear()} 
+                      td.text-center #{i.ending_date.getDate()} / #{i.ending_date.getMonth()+1} / #{i.ending_date.getFullYear()} 
+                      td.text-center
+                        p(data-placement="top", data-toggle="tooltip", title="إضافة")
+                          button#addStudentData.btn.btn-primary.btn-xs(href='', role='button' ,value="#{i.id}")
+                            span.glyphicon.glyphicon-pencil
+  #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-hidden="true")
+            span.glyphicon.glyphicon-remove(aria-hidden="true")
+          h4#Heading.modal-title.custom_align تعديل فصل دراسي
+        .modal-body
+          .table-responsive
+              table#mytable.table.table-bordred.table-striped.text-right
+                thead
+                  th.text-center اسم المادة
+                  th.text-center Subject Name
+                  th.text-center رمز المادة
+                  th.text-center.text-center.text-center.text-center درجة المادة
+                tbody
+                  tr(data-id = '')                      
+                    td.text-center رياضة 1
+                    td.text-center math
+                    td.text-center ma100
+                    td.text-center 60
+        .modal-footer
+          button.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
+            span.glyphicon.glyphicon-ok-sign    
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
