@@ -51,13 +51,13 @@ block content
                   tr(data-id = 'smst#{i.id}',data-stut='#{i.student_status}',data-dep='#{i.DepartmentId}',data-level='#{i.level}',data-divi='#{i.DivisionId}')
                     td.text-center
                       if i.Semester.system_type == 1
-                        | فصل ربيعي
+                        | فصل "ربيعي"
                       if i.Semester.system_type == 2
-                        |  فصل خريفي
+                        | فصل "خريفي"
                       if i.Semester.system_type == 3
-                        |  قصل صيفي
+                        | قصل "صيفي"
                       if i.Semester.system_type == 4
-                        |  سنة
+                        | سنة
                     td.text-center #{i.Semester.year.getFullYear()}
                     td(id="le#{i.id}").text-center #{semty[i.level-1]}
                     td.text-center #{i.Semester.starting_date.getDate()} / #{i.Semester.starting_date.getMonth()+1} / #{i.Semester.starting_date.getFullYear()} 
