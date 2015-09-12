@@ -672,111 +672,95 @@ var ratioo = require('../app/ratio');
   return htmldraw;
   }
 
-function htmlTagsDrawDetection(data){ 
-var html=' ';
-var sub = ' ';
-for(k in data){
-  sub+='<th class="text-center">'+data[k].code+'</th>';
-}
+function htmlTagsDrawDetection(data,stu){ 
+  var html=' ';
+  var sub = ' ';
+  var subject = [];
+  for(k in data){
+    sub+='<th class="text-center">'+data[k].code+'</th>';
+    subject[k]=data[k].id;
+  }
 
-html+='<table class="table condensed">\
-            <thead>\
-              <tr style="border-top-style: solid; border-top-width: 2px;">\
-                <th class="text-center" width="1%" height="46">ت</th>\
-                <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
-                <th class="text-center" width="6%">رقم القيد</th>\
-                <th class="text-center" width="1%">الدرجــــــــة</th>\
-                '+sub+'\
-                <th class="text-center">ملاحظات</th>\
-                <th class="text-center" width="8%">المجموع العام</th>\
-                <th class="text-center" width="8%">التقدير العام</th>\
-                <th class="text-center" width="9%">النتيجة النهائية</th>\
-              </tr>\
-            </thead>\
-            <tbody style="border: 2px solid #000;">\
-              <tr>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td style="font-size: 11px;" class="text-center">أعمال السنة</td>\
-                '+sub+'\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-              </tr>\
-              <tr>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td style="font-size: 11px;" class="text-center">العملــــــــي</td>\
-                '+sub+'\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-              </tr>\
-              <tr>\
-                <td>aaa</td>\
-                <td></td>\
-                <td></td>\
-                <td style="font-size: 11px;" class="text-center">نهاية العــام</td>\
-                '+sub+'\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-              </tr>\
-              <tr>\
-                <td>dd</td>\
-                <td></td>\
-                <td></td>\
-                <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>\
-                '+sub+'\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-              </tr>\
-            </tbody>\
-          </table>';
-//          </div>\
-//         <div class="col-xs-3">\
-//           <div class="space"></div>\
-//           <div class="pull-right"> \
-//             <h4 class="h4">قسم الدراسة واﻷمتحانات</h4>\
-//             <div class="halfSpace"></div>/
-//             <h4>.....................................</h4>\
-//             <div class="halfSpace"></div>\
-//             <div class="text-center">\
-//               <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
-//               <h6> الموافق <span> ....../ ....../ ......</span></h6>\
-//             </div>\
-//           </div>\
-//         </div>\
-//         <div class="col-xs-6">\
-//           <div class="space"></div>\
-//           <div class="text-center"> \
-//             <h4 class="h4"> لجنـــة اﻷمتحانات </h4>\
-//             <div class="halfSpace"></div>\
-//             <h4>....................................</h4>\
-//             <div class="halfSpace"></div>\
-//             <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
-//             <h6> الموافق <span> ....../ ....../ ......</span></h6>\
-//           </div>\
-//         </div>\
-//         <div class="col-xs-3">\
-//           <div class="space"></div>\
-//           <div class="text-left">\
-//             <h4 class="h4">يعتمد<span> / </span>مدير عام المعهد</h4>\
-//             <div class="halfSpace"></div>\
-//             <h4>....................................</h4>\
-//           </div>\
-//         </div>\
-//       </div>\
-//     </div>\
-//   </body>\
-// </html>';
+      if(sub.length==1){
+        sub='<td></td>';
+      }
+
+  html+='<table class="table condensed">\
+    <thead>\
+      <tr style="border-top-style: solid; border-top-width: 2px;">\
+        <th class="text-center" width="1%" height="46">ت</th>\
+        <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
+        <th class="text-center" width="6%">رقم القيد</th>\
+        <th class="text-center" width="1%">الدرجــــــــة</th>\
+        '+sub+'\
+        <th class="text-center" style="width: 20%;">ملاحظات</th>\
+        <th class="text-center" width="8%">المجموع العام</th>\
+        <th class="text-center" width="8%">التقدير العام</th>\
+        <th class="text-center" width="9%">النتيجة النهائية</th>\
+      </tr>\
+  </thead>';
+    for (i in stu){
+      var cahp= ' ';
+      var fin = ' ';
+      var sum = ' '; 
+      var not=' ';
+      for(k in stu[i]){
+        if(subject[k]==stu[i][k].id){
+          cahp+= '<td>'+stu[i][k].chapter_degree+'</td>';
+          fin+= '<td>'+stu[i][k].final_exam+'</td>';
+          sum+= '<td>'+stu[i][k].sum_dagree+'</td>';
+        }else{
+          not+= '<p>'+stu[i][k].code+' : '+stu[i][k].sum_dagree+' </p> ';
+        }
+      } 
+      if(cahp.length==1){
+        cahp='<td width="9%"></td>';
+      }
+      if(sum.length==1){
+        sum='<td width="9%"></td>';
+      }
+      if(fin.length==1){
+        fin='<td width="9%"></td>';
+      }
+      html+='<tbody style="border: 2px solid #000;">\
+        <tr>\
+          <td></td>\
+          <td>'+stu[i][0].first_name+' '+stu[i][0].father_name+' '+stu[i][0].grand_name+' '+stu[i][0].last_name+'</td>\
+          <td>'+stu[i][0].set_number+'</td>\
+          <td style="font-size: 11px;" class="text-center">أعمال السنة</td>\
+          '+cahp+'\
+          <td style="width: 20%;">'+not+'</td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+        <tr>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td style="font-size: 11px;" class="text-center">نهاية العــام</td>\
+          '+fin+'\
+          <td style="width: 20%;"></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+        <tr>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>\
+          '+sum+'\
+          <td style="width: 20%;"></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+      </tbody>';
+  
+}
+  html+='</table>';
+
 
 return html;
 
@@ -868,23 +852,51 @@ return html;
   });
 
   router.get('/detection/:id', function(req, res, next) {
-    models.sequelize.query('SELECT * FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =1 AND `ss`.`level` =1 AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id`;', { replacements: [req.params.id] }
+    models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =2 AND `ss`.`level` =2 AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', { replacements: [req.params.id] }
     ).then(function(obj){
       console.log(obj[0]);
-      jsr.render({
-        template: { 
-          content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
-          phantom: {
-            format: 'A3',
-            orientation: "landscape",
+        models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =2 AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', { replacements: [req.params.id] }
+      ).then(function(subjects){
+
+        var students = {};
+        for(subject in subjects[0]){
+          if(students[subjects[0][subject].StudentId]==undefined)
+            students[subjects[0][subject].StudentId]=[];
+          students[subjects[0][subject].StudentId].push(subjects[0][subject]);
+
+        }
+
+        console.log(students);
+        // console.log(degree[0]);
+      //   var id=0;
+      //   for (i in degree[0]){
+      // var t={};
+      // var arr=[][12];
+      // var obj ={sum:degree[0][i].sum_dagree,code:degree[0][i].code,id:degree[0][i].id,chap:degree[0][i].chapter_degree,fin:degree[0][i].final_exam};
+      // if(id!=degree[0][i].StudentId){
+
+      //   arr[arr.length].push(obj);
+      // }else{
+
+      //   arr[-1].push(obj);
+      // }
+      //  id=degree[0][i].StudentId;
+      // }
+        jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
+            phantom: {
+              format: 'A3',
+              orientation: "landscape",
+            },
+            recipe: "phantom-pdf",
+            helpers:htmlTagsDrawDetection.toString()
           },
-          recipe: "phantom-pdf",
-          helpers:htmlTagsDrawDetection.toString()
-        },
-        data:{data:obj[0]}
-      }).then(function (response) {
-        //you can for example pipe it to express.js response
-        response.result.pipe(res);
+          data:{data:obj[0],deg:students}
+        }).then(function (response) {
+          //you can for example pipe it to express.js response
+          response.result.pipe(res);
+        });
       });
     });
   });
@@ -1413,9 +1425,7 @@ router.post('/updateG',userHelpers.isLogin,function(req,res){
 });
 
 router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
-  models.Academic_transcript.update({
-    status:0
-  },{
+  models.Academic_transcript.destroy({
     where: {
       id:req.params.id
     }
