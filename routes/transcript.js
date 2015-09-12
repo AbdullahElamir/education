@@ -67,11 +67,10 @@ var ratioo = require('../app/ratio');
   }
 
 
-  function htmlTagsDrawEnglish(obj,ob,o){
+  function htmlTagsDrawEnglish(obj,o,name,setNum){
+    //111111111111111111111
+    var EnterNameOneTime=0;
     allunit=0;
-    for(i in ob[0]){
-      allunit+=ob[0][i].no_th_unit;
-    }
     var unithaveDone=0;
     var days=["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th"];
     var numberOfSemester=0,counter=0,index=[];
@@ -115,12 +114,34 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="nothing";
-        htmldraw+='\
-        <div style="height: 10px;"></div>\
-           <div class="pull-left">\
-              <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
-        </div>\
-        <div style="height: 12px;"></div>';
+        if(EnterNameOneTime==0){
+          var studentName='Student Name <span>:';
+          var setNu='Registry No'+'<span>:';
+          EnterNameOneTime=1;
+        } else {
+          var studentName=' ';
+          var setNu=' ';
+          name=' ';
+          setNum=' ';
+        }
+        //ddddddddddddddddddddddddddddddddddd
+        htmldraw+=' <div class="row">\
+                      <div class="col-xs-9">\
+                      <span>'+studentName+' '+name+'</span></span>\
+                      <div style="height: 5px;"></div>\
+                      <span>'+setNu+' '+setNum+'</span></span>\
+                    </div>\
+                    <div class="col-xs-3">\
+                      <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
+                      <div style="height: 5px;"></div>\
+                      <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
+                    </div>\
+                    </div> \
+                    <div style="height: 10px;"></div>\
+                    <div class="pull-left">\
+                      <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
+                    </div>\
+                    <div style="height: 12px;"></div>';
         htmldraw+=' <table class="table condensed">\
                       <thead>\
                         <tr>\
@@ -692,7 +713,6 @@ var ratioo = require('../app/ratio');
       return htmldraw;
   }
 
-
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     function draw(obj){
       var str='';
@@ -701,17 +721,17 @@ var ratioo = require('../app/ratio');
       }
       return str;
     }
-        jsr.render({
-          template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-            recipe: "phantom-pdf",
-            helpers: draw.toString()
-          },
-          data:obj
-        }).then(function (response) {
-          response.result.pipe(res);
-        });
+      jsr.render({
+        template: { 
+          content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+          recipe: "phantom-pdf",
+          helpers: draw.toString()
+        },
+        data:obj
+      }).then(function (response) {
+        response.result.pipe(res);
       });
+    });
 
 
   router.get('/arabicTranscript/:id', function(req, res, next) {
@@ -727,7 +747,6 @@ var ratioo = require('../app/ratio');
             if(array == undefined){
               array=[];
             }
-            //var system=systemTypeAndSemType(arabicTranscriptObject);
             jsr.render({
               template: { 
                 content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
@@ -746,26 +765,25 @@ var ratioo = require('../app/ratio');
   });
 
   router.get('/englishTranscript/:id', function(req, res, next) {
+    //0000000000000000000000000
     models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name_en`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
-       models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
-         ).then(function(subj){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
           ).then(function(mix){
-            var array=getRatioForALlSemester(mix);
-            if(arabicTranscriptObject[0] != 0){
-            var fullName= returnFullNameEng(arabicTranscriptObject);
-            var setNumber=arabicTranscriptObject[0][1].set_number;
-            var department=arabicTranscriptObject[0][1].deptName;
-            var devision=arabicTranscriptObject[0][1].devName;
-            var system=systemTypeAndSemType(arabicTranscriptObject);
+            if(arabicTranscriptObject[0][0] != undefined){
+              var array=getRatioForALlSemester(mix);
+              var fullName= returnFullNameEng(arabicTranscriptObject);
+              var setNumber=arabicTranscriptObject[0][0].set_number;
+              if(array == undefined){
+                array=[];
+              }
             jsr.render({
               template: { 
                 content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
                 recipe: "phantom-pdf",
                 helpers:htmlTagsDrawEnglish.toString()
               },
-              data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject,ob:subj,o:array}
+              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
               response.result.pipe(res);
             });
@@ -773,7 +791,6 @@ var ratioo = require('../app/ratio');
             res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
           }
         });
-      });
     });
   });
 
