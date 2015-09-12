@@ -55,7 +55,7 @@ block content
                         span.glyphicon.glyphicon-pencil
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button#del.btn.btn-danger.btn-xs(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
+                      button#del.btn.btn-danger.btn-xs.deleteSubject(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
         if pagination
           .text-center
@@ -137,7 +137,7 @@ block content
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذه المادة ؟
         .modal-footer
-          button#ok.btn.btn-success(type="button", data-dismiss="modal")
+          button#deleteValue.btn.btn-success(type="button", data-dismiss="modal",value="")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")

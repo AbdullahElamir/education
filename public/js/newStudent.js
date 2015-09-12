@@ -76,9 +76,14 @@ $(document).ready(function(){
       },
       civil_reg:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
+
       },
       phone:{
         required: true,
+        number: true,
+        digits: true,
+        rangelength: [7, 12],
       },
       father_work_place:{
         required: true,
@@ -161,6 +166,9 @@ $(document).ready(function(){
       },
       phone:{
         required: "الرجاء ادخال رقم الهاتف!",
+        number: "الرجاء ادخال ارقام فقط!",
+        digits: "الرجاء ادخال ارقام صحيحة فقط!",
+        rangelength: "يجب ان يكون رقم الهاتف بين 7 الي 12 رقم!",
       },
       father_work_place:{
         required: "الرجاء ادخال مكان عمل اﻷب!",
