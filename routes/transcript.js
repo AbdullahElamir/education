@@ -68,7 +68,6 @@ var ratioo = require('../app/ratio');
 
 
   function htmlTagsDrawEnglish(obj,o,name,setNum){
-    //111111111111111111111
     var EnterNameOneTime=0;
     allunit=0;
     var unithaveDone=0;
@@ -124,7 +123,6 @@ var ratioo = require('../app/ratio');
           name=' ';
           setNum=' ';
         }
-        //ddddddddddddddddddddddddddddddddddd
         htmldraw+=' <div class="row">\
                       <div class="col-xs-9">\
                       <span>'+studentName+' '+name+'</span></span>\
@@ -167,7 +165,7 @@ var ratioo = require('../app/ratio');
           sumRatio=sumRatio+parseFloat(obj[0][i].no_th_unit*obj[0][i].sum_dagree);
           sum=sum+parseFloat(obj[0][i].no_th_unit);
         //***************** this section for Assess student  ************
-        someDegres=obj[0][i].sum_dagree;
+          someDegres=obj[0][i].sum_dagree;
           if(someDegres>=85 ){
             status="Excellent";
           } else if(someDegres>=75 && someDegres<85) {
@@ -739,7 +737,6 @@ var ratioo = require('../app/ratio');
     ).then(function(arabicTranscriptObject){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
           ).then(function(mix){
-            console.log(arabicTranscriptObject);
             if(arabicTranscriptObject[0][0] != undefined){
             var array=getRatioForALlSemester(mix);
             var fullName=returnFullName(arabicTranscriptObject);
@@ -761,11 +758,10 @@ var ratioo = require('../app/ratio');
             res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
           }
         });
+      });
     });
-  });
 
   router.get('/englishTranscript/:id', function(req, res, next) {
-    //0000000000000000000000000
     models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name_en`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
@@ -777,11 +773,11 @@ var ratioo = require('../app/ratio');
               if(array == undefined){
                 array=[];
               }
-            jsr.render({
-              template: { 
-                content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
-                recipe: "phantom-pdf",
-                helpers:htmlTagsDrawEnglish.toString()
+          jsr.render({
+            template: { 
+              content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
+              recipe: "phantom-pdf",
+              helpers:htmlTagsDrawEnglish.toString()
               },
               data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
@@ -791,8 +787,8 @@ var ratioo = require('../app/ratio');
             res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
           }
         });
+      });
     });
-  });
 
   router.get('/detection', function(req, res, next) {
     jsr.render({
@@ -1178,7 +1174,6 @@ router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
-  console.log(req.url);
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,
@@ -1253,17 +1248,14 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=req.session.idu;
-  console.log(req.body.SubGroupId);
   models.sequelize.query('select s.final_theor from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', { replacements: [req.body.SubGroupId] }
   ).then(function(obj){
     if(parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
       req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
     } else  { 
         req.body.sum_dagree=parseFloat(req.body.chapter_degree);
-        console.log("**************"+req.body.sum_dagree);
     }
- // parseFloat(req.body.final_exam);
- // req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
+
   models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SemesterStudentId:req.body.SemesterStudentId,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
@@ -1296,18 +1288,14 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
 });
 
 router.post('/updateG',userHelpers.isLogin,function(req,res){
-  console.log(req.body.body);
   models.sequelize.query('select s.final_theor from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=1 and at.SubGroupId=sg.id and sg.SubjectId=s.id', { replacements: [req.body.id] }
   ).then(function(obj){
     if(parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
       req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
     } else  { 
         req.body.body.sum_dagree=parseFloat(req.body.body.chapter_degree);
-        console.log("**************"+req.body.body.sum_dagree);
     }
   
-
-  //req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
   models.Academic_transcript.update(req.body.body,{
     where: {
       id:req.body.id
