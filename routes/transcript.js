@@ -556,7 +556,7 @@ var ratioo = require('../app/ratio');
         c++;
       }
       if(!sum){
-         sum=0;
+        sum=0;
       } 
       if(!sumation){
         sumation=0;
@@ -732,7 +732,7 @@ var ratioo = require('../app/ratio');
     });
 
 
-  router.get('/arabicTranscript/:id', function(req, res, next) {
+  router.get('/arabicTranscript/:id',function(req, res, next) {
     models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
@@ -750,7 +750,7 @@ var ratioo = require('../app/ratio');
                 recipe: "phantom-pdf",
                 helpers:htmlTagsDraw.toString()
               },
-              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
+              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber,S:D}
             }).then(function (response) {
               response.result.pipe(res);
             });
@@ -773,12 +773,12 @@ var ratioo = require('../app/ratio');
               if(array == undefined){
                 array=[];
               }
-          jsr.render({
+            jsr.render({
             template: { 
-              content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
-              recipe: "phantom-pdf",
-              helpers:htmlTagsDrawEnglish.toString()
-              },
+            content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
+            recipe: "phantom-pdf",
+            helpers:htmlTagsDrawEnglish.toString()
+            },
               data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
               response.result.pipe(res);
@@ -945,10 +945,13 @@ var ratioo = require('../app/ratio');
   });
 
   // this sertificate
-  router.get('/enGradCert', function(req, res, next) {
+  router.get('/englishCertificateTrue', function(req, res, next) {
     jsr.render({
       template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/englishGraduationCertificate.html"), "utf8"),
+        content:  fs.readFileSync(path.join(__dirname, "../views/englishCertificateTrue.html"), "utf8"),
+        phantom:{
+          orientation: "landscape",
+        },
         recipe: "phantom-pdf",
         },
       data:obj
@@ -996,7 +999,6 @@ var ratioo = require('../app/ratio');
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
-
 
 // this algorithem to get ratio for all semester it's hard to explain
 getRatioForALlSemester=function(mix){
@@ -1128,11 +1130,11 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
-
             models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
             ).then(function(mix){
               // this is for semester Ratio
               var array=getRatioForSemester(mix);
+              console.log(array);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
               if (arrayy != undefined) {
