@@ -32,10 +32,10 @@ var ratioo = require('../app/ratio');
   });
 
   returnFullName=function(fullName){
-    var name=fullName[0][1].first_name;
-    var fatherName=fullName[0][1].father_name;
-    var grandName=fullName[0][1].grand_name;
-    var lastName=fullName[0][1].last_name;
+    var name=fullName[0][0].first_name;
+    var fatherName=fullName[0][0].father_name;
+    var grandName=fullName[0][0].grand_name;
+    var lastName=fullName[0][0].last_name;
     return name+" "+fatherName+" "+grandName+" "+lastName;
   },
 
@@ -49,8 +49,8 @@ var ratioo = require('../app/ratio');
 
   // return string system type
   systemTypeAndSemType=function(system){
-    var sem=system[0][1].system_type;
-    var semType=system[0][1].sem_type;
+    var sem=system[0][0].system_type;
+    var semType=system[0][0].sem_type;
     // if seasone system return string season 
     if(sem==1){
       if(semType==1){
@@ -67,11 +67,9 @@ var ratioo = require('../app/ratio');
   }
 
 
-  function htmlTagsDrawEnglish(obj,ob,o){
+  function htmlTagsDrawEnglish(obj,o,name,setNum){
+    var EnterNameOneTime=0;
     allunit=0;
-    for(i in ob[0]){
-      allunit+=ob[0][i].no_th_unit;
-    }
     var unithaveDone=0;
     var days=["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th"];
     var numberOfSemester=0,counter=0,index=[];
@@ -115,12 +113,33 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="nothing";
-        htmldraw+='\
-        <div style="height: 10px;"></div>\
-           <div class="pull-left">\
-              <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
-        </div>\
-        <div style="height: 12px;"></div>';
+        if(EnterNameOneTime==0){
+          var studentName='Student Name <span>:';
+          var setNu='Registry No'+'<span>:';
+          EnterNameOneTime=1;
+        } else {
+          var studentName=' ';
+          var setNu=' ';
+          name=' ';
+          setNum=' ';
+        }
+        htmldraw+=' <div class="row">\
+                      <div class="col-xs-9">\
+                      <span>'+studentName+' '+name+'</span></span>\
+                      <div style="height: 5px;"></div>\
+                      <span>'+setNu+' '+setNum+'</span></span>\
+                    </div>\
+                    <div class="col-xs-3">\
+                      <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
+                      <div style="height: 5px;"></div>\
+                      <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
+                    </div>\
+                    </div> \
+                    <div style="height: 10px;"></div>\
+                    <div class="pull-left">\
+                      <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
+                    </div>\
+                    <div style="height: 12px;"></div>';
         htmldraw+=' <table class="table condensed">\
                       <thead>\
                         <tr>\
@@ -146,7 +165,7 @@ var ratioo = require('../app/ratio');
           sumRatio=sumRatio+parseFloat(obj[0][i].no_th_unit*obj[0][i].sum_dagree);
           sum=sum+parseFloat(obj[0][i].no_th_unit);
         //***************** this section for Assess student  ************
-        someDegres=obj[0][i].sum_dagree;
+          someDegres=obj[0][i].sum_dagree;
           if(someDegres>=85 ){
             status="Excellent";
           } else if(someDegres>=75 && someDegres<85) {
@@ -369,25 +388,23 @@ var ratioo = require('../app/ratio');
   return htmldraw;
   }
  
-  function htmlTagsDraw(obj,ob,o){ 
+  function htmlTagsDraw(obj,o,name,setNum){ 
     allunit=0;
-    for(i in ob[0]){
-      allunit+=ob[0][i].no_th_unit;
-    }
+    var EnterNameOneTime=0;
     var unithaveDone=0;
     var days=["الاول","الثاني","التالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الأحدي عشر","الثاني عشر","التالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر","التاسع عشر","عشروت"];
     var numberOfSemester=0,counter=0,index=[];
     var t=obj[0][0].SemesterStudentId;
     var printTwoSemesterTableInOnePage=0;
-    for(i=0;i<obj[0].length;i++){
+    for( i=0;i<obj[0].length;i++){
       if(i!=0){
-      if(t!=obj[0][i].SemesterStudentId || obj[0][i].SemesterStudentId==null ){
-        index.push(i);
-        t=obj[0][i].SemesterStudentId; 
-        numberOfSemester++;
-        counter++;
+        if(t!=obj[0][i].SemesterStudentId || obj[0][i].SemesterStudentId==null ){
+          index.push(i);
+          t=obj[0][i].SemesterStudentId; 
+          numberOfSemester++;
+          counter++;
+        }
       }
-    }
     }
     index.push(obj[0].length);
     var htmldraw=' ';
@@ -396,141 +413,163 @@ var ratioo = require('../app/ratio');
     var zero=0;
     var k=0;
     var c=0; 
-      for(var j=0;j<index.length;j++) {
-        var sem=obj[0][k].system_type;
-        var semType=obj[0][k].sem_type;
-        var semTypeVaribal;
-        var date=new Date(obj[0][k].year);
-        k=index[j];
+    for(var j=0;j<index.length;j++) {
+      var sem=obj[0][k].system_type;
+      var semType=obj[0][k].sem_type;
+      var semTypeVaribal;
+      var date=new Date(obj[0][k].year);
+      k=index[j];
     // if seasone system return string season 
-        if(sem==1){
-          if(semType==1){
-            semTypeVaribal="ربيع";
-          } else if(semType==2){
-            semTypeVaribal="خريف";
-          } else if(semType==3){
-            semTypeVaribal="صيف";
-          }
-         // if year system return string year
-        } else if(sem==2){
-          semTypeVaribal="سنة";
+      if(sem==1){
+        if(semType==1){
+          semTypeVaribal="ربيع";
+        } else if(semType==2){
+          semTypeVaribal="خريف";
+        } else if(semType==3){
+          semTypeVaribal="صيف";
         }
-        var sumFail=0;
-        var Ratiostatus="لا يوجد";
-        htmldraw+='\<div style="height: 10px;></div>\
-                    <div class="pull-right" >\
-                      <span> الفصل الدراسي <span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
+       // if year system return string year
+      } else if(sem==2){
+        semTypeVaribal="سنة";
+      }
+      var sumFail=0;
+      var Ratiostatus="لا يوجد";
+      if(EnterNameOneTime==0){
+        var studentName='اسم الطالب'+'<span>:';
+        var setNu='رقـــم القيـــد'+'<span>:';
+        EnterNameOneTime=1;
+      } else {
+        var studentName=' ';
+        var setNu=' ';
+        name=' ';
+        setNum=' ';
+      }
+      htmldraw+=' <br>\
+        <div class="row">\
+          <div class="col-xs-9">\
+            <span>'+studentName+'  '+name+' </span></span>\
+            <div style="height: 5px;"></div>\
+            <span> '+setNu+'  '+setNum+'</span></span>\
+          </div>\
+          <div class="col-xs-3">\
+            <span> التخصص <span>: '+obj[0][k-1].deptName+' </span></span>\
+            <div style="height: 5px;"></div>\
+            <span> الشعبــــة <span>: '+obj[0][k-1].devName+'</span></span>\
+          </div>\
+        </div>\
+        <div style="height: 10px;"></div> \
+      <div style="height: 10px;></div>\
+                  <div class="pull-right" >\
+                    <span> الفصل الدراسي <span>: </span> '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+' </span>\
                       <div style="height: 10px;"  ></div>\
-                   </div>\
-                   <div style="height: 12px;"  ></div>';
-        htmldraw+='<table class="table condensed"> \
-                      <thead> \
-                        <tr> \
-                          <th class="text-center">ر<span>.</span>م</th> \
-                          <th class="text-center">رمز المقرر</th> \
-                          <th class="text-center">اسم المقرر</th> \
-                          <th class="text-center">الوحدات</th> \
-                          <th class="text-center">الدرجة</th> \
-                          <th class="text-center">التقيم</th> \
-                          <th class="text-center">ملاحظات</th> \
-                        </tr> \
+                  </div>\
+                  <div style="height: 12px;"  ></div>';
+      htmldraw+=' <table class="table condensed"> \
+                    <thead> \
+                      <tr> \
+                        <th class="text-center">ر<span>.</span>م</th> \
+                        <th class="text-center">رمز المقرر</th> \
+                        <th class="text-center">اسم المقرر</th> \
+                        <th class="text-center">الوحدات</th> \
+                        <th class="text-center">الدرجة</th> \
+                        <th class="text-center">التقيم</th> \
+                        <th class="text-center">ملاحظات</th> \
+                      </tr> \
                     </thead> \
                   <tbody>';
-        var sumRatio=0.0,sum=0.0;
-        var counter=1;   
-        for(var i=zero;i<index[j];i++){  
-        
-          if(obj[0][i].sum_dagree>=50){
-            sumFail=sumFail+obj[0][i].no_th_unit;
-            unithaveDone+=obj[0][i].no_th_unit;
-          }
+      var sumRatio=0.0,sum=0.0;
+      var counter=1;   
+      for(var i=zero;i<index[j];i++){  
+        if(obj[0][i].sum_dagree>=50){
+          sumFail=sumFail+obj[0][i].no_th_unit;
+          unithaveDone+=obj[0][i].no_th_unit;
+        }
         //******************* student Average quarterly ***********
-          sumRatio=sumRatio+parseFloat(obj[0][i].no_th_unit*obj[0][i].sum_dagree);
-          sum=sum+parseFloat(obj[0][i].no_th_unit);
+        sumRatio=sumRatio+parseFloat(obj[0][i].no_th_unit*obj[0][i].sum_dagree);
+        sum=sum+parseFloat(obj[0][i].no_th_unit);
         //***************** this section for Assess student  ************
         someDegres=obj[0][i].sum_dagree;
-          if(someDegres>=85 ){
-            status="ممتاز";
-          } else if(someDegres>=75 && someDegres<85) {
-            status="جيدجدا";
-          } else if(someDegres>=65 && someDegres<75) {
-            status="جيد";
-          } else if(someDegres>=50 && someDegres<65) {
-              status="مقبول";
-          } else if(someDegres>=35 && someDegres<50) {
-              status="ضعيـف";
-          } else if(someDegres>=0 && someDegres<35) {
-              status="ضعيف جدا";
-          } 
+        if(someDegres>=85 ){
+          status="ممتاز";
+        } else if(someDegres>=75 && someDegres<85) {
+          status="جيدجدا";
+        } else if(someDegres>=65 && someDegres<75) {
+          status="جيد";
+        } else if(someDegres>=50 && someDegres<65) {
+            status="مقبول";
+        } else if(someDegres>=35 && someDegres<50) {
+            status="ضعيـف";
+        } else if(someDegres>=0 && someDegres<35) {
+            status="ضعيف جدا";
+        } 
         //***********************************************
         var not="";
         if(obj[0][i].notices ==2){
           not="إعادة";
-
         } else if(obj[0][i].notices ==3){
           not="تكميلي";
         }
-        htmldraw+='<tr> \
-              <td class="text-center">'+counter+'</td>\
-              <td class="text-center">'+obj[0][i].code+'</td> \
-              <td class="text-center">'+obj[0][i].name+'</td> \
-              <td class="text-center">'+obj[0][i].no_th_unit+'</td> \
-              <td class="text-center">'+obj[0][i].sum_dagree+'</td> \
-              <td class="text-center">'+status+'</td> \
-              <td class="text-center">'+not+'</td> \
-            </tr>';
-            counter++;
-        }
-       var tableStatic=0;
-       tableStatic=(8-counter);
-       for(var i=0;i<tableStatic;i++){
-         htmldraw+='<tr> \
-              <td class="text-center">'+counter+'</td>\
-              <td class="text-center"></td> \
-              <td class="text-center"></td> \
-              <td class="text-center"></td> \
-              <td class="text-center"></td> \
-              <td class="text-center"></td> \
-              <td class="text-center"></td> \
-            </tr>';
-          counter++;
-       }
-    var sumation=sumRatio/sum;
-        if(sumation>=85 ){
-          Ratiostatus="ممتاز";
-        } else if(sumation>=75 && sumation<85) {
-          Ratiostatus="جيدجدا";
-        } else if(sumation>=65 && sumation<75) {
-          Ratiostatus="جيد";
-        } else if(sumation>=50 && sumation<65) {
-            Ratiostatus="مقبول";
-        } else if(sumation>=35 && sumation<50) {
-            Ratiostatus="ضعيـف";
-        } else if(sumation>=0 && sumation<35) {
-            Ratiostatus="ضعيف جدا";
-        } 
-        rat=0;
-        if(obj[0][zero].SemesterStudentId==null){
-            rat = 0;
-        } else {
-           rat=o[c];
-           c++;
-        }
-        if(!sum){
-           sum=0;
-        } 
-        if(!sumation){
-          sumation=0;
-        }
-        htmldraw+='<td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'%</td>\
-              <td class="text-center">'+sum+'</td>\
-              <td style="border-bottom-color: #fff;"></td>\
-              <td class="text-center">'+Ratiostatus+'</td>';
-        htmldraw+='</tr>\
-          </tbody>\
-        </table>\
-        <div class="row">\
-          <div class="col-xs-10">\
+        htmldraw+=' <tr> \
+                      <td class="text-center">'+counter+'</td>\
+                      <td class="text-center">'+obj[0][i].code+'</td> \
+                      <td class="text-center">'+obj[0][i].name+'</td> \
+                      <td class="text-center">'+obj[0][i].no_th_unit+'</td> \
+                      <td class="text-center">'+obj[0][i].sum_dagree+'</td> \
+                      <td class="text-center">'+status+'</td> \
+                      <td class="text-center">'+not+'</td> \
+                    </tr>';
+        counter++;
+      }
+      var tableStatic=0;
+      tableStatic=(8-counter);
+      for(var i=0;i<tableStatic;i++){
+        htmldraw+=' <tr> \
+                      <td class="text-center">'+counter+'</td>\
+                      <td class="text-center"></td> \
+                      <td class="text-center"></td> \
+                      <td class="text-center"></td> \
+                      <td class="text-center"></td> \
+                      <td class="text-center"></td> \
+                      <td class="text-center"></td> \
+                    </tr>';
+        counter++;
+      }
+      var sumation=sumRatio/sum;
+      if(sumation>=85 ){
+        Ratiostatus="ممتاز";
+      } else if(sumation>=75 && sumation<85) {
+        Ratiostatus="جيدجدا";
+      } else if(sumation>=65 && sumation<75) {
+        Ratiostatus="جيد";
+      } else if(sumation>=50 && sumation<65) {
+          Ratiostatus="مقبول";
+      } else if(sumation>=35 && sumation<50) {
+          Ratiostatus="ضعيـف";
+      } else if(sumation>=0 && sumation<35) {
+          Ratiostatus="ضعيف جدا";
+      } 
+      rat=0;
+      if(obj[0][zero].SemesterStudentId==null){
+        rat = 0;
+      }else{
+        rat=o[c];
+        c++;
+      }
+      if(!sum){
+         sum=0;
+      } 
+      if(!sumation){
+        sumation=0;
+      }
+      htmldraw+=' <td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'%</td>\
+                    <td class="text-center">'+sum+'</td>\
+                    <td style="border-bottom-color: #fff;"></td>\
+                    <td class="text-center">'+Ratiostatus+'</td>';
+      htmldraw+=' </tr>\
+                </tbody>\
+            </table>\
+              <div class="row">\
+              <div class="col-xs-10">\
             <table class="table table-condensed">\
               <thead>\
                 <tr>\
@@ -549,129 +588,128 @@ var ratioo = require('../app/ratio');
             </table>\
           </div>\
         </div>';
-        zero=index[j];
-        printTwoSemesterTableInOnePage++;
-        if(printTwoSemesterTableInOnePage==2){
-           htmldraw+='<div  style="page-break-before: always;">';
-           htmldraw+='<br><br><br><br><br>';
-           printTwoSemesterTableInOnePage=0;
-        }
+      zero=index[j];
+      printTwoSemesterTableInOnePage++;
+      if(printTwoSemesterTableInOnePage==2){
+        htmldraw+='<div  style="page-break-before: always;">';
+        htmldraw+='<br><br><br><br><br>';
+        printTwoSemesterTableInOnePage=0;
       }
-      var semm=obj[0][0].system_type;
-      var semTypee=obj[0][0].sem_type;
-      var date=new Date(obj[0][0].year);
-      var semTypeVariball;
+    }
+    var semm=obj[0][0].system_type;
+    var semTypee=obj[0][0].sem_type;
+    var date=new Date(obj[0][0].year);
+    var semTypeVariball;
     // if seasone system return string season 
-      if(semm==1){
-        if(semTypee==1){
-          semTypeVariball="ربيع";
-        } else if(semTypee==2){
-          semTypeVariball="خريف";
-        } else if(semTypee==3){
-          semTypeVariball="صيف";
-        }
-       // if year system return string year
-      } else if(semm==2){
-        semTypeVariball="سنة";
+    if(semm==1){
+      if(semTypee==1){
+        semTypeVariball="ربيع";
+      } else if(semTypee==2){
+        semTypeVariball="خريف";
+      } else if(semTypee==3){
+        semTypeVariball="صيف";
       }
-      var semmm=obj[0][obj[0].length-1].system_type;
-      var semTypeee=obj[0][obj[0].length-1].sem_type;
-      var datee=new Date(obj[0][obj[0].length-1].year);
-      var semTypeVariballl;
+     // if year system return string year
+    } else if(semm==2){
+      semTypeVariball="سنة";
+    }
+    var semmm=obj[0][obj[0].length-1].system_type;
+    var semTypeee=obj[0][obj[0].length-1].sem_type;
+    var datee=new Date(obj[0][obj[0].length-1].year);
+    var semTypeVariballl;
     // if seasone system return string season 
-      if(semmm==1){
-        if(semTypeee==1){
-          semTypeVariballl="ربيع";
-        } else if(semTypeee==2){
-          semTypeVariballl="خريف";
-        } else if(semTypeee==3){
-          semTypeVariballl="صيف";
-        }
-       // if year system return string year
-      } else if(semmm==2){
-        semTypeVariballl="سنة";
+    if(semmm==1){
+      if(semTypeee==1){
+        semTypeVariballl="ربيع";
+      } else if(semTypeee==2){
+        semTypeVariballl="خريف";
+      } else if(semTypeee==3){
+        semTypeVariballl="صيف";
       }
-      var xy=o[o.length-1];
-      var ostatus;
-      if(xy>=85 ){
-        ostatus="ممتاز";
-      } else if(xy>=75 && xy<85) {
-        ostatus="جيدجدا";
-      } else if(xy>=65 && xy<75) {
-        ostatus="جيد";
-      } else if(xy>=50 && xy<65) {
-          ostatus="مقبول";
-      } else if(xy>=35 && xy<50) {
-          ostatus="ضعيـف";
-      } else if(xy>=0 && xy<35) {
-         ostatus="ضعيف جدا";
-      } 
+     // if year system return string year
+    } else if(semmm==2){
+      semTypeVariballl="سنة";
+    }
+    var xy=o[o.length-1];
+    var ostatus;
+    if(xy>=85 ){
+      ostatus="ممتاز";
+    } else if(xy>=75 && xy<85) {
+      ostatus="جيدجدا";
+    } else if(xy>=65 && xy<75) {
+      ostatus="جيد";
+    } else if(xy>=50 && xy<65) {
+        ostatus="مقبول";
+    } else if(xy>=35 && xy<50) {
+        ostatus="ضعيـف";
+    } else if(xy>=0 && xy<35) {
+       ostatus="ضعيف جدا";
+    } 
     htmldraw+='\
-      <br>\
-      <br>\
-      <table class="table table-condensed">\
-        <thead>\
-          <tr>\
-            <th class="text-center" width="1%">القبول</th>\
-            <th class="text-center" width="11%">'+semTypeVariball+' '+date.getFullYear()+'</th>\
-            <th class="text-center" width="27%">مجموع الوحدات الكلية النهائية</th>\
-            <th class="text-center"></th>\
-            <th class="text-center" width="24%">مجموع التقييم العام النهائي</th>\
-            <th class="text-center">'+ostatus+'</th>\
-          </tr>\
-          <tr>\
-            <th class="text-center">التخرج</th>\
-            <th class="text-center">'+semTypeVariballl+' '+datee.getFullYear()+'</th>\
-            <th class="text-center">مجموع الوحدات المنجزة النهائية</th>\
-            <th class="text-center">'+unithaveDone+'</th>\
-            <th class="text-center">المعدل التراكمي العام</th>\
-            <th class="text-center">'+o[o.length-1]+'</th>\
-          </tr>\
-          <tr>\
-            <th class="text-center" colspan="4">التقدير العام</th>\
-            <th class="text-center" colspan="2"></th>\
-          </tr>\
-        </thead>\
-      </table>\
-      <div class="pull-right">\
-        <span>المعدل موزع كالتالي <span>:</span></span>\
-      </div>\
-      <div class="row">\
-        <div class="col-xs-8">\
-          <table class="table table-condensed">\
-            <thead>\
-              <tr>\
-                <th class="text-center" width="1%">ممتاز</th>\
-                <th class="text-center" width="1%">جيد جدا</th>\
-                <th class="text-center" width="1%">جيد</th>\
-                <th class="text-center" width="1%">مقبول</th>\
-              </tr>\
-              <tr>\
-                <th class="text-center">% 100 - 85</th>\
-                <th class="text-center">% 85 - 75</th>\
-                <th class="text-center">% 75 - 65</th>\
-                <th class="text-center">% 65 - 50</th>\
-              </tr>\
-            </thead>\
-          </table>\
-        </div>\
-      </div>\
-      <div class="row">\
-        <div class="col-xs-10 col-xs-offset-1">\
-          <div class="pull-right">\
-            <span>مكتب مدير التسجيل والدراسة والامتحانات</span>\
-          </div>\
-          <div class="pull-left">\
-            <span>مدير عام المعهد</span>\
-          </div>\
-        </div>\
-      </div>\
-    </div> \
-  </body>\
-</html>';
-  return htmldraw;
+                <br>\
+                <br>\
+                  <table class="table table-condensed">\
+                    <thead>\
+                      <tr>\
+                        <th class="text-center" width="1%">القبول</th>\
+                        <th class="text-center" width="11%">'+semTypeVariball+' '+date.getFullYear()+'</th>\
+                        <th class="text-center" width="27%">مجموع الوحدات الكلية النهائية</th>\
+                        <th class="text-center"></th>\
+                        <th class="text-center" width="24%">مجموع التقييم العام النهائي</th>\
+                        <th class="text-center">'+ostatus+'</th>\
+                      </tr>\
+                      <tr>\
+                        <th class="text-center">التخرج</th>\
+                        <th class="text-center">'+semTypeVariballl+' '+datee.getFullYear()+'</th>\
+                        <th class="text-center">مجموع الوحدات المنجزة النهائية</th>\
+                        <th class="text-center">'+unithaveDone+'</th>\
+                        <th class="text-center">المعدل التراكمي العام</th>\
+                        <th class="text-center">'+o[o.length-1]+'</th>\
+                      </tr>\
+                      <tr>\
+                        <th class="text-center" colspan="4">التقدير العام</th>\
+                        <th class="text-center" colspan="2"></th>\
+                      </tr>\
+                    </thead>\
+                  </table>\
+                  <div class="pull-right">\
+                    <span>المعدل موزع كالتالي <span>:</span></span>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-xs-8">\
+                      <table class="table table-condensed">\
+                        <thead>\
+                          <tr>\
+                            <th class="text-center" width="1%">ممتاز</th>\
+                            <th class="text-center" width="1%">جيد جدا</th>\
+                            <th class="text-center" width="1%">جيد</th>\
+                            <th class="text-center" width="1%">مقبول</th>\
+                          </tr>\
+                          <tr>\
+                            <th class="text-center">% 100 - 85</th>\
+                            <th class="text-center">% 85 - 75</th>\
+                            <th class="text-center">% 75 - 65</th>\
+                            <th class="text-center">% 65 - 50</th>\
+                          </tr>\
+                        </thead>\
+                      </table>\
+                    </div>\
+                  </div>\
+                <div class="row">\
+                  <div class="col-xs-10 col-xs-offset-1">\
+                    <div class="pull-right">\
+                      <span>مكتب مدير التسجيل والدراسة والامتحانات</span>\
+                    </div>\
+                  <div class="pull-left">\
+                    <span>مدير عام المعهد</span>\
+                  </div>\
+                </div>\
+              </div>\
+            </div> \
+          </body>\
+        </html>';
+      return htmldraw;
   }
-
 
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     function draw(obj){
@@ -681,41 +719,38 @@ var ratioo = require('../app/ratio');
       }
       return str;
     }
-        jsr.render({
-          template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
-            recipe: "phantom-pdf",
-            helpers: draw.toString()
-          },
-          data:obj
-        }).then(function (response) {
-          response.result.pipe(res);
-        });
+      jsr.render({
+        template: { 
+          content:  fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
+          recipe: "phantom-pdf",
+          helpers: draw.toString()
+        },
+        data:obj
+      }).then(function (response) {
+        response.result.pipe(res);
       });
+    });
 
 
   router.get('/arabicTranscript/:id', function(req, res, next) {
     models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
-       models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
-         ).then(function(subj){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
           ).then(function(mix){
+            if(arabicTranscriptObject[0][0] != undefined){
             var array=getRatioForALlSemester(mix);
-            //console.log(arabicTranscriptObject[0][arabicTranscriptObject[0].length-1]);
-            if(arabicTranscriptObject[0] != 0){
             var fullName=returnFullName(arabicTranscriptObject);
-            var setNumber=arabicTranscriptObject[0][1].set_number;
-            var department=arabicTranscriptObject[0][1].deptName;
-            var devision=arabicTranscriptObject[0][1].devName;
-            var system=systemTypeAndSemType(arabicTranscriptObject);
+            var setNumber=arabicTranscriptObject[0][0].set_number;
+            if(array == undefined){
+              array=[];
+            }
             jsr.render({
               template: { 
                 content:  fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
                 recipe: "phantom-pdf",
                 helpers:htmlTagsDraw.toString()
               },
-              data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject,ob:subj,o:array}
+              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
               response.result.pipe(res);
             });
@@ -725,29 +760,26 @@ var ratioo = require('../app/ratio');
         });
       });
     });
-  });
 
   router.get('/englishTranscript/:id', function(req, res, next) {
     models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name_en`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
-       models.sequelize.query('select s.no_th_unit from Sub_groups as sb,Subjects as s where sb.DivisionId=? and sb.SubjectId=s.id', { replacements: [arabicTranscriptObject[0][1].idDev] }
-         ).then(function(subj){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
           ).then(function(mix){
-            var array=getRatioForALlSemester(mix);
-            if(arabicTranscriptObject[0] != 0){
-            var fullName= returnFullNameEng(arabicTranscriptObject);
-            var setNumber=arabicTranscriptObject[0][1].set_number;
-            var department=arabicTranscriptObject[0][1].deptName;
-            var devision=arabicTranscriptObject[0][1].devName;
-            var system=systemTypeAndSemType(arabicTranscriptObject);
-            jsr.render({
-              template: { 
-                content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
-                recipe: "phantom-pdf",
-                helpers:htmlTagsDrawEnglish.toString()
+            if(arabicTranscriptObject[0][0] != undefined){
+              var array=getRatioForALlSemester(mix);
+              var fullName= returnFullNameEng(arabicTranscriptObject);
+              var setNumber=arabicTranscriptObject[0][0].set_number;
+              if(array == undefined){
+                array=[];
+              }
+          jsr.render({
+            template: { 
+              content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
+              recipe: "phantom-pdf",
+              helpers:htmlTagsDrawEnglish.toString()
               },
-              data:{name:fullName,setNum:setNumber,dept:department,dev:devision,sys:system,obj:arabicTranscriptObject,ob:subj,o:array}
+              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
               response.result.pipe(res);
             });
@@ -757,7 +789,6 @@ var ratioo = require('../app/ratio');
         });
       });
     });
-  });
 
   router.get('/detection', function(req, res, next) {
     jsr.render({
@@ -1140,7 +1171,6 @@ router.post('/addSemesterStudent',userHelpers.isLogin,function(req,res){
   });
 
 router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
-  console.log(req.url);
   models.SemesterStudent.findOne({
     where:{
       id:req.params.id,
@@ -1215,17 +1245,14 @@ router.get('/addStudentSubject/:id',userHelpers.isLogin, function(req, res) {
 
 router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
   req.body.UserId=req.session.idu;
-  console.log(req.body.SubGroupId);
   models.sequelize.query('select s.final_theor from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', { replacements: [req.body.SubGroupId] }
   ).then(function(obj){
     if(parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
       req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
     } else  { 
         req.body.sum_dagree=parseFloat(req.body.chapter_degree);
-        console.log("**************"+req.body.sum_dagree);
     }
- // parseFloat(req.body.final_exam);
- // req.body.sum_dagree= parseFloat(req.body.chapter_degree)+parseFloat(req.body.final_exam);
+
   models.Academic_transcript.findOrCreate({where: {StudentId:req.body.StudentId,status:1,SemesterStudentId:req.body.SemesterStudentId,SubGroupId: req.body.SubGroupId}, defaults: req.body})
   .spread(function(result, created) {
     if(created){
@@ -1258,18 +1285,14 @@ router.post('/addStudentSubject',userHelpers.isLogin,function(req,res){
 });
 
 router.post('/updateG',userHelpers.isLogin,function(req,res){
-  console.log(req.body.body);
   models.sequelize.query('select s.final_theor from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=1 and at.SubGroupId=sg.id and sg.SubjectId=s.id', { replacements: [req.body.id] }
   ).then(function(obj){
     if(parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)){
       req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
     } else  { 
         req.body.body.sum_dagree=parseFloat(req.body.body.chapter_degree);
-        console.log("**************"+req.body.body.sum_dagree);
     }
   
-
-  //req.body.body.sum_dagree= parseFloat(req.body.body.chapter_degree)+parseFloat(req.body.body.final_exam);
   models.Academic_transcript.update(req.body.body,{
     where: {
       id:req.body.id

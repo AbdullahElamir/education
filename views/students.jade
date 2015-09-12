@@ -75,7 +75,7 @@ block content
                           span.glyphicon.glyphicon-pencil
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تنزيل المواد")  
-                        button#downloadSubject.btn.btn-primary.btn-xs(value="#{i.id}",data-title="Delete", data-toggle="modal")
+                        a#downloadSubject.btn.btn-primary.btn-xs(href="/transcript/addStudentSubject/#{i.id}",data-title="Delete", data-toggle="modal")
                           span.glyphicon.glyphicon-arrow-down
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إلغاء")
