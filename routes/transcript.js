@@ -124,12 +124,12 @@ var ratioo = require('../app/ratio');
           setNum=' ';
         }
         htmldraw+=' <div class="row">\
-                      <div class="col-xs-9">\
+                      <div class="pull-left">\
                       <span>'+studentName+' '+name+'</span></span>\
                       <div style="height: 5px;"></div>\
                       <span>'+setNu+' '+setNum+'</span></span>\
                     </div>\
-                    <div class="col-xs-3">\
+                    <div class="pull-right">\
                       <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
                       <div style="height: 5px;"></div>\
                       <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
@@ -200,7 +200,7 @@ var ratioo = require('../app/ratio');
             counter++;
         }
       var tableStatic=0;
-       tableStatic=(7-counter);
+       tableStatic=(8-counter);
        for(var i=0;i<tableStatic;i++){
          htmldraw+='<tr> \
               <td class="text-center">'+counter+'</td>\
@@ -446,12 +446,12 @@ var ratioo = require('../app/ratio');
       }
       htmldraw+=' <br>\
         <div class="row">\
-          <div class="col-xs-9">\
+          <div class="col-xs-8">\
             <span>'+studentName+'  '+name+' </span></span>\
             <div style="height: 5px;"></div>\
             <span> '+setNu+'  '+setNum+'</span></span>\
           </div>\
-          <div class="col-xs-3">\
+          <div class="col-xs-4">\
             <span> التخصص <span>: '+obj[0][k-1].deptName+' </span></span>\
             <div style="height: 5px;"></div>\
             <span> الشعبــــة <span>: '+obj[0][k-1].devName+'</span></span>\
