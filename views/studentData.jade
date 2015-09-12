@@ -50,14 +50,18 @@ block content
                 for i,u in semStudent
                   tr(data-id = 'smst#{i.id}',data-stut='#{i.student_status}',data-dep='#{i.DepartmentId}',data-level='#{i.level}',data-divi='#{i.DivisionId}')
                     td.text-center
-                      if i.Semester.system_type == 1
-                        | فصل ربيعي
-                      if i.Semester.system_type == 2
-                        |  فصل خريفي
-                      if i.Semester.system_type == 3
-                        |  قصل صيفي
-                      if i.Semester.system_type == 4
-                        |  سنة
+                      if i.Semester.system_type==1
+                        if i.Semester.sem_type==1
+                          | فصل ربيعي 
+                        if i.Semester.sem_type==2
+                          | فصل خريفي
+                        if i.Semester.sem_type==3
+                          | فصل صيفي
+                      if i.Semester.system_type ==2
+                        | سنة
+
+                       
+
                     td.text-center #{i.Semester.year.getFullYear()}
                     td(id="le#{i.id}").text-center #{semty[i.level-1]}
                     td.text-center #{i.Semester.starting_date.getDate()} / #{i.Semester.starting_date.getMonth()+1} / #{i.Semester.starting_date.getFullYear()} 
@@ -143,10 +147,14 @@ block content
               tr(data-id = '#')
                 td 
                   if i.system_type == 1
-                    | فصل 
+                    if i.sem_type == 1
+                      | فصل ربيعي
+                    if i.sem_type == 2
+                      |  فصل خريفي
+                    if i.sem_type == 3
+                      |  قصل صيفي
                   if i.system_type == 2
                     | سنة
-
                 td #{i.year.getFullYear()}
                 td  #{i.starting_date.getDate()} / #{i.starting_date.getMonth()+1} / #{i.starting_date.getFullYear()} 
                 td #{i.ending_date.getDate()} / #{i.ending_date.getMonth()+1} / #{i.ending_date.getFullYear()} 
