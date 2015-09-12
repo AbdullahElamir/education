@@ -476,7 +476,7 @@ var ratioo = require('../app/ratio');
                         <th class="text-center">ملاحظات</th> \
                       </tr> \
                     </thead> \
-                  <tbody>'
+                  <tbody>';
       var sumRatio=0.0,sum=0.0;
       var counter=1;   
       for(var i=zero;i<index[j];i++){  
@@ -755,7 +755,7 @@ var ratioo = require('../app/ratio');
               response.result.pipe(res);
             });
           } else {
-            res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
+            res.redirect('/transcript?msg=3');
           }
         });
       });
@@ -784,7 +784,7 @@ var ratioo = require('../app/ratio');
               response.result.pipe(res);
             });
           } else {
-            res.send("هذا الطالب حديث التسجيل في المعهد ولم يتم تسجيل تخصصه ولم يتم فتح فصل دراسي له ");
+            res.redirect('/transcript?msg=3');
           }
         });
       });
@@ -885,7 +885,7 @@ var ratioo = require('../app/ratio');
   });
 
   // this certificate
-  router.get('/certificateTrue/:id', function(req, res, next) {
+  router.get('/arGradCert/:id', function(req, res, next) {
     models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
     ).then(function(obj){
       models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
@@ -932,7 +932,7 @@ var ratioo = require('../app/ratio');
           }
           jsr.render({
           template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/certificateTrue.html"), "utf8"),
+            content:  fs.readFileSync(path.join(__dirname, "../views/arabicGraduationCertificate.html"), "utf8"),
             recipe: "phantom-pdf"
           },
           data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear(),sem:sem,year:year,status:status,rat:rat,sem_en:sem_en,status_en:status_en}
