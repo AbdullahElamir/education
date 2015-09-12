@@ -750,7 +750,7 @@ var ratioo = require('../app/ratio');
                 recipe: "phantom-pdf",
                 helpers:htmlTagsDraw.toString()
               },
-              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber,S:D}
+              data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
               response.result.pipe(res);
             });
