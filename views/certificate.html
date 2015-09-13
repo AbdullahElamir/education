@@ -63,10 +63,10 @@
           </div>
           <div style="height: 15px;"></div>
           <div class="row" >
-            <div class="col-xs-6 pull-right fontSizeBodyEn">
+            <div class="col-xs-5 pull-right fontSizeBodyEn">
               <span class="fontSizeBody"> يفيد المعهد العالي للـمهن الطبية القره بوللي<span>:</span> </span>
               <div style="height: 30px;"></div>
-              <span> الطالب <span>(</span>رباعي<span>)</span> <span>:</span>
+              <span> اسم الطالب <span>:</span>
                 <b style="font-size: 12px">{{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}}</b> </span>
               <div style="height: 3px;"></div>
               <div> رقم القيد <span>: </span>{{st.set_number}}
@@ -90,23 +90,23 @@
               <div> الشعبة <span>:</span>  {{st.name}}
                  </div>
               <div style="height: 3px;"></div>
-              <div> الفصل الدراسي <span>:</span>
+              <div> الفصل الدراسي <span>:</span> {{sem}}
                  </div>
               <div style="height: 3px;"></div>
-              <div> العام الدراسي <span>:</span>
+              <div> العام الدراسي <span>:</span> {{year}}
                  </div>
               <div style="height: 3px;"></div>
-              <div> المعدل العام <span>:</span>
+              <div> المعدل العام <span>:</span> {{rat}}%
                  </div>
               <div style="height: 3px;"></div>
-              <div> التقدير <span>:</span>
+              <div> التقدير <span>:</span> {{status}}
                  </div>
             </div>
-            <div class="col-xs-6  pull-left text-left englishStyle fontSizeBodyEn">
+            <div class="col-xs-7  pull-left text-left englishStyle fontSizeBodyEn">
               <div class="fontSizeBody"> <span>:</span>This is to certify that </div>
               <div style="height: 30px;"></div>
               <div>  
-                Student <span>:</span> <span style="font-size: 11px">{{st.first_name_en}} {{st.father_name_en}} {{st.grand_name_en}} {{st.last_name_en}}</span>
+                Student name <span>:</span> <span style="font-size: 11px">{{st.first_name_en}} {{st.father_name_en}} {{st.grand_name_en}} {{st.last_name_en}}</span>
               </div>
                  
               <div style="height: 3px;"></div>
@@ -131,17 +131,17 @@
               <div> Division <span>:</span> 
                  {{st.name_en}} </div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
-                Semester  </div>
+              <div> Semester <span>:</span> 
+                  {{sem_en}}</div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
-                Academic Year  </div>
+              <div> Academic Year  <span>:</span> 
+                 {{year}}</div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
-                Percentage  </div>
+              <div> Percentage <span>:</span> 
+                  {{rat}}%</div>
               <div style="height: 3px;"></div>
-              <div>  <span>:</span> 
-                General Grad  </div>
+              <div> General Grad  <span>:</span> 
+                 {{status_en}}</div>
             </div>
           
           <div style="height: 25px;"></div>

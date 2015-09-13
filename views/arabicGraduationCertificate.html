@@ -51,23 +51,23 @@
           <div style="height: 20px;"></div>
           
               <div class="fontSizeBody">
-                يفيدكم المعهد العالي للـمهن الطبية القره بوللي بان الطالب <span>(</span>رباعي<span>): ...........................
+                يفيدكم المعهد العالي للـمهن الطبية القره بوللي بان الطالب <span>: {{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}}
                 <div style="height: 5px;"></div>
-                 </span>والمسجل تحت رقم القيد<span> : ...................... ,</span>
-                 الجنسيه<span> : ................... ,</span>
-                  الرقم الوطني <span> : ................... ,</span>
+                 </span>والمسجل تحت رقم القيد<span> : {{st.set_number}} ,</span>
+                 الجنسيه<span> : {{nat.name}} ,</span>
                   <div style="height: 5px;"></div>
-                  تاريـخ ومكان الميلاد <span> : ..................... ,</span> 
+                  الرقم الوطني <span> : {{st.nid}} ,</span>
+                  تاريـخ ومكان الميلاد <span> : {{st.place_birth}} {{date}} ,</span> 
                   <div style="height: 5px;"></div>
                   قد أنهى جميع متطلبات التخرج للـحصول على درجة الدبلوم العالي في مـجال التخصص
                   <div style="height: 5px;"></div>
-                  بقسم <span> : ..................... ,</span> 
-                  شعبة <span> : ..................... ,</span> 
-                  للفصل الدراسي <span> : ..................... ,</span> 
+                  بقسم <span> : {{st.named}} ,</span> 
+                  شعبة <span> : {{st.name}} ,</span> 
+                  للفصل الدراسي <span> : {{sem}} ,</span> 
                   <div style="height: 5px;"></div>
-                  والعام الدراسي <span> : ..................... ,</span> 
-                  بتقدير <span> : ..................... ,</span> 
-                  وبمعدل عام <span> : ..................... %.</span> 
+                  والعام الدراسي <span> : {{year}} ,</span> 
+                  بتقدير <span> : {{status}} ,</span> 
+                  وبمعدل عام <span> : {{rat}}%</span> 
   
                   <div style="height: 35px;" ></div>
   

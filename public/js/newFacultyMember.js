@@ -17,6 +17,7 @@ $(document).ready(function(){
       },
       qualification:{
         required: true,
+        arabicLettersWithSpacesOnly: true,
       },
       DepartmentId:{
         required: true,
