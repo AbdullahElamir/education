@@ -117,14 +117,13 @@ block content
                           td #{d.sub_group_name}
                           td(id="chap"+u,hidden) #{d.chapter_degree}
                           td(id="final"+u,hidden) #{d.final_theor}
-
                           td.text-center
                             p(data-placement="top", data-toggle="tooltip", title="إضافة")
                               button#adAc.btn.btn-success.btn-xs(value="#{d.id}",data-title="Edit", data-toggle="modal", data-target="#add")
                                 span.glyphicon.glyphicon-hand-right   
                       
                               button#chapterGlobalVaribalButton(hidden)
-                              buttonse#finalGlobalVaribalButton(hidden)
+                              button#finalGlobalVaribalButton(hidden)
                                               
             #generale_teble
               .panel.panel-default
@@ -140,16 +139,22 @@ block content
                       th المجموعة
                       th.text-center إضافة
                     tbody
-                      for g in gen
+                      for g,u in gen
                         if g.Subject != nul
                           tr()
                             td #{g.Subject.name}
                             td #{g.Subject.code}
                             td #{g.sub_group_name}
+                            td(id="chap"+u,hidden) #{g.Subject.chapter_degree}
+                            td(id="final"+u,hidden) #{g.Subject.final_theor}
                             td.text-center
                               p(data-placement="top", data-toggle="tooltip", title="إضافة")
                                 button#adAc.btn.btn-success.btn-xs(value="#{g.id}",data-title="Edit", data-toggle="modal", data-target="#add")
                                   span.glyphicon.glyphicon-hand-right
+                              button#chapterGlobalVaribalButton(hidden)
+                              button#finalGlobalVaribalButton(hidden)
+
+
             #Division_teble
               .panel.panel-default
                 .panel-heading
@@ -164,16 +169,20 @@ block content
                       th المجموعة
                       th.text-center إضافة
                     tbody
-                      for di in div
+                      for di,u in div
                         if di.Subject != nul
                           tr()
                             td #{di.Subject.name}
                             td #{di.Subject.code}
                             td #{di.sub_group_name}
+                            td(id="chap"+u,hidden) #{di.Subject.chapter_degree}
+                            td(id="final"+u,hidden) #{di.Subject.final_theor}
                             td.text-center
                               p(data-placement="top", data-toggle="tooltip", title="إضافة")
                                 button#adAc.btn.btn-success.btn-xs(value="#{di.id}",data-title="Edit", data-toggle="modal", data-target="#add")
                                   span.glyphicon.glyphicon-hand-right
+                              button#chapterGlobalVaribalButton(hidden)
+                              button#finalGlobalVaribalButton(hidden)
 
     
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
