@@ -18,15 +18,28 @@ var ratioo = require('../app/ratio');
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Student.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page,pageCount);
+    var q = userHelpers.getQuery(req);
+    var first_name = userHelpers.getname(req);
+    var father_name = userHelpers.getfather_name(req);
+    var last_name = userHelpers.getlast_name(req);
+    var obj ={where: {status: 1}};
+    if(q != ""){
+      obj.where.set_number={$like:'%'+q+'%'};
+    }
+    if(first_name !=""){
+      obj.where.first_name={$like:'%'+first_name+'%'};
+    }
+    if (father_name !=""){
+    obj.where.father_name={$like:'%'+father_name+'%'};
+    }
+    if (last_name != ""){
+      obj.where.last_name={$like:'%'+last_name+'%'};
+    }
+    obj.limit = 10;
+    obj.offset= limit;
+  models.Student.findAndCountAll(obj).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
       res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });
     });
   });
@@ -124,21 +137,23 @@ var ratioo = require('../app/ratio');
           setNum=' ';
         }
         htmldraw+=' <div class="row">\
-                      <div class="col-xs-9">\
-                      <span>'+studentName+' '+name+'</span></span>\
-                      <div style="height: 5px;"></div>\
-                      <span>'+setNu+' '+setNum+'</span></span>\
-                    </div>\
-                    <div class="col-xs-3">\
-                      <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
-                      <div style="height: 5px;"></div>\
-                      <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
-                    </div>\
-                    </div> \
-                    <div style="height: 10px;"></div>\
-                    <div class="pull-left">\
-                      <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
-                    </div>\
+                      <div class="col-xs-12">\
+                        <div class="pull-left">\
+                        <span>'+studentName+' '+name+'</span></span>\
+                        <div style="height: 5px;"></div>\
+                        <span>'+setNu+' '+setNum+'</span></span>\
+                        </div>\
+                        <div class="pull-right">\
+                          <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
+                          <div style="height: 5px;"></div>\
+                          <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
+                        </div>\
+                        </div> \
+                      </div>\
+                      <div style="height: 10px;"></div>\
+                      <div class="pull-left">\
+                        <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
+                      </div>\
                     <div style="height: 12px;"></div>';
         htmldraw+=' <table class="table condensed">\
                       <thead>\
@@ -200,7 +215,7 @@ var ratioo = require('../app/ratio');
             counter++;
         }
       var tableStatic=0;
-       tableStatic=(7-counter);
+       tableStatic=(8-counter);
        for(var i=0;i<tableStatic;i++){
          htmldraw+='<tr> \
               <td class="text-center">'+counter+'</td>\
@@ -240,10 +255,28 @@ var ratioo = require('../app/ratio');
         if(!sumation){
           sumation=0;
         }
-        htmldraw+='<td colspan="3" style="padding: 5px;">Semester Average &nbsp;&nbsp; '+sumation+'%</td>\
+        var x=sumation;
+        var n = 10;
+        for(var i = 1; i < 2; i++){
+          n *=10;
+        }
+        if(!2 || 2 <= 0)
+          x= Math.round(x);
+        else
+          x= Math.round(x * n) / n;
+        htmldraw+='<td colspan="3" style="padding: 5px;">Semester Average &nbsp;&nbsp; '+x+'%</td>\
             <td align="center">'+sum+'</td>\
             <td style="border-bottom-color: #fff;"></td>\
             <td align="center">'+Ratiostatus+'</td>';
+        var yy=rat;
+        var n = 10;
+        for(var i = 1; i < 2; i++){
+          n *=10;
+        }
+        if(!2 || 2 <= 0)
+          yy= Math.round(yy);
+        else
+          yy= Math.round(yy * n) / n;
         htmldraw+='</tr>\
                     </tbody>\
                       </table>\
@@ -261,7 +294,7 @@ var ratioo = require('../app/ratio');
                             <th class="text-center">Total Points</th>\
                             <th class="text-center">'+Ratiostatus+'</th>\
                             <th class="text-center">General Cumulative Average</th>\
-                            <th class="text-center">'+rat+'</th>\
+                            <th class="text-center">'+yy+'</th>\
                           </tr>\
                         </thead>\
                       </table>\
@@ -388,7 +421,7 @@ var ratioo = require('../app/ratio');
   return htmldraw;
   }
  
-  function htmlTagsDraw(obj,o,name,setNum){ 
+  function htmlTagsDraw(obj,o,name,setNum,mathObject){ 
     allunit=0;
     var EnterNameOneTime=0;
     var unithaveDone=0;
@@ -446,12 +479,12 @@ var ratioo = require('../app/ratio');
       }
       htmldraw+=' <br>\
         <div class="row">\
-          <div class="col-xs-9">\
+          <div class="col-xs-8">\
             <span>'+studentName+'  '+name+' </span></span>\
             <div style="height: 5px;"></div>\
             <span> '+setNu+'  '+setNum+'</span></span>\
           </div>\
-          <div class="col-xs-3">\
+          <div class="col-xs-4">\
             <span> التخصص <span>: '+obj[0][k-1].deptName+' </span></span>\
             <div style="height: 5px;"></div>\
             <span> الشعبــــة <span>: '+obj[0][k-1].devName+'</span></span>\
@@ -561,10 +594,28 @@ var ratioo = require('../app/ratio');
       if(!sumation){
         sumation=0;
       }
-      htmldraw+=' <td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'%</td>\
+      var x=sumation;
+      var n = 10;
+      for(var i = 1; i < 2; i++){
+        n *=10;
+      }
+      if(!2 || 2 <= 0)
+        x= Math.round(x);
+      else
+        x= Math.round(x * n) / n;
+      htmldraw+=' <td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+x+'%</td>\
                     <td class="text-center">'+sum+'</td>\
                     <td style="border-bottom-color: #fff;"></td>\
                     <td class="text-center">'+Ratiostatus+'</td>';
+      var yy=rat;
+      var n = 10;
+      for(var i = 1; i < 2; i++){
+        n *=10;
+      }
+      if(!2 || 2 <= 0)
+        yy= Math.round(yy);
+      else
+        yy= Math.round(yy * n) / n;
       htmldraw+=' </tr>\
                 </tbody>\
             </table>\
@@ -582,7 +633,7 @@ var ratioo = require('../app/ratio');
                   <th class="text-center">مجموع التقييم العام</th>\
                   <th class="text-center">'+Ratiostatus+'</th>\
                   <th class="text-center">المعدل التراكمي العام</th>\
-                  <th class="text-center">'+rat+'</th>\
+                  <th class="text-center">'+yy+'</th>\
                 </tr>\
               </thead>\
             </table>\
@@ -886,6 +937,7 @@ return html;
       });
     });
 
+
   router.get('/detection/:id', function(req, res, next) {
     models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =1 AND `ss`.`level` =1 AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', { replacements: [req.params.id] }
     ).then(function(obj){
@@ -914,6 +966,9 @@ return html;
         });
       });
     });
+  });
+  router.get('/detections',userHelpers.isLogin, function(req, res) {
+    res.render('detections', { title: 'عرض النتائج', name:req.session.name, collapseEight: 'collapse in', activeEightTwo: 'active' });
   });
 
   // this sertificate
@@ -1153,7 +1208,8 @@ return html;
   models.Student.findAndCountAll(obj).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
-    res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+    console.log(pagination);
+    res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q });
   });
 });
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
@@ -1245,73 +1301,76 @@ getRatioForSemester = function(mix){
     } else {
       array.push(round((sum/sumUnit),3));
     }
-   // array.push(round((sum/sumUnit),3));
-  //}
 
   for(var i=0 ; i<array.length;i++){
     if(!array[i]){
       array[i]=0;
     }
   }
-
-
   return array;
 },
 
-
-router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
-   models.Department.findAll({
+  /*---------indented by Ahmed Fituri---------------*/
+  router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
+    models.Student.findOne({
+      attributes:['first_name','last_name'],
       where: {
-        status: 1
+        status: 1,
+        id:req.params.id
       }
-    }).then(function(department) {
-      models.Division.findAll({
+    }).then(function(student) {
+      models.Department.findAll({
         where: {
-        status: 1
-      }
-      }).then(function(Division) { 
-          models.Semester.findAll({
-          where: {
           status: 1
-          },
-          order: '`starting_date` DESC'
-         }).then(function(semester) {
-         models.SemesterStudent.findAll({
+        }
+      }).then(function(department) {
+        models.Division.findAll({
           where: {
-          status: 1,
-          StudentId: req.params.id
-          },
-          order: '`starting_date` DESC',
-      "include" : [
-        {"model" : models.Division},
-        {"model"  : models.Department},
-        {"model"  : models.User},
-        {"model"  : models.Semester,
-      },
-      ],
-         }).then(function(semstudent) {
-          var idstudent =req.params.id;
-
-            models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
-            ).then(function(mix){
-              // this is for semester Ratio
-              var array=getRatioForSemester(mix);
-              // this is for all semester ratio
-              var arrayy=getRatioForALlSemester(mix);
-              if (arrayy != undefined) {
-                arrayy=arrayy.reverse();
-              }
-              if (array != undefined) {
-                array=array.reverse();
-              }
-              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-              res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+            status: 1
+          }
+        }).then(function(Division) { 
+          models.Semester.findAll({
+            where: {
+              status: 1
+            },
+            order: '`starting_date` DESC',
+            limit :5
+          }).then(function(semester) {
+            models.SemesterStudent.findAll({
+              where: {
+                status: 1,
+                StudentId: req.params.id
+              },
+              order: '`starting_date` DESC',
+              "include" : [
+                {"model" : models.Division},
+                {"model"  : models.Department},
+                {"model"  : models.User},
+                {"model"  : models.Semester}
+              ],
+            }).then(function(semstudent) {
+              var idstudent =req.params.id;
+              models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
+              ).then(function(mix){
+                // this is for semester Ratio
+                var array=getRatioForSemester(mix);
+                // this is for all semester ratio
+                var arrayy=getRatioForALlSemester(mix);
+                if (arrayy != undefined) {
+                  arrayy=arrayy.reverse();
+                }
+                if (array != undefined) {
+                  array=array.reverse();
+                }
+                var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+                res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , student : student, name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              });
             });
           });
         });
       });
     });
- });
+  });
 
  function round(value, ndec){
     var n = 10;
@@ -1487,7 +1546,9 @@ router.post('/updateG',userHelpers.isLogin,function(req,res){
 });
 
 router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
-  models.Academic_transcript.destroy({
+  models.Academic_transcript.update({
+    status:0
+  },{
     where: {
       id:req.params.id
     }

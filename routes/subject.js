@@ -10,8 +10,7 @@ var Sequelize = require('sequelize')
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     var q = userHelpers.getQuery(req);
-    if (q == undefined)
-    {
+    if (q == ""){
       models.Subject.findAndCountAll({
         where: {
           status: 1
@@ -21,34 +20,27 @@ var Sequelize = require('sequelize')
       }).then(function(Subject) {
         var pageCount = userHelpers.getPageCount(Subject.count);
         var pagination = userHelpers.paginate(page,pageCount);    
-       models.Department.findAll({
+        models.Department.findAll({
           where: {
             status: 1
           }
         }).then(function(departments) {
-
-           models.Subject.findAll({
-        where: {
-          status: 1
-        }
-      }).then(function(sub) {
+          models.Subject.findAll({
+            where: {
+              status: 1
+            }
+          }).then(function(sub) {
             res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows, name:req.session.name});
-        }); 
+          }); 
+        });
       });
-      });
-  }
-  else
-  {
+    } else {
       models.Subject.findAndCountAll({
         where: {
           status: 1,
-           $or: [
-            {
-          name : {$like:'%'+q+'%'}
-            },
-            {
-          code : {$like:'%'+q+'%'},
-            } 
+          $or: [
+            {name : {$like:'%'+q+'%'}},
+            {code : {$like:'%'+q+'%'},} 
           ]   
         },
         limit : 10,
@@ -56,23 +48,22 @@ var Sequelize = require('sequelize')
       }).then(function(Subject) {
         var pageCount = userHelpers.getPageCount(Subject.count);
         var pagination = userHelpers.paginate(page,pageCount);    
-       models.Department.findAll({
+        models.Department.findAll({
           where: {
             status: 1
           }
         }).then(function(departments) {
-
-           models.Subject.findAll({
-        where: {
-          status: 1
-        }
-      }).then(function(sub) {
+          models.Subject.findAll({
+            where: {
+              status: 1
+            }
+          }).then(function(sub) {
             res.render('subject', {subb:sub, title: 'عرض المواد الدراسية',dep:departments,pagination:pagination,collapseThree: 'collapse in', activeThreeOne: 'active' ,Sub : Subject.rows, name:req.session.name});
-        }); 
-      });
+          }); 
+        });
       }); 
-  }
-});
+    }
+  });
 
   router.get('/deleteDivisionsbject/:ids/:idd', userHelpers.isLogin,function(req, res) {
     models.DivisionSubject.destroy({

@@ -65,7 +65,18 @@ $("#newSubject").validate({
     }
   },
 });
+  $('#subject_search_btn').on('click', function(){
+    window.location.href="/subject?q="+$('#subject_search').val();
+  });  
 
+ 
+  $("#subject_search").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#subject_search_btn").click(); 
+      }
+  });
 $('#toggle-subject').change(function() {
   
   if ($(this).prop('checked') == true) {
@@ -85,6 +96,7 @@ $('body').on('click', '#save', function() {
       window.location.replace("/subject/edit/"+result.id);
     });
   }
+
 });
 
 /*--------------on delete subject Modal----------- */

@@ -124,13 +124,16 @@ router.get('/divisionsearch/:name',function(req, res) {
    models.Division.findAll({
       include: [{
         model: models.Department,
-        where: { status: 1 }
+        where: { status: 1 },
       }],
       where: {
-        status: 1
+        status: 1,
+        name: {$like:'%'+req.params.name+'%'}
       },
-    name: {$like:'%'+req.params.name+'%'} 
+     
   }).then(function(division) {
+    console.log(req.params.name);
+    console.log(division);
     res.send(division);
   });
 });
