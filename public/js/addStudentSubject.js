@@ -128,14 +128,37 @@ $(document).ready(function(){
     });
   });
 
-  $('body').on('click', '#adAc', function (e) {
+  $('body').on('click', '#adA', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
     rowindex = $(this).closest('tr').index();
-    $('#chapterGlobalVaribalButton').val( $("#mytable #chap"+rowindex).text());
-    $('#finalGlobalVaribalButton').val( $("#mytable #final"+rowindex).text());
+    $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
+    $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
     $('#subG').val($(this).val());   
   });
+
+
+  $('body').on('click', '#ad', function (e) {
+    /* in this line I used hidden button like global varibal to use it in the max chapter and */
+    /* final degree in the validation section */
+    rowindex = $(this).closest('tr').index();
+    $('#chapterGlobalVaribalButton').val( $("#mytableee #chap"+rowindex).text());
+    $('#finalGlobalVaribalButton').val( $("#mytableee #final"+rowindex).text());
+    $('#subG').val($(this).val());   
+  });
+
+
+  $('body').on('click', '#a', function (e) {
+    /* in this line I used hidden button like global varibal to use it in the max chapter and */
+    /* final degree in the validation section */
+    rowindex = $(this).closest('tr').index();
+    $('#chapterGlobalVaribalButton').val( $("#mytableeee #chap"+rowindex).text());
+    $('#finalGlobalVaribalButton').val( $("#mytableeee #final"+rowindex).text());
+    $('#subG').val($(this).val());   
+  });
+
+
+
 
   $('body').on('click', '#submit', function (e) {
     e.preventDefault();
