@@ -18,15 +18,28 @@ var ratioo = require('../app/ratio');
   router.get('/',userHelpers.isLogin, function(req, res) {
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
-    models.Student.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page,pageCount);
+    var q = userHelpers.getQuery(req);
+    var first_name = userHelpers.getname(req);
+    var father_name = userHelpers.getfather_name(req);
+    var last_name = userHelpers.getlast_name(req);
+    var obj ={where: {status: 1}};
+    if(q != ""){
+      obj.where.set_number={$like:'%'+q+'%'};
+    }
+    if(first_name !=""){
+      obj.where.first_name={$like:'%'+first_name+'%'};
+    }
+    if (father_name !=""){
+    obj.where.father_name={$like:'%'+father_name+'%'};
+    }
+    if (last_name != ""){
+      obj.where.last_name={$like:'%'+last_name+'%'};
+    }
+    obj.limit = 10;
+    obj.offset= limit;
+  models.Student.findAndCountAll(obj).then(function(student) {
+    var pageCount = userHelpers.getPageCount(student.count);
+    var pagination = userHelpers.paginate(page,pageCount);
       res.render('printTranscript', { title: 'عرض الطلبة', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseEight: 'collapse in', activeEightOne: 'active' });
     });
   });
@@ -124,21 +137,23 @@ var ratioo = require('../app/ratio');
           setNum=' ';
         }
         htmldraw+=' <div class="row">\
+                      <div class="col-xs-12">\
+                        <div class="pull-left">\
+                        <span>'+studentName+' '+name+'</span></span>\
+                        <div style="height: 5px;"></div>\
+                        <span>'+setNu+' '+setNum+'</span></span>\
+                        </div>\
+                        <div class="pull-right">\
+                          <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
+                          <div style="height: 5px;"></div>\
+                          <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
+                        </div>\
+                        </div> \
+                      </div>\
+                      <div style="height: 10px;"></div>\
                       <div class="pull-left">\
-                      <span>'+studentName+' '+name+'</span></span>\
-                      <div style="height: 5px;"></div>\
-                      <span>'+setNu+' '+setNum+'</span></span>\
-                    </div>\
-                    <div class="pull-right">\
-                      <span> Department <span>: '+obj[0][k-1].deptName+' </span></span>\
-                      <div style="height: 5px;"></div>\
-                      <span> Division <span>: '+obj[0][k-1].devName+' </span></span>\
-                    </div>\
-                    </div> \
-                    <div style="height: 10px;"></div>\
-                    <div class="pull-left">\
-                      <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
-                    </div>\
+                        <span> Semester : '+days[j]+' '+semTypeVaribal+' '+date.getFullYear()+'  </span>\
+                      </div>\
                     <div style="height: 12px;"></div>';
         htmldraw+=' <table class="table condensed">\
                       <thead>\
@@ -574,7 +589,7 @@ var ratioo = require('../app/ratio');
         c++;
       }
       if(!sum){
-        sum=0;
+         sum=0;
       } 
       if(!sumation){
         sumation=0;
@@ -747,100 +762,6 @@ var ratioo = require('../app/ratio');
       return htmldraw;
   }
 
-function htmlTagsDrawDetection(data,stu){ 
-  var html=' ';
-  var sub = ' ';
-  var subject = [];
-  for(k in data){
-    sub+='<th class="text-center">'+data[k].code+'</th>';
-    subject[k]=data[k].id;
-  }
-
-      if(sub.length==1){
-        sub='<td></td>';
-      }
-
-  html+='<table class="table condensed">\
-    <thead>\
-      <tr style="border-top-style: solid; border-top-width: 2px;">\
-        <th class="text-center" width="1%" height="46">ت</th>\
-        <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
-        <th class="text-center" width="6%">رقم القيد</th>\
-        <th class="text-center" width="1%">الدرجــــــــة</th>\
-        '+sub+'\
-        <th class="text-center" style="width: 20%;">ملاحظات</th>\
-        <th class="text-center" width="8%">المجموع العام</th>\
-        <th class="text-center" width="8%">التقدير العام</th>\
-        <th class="text-center" width="9%">النتيجة النهائية</th>\
-      </tr>\
-  </thead>';
-    for (i in stu){
-      var cahp= ' ';
-      var fin = ' ';
-      var sum = ' '; 
-      var not=' ';
-      for(k in stu[i]){
-        if(subject[k]==stu[i][k].id){
-          cahp+= '<td>'+stu[i][k].chapter_degree+'</td>';
-          fin+= '<td>'+stu[i][k].final_exam+'</td>';
-          sum+= '<td>'+stu[i][k].sum_dagree+'</td>';
-        }else{
-          not+= '<p>'+stu[i][k].code+' : '+stu[i][k].sum_dagree+' </p> ';
-        }
-      } 
-      if(cahp.length==1){
-        cahp='<td width="9%"></td>';
-      }
-      if(sum.length==1){
-        sum='<td width="9%"></td>';
-      }
-      if(fin.length==1){
-        fin='<td width="9%"></td>';
-      }
-      html+='<tbody style="border: 2px solid #000;">\
-        <tr>\
-          <td></td>\
-          <td>'+stu[i][0].first_name+' '+stu[i][0].father_name+' '+stu[i][0].grand_name+' '+stu[i][0].last_name+'</td>\
-          <td>'+stu[i][0].set_number+'</td>\
-          <td style="font-size: 11px;" class="text-center">أعمال السنة</td>\
-          '+cahp+'\
-          <td style="width: 20%;">'+not+'</td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-        <tr>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td style="font-size: 11px;" class="text-center">نهاية العــام</td>\
-          '+fin+'\
-          <td style="width: 20%;"></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-        <tr>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>\
-          '+sum+'\
-          <td style="width: 20%;"></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-      </tbody>';
-  
-}
-  html+='</table>';
-
-
-return html;
-
-}
-
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     function draw(obj){
       var str='';
@@ -862,7 +783,7 @@ return html;
     });
 
 
-  router.get('/arabicTranscript/:id',function(req, res, next) {
+  router.get('/arabicTranscript/:id', function(req, res, next) {
     models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
     ).then(function(arabicTranscriptObject){
           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
@@ -903,12 +824,12 @@ return html;
               if(array == undefined){
                 array=[];
               }
-            jsr.render({
+          jsr.render({
             template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
-            recipe: "phantom-pdf",
-            helpers:htmlTagsDrawEnglish.toString()
-            },
+              content:  fs.readFileSync(path.join(__dirname, "../views/englishTranscript.html"), "utf8"),
+              recipe: "phantom-pdf",
+              helpers:htmlTagsDrawEnglish.toString()
+              },
               data:{obj:arabicTranscriptObject,o:array,name:fullName,setNum:setNumber}
             }).then(function (response) {
               response.result.pipe(res);
@@ -920,54 +841,22 @@ return html;
       });
     });
 
-  router.get('/detection/:id', function(req, res, next) {
-    models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =2 AND `ss`.`level` =2 AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', { replacements: [req.params.id] }
-    ).then(function(obj){
-      console.log(obj[0]);
-        models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=1 AND `ss`.`SemesterId` =2 AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', { replacements: [req.params.id] }
-      ).then(function(subjects){
-
-        var students = {};
-        for(subject in subjects[0]){
-          if(students[subjects[0][subject].StudentId]==undefined)
-            students[subjects[0][subject].StudentId]=[];
-          students[subjects[0][subject].StudentId].push(subjects[0][subject]);
-
-        }
-
-        console.log(students);
-        // console.log(degree[0]);
-      //   var id=0;
-      //   for (i in degree[0]){
-      // var t={};
-      // var arr=[][12];
-      // var obj ={sum:degree[0][i].sum_dagree,code:degree[0][i].code,id:degree[0][i].id,chap:degree[0][i].chapter_degree,fin:degree[0][i].final_exam};
-      // if(id!=degree[0][i].StudentId){
-
-      //   arr[arr.length].push(obj);
-      // }else{
-
-      //   arr[-1].push(obj);
-      // }
-      //  id=degree[0][i].StudentId;
-      // }
-        jsr.render({
-          template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
-            phantom: {
-              format: 'A3',
-              orientation: "landscape",
-            },
-            recipe: "phantom-pdf",
-            helpers:htmlTagsDrawDetection.toString()
-          },
-          data:{data:obj[0],deg:students}
-        }).then(function (response) {
-          //you can for example pipe it to express.js response
-          response.result.pipe(res);
-        });
-      });
+  router.get('/detection', function(req, res, next) {
+    jsr.render({
+      template: { 
+        content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
+        phantom: {
+          format: 'A3',
+          orientation: "landscape",
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:obb
+    }).then(function (response) {
+      //you can for example pipe it to express.js response
+      response.result.pipe(res);
     });
+
   });
 
   // this sertificate
@@ -1107,13 +996,10 @@ return html;
   });
 
   // this sertificate
-  router.get('/englishCertificateTrue', function(req, res, next) {
+  router.get('/enGradCert', function(req, res, next) {
     jsr.render({
       template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/englishCertificateTrue.html"), "utf8"),
-        phantom:{
-          orientation: "landscape",
-        },
+        content:  fs.readFileSync(path.join(__dirname, "../views/englishGraduationCertificate.html"), "utf8"),
         recipe: "phantom-pdf",
         },
       data:obj
@@ -1155,12 +1041,14 @@ return html;
   models.Student.findAndCountAll(obj).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
-    res.render('academicTranscripts', { title: 'Academic Transcripts', name:req.session.name,nats:nationality, student:student.rows,pagination:pagination,collapseSeven: 'collapse in', activeSevenOne: 'active' });
+    console.log(pagination);
+    res.render('academicTranscripts', { title: 'Academic Transcripts',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q });
   });
 });
 router.get('/studentSemesters',userHelpers.isLogin, function(req, res) {
   res.render('studentSemesters', { title: 'Academic Transcripts', name:req.session.name });
 });
+
 
 // this algorithem to get ratio for all semester it's hard to explain
 getRatioForALlSemester=function(mix){
@@ -1239,17 +1127,23 @@ getRatioForSemester = function(mix){
       }
     }
   }
+    
     if(!round((sum/sumUnit),3))
     {
        array.push(0);
     } else {
       array.push(round((sum/sumUnit),3));
     }
+   // array.push(round((sum/sumUnit),3));
+  //}
+
   for(var i=0 ; i<array.length;i++){
     if(!array[i]){
       array[i]=0;
     }
   }
+
+
   return array;
 },
 
@@ -1269,7 +1163,8 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
           where: {
           status: 1
           },
-          order: '`starting_date` DESC'
+          order: '`starting_date` DESC',
+          limit :5
          }).then(function(semester) {
          models.SemesterStudent.findAll({
           where: {
@@ -1286,11 +1181,11 @@ router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
       ],
          }).then(function(semstudent) {
           var idstudent =req.params.id;
+
             models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
             ).then(function(mix){
               // this is for semester Ratio
               var array=getRatioForSemester(mix);
-              console.log(array);
               // this is for all semester ratio
               var arrayy=getRatioForALlSemester(mix);
               if (arrayy != undefined) {
@@ -1482,7 +1377,9 @@ router.post('/updateG',userHelpers.isLogin,function(req,res){
 });
 
 router.get('/deletetranscript/:id',userHelpers.isLogin,function(req,res){
-  models.Academic_transcript.destroy({
+  models.Academic_transcript.update({
+    status:0
+  },{
     where: {
       id:req.params.id
     }

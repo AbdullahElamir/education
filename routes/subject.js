@@ -10,7 +10,7 @@ var Sequelize = require('sequelize')
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     var q = userHelpers.getQuery(req);
-    if (q == undefined)
+    if (q == "")
     {
       models.Subject.findAndCountAll({
         where: {
@@ -26,7 +26,6 @@ var Sequelize = require('sequelize')
             status: 1
           }
         }).then(function(departments) {
-
            models.Subject.findAll({
         where: {
           status: 1
