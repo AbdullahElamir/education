@@ -820,6 +820,102 @@ var ratioo = require('../app/ratio');
       return htmldraw;
   }
 
+function htmlTagsDrawDetection(data,stu){ 
+  var html=' ';
+  var sub = ' ';
+  var subject = [];
+  for(k in data){
+    sub+='<th class="text-center">'+data[k].code+'</th>';
+    subject[k]=data[k].id;
+  }
+
+      if(sub.length==1){
+        sub='<td></td>';
+      }
+
+  html+='<table class="table condensed">\
+    <thead>\
+      <tr style="border-top-style: solid; border-top-width: 2px;">\
+        <th class="text-center" width="1%" height="46">ت</th>\
+        <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
+        <th class="text-center" width="6%">رقم القيد</th>\
+        <th class="text-center" width="1%">الدرجــــــــة</th>\
+        '+sub+'\
+        <th class="text-center" style="width: 20%;">ملاحظات</th>\
+        <th class="text-center" width="8%">المجموع العام</th>\
+        <th class="text-center" width="8%">التقدير العام</th>\
+        <th class="text-center" width="9%">النتيجة النهائية</th>\
+      </tr>\
+  </thead>';
+    for (i in stu){
+      var cahp= ' ';
+      var fin = ' ';
+      var sum = ' '; 
+      var not=' ';
+      var j=0;
+      for(k in stu[i]){
+        if(subject[j]==stu[i][k].id){
+          cahp+= '<td>'+stu[i][k].chapter_degree+'</td>';
+          fin+= '<td>'+stu[i][k].final_exam+'</td>';
+          sum+= '<td>'+stu[i][k].sum_dagree+'</td>';
+          j++;
+        }else{
+          not+= '<p>'+stu[i][k].code+' : '+stu[i][k].sum_dagree+' </p> ';
+        }
+      } 
+      if(cahp.length==1){
+        cahp='<td width="9%"></td>';
+      }
+      if(sum.length==1){
+        sum='<td width="9%"></td>';
+      }
+      if(fin.length==1){
+        fin='<td width="9%"></td>';
+      }
+      html+='<tbody style="border: 2px solid #000;">\
+        <tr>\
+          <td></td>\
+          <td>'+stu[i][0].first_name+' '+stu[i][0].father_name+' '+stu[i][0].grand_name+' '+stu[i][0].last_name+'</td>\
+          <td>'+stu[i][0].set_number+'</td>\
+          <td style="font-size: 11px;" class="text-center">أعمال السنة</td>\
+          '+cahp+'\
+          <td style="width: 20%;">'+not+'</td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+        <tr>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td style="font-size: 11px;" class="text-center">نهاية العــام</td>\
+          '+fin+'\
+          <td style="width: 20%;"></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+        <tr>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>\
+          '+sum+'\
+          <td style="width: 20%;"></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+      </tbody>';
+  
+}
+  html+='</table>';
+
+
+return html;
+
+}
+
   router.get('/transcript', userHelpers.isLogin,function(req, res, next) {
     function draw(obj){
       var str='';
@@ -899,23 +995,52 @@ var ratioo = require('../app/ratio');
       });
     });
 
-  router.get('/detection', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
-        phantom: {
-          format: 'A3',
-          orientation: "landscape",
-        },
-        recipe: "phantom-pdf"
-      },
-      // data:obb
-    }).then(function (response) {
-      //you can for example pipe it to express.js response
-      response.result.pipe(res);
-    });
 
+  router.get('/detection/:idse/:idv/:idl', function(req, res, next) {
+    models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`level` =? AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', { replacements: [req.params.idv,req.params.idse,req.params.idl] }
+    ).then(function(obj){
+        models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', { replacements: [req.params.idv,req.params.idse] }
+      ).then(function(subjects){
+        var students = {};
+        for(subject in subjects[0]){
+          if(students[subjects[0][subject].StudentId]==undefined)
+            students[subjects[0][subject].StudentId]=[];
+          students[subjects[0][subject].StudentId].push(subjects[0][subject]);
+        }
+        jsr.render({
+          template: { 
+            content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
+            phantom: {
+              format: 'A3',
+              orientation: "landscape",
+            },
+            recipe: "phantom-pdf",
+            helpers:htmlTagsDrawDetection.toString()
+          },
+          data:{data:obj[0],deg:students}
+        }).then(function (response) {
+          //you can for example pipe it to express.js response
+          response.result.pipe(res);
+        });
+      });
+    });
   });
+  router.get('/detections',userHelpers.isLogin, function(req, res) {
+    models.Semester.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function(semester) {
+      models.Department.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(department) {
+        res.render('detections', { title: 'عرض النتائج',sem:semester,dep:department, name:req.session.name, collapseEight: 'collapse in', activeEightTwo: 'active' });
+      });
+    });
+  });
+
 
   // this sertificate
   router.get('/certificate/:id', function(req, res, next) {
@@ -999,70 +1124,125 @@ var ratioo = require('../app/ratio');
     ).then(function(obj){
       models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
       ).then(function(arabicTranscriptObject){
-       var myob=arabicTranscriptObject[0][arabicTranscriptObject[0].length-1];
-        if(myob.system_type==1){
-          if(myob.sem_type==1){
-            var sem='ربيع';
-            var sem_en='Spring';
-          }else if(myob.sem_type==2){
-            var sem='خريف';
-            var sem_en='Fall';
+        if(arabicTranscriptObject[0].length!=0){
+          var myob=arabicTranscriptObject[0][arabicTranscriptObject[0].length-1];
+          if(myob.system_type==1){
+            if(myob.sem_type==1){
+              var sem='ربيع';
+              var sem_en='Spring';
+            }else if(myob.sem_type==2){
+              var sem='خريف';
+              var sem_en='Fall';
+            }else{
+              var sem='صيف';
+              var sem_en='Summer';
+            }
           }else{
-            var sem='صيف';
-            var sem_en='Summer';
+            var sem = 'سنة';
+            var sem_en='year';
           }
-        }else{
-          var sem = 'سنة';
-          var sem_en='year';
-        }
-        var year=myob.year.getFullYear();
-         models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
-          ).then(function(mix){
-          var array=getRatioForALlSemester(mix);
-          var rat = array[array.length-1];
-          if(rat>=85 ){
-            status="ممتاز";
-            var status_en='Excellent';
-          } else if(rat>=75 && rat<85) {
-            status="جيدجدا";
-            var status_en='Very Good';
-          } else if(rat>=65 && rat<75) {
-            status="جيد";
-            var status_en='Good';
-          } else if(rat>=50 && rat<65) {
-              status="مقبول";
-              var status_en='pass';
-          } else if(rat>=35 && rat<50) {
-              status="ضعيـف";
-              var status_en='Week';
-          } else if(rat>=0 && rat<35) {
-              status="ضعيف جدا";
-              var status_en='Very Week';
-          }
-          jsr.render({
-          template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/arabicGraduationCertificate.html"), "utf8"),
-            recipe: "phantom-pdf"
-          },
-          data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear(),sem:sem,year:year,status:status,rat:rat,sem_en:sem_en,status_en:status_en}
-          }).then(function (response) {
-            response.result.pipe(res);
+          var year=myob.year.getFullYear();
+           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
+            ).then(function(mix){
+            var array=getRatioForALlSemester(mix);
+            var rat = array[array.length-1];
+            if(rat>=85 ){
+              status="ممتاز";
+              var status_en='Excellent';
+            } else if(rat>=75 && rat<85) {
+              status="جيدجدا";
+              var status_en='Very Good';
+            } else if(rat>=65 && rat<75) {
+              status="جيد";
+              var status_en='Good';
+            } else if(rat>=50 && rat<65) {
+                status="مقبول";
+                var status_en='pass';
+            } else if(rat>=35 && rat<50) {
+                status="ضعيـف";
+                var status_en='Week';
+            } else if(rat>=0 && rat<35) {
+                status="ضعيف جدا";
+                var status_en='Very Week';
+            }
+            jsr.render({
+            template: { 
+              content:  fs.readFileSync(path.join(__dirname, "../views/arabicGraduationCertificate.html"), "utf8"),
+              recipe: "phantom-pdf"
+            },
+            data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear(),sem:sem,year:year,status:status,rat:rat,sem_en:sem_en,status_en:status_en}
+            }).then(function (response) {
+              response.result.pipe(res);
+            });
           });
-        });
+        }else{
+          res.redirect('/transcript?msg=3');
+        }
       });
     });
   });
 
   // this sertificate
-  router.get('/enGradCert', function(req, res, next) {
-    jsr.render({
-      template: { 
-        content:  fs.readFileSync(path.join(__dirname, "../views/englishGraduationCertificate.html"), "utf8"),
-        recipe: "phantom-pdf",
-        },
-      data:obj
-    }).then(function (response) {
-      response.result.pipe(res);
+  router.get('/enGradCert/:id', function(req, res, next) {
+    models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
+    ).then(function(obj){
+      models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', { replacements: [req.params.id] }
+      ).then(function(arabicTranscriptObject){
+        if(arabicTranscriptObject[0].length!=0){
+          var myob=arabicTranscriptObject[0][arabicTranscriptObject[0].length-1];
+          if(myob.system_type==1){
+            if(myob.sem_type==1){
+              var sem='ربيع';
+              var sem_en='Spring';
+            }else if(myob.sem_type==2){
+              var sem='خريف';
+              var sem_en='Fall';
+            }else{
+              var sem='صيف';
+              var sem_en='Summer';
+            }
+          }else{
+            var sem = 'سنة';
+            var sem_en='year';
+          }
+          var year=myob.year.getFullYear();
+           models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date',{ replacements: [req.params.id]}
+            ).then(function(mix){
+            var array=getRatioForALlSemester(mix);
+            var rat = array[array.length-1];
+            if(rat>=85 ){
+              status="ممتاز";
+              var status_en='Excellent';
+            } else if(rat>=75 && rat<85) {
+              status="جيدجدا";
+              var status_en='Very Good';
+            } else if(rat>=65 && rat<75) {
+              status="جيد";
+              var status_en='Good';
+            } else if(rat>=50 && rat<65) {
+                status="مقبول";
+                var status_en='Pass';
+            } else if(rat>=35 && rat<50) {
+                status="ضعيـف";
+                var status_en='Week';
+            } else if(rat>=0 && rat<35) {
+                status="ضعيف جدا";
+                var status_en='Very Week';
+            }
+            jsr.render({
+              template: { 
+                content:  fs.readFileSync(path.join(__dirname, "../views/englishGraduationCertificate.html"), "utf8"),
+                recipe: "phantom-pdf",
+                },
+              data:{st:obj[0][0],nat:nationality[obj[0][0].nationality-1],date:obj[0][0].birth_date.getDate()+'-'+obj[0][0].birth_date.getMonth()+1+'-'+obj[0][0].birth_date.getFullYear(),sem:sem,year:year,status:status,rat:rat,sem_en:sem_en,status_en:status_en}
+            }).then(function (response) {
+              response.result.pipe(res);
+            });
+          });
+        }else{
+         res.redirect('/transcript?msg=3'); 
+        }
+      });
     });
   });
 
@@ -1192,74 +1372,76 @@ getRatioForSemester = function(mix){
     } else {
       array.push(round((sum/sumUnit),3));
     }
-   // array.push(round((sum/sumUnit),3));
-  //}
 
   for(var i=0 ; i<array.length;i++){
     if(!array[i]){
       array[i]=0;
     }
   }
-
-
   return array;
 },
 
-
-router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
-   models.Department.findAll({
+  /*---------indented by Ahmed Fituri---------------*/
+  router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
+    models.Student.findOne({
+      attributes:['first_name','last_name'],
       where: {
-        status: 1
+        status: 1,
+        id:req.params.id
       }
-    }).then(function(department) {
-      models.Division.findAll({
+    }).then(function(student) {
+      models.Department.findAll({
         where: {
-        status: 1
-      }
-      }).then(function(Division) { 
-          models.Semester.findAll({
-          where: {
           status: 1
-          },
-          order: '`starting_date` DESC',
-          limit :5
-         }).then(function(semester) {
-         models.SemesterStudent.findAll({
+        }
+      }).then(function(department) {
+        models.Division.findAll({
           where: {
-          status: 1,
-          StudentId: req.params.id
-          },
-          order: '`starting_date` DESC',
-      "include" : [
-        {"model" : models.Division},
-        {"model"  : models.Department},
-        {"model"  : models.User},
-        {"model"  : models.Semester,
-      },
-      ],
-         }).then(function(semstudent) {
-          var idstudent =req.params.id;
-
-            models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
-            ).then(function(mix){
-              // this is for semester Ratio
-              var array=getRatioForSemester(mix);
-              // this is for all semester ratio
-              var arrayy=getRatioForALlSemester(mix);
-              if (arrayy != undefined) {
-                arrayy=arrayy.reverse();
-              }
-              if (array != undefined) {
-                array=array.reverse();
-              }
-              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-              res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+            status: 1
+          }
+        }).then(function(Division) { 
+          models.Semester.findAll({
+            where: {
+              status: 1
+            },
+            order: '`starting_date` DESC',
+            limit :5
+          }).then(function(semester) {
+            models.SemesterStudent.findAll({
+              where: {
+                status: 1,
+                StudentId: req.params.id
+              },
+              order: '`starting_date` DESC',
+              "include" : [
+                {"model" : models.Division},
+                {"model"  : models.Department},
+                {"model"  : models.User},
+                {"model"  : models.Semester}
+              ],
+            }).then(function(semstudent) {
+              var idstudent =req.params.id;
+              models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
+              ).then(function(mix){
+                // this is for semester Ratio
+                var array=getRatioForSemester(mix);
+                // this is for all semester ratio
+                var arrayy=getRatioForALlSemester(mix);
+                if (arrayy != undefined) {
+                  arrayy=arrayy.reverse();
+                }
+                if (array != undefined) {
+                  array=array.reverse();
+                }
+                var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+                res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , student : student, name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              });
             });
           });
         });
       });
     });
- });
+  });
 
  function round(value, ndec){
     var n = 10;

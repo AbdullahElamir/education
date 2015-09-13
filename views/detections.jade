@@ -1,0 +1,75 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-6
+        .pull-right
+          .btn-group.btn-breadcrumb
+              a.btn.btn-default(href="/cPanel")
+                i.glyphicon.glyphicon-home
+              .btn.btn-default.active عرض نتائج الطلبة
+      br
+      br
+      br
+      .col-md-6.col-md-offset-2
+        form.form#delectionsForm(action="", method="", accept-charset="utf-8", role="form")
+          legend  عرض نتائج الطلبة
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 النظام الدراسي
+                select.form-control.selectpicker#semester(name="semester", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
+                  for s in sem
+                    option(value="#{s.id}")  
+                      if s.sem_type == 1
+                        | فصل ربيعي #{s.year.getFullYear()}
+                      if s.sem_type == 2
+                        | فصل خريفي #{s.year.getFullYear()}
+                      if s.sem_type == 3
+                        | فصل صيفي #{s.year.getFullYear()}
+              .col-xs-6.col-md-6
+                label.h4 المستوى
+                select.form-control.selectpicker#level(name="level", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر المستوى...
+                  option(value="1") الاول  
+                  option(value="2") الثاني
+                  option(value="3") الثالث
+                  option(value="4") الرابع
+                  option(value="5") الخامس
+                  option(value="6") السادس
+                  option(value="7") السابع
+                  option(value="8") الثامن
+                  option(value="9") التاسع
+                  option(value="10") العاشر
+                  option(value="11") الحادي العاشر
+                  option(value="12") الثاني عشر
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اسم القسم
+                select.form-control.selectpicker#department(name="department", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر القسم...
+                  for department in dep
+                    option(value="#{department.id}")|#{department.name}
+              .col-xs-6.col-md-6
+                label.h4 اسم الشعبة
+                select.form-control.selectpicker#division(name="division", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر الشعبة...
+          br
+          hr
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button#submit.btn.btn-primary(type="button")
+              i.fa.fa-eye
+              span  عرض
+  br
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/detections.js')

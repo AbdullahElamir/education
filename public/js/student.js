@@ -27,13 +27,13 @@ $(document).ready(function(){
     var bb = bDate.split(" ");
     var cdate = $('[data-id = "'+myDataAttr+'"]').data('date_cert')
     var cd = cdate.split(" ");
-    $('#first_name').val($('[data-id = "'+myDataAttr+'"]').data('first_name'));
+    $('#first_name_edit').val($('[data-id = "'+myDataAttr+'"]').data('first_name'));
     $('#first_name_en').val($('[data-id = "'+myDataAttr+'"]').data('first_name_en'));
-    $('#father_name').val($('[data-id = "'+myDataAttr+'"]').data('father_name'));
+    $('#father_name_edit').val($('[data-id = "'+myDataAttr+'"]').data('father_name'));
     $('#father_name_en').val($('[data-id = "'+myDataAttr+'"]').data('father_name_en'));
-    $('#grand_name').val($('[data-id = "'+myDataAttr+'"]').data('grand_name'));
+    $('#grand_name_edit').val($('[data-id = "'+myDataAttr+'"]').data('grand_name'));
     $('#grand_name_en').val($('[data-id = "'+myDataAttr+'"]').data('grand_name_en'));
-    $('#last_name').val($('[data-id = "'+myDataAttr+'"]').data('last_name'));
+    $('#last_name_edit').val($('[data-id = "'+myDataAttr+'"]').data('last_name'));
     $('#last_name_en').val($('[data-id = "'+myDataAttr+'"]').data('last_name_en'));
     $('#mother_name').val($('[data-id = "'+myDataAttr+'"]').data('mother_name'));
     $('#mother_name_en').val($('[data-id = "'+myDataAttr+'"]').data('mother_name_en'));
@@ -62,50 +62,54 @@ $(document).ready(function(){
   });
 
   $("#updateStudent").submit(function(e) {
-    var isvalidate = $("#updateStudent").valid();
+    var isvalidate = $("#updateStudent").valid(),
+        obj = $("form").serializeObject();
     if(isvalidate){
-      $.post("/student/updateStudent", $("form").serializeObject(), function(data, error){
+      $.post("/student/updateStudent", obj, function(data, error){
         if(data !=true){
         }
         else {
-          if( $("form").serializeObject().gender == 0 ){
+          if( obj.gender == 0 ){
               var gender = "ذكر";
             }
             else {
               var gender = "أنثى";
             }
-          $('[data-id = "'+$("form").serializeObject().id+'"]').remove();
-          $("#tbody").prepend('<tr data-id="'+$("form").serializeObject().id+'" data-first_name="'+$("form").serializeObject().first_name+'" data-first_name_en="'+$("form").serializeObject().first_name_en+'" data-father_name="'+$("form").serializeObject().father_name+'" data-father_name_en="'+$("form").serializeObject().father_name_en+'" data-grand_name="'+$("form").serializeObject().grand_name+'" data-grand_name_en="'+$("form").serializeObject().father_name_en+'" data-last_name="'+$("form").serializeObject().last_name+'" data-last_name_en="'+$("form").serializeObject().father_name_en+'" data-mother_name="'+$("form").serializeObject().mother_name+'" data-mother_name_en="'+$("form").serializeObject().father_name_en+'" data-birth_date="'+$("form").serializeObject().birth_date+'" data-place_birth="'+$("form").serializeObject().place_birth+'" data-nationality="'+$("form").serializeObject().nationality+'" data-gender="'+$("form").serializeObject().gender+'" data-no_paper_family="'+$("form").serializeObject().no_paper_family+'" data-no_reg_family="'+$("form").serializeObject().no_reg_family+'" data-physical_address="'+$("form").serializeObject().physical_address+'" data-civil_reg="'+$("form").serializeObject().civil_reg+'" data-phone="'+$("form").serializeObject().phone+'" data-father_work_place="'+$("form").serializeObject().father_work_place+'" data-last_cert="'+$("form").serializeObject().last_cert+'" data-cust_last_cert="'+$("form").serializeObject().cust_last_cert+'" data-date_cert="'+$("form").serializeObject().date_cert+'" data-place_cert="'+$("form").serializeObject().place_cert+'" data-set_number="'+$("form").serializeObject().set_number+'" data-student_rate="'+$("form").serializeObject().student_rate+'" data-nid="'+$("form").serializeObject().nid+'">'+
+          $('[data-id = "'+obj.id+'"]').remove();
+          $("#tbody").prepend('<tr data-id="'+obj.id+'" data-first_name="'+obj.first_name+'" data-first_name_en="'+obj.first_name_en+'" data-father_name="'+obj.father_name+'" data-father_name_en="'+obj.father_name_en+'" data-grand_name="'+obj.grand_name+'" data-grand_name_en="'+obj.father_name_en+'" data-last_name="'+obj.last_name+'" data-last_name_en="'+obj.father_name_en+'" data-mother_name="'+obj.mother_name+'" data-mother_name_en="'+obj.father_name_en+'" data-birth_date="'+obj.birth_date+'" data-place_birth="'+obj.place_birth+'" data-nationality="'+obj.nationality+'" data-gender="'+obj.gender+'" data-no_paper_family="'+obj.no_paper_family+'" data-no_reg_family="'+obj.no_reg_family+'" data-physical_address="'+obj.physical_address+'" data-civil_reg="'+obj.civil_reg+'" data-phone="'+obj.phone+'" data-father_work_place="'+obj.father_work_place+'" data-last_cert="'+obj.last_cert+'" data-cust_last_cert="'+obj.cust_last_cert+'" data-date_cert="'+obj.date_cert+'" data-place_cert="'+obj.place_cert+'" data-set_number="'+obj.set_number+'" data-student_rate="'+obj.student_rate+'" data-nid="'+obj.nid+'">'+
               '<td>'+
-                $("form").serializeObject().set_number+
+                obj.set_number+
               '</td>'+
               '<td>'+
-                $("form").serializeObject().first_name+'  '+
-                $("form").serializeObject().father_name+'  '+
-                $("form").serializeObject().grand_name+'  '+
-                $("form").serializeObject().last_name+
+                obj.first_name+'  '+
+                obj.father_name+'  '+
+                obj.grand_name+'  '+
+                obj.last_name+
               '</td>'+
-              '<td>'+
-                $("form").serializeObject().mother_name+
-              '</td><td>'+
+              '<td class="text-center">'+
                 gender+
               '</td><td>'+
-                $("form").serializeObject().physical_address+
+                obj.physical_address+
               '</td>'+
-              '<td>'+
-                $("form").serializeObject().student_rate+
+              '<td class="text-center">'+
+                obj.student_rate+
               '</td>'+
-              '<td>'+
-                nat[$("form").serializeObject().nationality-1].text+
+              '<td class="text-center">'+
+                nat[obj.nationality-1].text+
               '</td>'+
               '<td class="text-center">'+
                 '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
-                  '<button id="editt" value="'+$("form").serializeObject().id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
+                  '<button id="editt" value="'+obj.id+'" data-title="Edit" data-toggle="modal" data-target="#edit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>'+
+                '</p>'+
+              '</td>'+
+              '<td class="text-center">'+
+                '<p data-placement="top" data-toggle="tooltip" title="تنزيل">'+
+                  '<a href="/transcript/studentData/'+obj.id+'" id="downloadSubject" value="'+obj.id+'" data-title="تنزيل" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-arrow-down"></span></a>'+
                 '</p>'+
               '</td>'+
               '<td class="text-center">'+
                 '<p data-placement="top" data-toggle="tooltip" title="إلغاء">'+
-                  '<button id="Deletee" value="'+$("form").serializeObject().id+'" data-title="Deletee" data-toggle="modal" data-target="#delette" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>'+
+                  '<button id="Deletee" value="'+obj.id+'" data-title="Deletee" data-toggle="modal" data-target="#delette" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>'+
                 '</p>'+
               '</td>'+
             '</tr>');

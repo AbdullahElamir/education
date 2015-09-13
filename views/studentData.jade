@@ -9,7 +9,7 @@ block content
           a.btn.btn-default(href="/cPanel")
             i.glyphicon.glyphicon-home
           a.btn.btn-default(href="/transcript/Academictranscripts") تنزيل المواد للطلبة
-          .btn.btn-default.active عرض فصول الطلبة
+          .btn.btn-default.active عرض فصول الطالب/ة : #{student.first_name}  #{student.last_name}
         br
         br
         #Semesters_teble  
@@ -17,8 +17,8 @@ block content
             .panel-heading
               .row
                 .pull-right(style="margin-right: 10px;")
-                  h3#h3.panel-title عرض فصول الطلبة
-                .col-xs-6.col-md-6
+                  h3#h3.panel-title عرض فصول الطالب/ة : #{student.first_name}  #{student.last_name}
+                //- .col-xs-6.col-md-6
                   .input-group
                     input.form-control(type='text', placeholder='بحث...')
                     .input-group-btn
