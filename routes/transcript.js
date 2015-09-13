@@ -255,10 +255,28 @@ var ratioo = require('../app/ratio');
         if(!sumation){
           sumation=0;
         }
-        htmldraw+='<td colspan="3" style="padding: 5px;">Semester Average &nbsp;&nbsp; '+sumation+'%</td>\
+        var x=sumation;
+        var n = 10;
+        for(var i = 1; i < 2; i++){
+          n *=10;
+        }
+        if(!2 || 2 <= 0)
+          x= Math.round(x);
+        else
+          x= Math.round(x * n) / n;
+        htmldraw+='<td colspan="3" style="padding: 5px;">Semester Average &nbsp;&nbsp; '+x+'%</td>\
             <td align="center">'+sum+'</td>\
             <td style="border-bottom-color: #fff;"></td>\
             <td align="center">'+Ratiostatus+'</td>';
+        var yy=rat;
+        var n = 10;
+        for(var i = 1; i < 2; i++){
+          n *=10;
+        }
+        if(!2 || 2 <= 0)
+          yy= Math.round(yy);
+        else
+          yy= Math.round(yy * n) / n;
         htmldraw+='</tr>\
                     </tbody>\
                       </table>\
@@ -276,7 +294,7 @@ var ratioo = require('../app/ratio');
                             <th class="text-center">Total Points</th>\
                             <th class="text-center">'+Ratiostatus+'</th>\
                             <th class="text-center">General Cumulative Average</th>\
-                            <th class="text-center">'+rat+'</th>\
+                            <th class="text-center">'+yy+'</th>\
                           </tr>\
                         </thead>\
                       </table>\
@@ -403,7 +421,7 @@ var ratioo = require('../app/ratio');
   return htmldraw;
   }
  
-  function htmlTagsDraw(obj,o,name,setNum){ 
+  function htmlTagsDraw(obj,o,name,setNum,mathObject){ 
     allunit=0;
     var EnterNameOneTime=0;
     var unithaveDone=0;
@@ -576,10 +594,28 @@ var ratioo = require('../app/ratio');
       if(!sumation){
         sumation=0;
       }
-      htmldraw+=' <td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+sumation+'%</td>\
+      var x=sumation;
+      var n = 10;
+      for(var i = 1; i < 2; i++){
+        n *=10;
+      }
+      if(!2 || 2 <= 0)
+        x= Math.round(x);
+      else
+        x= Math.round(x * n) / n;
+      htmldraw+=' <td colspan="3" style="padding: 5px;">المعدل الفصلي   &nbsp;&nbsp; '+x+'%</td>\
                     <td class="text-center">'+sum+'</td>\
                     <td style="border-bottom-color: #fff;"></td>\
                     <td class="text-center">'+Ratiostatus+'</td>';
+      var yy=rat;
+      var n = 10;
+      for(var i = 1; i < 2; i++){
+        n *=10;
+      }
+      if(!2 || 2 <= 0)
+        yy= Math.round(yy);
+      else
+        yy= Math.round(yy * n) / n;
       htmldraw+=' </tr>\
                 </tbody>\
             </table>\
@@ -597,7 +633,7 @@ var ratioo = require('../app/ratio');
                   <th class="text-center">مجموع التقييم العام</th>\
                   <th class="text-center">'+Ratiostatus+'</th>\
                   <th class="text-center">المعدل التراكمي العام</th>\
-                  <th class="text-center">'+rat+'</th>\
+                  <th class="text-center">'+yy+'</th>\
                 </tr>\
               </thead>\
             </table>\
