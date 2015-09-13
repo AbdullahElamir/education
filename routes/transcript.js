@@ -852,9 +852,9 @@ function htmlTagsDrawDetection(data,stu){
       var j=0;
       for(k in stu[i]){
         if(subject[j]==stu[i][k].id){
-          cahp+= '<td>'+stu[i][k].chapter_degree+'</td>';
-          fin+= '<td>'+stu[i][k].final_exam+'</td>';
-          sum+= '<td>'+stu[i][k].sum_dagree+'</td>';
+          cahp+= '<td class="text-center">'+stu[i][k].chapter_degree+'</td>';
+          fin+= '<td class="text-center">'+stu[i][k].final_exam+'</td>';
+          sum+= '<td class="text-center">'+stu[i][k].sum_dagree+'</td>';
           j++;
         }else{
           not+= '<p>'+stu[i][k].code+' : '+stu[i][k].sum_dagree+' </p> ';
@@ -872,9 +872,9 @@ function htmlTagsDrawDetection(data,stu){
       html+='<tbody style="border: 2px solid #000;">\
         <tr>\
           <td></td>\
-          <td>'+stu[i][0].first_name+' '+stu[i][0].father_name+' '+stu[i][0].grand_name+' '+stu[i][0].last_name+'</td>\
-          <td>'+stu[i][0].set_number+'</td>\
-          <td style="font-size: 11px;" class="text-center">أعمال السنة</td>\
+          <td>'+stu[i][0].first_name+'</td>\
+          <td style="border-bottom-style: none;"></td>\
+          <td style="font-size: 14px;" class="text-center">أعمال السنة</td>\
           '+cahp+'\
           <td style="width: 20%;">'+not+'</td>\
           <td></td>\
@@ -883,9 +883,9 @@ function htmlTagsDrawDetection(data,stu){
         </tr>\
         <tr>\
           <td></td>\
-          <td></td>\
-          <td></td>\
-          <td style="font-size: 11px;" class="text-center">نهاية العــام</td>\
+          <td class="text-center">'+stu[i][0].father_name+' '+stu[i][0].grand_name+'</td>\
+          <td class="text-center" style="border-style:none;">'+stu[i][0].set_number+'</td>\
+          <td style="font-size: 14px;" class="text-center">نهاية العــام</td>\
           '+fin+'\
           <td style="width: 20%;"></td>\
           <td></td>\
@@ -894,9 +894,9 @@ function htmlTagsDrawDetection(data,stu){
         </tr>\
         <tr>\
           <td></td>\
-          <td></td>\
-          <td></td>\
-          <td style="font-size: 11px;" class="text-center">المجمـــــــوع</td>\
+          <td class="text-left">'+stu[i][0].last_name+'</td>\
+          <td style="border-top-style: none;"></td>\
+          <td style="font-size: 14px;" class="text-center">المجمـــــــــــوع</td>\
           '+sum+'\
           <td style="width: 20%;"></td>\
           <td></td>\
@@ -1007,13 +1007,13 @@ return html;
           var semester='';
           var type='';
           if(sem.system_type==1){
-            type='للفصـــــل الدراســـــي';
+            type='للنظام الدراســـــي';
             if (sem.sem_type == 1)
-              semester= 'فصل ربيعي '+ sem.year.getFullYear()+' ';
+              semester= 'فصل ربيعي ' + sem.year.getFullYear()+' ';
             if (sem.sem_type == 2)
-              semester= 'فصل خريفي'+ sem.year.getFullYear()+' ';
+              semester= 'فصل خريفي ' + sem.year.getFullYear()+' ';
             if (sem.sem_type == 3)
-              semester= 'فصل صيفي'+ sem.year.getFullYear()+' ';
+              semester= 'فصل صيفي ' + sem.year.getFullYear()+' ';
           }else{
             type='للعام الدراســـــي';
             semester=' '+sem.year.getFullYear()+' '
