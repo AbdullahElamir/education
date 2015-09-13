@@ -943,26 +943,46 @@ return html;
     ).then(function(obj){
         models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', { replacements: [req.params.idv,req.params.idse] }
       ).then(function(subjects){
-        var students = {};
-        for(subject in subjects[0]){
-          if(students[subjects[0][subject].StudentId]==undefined)
-            students[subjects[0][subject].StudentId]=[];
-          students[subjects[0][subject].StudentId].push(subjects[0][subject]);
-        }
-        jsr.render({
-          template: { 
-            content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
-            phantom: {
-              format: 'A3',
-              orientation: "landscape",
-            },
-            recipe: "phantom-pdf",
-            helpers:htmlTagsDrawDetection.toString()
-          },
-          data:{data:obj[0],deg:students}
-        }).then(function (response) {
-          //you can for example pipe it to express.js response
-          response.result.pipe(res);
+        models.Semester.findOne({
+          where:{
+            id:req.params.idse
+          }
+        }).then(function(sem){
+          var semester='';
+          if (sem.sem_type == 1)
+            semester= 'فصل ربيعي '+ sem.year.getFullYear()+' ';
+          if (sem.sem_type == 2)
+            semester= 'فصل خريفي'+ sem.year.getFullYear()+' ';
+          if (sem.sem_type == 3)
+            semester= 'فصل صيفي'+ sem.year.getFullYear()+' ';
+          models.Division.findOne({
+            where:{
+              id:req.params.idv
+            }
+          }).then(function(div){
+            var students = {};
+            for(subject in subjects[0]){
+              if(students[subjects[0][subject].StudentId]==undefined)
+                students[subjects[0][subject].StudentId]=[];
+              students[subjects[0][subject].StudentId].push(subjects[0][subject]);
+            }
+            var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+            jsr.render({
+              template: { 
+                content:  fs.readFileSync(path.join(__dirname, "../views/detection.html"), "utf8"),
+                phantom: {
+                  format: 'A3',
+                  orientation: "landscape",
+                },
+                recipe: "phantom-pdf",
+                helpers:htmlTagsDrawDetection.toString()
+              },
+              data:{data:obj[0],deg:students,semester:semester,level:semesterTy[req.params.idl-1], div:div}
+            }).then(function (response) {
+              //you can for example pipe it to express.js response
+              response.result.pipe(res);
+            });
+          });
         });
       });
     });
