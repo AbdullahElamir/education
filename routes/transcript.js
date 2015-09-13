@@ -81,7 +81,9 @@ var ratioo = require('../app/ratio');
 
 
   function htmlTagsDrawEnglish(obj,o,name,setNum){
-    var EnterNameOneTime=0;
+    var EnterNameOneTime=1;
+    var saveName=name;
+    var saveSetNum=setNum;
     allunit=0;
     var unithaveDone=0;
     var days=["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th"];
@@ -126,17 +128,44 @@ var ratioo = require('../app/ratio');
         }
         var sumFail=0;
         var Ratiostatus="nothing";
-        if(EnterNameOneTime==0){
-          var studentName='Student Name <span>:';
-          var setNu='Registry No'+'<span>:';
-          EnterNameOneTime=1;
-        } else {
-          var studentName=' ';
-          var setNu=' ';
-          name=' ';
-          setNum=' ';
-        }
-        htmldraw+=' <div class="row">\
+         if(EnterNameOneTime==1){
+            var studentName='Student Name <span>:';
+            var setNu='Registry No'+'<span>:';
+            var college='<body>\
+            <div class="container">\
+            <div class="row" style="font-size:17px;font-weight: 500;">\
+            <div class="col-xs-12">\
+            <div class="text-center">\
+            <span> Minstry of Higher Education and Scientific Research </span>\
+            </div>\
+            <div class="text-center">\
+            <span> National Board for Technical & Vacational Education </span>\
+            </div>\
+            <div class="text-center">\
+            <span> Higher Technical Institutions Administration </span>\
+            </div>\
+            <div class="text-center">\
+            <span> Elgarabuli Higher Medical Studies College </span>\
+            </div>\
+            <div style="height: 10px;"></div>\
+            <div class="text-center" style="font-size: 20px;font-weight: 600;">\
+            <span> Transcript </span>\
+            </div>\
+            </div>\
+            </div>\
+            <br> '
+            name=saveName;
+            setNum=saveSetNum;
+            EnterNameOneTime=0;
+            } else {
+            EnterNameOneTime++;
+            var studentName=' ';
+            college=' ';
+            var setNu=' ';
+            name=' ';
+            setNum=' ';
+            }
+        htmldraw+='  '+college+' <div class="row">\
                       <div class="col-xs-12">\
                         <div class="pull-left">\
                         <span>'+studentName+' '+name+'</span></span>\
@@ -423,7 +452,9 @@ var ratioo = require('../app/ratio');
  
   function htmlTagsDraw(obj,o,name,setNum,mathObject){ 
     allunit=0;
-    var EnterNameOneTime=0;
+    var EnterNameOneTime=1;
+    var saveName=name;
+    var saveSetNum=setNum;
     var unithaveDone=0;
     var days=["الاول","الثاني","التالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الأحدي عشر","الثاني عشر","التالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر","التاسع عشر","عشروت"];
     var numberOfSemester=0,counter=0,index=[];
@@ -467,18 +498,43 @@ var ratioo = require('../app/ratio');
       }
       var sumFail=0;
       var Ratiostatus="لا يوجد";
-      if(EnterNameOneTime==0){
-        var studentName='اسم الطالب'+'<span>:';
-        var setNu='رقـــم القيـــد'+'<span>:';
-        EnterNameOneTime=1;
-      } else {
-        var studentName=' ';
-        var setNu=' ';
-        name=' ';
-        setNum=' ';
-      }
-      htmldraw+=' <br>\
-        <div class="row">\
+       if(EnterNameOneTime==1){
+          var college=' <body>\
+          <div class="container">\
+          <div class="row" style="font-size:15px;">\
+          <div class="col-xs-12">\
+          <div class="text-center">\
+          <span> وزارة التعليم العالى والبحث العلمى </span>\
+          </div>\
+          <div class="text-center">\
+          <span> الهيئة الوطنية للتعليم التقنى والفني </span>\
+          </div>\
+          <div class="text-center">\
+          <span> ادارة المعاهــــــــد التقنيـــــــــة العليـــــــــا </span>\
+          </div>\
+          <div class="text-center">\
+          <span> المعهد العالي للمهن الطبية القره بوللي </span>\
+          </div>\
+          <div style="height: 10px;"></div>\
+          <div class="text-center" style="font-size: 20px;">\
+          <span> كشف درجات </span>\
+          </div>\
+          </div>\
+          </div>';
+          var studentName='اسم الطالب'+'<span>:';
+          var setNu='رقـــم القيـــد'+'<span>:';
+          name=saveName;
+          setNum=saveSetNum;
+          EnterNameOneTime=0;
+          } else {
+          EnterNameOneTime++;
+          var studentName=' ';
+          var college=' ';
+          var setNu=' ';
+          name=' ';
+          setNum=' ';
+          }
+      htmldraw+=' '+college+' <div class="row">\
           <div class="col-xs-8">\
             <span>'+studentName+'  '+name+' </span></span>\
             <div style="height: 5px;"></div>\
@@ -643,7 +699,6 @@ var ratioo = require('../app/ratio');
       printTwoSemesterTableInOnePage++;
       if(printTwoSemesterTableInOnePage==2){
         htmldraw+='<div  style="page-break-before: always;">';
-        htmldraw+='<br><br><br><br><br>';
         printTwoSemesterTableInOnePage=0;
       }
     }
