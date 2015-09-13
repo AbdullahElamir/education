@@ -1,0 +1,52 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-6
+        .pull-right
+          .btn-group.btn-breadcrumb
+              a.btn.btn-default(href="/cPanel")
+                i.glyphicon.glyphicon-home
+              .btn.btn-default.active عرض نتائج الطلبة
+      br
+      br
+      br
+      .col-md-6.col-md-offset-2
+        form.form#delectionsForm(action="", method="post", accept-charset="utf-8", role="form")
+          legend  عرض نتائج الطلبة
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 النظام الدراسي
+                select.form-control.selectpicker#semester(name="semester", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
+              .col-xs-6.col-md-6
+                label.h4 المستوى
+                select.form-control.selectpicker#level(name="level", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر المستوى...
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اسم القسم
+                select.form-control.selectpicker#department(name="department", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر القسم...
+              .col-xs-6.col-md-6
+                label.h4 اسم الشعبة
+                select.form-control.selectpicker#division(name="division", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر الشعبة...
+          br
+          hr
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
+              i.fa.fa-eye
+              span  عرض
+  br
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')

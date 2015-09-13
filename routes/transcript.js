@@ -859,6 +859,10 @@ var ratioo = require('../app/ratio');
 
   });
 
+  router.get('/detections',userHelpers.isLogin, function(req, res) {
+    res.render('detections', { title: 'عرض النتائج', name:req.session.name, collapseEight: 'collapse in', activeEightTwo: 'active' });
+  });
+
   // this sertificate
   router.get('/certificate/:id', function(req, res, next) {
     models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', { replacements: [req.params.id] }
