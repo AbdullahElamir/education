@@ -24,12 +24,15 @@ block content
                   option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
                   for s in sem
                     option(value="#{s.id}")  
-                      if s.sem_type == 1
-                        | فصل ربيعي #{s.year.getFullYear()}
-                      if s.sem_type == 2
-                        | فصل خريفي #{s.year.getFullYear()}
-                      if s.sem_type == 3
-                        | فصل صيفي #{s.year.getFullYear()}
+                      if s.system_type==1
+                        if s.sem_type == 1
+                          | فصل ربيعي #{s.year.getFullYear()}
+                        if s.sem_type == 2
+                          | فصل خريفي #{s.year.getFullYear()}
+                        if s.sem_type == 3
+                          | فصل صيفي #{s.year.getFullYear()}
+                      if s.system_type==2
+                        | سنة #{s.year.getFullYear()}
               .col-xs-6.col-md-6
                 label.h4 المستوى
                 select.form-control.selectpicker#level(name="level", data-live-search="true", data-size=5)
