@@ -5,16 +5,18 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
     <style>
-
-    .break { page-break-before: always; }
-
+      .break { 
+        page-break-before: always; 
+      }
       @media print {
-      footer {page-break-after: always;}
+        footer { 
+          page-break-after: always;
+        }
       }
       @font-face {
         font-family: 'Droid Arabic Kufi';
         src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
-          }
+      }
       body {
         font-family: 'Droid Arabic Kufi';
         font-size: 12px;
@@ -29,30 +31,7 @@
     </style>
     <meta charset="utf-8"/>
   </head>
-  <body>
-    <div class="container">
-        <div class="row" style="font-size:15px;">
-          <div class="col-xs-12">
-            <div class="text-center">
-              <span> وزارة التعليم العالى والبحث العلمى </span>
-            </div>
-            <div class="text-center">
-              <span> الهيئة الوطنية للتعليم التقنى والفني </span>
-            </div>
-            <div class="text-center">
-              <span> ادارة المعاهــــــــد التقنيـــــــــة العليـــــــــا </span>
-            </div>
-            <div class="text-center">
-              <span> المعهد العالي للمهن الطبية القره بوللي </span>
-            </div>
-            <div style="height: 10px;"></div>
-            <div class="text-center" style="font-size: 20px;">
-              <span> كشف درجات </span>
-            </div>
-            </div>
-        </div>
-
-         {{{htmlTagsDraw obj o name setNum mathObject}}}  
+  {{{htmlTagsDraw obj o name setNum mathObject}}}  
 
 
 
