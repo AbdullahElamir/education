@@ -785,7 +785,7 @@ var ratioo = require('../app/ratio');
       response.result.pipe(res);
     });
 
-  });
+  });////////
 
   // this sertificate
   router.get('/certificate/:id', function(req, res, next) {
