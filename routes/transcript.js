@@ -1098,74 +1098,76 @@ getRatioForSemester = function(mix){
     } else {
       array.push(round((sum/sumUnit),3));
     }
-   // array.push(round((sum/sumUnit),3));
-  //}
 
   for(var i=0 ; i<array.length;i++){
     if(!array[i]){
       array[i]=0;
     }
   }
-
-
   return array;
 },
 
-
-router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
-   models.Department.findAll({
+  /*---------indented by Ahmed Fituri---------------*/
+  router.get('/studentData/:id',userHelpers.isLogin, function(req, res) {
+    models.Student.findOne({
+      attributes:['first_name','last_name'],
       where: {
-        status: 1
+        status: 1,
+        id:req.params.id
       }
-    }).then(function(department) {
-      models.Division.findAll({
+    }).then(function(student) {
+      models.Department.findAll({
         where: {
-        status: 1
-      }
-      }).then(function(Division) { 
-          models.Semester.findAll({
-          where: {
           status: 1
-          },
-          order: '`starting_date` DESC',
-          limit :5
-         }).then(function(semester) {
-         models.SemesterStudent.findAll({
+        }
+      }).then(function(department) {
+        models.Division.findAll({
           where: {
-          status: 1,
-          StudentId: req.params.id
-          },
-          order: '`starting_date` DESC',
-      "include" : [
-        {"model" : models.Division},
-        {"model"  : models.Department},
-        {"model"  : models.User},
-        {"model"  : models.Semester,
-      },
-      ],
-         }).then(function(semstudent) {
-          var idstudent =req.params.id;
-
-            models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
-            ).then(function(mix){
-              // this is for semester Ratio
-              var array=getRatioForSemester(mix);
-              // this is for all semester ratio
-              var arrayy=getRatioForALlSemester(mix);
-              if (arrayy != undefined) {
-                arrayy=arrayy.reverse();
-              }
-              if (array != undefined) {
-                array=array.reverse();
-              }
-              var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
-              res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+            status: 1
+          }
+        }).then(function(Division) { 
+          models.Semester.findAll({
+            where: {
+              status: 1
+            },
+            order: '`starting_date` DESC',
+            limit :5
+          }).then(function(semester) {
+            models.SemesterStudent.findAll({
+              where: {
+                status: 1,
+                StudentId: req.params.id
+              },
+              order: '`starting_date` DESC',
+              "include" : [
+                {"model" : models.Division},
+                {"model"  : models.Department},
+                {"model"  : models.User},
+                {"model"  : models.Semester}
+              ],
+            }).then(function(semstudent) {
+              var idstudent =req.params.id;
+              models.sequelize.query('SELECT  sb.id as idsubject,sb.name, ss.StudentId,s.starting_date,at.SemesterStudentId,at.sum_dagree,ss.SemesterId,sb.no_th_unit FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`',{ replacements: [idstudent]}
+              ).then(function(mix){
+                // this is for semester Ratio
+                var array=getRatioForSemester(mix);
+                // this is for all semester ratio
+                var arrayy=getRatioForALlSemester(mix);
+                if (arrayy != undefined) {
+                  arrayy=arrayy.reverse();
+                }
+                if (array != undefined) {
+                  array=array.reverse();
+                }
+                var semesterTy=['الاول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي العاشر','الثاني عشر'];
+                res.render('studentData', {ar:arrayy,arr:array,title: 'Student Data' , student : student, name:req.session.name,std:req.params.id,sem:semester,dept:department,dev:Division,semStudent: semstudent,semty:semesterTy});
+              });
             });
           });
         });
       });
     });
- });
+  });
 
  function round(value, ndec){
     var n = 10;
