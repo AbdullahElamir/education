@@ -108,4 +108,39 @@ $(document).ready(function(){
       $(element).closest('.form-group').removeClass('has-error');
     },
   });
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+  
+  if(qs["msg"]==2){
+    $.notify({
+      message: "<p class='font h5 text-center'><i class='glyphicon glyphicon-warning-sign'></i>&nbsp;<strong>خطأ:</strong> الرجاء التأكد من اسم المستخدم وكلمة المرور </p>"
+      },{
+      type: 'danger',
+      allow_dismiss: true,
+      showProgressbar: false,
+      placement: {
+        from: 'top',
+        align: 'center'
+      },
+      mouse_over: null,
+      newest_on_top: true,
+      animate: {
+        enter: 'animated bounceIn',
+        exit: 'animated bounceOut',
+      },
+    });
+    var pageUrl = '/'
+    window.history.pushState("","",pageUrl);
+  }
 });

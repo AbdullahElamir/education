@@ -65,7 +65,18 @@ $("#newSubject").validate({
     }
   },
 });
+  $('#subject_search_btn').on('click', function(){
+    window.location.href="/subject?q="+$('#subject_search').val();
+  });  
 
+ 
+  $("#subject_search").on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key == 13  )
+      {
+      $("#subject_search_btn").click(); 
+      }
+  });
 $('#toggle-subject').change(function() {
   
   if ($(this).prop('checked') == true) {
@@ -85,6 +96,30 @@ $('body').on('click', '#save', function() {
       window.location.replace("/subject/edit/"+result.id);
     });
   }
+
+});
+
+/*--------------on delete subject Modal----------- */
+$('body').on('click', '.deleteSubject', function() {
+  $('#deleteValue').val($(this).val());
+});
+
+/*--------------on delete subject button----------- */
+$('body').on('click','#deleteValue', function() {
+  var id=$(this).val();
+  $.get('/subject/deleteSubject/'+id,function(todo) {
+    switch(todo.msg){
+      case "1" :
+        custNotify("success","نجح","لقد تم مسح المادة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+        $('[data-id = "'+id+'"]').remove();
+        break;
+      case "2" :
+        custNotify("danger","فشل","لايمكن مسح المادة لوجود كيانات معتمدة عليها","warning-sign","bounceInDown","bounceOutUp");
+        break;
+      default:
+        break; 
+    }
+  });
 });
   // if (isvalidate){
   //   $.post('/subject/newSubject',$("#newSubject").serializeObject,function(todo){

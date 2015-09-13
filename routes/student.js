@@ -31,6 +31,7 @@ var nationality = require('../Nationality');
   models.Student.findAndCountAll(obj).then(function(student) {
     var pageCount = userHelpers.getPageCount(student.count);
     var pagination = userHelpers.paginate(page,pageCount);
+    console.log(pagination);
     res.render('students', { title: 'View Students',nats:nationality, student:student.rows,pagination:pagination,collapseFive: 'collapse in', activeFiveOne: 'active',q:q });
   });
 });

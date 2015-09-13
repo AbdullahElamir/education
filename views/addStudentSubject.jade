@@ -24,18 +24,18 @@ block content
             i.fa.fa-arrow-left
             span  رجوع 
         br
-        br
-        br
-        .row 
-          .pull-left.btn-group(role='group', aria-label='...')
-            button#Department_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد القسم
-              span.glyphicon.glyphicon-pencil 
-            |   
-            button#Division_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد الشعبة
-              span.glyphicon.glyphicon-pencil
-            |   
-            button#generale_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد العامة
-              span.glyphicon.glyphicon-pencil 
+        //- br
+        //- br
+        //- .row 
+        //-   .pull-left.btn-group(role='group', aria-label='...')
+        //-     button#Department_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد القسم
+        //-       span.glyphicon.glyphicon-pencil 
+        //-     |   
+        //-     button#Division_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد الشعبة
+        //-       span.glyphicon.glyphicon-pencil
+        //-     |   
+        //-     button#generale_bt.btn.btn-default(type='button',style="color:#337AB7;") عرض المواد العامة
+        //-       span.glyphicon.glyphicon-pencil 
         br 
         .row       
           .col-md-12   
@@ -82,7 +82,20 @@ block content
                             p(data-placement="top", data-toggle="tooltip", title="حذف")  
                               button#del.btn.btn-danger.btn-xs(value="#{re.id}",data-title="حذف", data-toggle="modal", data-target="#delete")
                                 span.glyphicon.glyphicon-trash
-          .col-md-5.pull-left   
+          br
+          .col-md-5.pull-left  
+            .btn-group(role='group', aria-label='...')
+              button#Department_bt.btn.btn-sm.btn-default(type='button',style="color:#337AB7;width:125px;height:35px;") عرض المواد القسم
+                span.glyphicon.glyphicon-pencil 
+              |   
+              button#Division_bt.btn.btn-sm.btn-default(type='button',style="color:#337AB7;width:128px;height:35px;") عرض المواد الشعبة
+                span.glyphicon.glyphicon-pencil
+              |   
+              button#generale_bt.btn.btn-sm.btn-default(type='button',style="color:#337AB7;width:125px;height:35px;") عرض المواد العامة
+                span.glyphicon.glyphicon-pencil
+            br
+            
+
             #Department_teble  
               .panel.panel-default
                 .panel-heading

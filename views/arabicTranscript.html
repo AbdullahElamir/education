@@ -23,7 +23,7 @@
         font-size: 10px;
         border: 1px solid #000;
       }
-      .condensed>thead>tr>th {
+      .condensed>thead>tr>th, .condensed>tbody>tr>td {
         padding: 5px;
       }
     </style>
@@ -51,19 +51,8 @@
             </div>
             </div>
         </div>
-        <br>
-        <div class="row">
-          <div class="col-xs-5">
-            <span>اسم الطالب <span>: {{name}} </span></span>
-          </div>
-          <div class="col-xs-4">
-            <span> رقم القيد <span>: {{setNum}} </span></span>
-          </div>
-          <div class="col-xs-3">
-            <span> القسم <span>: {{dept}} </span></span>
-            <div style="height: 5px;"></div>
-            <span> الشعبة <span>: {{dev}}</span></span>
-          </div>
-        </div>    
-         {{{htmlTagsDraw obj ob o}}}      
-  
+
+         {{{htmlTagsDraw obj o name setNum mathObject}}}  
+
+
+

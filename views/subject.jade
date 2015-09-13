@@ -18,7 +18,7 @@ block content
                 h3#h3.panel-title عرض المواد الدراسية
               .col-xs-6.col-md-6
                 .input-group
-                  input.form-control#subject_search(type='text', placeholder='بحث...')
+                  input.form-control#subject_search(type='text', placeholder='بحث.. اسم المادة .. رمز المادة .. ')
                   .input-group-btn
                     button.btn.btn-default#subject_search_btn
                       i.glyphicon.glyphicon-search
@@ -55,7 +55,7 @@ block content
                         span.glyphicon.glyphicon-pencil
                   td.text-center
                     p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                      button#del.btn.btn-danger.btn-xs(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
+                      button#del.btn.btn-danger.btn-xs.deleteSubject(value="#{i.id}",data-title="Delete", data-toggle="modal", data-target="#delete")
                         span.glyphicon.glyphicon-trash
         if pagination
           .text-center
@@ -99,10 +99,10 @@ block content
               .row
                 .col-xs-3.col-md-3
                   label أعمال السنة
-                  input#chapter_degree.form-control(type="text", name="chapter_degree", placeholder="أعال السنة")
+                  input#chapter_degree.form-control(type="text", name="chapter_degree",value="40", placeholder="أعال السنة")
                 .col-xs-3.col-md-3
                   label درجة نهائي النظري
-                  input#final_theor.form-control(type="text", name="final_theor", placeholder="نهائي النظري")
+                  input#final_theor.form-control(type="text", name="final_theor",value="60", placeholder="نهائي النظري")
                   input#system_type.form-control(type="hidden", name="system_type", value="1")
                 .col-xs-6.col-md-6
                   #department_radio 
@@ -137,7 +137,7 @@ block content
             span.glyphicon.glyphicon-warning-sign
             |  هل انت متأكد من إلغاء هذه المادة ؟
         .modal-footer
-          button#ok.btn.btn-success(type="button", data-dismiss="modal")
+          button#deleteValue.btn.btn-success(type="button", data-dismiss="modal",value="")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")
