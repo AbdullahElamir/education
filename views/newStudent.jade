@@ -90,7 +90,7 @@ block content
                 label 
                   i.fa.fa-star-o
                   span  الجنسية
-                select.form-control.selectpicker#nationality(name="nationality", data-live-search="true")
+                select.form-control.selectpicker#nationality(name="nationality", data-live-search="true", data-size=10)
                   option(value="", style='color:grey; display:none;') الرجاء اختيار الجنسية...
                   for nat in nats
                     option(value="#{nat.id}") #{nat.name}
