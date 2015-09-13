@@ -10,13 +10,16 @@ $(document).ready(function(){
   });
   
   $('body').on('click', '#submit', function(){
-    window.location.href='/transcript/detection/'+$('#semester').val()+'/'+$('#division').val()+'/'+$('#level').val();
+    var isvalidate=$("#delectionsForm").valid();
+    if(isvalidate){
+      window.location.href='/transcript/detection/'+$('#semester').val()+'/'+$('#division').val()+'/'+$('#level').val();
+    }
   });
 
-  $('body').on('click', '#submit', function (e) {
-    e.preventDefault();
-    $('#submit').submit();
-  });
+  // $('body').on('click', '#submit', function (e) {
+  //   e.preventDefault();
+  //   $('#submit').submit();
+  // });
 
   $("#delectionsForm").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
