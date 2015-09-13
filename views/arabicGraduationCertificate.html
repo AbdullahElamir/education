@@ -5,10 +5,11 @@
     <style>
       @font-face {
         font-family: 'Amiri';
+        font-style: normal;
+        font-weight: 400;
         src: url("http://localhost:3000/fonts/amiri-regular.ttf") format("truetype");
       }
       body {
-        src: url("http://localhost:3000/fonts/amiri-regular.ttf") format("truetype");
         font-family: 'Amiri';
       }
       .fontSize{
@@ -46,25 +47,22 @@
           <div style="height: 40px;"></div>
             <div class="fontSizeBody">
               يفيدكم المعهد العالي للـمهن الطبية القره بوللي بان الطالب/ة <span>: {{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}}
-              
-               </span>والمسجل تحت رقم القيد<span> : {{st.set_number}} ,</span>
-               الجنسيه<span> : {{nat.name}} ,</span>
-                
-                الرقم الوطني <span> : {{st.nid}} </span>
-                تاريـخ ومكان الميلاد <span> : {{st.place_birth}} / {{date}}</span> 
-                <br/>
-                قد أنهى جميع متطلبات التخرج للـحصول على درجة الدبلوم العالي في مـجال التخصص
-                بقسم <span> : {{st.named}} ,</span> 
-                شعبة <span> : {{st.name}} ,</span> 
-                للفصل الدراسي <span> : {{sem}} ,</span> 
-                
-                والعام الدراسي <span> : {{year}} ,</span> 
-                بتقدير <span> : {{status}} ,</span> 
-                وبمعدل عام <span> : {{rat}}%</span> 
-                <div style="height: 35px;" ></div>
-                <div class="text-center">
-                  أعطيت هذه اﻹفادة بعد الاطلاع على الملف العـلـمي للـمعـنى لاستعمالها فيما يخوله القانون .
-                </div>
+              </span>والمسجل تحت رقم القيد<span> : {{st.set_number}} ,</span>
+              الجنسيه<span> : {{nat.name}} ,</span>
+              الرقم الوطني <span> : {{st.nid}} </span>
+              تاريـخ ومكان الميلاد <span> : {{st.place_birth}} / {{date}}</span> 
+              <br/>
+              قد أنهى جميع متطلبات التخرج للـحصول على درجة الدبلوم العالي في مـجال التخصص
+              بقسم <span> : {{st.named}} ,</span> 
+              شعبة <span> : {{st.name}} ,</span> 
+              للفصل الدراسي <span> : {{sem}} ,</span> 
+              والعام الدراسي <span> : {{year}} ,</span> 
+              بتقدير <span> : {{status}} ,</span> 
+              وبمعدل عام <span> : {{rat}}%</span> 
+              <div style="height: 35px;" ></div>
+              <div class="text-center">
+                أعطيت هذه اﻹفادة بعد الاطلاع على الملف العـلـمي للـمعـنى لاستعمالها فيما يخوله القانون .
+              </div>
             </div>
           <div style="height: 110px;"></div>
           <div class="row fontSizeBody" >
