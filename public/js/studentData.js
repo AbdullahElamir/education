@@ -106,14 +106,20 @@ $(document).ready(function(){
           year = new Date(data[key].year);
           start=new Date(data[key].starting_date);
           end=new Date(data[key].ending_date);
-          console.log(start.getDate());
+        var sem = ' ';
           if(data[key].system_type==1){
+            if (data[key].sem_type == 1) {
+              var sem = 'ربيع';
+            } else if (data[key].sem_type == 2) {
+              var sem = 'خريف';
+            } else {
+              var sem = 'صيف';
+            }
             t="فصل";
-
           }else if(data[key].system_type==2){
             t="سنة";
           }
-          $('#tbodysem').append('<tr data-id="#"><td>'+t+'</td>'+
+          $('#tbodysem').append('<tr data-id="#"><td>'+t+' '+sem+'</td>'+
             '<td>'+year.getFullYear()+'</td>'+
             '<td>'+start.getFullYear() +'/'+ (start.getMonth()+1) +'/'+start.getDate() +'</td>'+
             '<td>'+end.getFullYear()+'/'+ (end.getMonth()+1)+'/'+ end.getDate()+'</td>'+
