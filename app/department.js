@@ -7,4 +7,3 @@ var Department  = sequelize.define('departments', {
   name: Sequelize.STRING(150),
   name_en: Sequelize.STRING(150)
 });
-
