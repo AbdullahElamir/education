@@ -84,6 +84,7 @@ $(document).ready(function(){
         fail=0;
       }
       if(pass==0 && fail==0){
+
         $("#status"+i).html('نــاجح');
       }          
       if(pass==1 || fail==1){
@@ -92,6 +93,7 @@ $(document).ready(function(){
     }
   },
   isSuccessful();
+
     $('#generale_teble').hide(0);
     $('#Division_teble').hide(0);
     $('body').on('click', '#Department_bt', function(){
@@ -131,6 +133,10 @@ $(document).ready(function(){
   $('body').on('click', '#adA', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
+     $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+      alert(todo[0].has_practical);
+
+     });
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
