@@ -3,23 +3,26 @@ $(document).ready(function(){
 /*----------------------------------Subject------------------------------------------------*/
   $("#submitEdit").on('click', function(){
     var obj = $('#editSubjectForm').serializeObject();
-    $.post('/subject/edit',obj, function(result){
-      switch(result.msg){
-        case "1" :
-          $("#editMain").modal('hide');
-          $('#subject_name').html(obj.name);
-          $('#subject_name_en').html(obj.name_en);
-          $('#subject_code').html(obj.code);
-          $('#subject_no_th_unit').html(obj.no_th_unit);
-          $('#subject_chapter_degree').html(obj.chapter_degree);
-          $('#subject_final_theor').html(obj.final_theor);
-          custNotify("success","نجح","لقد تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
-          break;
-        case "2" :
-          custNotify("danger","فشل","لايمكن تعديل هذه المادة لسبب غير معروف!","warning-sign","bounceInDown","bounceOutUp");
-          break;
-      }
-    });
+    var isvalidate=$("#editSubjectForm").valid();
+    if(isvalidate){
+      $.post('/subject/edit',obj, function(result){
+        switch(result.msg){
+          case "1" :
+            $("#editMain").modal('hide');
+            $('#subject_name').html(obj.name);
+            $('#subject_name_en').html(obj.name_en);
+            $('#subject_code').html(obj.code);
+            $('#subject_no_th_unit').html(obj.no_th_unit);
+            $('#subject_chapter_degree').html(obj.chapter_degree);
+            $('#subject_final_theor').html(obj.final_theor);
+            custNotify("success","نجح","لقد تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+            break;
+          case "2" :
+            custNotify("danger","فشل","لايمكن تعديل هذه المادة لسبب غير معروف!","warning-sign","bounceInDown","bounceOutUp");
+            break;
+        }
+      });
+    }
   });
 /*------------when practical toggle changes-------------*/
   $('#toggle-practical').change(function() {
@@ -153,6 +156,87 @@ $(document).ready(function(){
           break;
       }
     });
+  });
+
+/*--------Validation on an editSubject--------*/
+  $("#editSubjectForm").validate({
+    rules:{
+      name:{
+        required: true,
+      },
+      name_en:{
+        required: true,
+      },
+      no_th_unit:{
+        required: true,
+        number: true,
+      },
+      code:{
+        required: true,
+      },
+      chapter_degree:{
+        required: true,
+      },
+      final_theor:{
+        required: true,
+      },
+    },
+    messages:{
+      name:{
+        required: "الرجاء أدخال اسم المادة",
+      },
+      name_en:{
+        required: "!Please enter Subject name",
+      },
+      no_th_unit:{
+        required: "الرجاء أدخال عدد الوحدات النظري",
+        number: "خطأ الرجاء أدخال ارقام فقط",
+      },
+      code:{
+        required: "الرجاء أدخال رمز المادة",
+      },
+      chapter_degree:{
+        required: "الرجاء أدخال درجة اعمال السنة",
+      },
+      final_theor:{
+        required: "الرجاء أدخال درجة الامتحان النظري",
+      }
+    },
+    errorClass: 'custom-error',
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+      }
+      if(!(element.parent('.input-group').length)) {
+          element.parent().append(error);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+    invalidHandler: function(event, validator) {
+      var errors = validator.numberOfInvalids();
+      if (errors) {
+        custNotify("danger","خطأ","الرجاء التأكد من صحة ادخال البيانات","warning-sign","bounceIn","bounceOut");
+      }
+    },
+  });
+
+  $('#toggle-practical').change(function() {
+    if ($(this).prop('checked') == true) {
+      $("#final_practical").rules("add", {
+        required: true,
+        messages: {
+          required: "الرجاء ادخال درجة امتحان العملي!",
+        }
+      });
+    }
+    else {
+        $("#final_practical").rules( 'remove', 'required' );
+      } 
   });
 
 /*--End--*/
