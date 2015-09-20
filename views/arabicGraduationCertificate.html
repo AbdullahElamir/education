@@ -46,7 +46,12 @@
           </div>
           <div style="height: 40px;"></div>
             <div class="fontSizeBody">
-              يفيدكم, مكتب التسجيل والدراسة والامتحانات بان الطالبه <span>: {{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}}
+              يفيدكم, مكتب التسجيل والدراسة والامتحانات بان 
+              {{#if st.gender}}
+                الطالبه 
+              {{else}}
+                الطالب
+              {{/if}}<span>: {{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}} 
               </span>والمسجل تحت رقم القيد<span> : {{st.set_number}} ,</span>
               الجنسيه<span> : {{nat.name}} ,</span>
               الرقم الوطني <span> : {{st.nid}} </span>
