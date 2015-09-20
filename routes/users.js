@@ -29,12 +29,9 @@ router.get('/',userHelpers.isLogin, function(req, res) {
         status: 1
       }
     }).then(function(result){
-      console.log(result);
       if(result){
-        console.log(false);
         res.send(false);// not safe to add semester
       } else {
-        console.log(true);
         res.send(true);// safe to add semester
       }
     });

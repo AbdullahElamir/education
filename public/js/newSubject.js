@@ -511,6 +511,31 @@ $(document).ready(function(){
     },
   });
 
+  $('#system_type').on('change',function() {
+    $('select[name="sem_type"]').each(function() {
+      var id = $('#system_type').val();
+      if(id==1){
+        $(this).rules("add", {
+          required: true,
+          messages: {
+            required: "الرجاء اختيار الفصل الدراسي!",
+          }
+        });
+      }
+      else {
+        $(this).rules( 'remove', 'required' );
+      }    
+    });
+    var id = $('#system_type').val();
+    if(id==1){
+      $('#sem_type').show();
+    }
+    else {
+      $('#sem_type').hide();
+      $('.sem_type').selectpicker('val', '');
+    }
+  });
+  
   var qs = (function(a) {
     if (a == "") return {};
     var b = {};

@@ -10,6 +10,7 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
+<<<<<<< HEAD
 var obj = {
   subjects: [{
     subject_ar: 'رياضيات',
@@ -151,6 +152,8 @@ var obj = {
     class_name: 'الخامس'
   }],
 }
+=======
+>>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
 
 router.get('/', userHelpers.isLogin, function (req, res) {
   var page = userHelpers.getPage(req);
@@ -684,12 +687,16 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
           </div>\
           </div>\
           </div>';
+<<<<<<< HEAD
             if(obj[0][0].gender==0){
               var studentName = 'اسم الطالب' + '<span>:';
             } 
             if(obj[0][0].gender==1){
               var studentName = 'اسم الطالبة' + '<span>:';
             }
+=======
+      var studentName = 'اسم الطالب' + '<span>:';
+>>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
       var setNu = 'رقـــم القيـــد' + '<span>:';
       name = saveName;
       setNum = saveSetNum;
@@ -1052,6 +1059,27 @@ function htmlTagsDrawDetection(data, stu) {
         </tr>\
         <tr>\
           <td></td>\
+          <td></td>\
+          <td></td>\
+          <td style="font-size: 11px;" class="text-center">العملــــــــي</td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+          <td></td>\
+        </tr>\
+        <tr>\
+          <td></td>\
           <td class="text-center">' + stu[i][0].father_name + ' ' + stu[i][0].grand_name + '</td>\
           <td class="text-center" style="border-style:none;">' + stu[i][0].set_number + '</td>\
           <td style="font-size: 14px;" class="text-center">نهاية العــام</td>\
@@ -1105,7 +1133,11 @@ router.get('/transcript', userHelpers.isLogin, function (req, res, next) {
 
 
 router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
+<<<<<<< HEAD
   models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
+=======
+  models.sequelize.query('SELECT ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
+>>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
       replacements: [req.params.id]
     })
     .then(function (arabicTranscriptObject) {
@@ -1945,7 +1977,10 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
+<<<<<<< HEAD
       console.log(req.body);
+=======
+>>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
       if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
         req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam);
       } else {
