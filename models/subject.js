@@ -5,15 +5,16 @@ module.exports = function(sequelize, DataTypes) {
     name: DataTypes.STRING(250),
     name_en: DataTypes.STRING(250),
     code: DataTypes.STRING(250),
-    no_th_unit: DataTypes.INTEGER(150),
-    no_th_hour: DataTypes.INTEGER(150),
-    no_pr_unit: DataTypes.INTEGER(150),
-    no_pr_hour: DataTypes.INTEGER(150),
+    no_th_unit: DataTypes.INTEGER(8),
+    no_th_hour: DataTypes.INTEGER(8),
+    no_pr_unit: DataTypes.INTEGER(8),
+    no_pr_hour: DataTypes.INTEGER(8),
     chapter_degree: DataTypes.FLOAT(),
     final_theor: DataTypes.FLOAT(),
     final_practical: DataTypes.FLOAT(),
     subject_type: DataTypes.INTEGER(1),
     system_type: DataTypes.INTEGER(1),
+    has_practical :{type: DataTypes.INTEGER(1),defaultValue:2},
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
   }, {
     classMethods: {

@@ -79,6 +79,8 @@ block content
           form#newSubject(action="", method="post", accept-charset="utf-8", role="form")
             | الرجاء اختيار نظام المادة ؟     
             input#toggle-subject(type='checkbox',data-on="سنة",data-off="فصل", data-toggle='toggle')
+            |    هل يوجد امتحان عملي؟     
+            input#toggle-practical(type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
             br
             br
             .form-group
@@ -97,14 +99,18 @@ block content
                   input#no_th_unit.form-control(type="text", name="no_th_unit", placeholder="عدد وحدات النظري")         
             .form-group
               .row
-                .col-xs-3.col-md-3
+                .col-xs-2.col-md-2
                   label أعمال السنة
                   input#chapter_degree.form-control(type="text", name="chapter_degree",value="40", placeholder="أعال السنة")
-                .col-xs-3.col-md-3
+                .col-xs-2.col-md-2
                   label درجة نهائي النظري
                   input#final_theor.form-control(type="text", name="final_theor",value="60", placeholder="نهائي النظري")
                   input#system_type.form-control(type="hidden", name="system_type", value="1")
-                .col-xs-6.col-md-6
+                .col-xs-2.col-md-2.hide#practical
+                  label درجة العملي
+                  input#final_practical.form-control(type="text", name="final_practical",value="0", placeholder="نهائي النظري")
+                  input#has_practical.form-control(type="hidden", name="has_practical", value="1")
+                .col-xs-5.col-md-5
                   #department_radio 
                     label نوع المادة
                     br

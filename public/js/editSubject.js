@@ -21,6 +21,21 @@ $(document).ready(function(){
       }
     });
   });
+/*------------when practical toggle changes-------------*/
+  $('#toggle-practical').change(function() {
+    if ($(this).prop('checked') == true) {
+      $('#has_practical').val("2");
+      $('#final_theor').val("40");
+      $('#final_practical').val("20");
+      $('#practical').removeClass('hide');
+    }
+    else {
+      $('#has_practical').val("1");
+      $('#final_theor').val("60");
+      $('#final_practical').val("0");
+      $('#practical').addClass('hide');
+    }
+  });
 /*------------------Prerequisites------------------------------------------------*/
 /*------------when select for prereqs changes-------------*/
   $('#prereqs').on('change', function() {
