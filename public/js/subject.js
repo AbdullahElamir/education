@@ -58,12 +58,6 @@ $(document).ready(function(){
     unhighlight: function(element) {
       $(element).closest('.form-group').removeClass('has-error');
     },
-    invalidHandler: function(event, validator) {
-      var errors = validator.numberOfInvalids();
-      if (errors) {
-        custNotify("danger","خطأ","الرجاء التأكد من صحة ادخال البيانات","warning-sign","bounceIn","bounceOut");
-      }
-    },
   });
     $('#subject_search_btn').on('click', function(){
       window.location.href="/subject?q="+$('#subject_search').val();
@@ -77,8 +71,8 @@ $(document).ready(function(){
         $("#subject_search_btn").click(); 
         }
     });
+
   $('#toggle-subject').change(function() {
-    
     if ($(this).prop('checked') == true) {
       $('#system_type').val("2");
     }
@@ -93,12 +87,19 @@ $(document).ready(function(){
       $('#final_theor').val("40");
       $('#final_practical').val("20");
       $('#practical').removeClass('hide');
+      $("#final_practical").rules("add", {
+        required: true,
+        messages: {
+          required: "الرجاء ادخال درجة امتحان العملي!",
+        }
+      });
     }
     else {
       $('#has_practical').val("1");
       $('#final_theor').val("60");
       $('#final_practical').val("0");
       $('#practical').addClass('hide');
+      $("#final_practical").rules( 'remove', 'required' );
     }
   });  
 
@@ -134,6 +135,6 @@ $(document).ready(function(){
           break; 
       }
     });
-  });
+  });  
   
 });
