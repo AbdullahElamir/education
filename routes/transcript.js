@@ -10,6 +10,147 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
+var obj = {
+  subjects: [{
+    subject_ar: 'رياضيات',
+    subject_en: 'math',
+    subject_id: '5cs4',
+    degree: '60.6'
+  }, {
+    subject_ar: 'رياضيات',
+    subject_en: 'math',
+    subject_id: '5cs4',
+    degree: '60.6'
+  }, {
+    subject_ar: 'رياضيات',
+    subject_en: 'math',
+    subject_id: '5cs4',
+    degree: '60.6'
+  }],
+  classes: [{
+    student: [{
+      name: 'محمد',
+      id: '123450',
+      name_en: 'mohammed'
+    }],
+    class_id: 2,
+    class_name: 'الثاني',
+    subjects: [{
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }]
+  }, {
+    student: [{
+      name: 'محمد',
+      id: '123450',
+      name_en: 'mohammed'
+    }],
+    class_id: 3,
+    class_name: 'الاول',
+    subjects: [{
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }, {
+      subject_ar: 'رياضيات',
+      subject_en: 'math',
+      subject_id: '5cs4',
+      degree: '60.6'
+    }]
+  }, {
+    student: [{
+      name: 'محمد',
+      id: '123450',
+      name_en: 'mohammed'
+    }],
+    class_id: 3,
+    class_name: 'الثالث'
+  }, {
+    student: [{
+      name: 'محمد',
+      id: '123450',
+      name_en: 'mohammed'
+    }],
+    class_id: 4,
+    class_name: 'الرابع'
+  }, {
+    student: [{
+      name: 'محمد',
+      id: '123450',
+      name_en: 'mohammed'
+    }],
+    class_id: 5,
+    class_name: 'الخامس'
+  }],
+}
 
 router.get('/', userHelpers.isLogin, function (req, res) {
   var page = userHelpers.getPage(req);
@@ -543,7 +684,12 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
           </div>\
           </div>\
           </div>';
-      var studentName = 'اسم الطالب' + '<span>:';
+            if(obj[0][0].gender==0){
+              var studentName = 'اسم الطالب' + '<span>:';
+            } 
+            if(obj[0][0].gender==1){
+              var studentName = 'اسم الطالبة' + '<span>:';
+            }
       var setNu = 'رقـــم القيـــد' + '<span>:';
       name = saveName;
       setNum = saveSetNum;
@@ -879,7 +1025,15 @@ function htmlTagsDrawDetection(data, stu) {
         cahp += '<td class="text-center">' + stu[i][k].chapter_degree + '</td>';
         fin += '<td class="text-center">' + stu[i][k].final_exam + '</td>';
         sum += '<td class="text-center">' + stu[i][k].sum_dagree + '</td>';
-        lap += '<td class="text-center">' + stu[i][k].sum_dagree + '</td>';
+        if(stu[i][k].has_practical==1){
+          if(stu[i][k].final_practical==-8){
+            lap += '<td class="text-center">لم يحضر</td>';
+          }else{
+            lap += '<td class="text-center">' + stu[i][k].final_practical + '</td>';  
+          }
+        }else{
+          lap += '<td class="text-center"></td>';
+        }
         j++;
       } else {
         not += '<p>' + stu[i][k].code + ' : ' + stu[i][k].sum_dagree + ' </p> ';
@@ -911,7 +1065,8 @@ function htmlTagsDrawDetection(data, stu) {
           <td></td>\
           <td></td>\
           <td style="font-size: 11px;" class="text-center">العملــــــــي</td>\
-          <td></td>\
+           ' + lap + '\
+          <td style="width: 20%;"></td>\
           <td></td>\
           <td></td>\
           <td></td>\
@@ -971,7 +1126,7 @@ router.get('/transcript', userHelpers.isLogin, function (req, res, next) {
 
 
 router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
+  models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
       replacements: [req.params.id]
     })
     .then(function (arabicTranscriptObject) {
@@ -1049,12 +1204,12 @@ router.get('/englishTranscript/:id', userHelpers.isLogin, function (req, res, ne
 });
 
 
-router.get('/detection/:idse/:idv/:idl', function (req, res, next) {
+router.get('/detection/:idse/:idv/:idl', userHelpers.isLogin,function (req, res, next) {
   models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`level` =? AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', {
       replacements: [req.params.idv, req.params.idse, req.params.idl]
     })
     .then(function (obj) {
-      models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', {
+      models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`final_practical`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`,`s`.`has_practical` FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', {
           replacements: [req.params.idv, req.params.idse]
         })
         .then(function (subjects) {
@@ -1406,6 +1561,21 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
     });
 });
 
+
+
+router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
+  models.sequelize.query('select final_practical,has_practical from Subjects where id=?', {
+      replacements: [req.params.id]
+    })
+    .then(function (subject) {
+      subject[0][0].has_practical;
+      res.send({has:subject[0][0].has_practical});
+    });
+});
+
+
+
+
 router.get('/', userHelpers.isLogin, function (req, res) {
   models.sequelize.query('SELECT * FROM `Divisions` d,`Subjects` s WHERE `s`.`system_type` = 1 AND `d`.`id` = ? AND `s`.`status`=1 AND `d`.`DepartmentId`= `s`.`DepartmentId` AND `s`.`id` NOT IN (SELECT `SubjectId` FROM `DivisionSubjects` WHERE `DivisionId` = ? );', {
       replacements: [req.params.id, req.params.id]
@@ -1454,7 +1624,6 @@ router.get('/academicTranscripts', userHelpers.isLogin, function (req, res) {
     .then(function (student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page, pageCount);
-      console.log(pagination);
       res.render('academicTranscripts', {
         title: 'Academic Transcripts',
         nats: nationality,
@@ -1796,14 +1965,34 @@ router.get('/addStudentSubject/:id', userHelpers.isLogin, function (req, res) {
 
 router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
   req.body.UserId = req.session.idu;
-  models.sequelize.query('select s.final_theor from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', {
+  models.sequelize.query('select s.final_theor,s.has_practical from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
-      if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
-        req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam);
-      } else {
-        req.body.sum_dagree = parseFloat(req.body.chapter_degree);
+      if(obj[0][0].has_practical==1){
+        // most has practical exam 
+        if(req.body.isPractical != undefined){
+          //console.log("do practical exam ");
+          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) + parseFloat(req.body.final_practical);
+          } else {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree);
+          }
+        } else {
+          //console.log("don't");
+          req.body.sum_dagree = parseFloat(req.body.chapter_degree);  
+          req.body.final_practical=-8;
+      }
+    }
+      if(obj[0][0].has_practical==2){
+        // dont has practical exam 
+        //console.log("the subject dont has practical exam");
+         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) ;
+          } else {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree);
+          }
+
       }
 
       models.Academic_transcript.findOrCreate({

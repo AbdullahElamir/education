@@ -50,9 +50,10 @@ block content
                     th اسم المادة
                     th Subject Name
                     th رمز المادة
-                    th المجموعة
+                    //th المجموعة
                     th الإمتحان النصفي
                     th الإمتحان النهائي
+                    th الإمتحان العملي
                     th الدرجة النهائية
                     th  حالة الطالب
                     th.text-center تسجيل الدرجة
@@ -60,16 +61,23 @@ block content
                   tbody#Acbody
                     for re,u in res
                       if re.Sub_group.Subject != null
-                        tr(data-id = '#{re.id}',data-sub="#{re.subject_status}",data-case="#{re.result_case}",data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}",data-notes="#{re.notices}")
+                        tr(data-id = '#{re.id}',data-pract="#{re.final_practical}",data-sub="#{re.subject_status}",data-case="#{re.result_case}",data-deg="#{re.chapter_degree}",data-fin="#{re.final_exam}",data-notes="#{re.notices}")
                           td #{re.Sub_group.Subject.name}
                           td #{re.Sub_group.Subject.name_en}
                           td #{re.Sub_group.Subject.code}
-                          td #{re.Sub_group.sub_group_name}
+                          //td #{re.Sub_group.sub_group_name}
                           td(id='chapter'+u) #{re.chapter_degree} \  #{re.Sub_group.Subject.chapter_degree}
                           td(id='chap'+u ,hidden) #{re.Sub_group.Subject.chapter_degree}
                           td(id='final'+u) #{re.final_exam} \ #{re.Sub_group.Subject.final_theor}
                           td(id='fina'+u,hidden) #{re.final_exam}
                           td(id='fin'+u,hidden) #{re.Sub_group.Subject.final_theor}
+                          if re.Sub_group.Subject.has_practical ==1
+                            if re.final_practical == -8 
+                              td لم يحضر الامتحان العملي
+                            else
+                              td #{re.final_practical} \ #{re.Sub_group.Subject.final_practical}
+                          else 
+                            td  لايوجد عملي
                           td(id='sum'+u) #{re.sum_dagree} \ #{re.Sub_group.Subject.final_theor + re.Sub_group.Subject.chapter_degree}
                           td(id='summ'+u,hidden) #{re.Sub_group.Subject.final_theor + re.Sub_group.Subject.chapter_degree}
                           td(id='summm'+u,hidden) #{re.sum_dagree}
@@ -94,8 +102,6 @@ block content
               button#generale_bt.btn.btn-sm.btn-default(type='button',style="color:#337AB7;width:125px;height:35px;") عرض المواد العامة
                 span.glyphicon.glyphicon-pencil
             br
-            
-
             #Department_teble  
               .panel.panel-default
                 .panel-heading
@@ -123,6 +129,7 @@ block content
                                 span.glyphicon.glyphicon-hand-right   
                               button#chapterGlobalVaribalButton(hidden)
                               button#finalGlobalVaribalButton(hidden)
+
                                               
             #generale_teble
               .panel.panel-default
@@ -187,6 +194,7 @@ block content
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#updateG.form(role="form")
+
         .modal-content
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -195,12 +203,21 @@ block content
           .modal-body
             .form-group
               .row
-                .col-xs-6.col-md-6
+                .col-xs-7.col-md-7
+                  .modal-body#toggle_mod
+                      | هل حضر الامتحان العملي ؟  
+                      input#toggle-subj(name='isPractical',type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
+            .form-group
+              .row
+                .col-xs-4.col-md-4
                   lable أعمال السنة
                   input.form-control#chapter_degree(type="text", name="chapter_degree", value="", placeholder="أعمال السنة")
-                .col-xs-6.col-md-6 
+                .col-xs-4.col-md-4
                   lable درجة النهائي
                   input.form-control#final_exam(type="text", name="final_exam", value="", placeholder="درجة النهائي")
+                .col-xs-4.col-md-4 
+                  lable درجة العملي
+                  input.form-control#pract(type="text", name="final_practical", value="", placeholder="درجة النهائي") 
             .form-group
               .row
                 .col-xs-6.col-md-6
@@ -229,7 +246,7 @@ block content
                     option(value="3") تكميلي
           .modal-footer
             button#upres.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
-              span.glyphicon.glyphicon-ok-sign   
+              span.glyphicon.glyphicon-ok-sign  
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       .modal-content
@@ -259,12 +276,21 @@ block content
           form#addForm.form-signin(role="form")
             .form-group
               .row
-                .col-xs-6.col-md-6
+                .col-xs-7.col-md-7
+                  .modal-body#toggle_model
+                      | هل حضر الامتحان العملي ؟  
+                      input#toggle-subject(name='isPractical',type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
+            .form-group
+              .row
+                .col-xs-4.col-md-4
                   lable أعمال السنة
                   input.form-control#chapter(type="text", name="chapter_degree", placeholder="أعمال السنة")
-                .col-xs-6.col-md-6 
+                .col-xs-4.col-md-4 
                   lable درجة النهائي
                   input.form-control#final(type="text", name="final_exam", placeholder="درجة النهائي")
+                .col-xs-4.col-md-4
+                  lable درجة العملي
+                  input.form-control#parct(type="text", name="final_practical", placeholder="درجة العملي")
             .form-group
               .row
                 .col-xs-6.col-md-6
@@ -294,8 +320,8 @@ block content
                     option(value="1") تنزيل  
                     option(value="2") إعادة
                     option(value="3") تكميلي
-
         .modal-footer
+          button#tog(hidden) 
           button#submit.btn.btn-primary.btn-lg(type="button", style="width: 100%;")
             span.glyphicon.glyphicon-ok-sign
             | 
@@ -304,6 +330,7 @@ block content
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js') 
   script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/bootstrap-toggle.min.js') 
   script(src='/js/jquery.validate.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js') 

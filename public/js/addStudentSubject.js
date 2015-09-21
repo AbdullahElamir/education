@@ -84,6 +84,7 @@ $(document).ready(function(){
         fail=0;
       }
       if(pass==0 && fail==0){
+
         $("#status"+i).html('نــاجح');
       }          
       if(pass==1 || fail==1){
@@ -92,6 +93,7 @@ $(document).ready(function(){
     }
   },
   isSuccessful();
+
     $('#generale_teble').hide(0);
     $('#Division_teble').hide(0);
     $('body').on('click', '#Department_bt', function(){
@@ -111,9 +113,11 @@ $(document).ready(function(){
   });
   
   $('body').on('click', '#viw', function (e) {
+
     $('#upres').val($(this).val());
     $('#chapter_degree').val($('[data-id = "'+$(this).val()+'"]').data('deg'));
     $('#final_exam').val($('[data-id = "'+$(this).val()+'"]').data('fin'));
+    $('#pract').val($('[data-id = "'+$(this).val()+'"]').data('pract'));
     $('#subject_status').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('sub'));
     $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case')); 
     $('#notes').selectpicker('val',$('[data-id = "'+$(this).val()+'"]').data('notes'));
@@ -128,9 +132,30 @@ $(document).ready(function(){
     });
   });
 
+  $('#toggle-subject').change(function() {
+    if ($(this).prop('checked') == true) {
+      $("#parct").prop('disabled', false);
+    } else {
+      $("#parct").prop('disabled', true);
+    }
+  }); 
+
   $('body').on('click', '#adA', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
+    $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+    $('#tog').val(todo.has);
+    if(todo.has==1){
+        // enable
+      $("#parct").prop('disabled', true);
+        $("#toggle_model").show();
+    }
+    if(todo.has==2){
+        // disable
+      $("#toggle_model").hide();     
+      $("#parct").prop('disabled', true);
+    }
+  });
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
@@ -141,24 +166,46 @@ $(document).ready(function(){
   $('body').on('click', '#ad', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
+    $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+      $('#tog').val(todo.has); 
+      if(todo.has==1){
+        // enable
+        $("#parct").prop('disabled', true);
+        $("#toggle_model").show();
+      }
+      if(todo.has==2){
+        // disable
+        $("#toggle_model").hide();     
+        $("#parct").prop('disabled', true);
+      }
+    });
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytableee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytableee #final"+rowindex).text());
     $('#subG').val($(this).val());   
   });
 
-
   $('body').on('click', '#a', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
+    $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+      $('#tog').val(todo.has);
+      if(todo.has==1){
+        // enable
+        $("#parct").prop('disabled', true);
+        $("#toggle_model").show();
+      }
+      if(todo.has==2){
+        // disable
+        $("#toggle_model").hide();     
+        $("#parct").prop('disabled', true);
+      }
+    });
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytableeee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytableeee #final"+rowindex).text());
     $('#subG').val($(this).val());   
   });
-
-
-
 
   $('body').on('click', '#submit', function (e) {
     e.preventDefault();
