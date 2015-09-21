@@ -10,7 +10,6 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-<<<<<<< HEAD
 var obj = {
   subjects: [{
     subject_ar: 'رياضيات',
@@ -152,8 +151,6 @@ var obj = {
     class_name: 'الخامس'
   }],
 }
-=======
->>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
 
 router.get('/', userHelpers.isLogin, function (req, res) {
   var page = userHelpers.getPage(req);
@@ -687,16 +684,12 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
           </div>\
           </div>\
           </div>';
-<<<<<<< HEAD
             if(obj[0][0].gender==0){
               var studentName = 'اسم الطالب' + '<span>:';
             } 
             if(obj[0][0].gender==1){
               var studentName = 'اسم الطالبة' + '<span>:';
             }
-=======
-      var studentName = 'اسم الطالب' + '<span>:';
->>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
       var setNu = 'رقـــم القيـــد' + '<span>:';
       name = saveName;
       setNum = saveSetNum;
@@ -1059,27 +1052,6 @@ function htmlTagsDrawDetection(data, stu) {
         </tr>\
         <tr>\
           <td></td>\
-          <td></td>\
-          <td></td>\
-          <td style="font-size: 11px;" class="text-center">العملــــــــي</td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-        <tr>\
-          <td></td>\
           <td class="text-center">' + stu[i][0].father_name + ' ' + stu[i][0].grand_name + '</td>\
           <td class="text-center" style="border-style:none;">' + stu[i][0].set_number + '</td>\
           <td style="font-size: 14px;" class="text-center">نهاية العــام</td>\
@@ -1133,11 +1105,7 @@ router.get('/transcript', userHelpers.isLogin, function (req, res, next) {
 
 
 router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
-<<<<<<< HEAD
   models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
-=======
-  models.sequelize.query('SELECT ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
->>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
       replacements: [req.params.id]
     })
     .then(function (arabicTranscriptObject) {
@@ -1571,12 +1539,12 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
 
 
 router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
-  models.sequelize.query('select final_practical from Subjects where id=?', {
+  models.sequelize.query('select final_practical,has_practical from Subjects where id=?', {
       replacements: [req.params.id]
     })
     .then(function (subject) {
-      console.log(subject[0]);
-      res.send(subject);
+      subject[0][0].has_practical;
+      res.send({has:subject[0][0].has_practical});
     });
 });
 
@@ -1973,19 +1941,36 @@ router.get('/addStudentSubject/:id', userHelpers.isLogin, function (req, res) {
 
 router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
   req.body.UserId = req.session.idu;
-  models.sequelize.query('select s.final_theor from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', {
+  models.sequelize.query('select s.final_theor,s.has_practical from Subjects as s,Sub_groups as sg where sg.id =?  and s.id=sg.SubjectId', {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
-<<<<<<< HEAD
-      console.log(req.body);
-=======
->>>>>>> 26c478629bc17e43f1e8fa25c5fa77fa535137e6
-      if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
-        req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam);
-      } else {
-        req.body.sum_dagree = parseFloat(req.body.chapter_degree);
+      if(obj[0][0].has_practical==1){
+        // most has practical exam 
+        if(req.body.isPractical != undefined){
+          //console.log("do practical exam ");
+          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) + parseFloat(req.body.final_practical);
+          } else {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree);
+          }
+        } else {
+          //console.log("don't");
+          req.body.sum_dagree = parseFloat(req.body.chapter_degree);  
+          req.body.final_practical=-8;
       }
+    }
+      if(obj[0][0].has_practical==2){
+        // dont has practical exam 
+        //console.log("the subject dont has practical exam");
+         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) ;
+          } else {
+            req.body.sum_dagree = parseFloat(req.body.chapter_degree);
+          }
+
+      }
+     console.log(req.body);
 
       models.Academic_transcript.findOrCreate({
           where: {
