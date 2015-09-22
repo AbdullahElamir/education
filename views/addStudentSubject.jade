@@ -194,7 +194,6 @@ block content
   #Show_Semester.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#updateG.form(role="form")
-
         .modal-content
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -205,8 +204,9 @@ block content
               .row
                 .col-xs-7.col-md-7
                   .modal-body#toggle_mod
-                      | هل حضر الامتحان العملي ؟  
-                      input#toggle-subj(name='isPractical',type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
+               
+                       //- | هل حضر الامتحان العملي ؟   
+                       //- input#toggle-subj(name='isPractical',type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
             .form-group
               .row
                 .col-xs-4.col-md-4
@@ -217,11 +217,10 @@ block content
                   input.form-control#final_exam(type="text", name="final_exam", value="", placeholder="درجة النهائي")
                 .col-xs-4.col-md-4 
                   lable درجة العملي
-                  input.form-control#pract(type="text", name="final_practical", value="", placeholder="درجة النهائي") 
+                  input.form-control#practical(type="text", name="final_practical", value="", placeholder="درجة النهائي") 
             .form-group
               .row
                 .col-xs-6.col-md-6
-
                   lable حالة المادة
                   select#subject_status.form-control.selectpicker(name="subject_status", data-live-search="true", data-size=5)
                     option(value="1") تنزيل  
@@ -277,6 +276,7 @@ block content
             .form-group
               .row
                 .col-xs-7.col-md-7
+                
                   .modal-body#toggle_model
                       | هل حضر الامتحان العملي ؟  
                       input#toggle-subject(name='isPractical',type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
@@ -326,13 +326,16 @@ block content
             span.glyphicon.glyphicon-ok-sign
             | 
             span حسنا
+
+  script(src='/js/bootstrap-toggle.min.js') 
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js') 
-  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/bootstrap-notify.min.js') 
   script(src='/js/bootstrap-toggle.min.js') 
   script(src='/js/jquery.validate.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js') 
   script(src='/js/addStudentSubject.js') 
   script(src='/js/studentData.js')   
+  

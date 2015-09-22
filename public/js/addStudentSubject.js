@@ -111,17 +111,76 @@ $(document).ready(function(){
     $('#Division_teble').show(200);
     $('#generale_teble').hide(200);
   });
+
+ /* $('#toggle-one').change(function() {
+    if ($(this).prop('checked') == true) {
+      $("#practical").prop('disabled', false);
+    } else {
+      $("#practical").prop('disabled', true);
+    }
+  }); */
+
+  
   
   $('body').on('click', '#viw', function (e) {
+    var test=$('[data-id = "'+$(this).val()+'"]').data('pract');
+    $.get('/transcript/getSubjectbyAcadimId/'+$(this).val(),function(todo){
+      $('#tog').val(todo.has);
+        if(todo.has==1){
+        // enable 
+        if(test ==-8){
+          $( "#toggle_mod" ).empty();
+          $( "#toggle_mod" ).prepend('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
+          $("#practical").prop('disabled', true);
+          $("#toggle_mod").show();
+          $('#toggleRR').bootstrapToggle(); 
+          $('#toggleRR').prop('checked', false).change() ;
+          $('#toggleRR').change(function() {
+              if ($(this).prop('checked') == true) {
+                $("#practical").prop('disabled', false);
+              } else {
+                $("#practical").prop('disabled', true);
+              }     
+          });
 
+        } else {
+          $( "#toggle_mod" ).empty();
+          $( "#toggle_mod" ).prepend('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
+          $("#practical").prop('disabled', false);
+          $("#toggle_mod").show();
+          $('#toggleRR').bootstrapToggle(); 
+          $('#toggleRR').prop('checked', true).change() ;
+            $('#toggleRR').change(function() {
+              if ($(this).prop('checked') == true) {
+                $("#practical").prop('disabled', false);
+              } else {
+                $("#practical").prop('disabled', true);
+              }     
+          });
+        }  
+       }
+      if(todo.has==2){
+        // disable
+        $("#toggle_mod").hide();     
+        $("#practical").prop('disabled', true);
+      }
+  });
+    var pract=$('[data-id = "'+$(this).val()+'"]').data('pract');
+    if(pract ==-8){
+      pract=0;
+    }
     $('#upres').val($(this).val());
     $('#chapter_degree').val($('[data-id = "'+$(this).val()+'"]').data('deg'));
     $('#final_exam').val($('[data-id = "'+$(this).val()+'"]').data('fin'));
-    $('#pract').val($('[data-id = "'+$(this).val()+'"]').data('pract'));
+    $('#practical').val(pract);
+
     $('#subject_status').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('sub'));
     $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case')); 
     $('#notes').selectpicker('val',$('[data-id = "'+$(this).val()+'"]').data('notes'));
   });
+
+
+
   $('body').on('click', '#del', function (e) {
     $('#ok').val($(this).val());
   });
@@ -169,7 +228,7 @@ $(document).ready(function(){
     $.get('/transcript/getSubject/'+$(this).val(),function(todo){
       $('#tog').val(todo.has); 
       if(todo.has==1){
-        // enable
+        // enable  
         $("#parct").prop('disabled', true);
         $("#toggle_model").show();
       }
@@ -290,6 +349,11 @@ $(document).ready(function(){
   $("#addForm").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
+      final_practical:{
+        required: true,
+        number: true,
+        min:0.0,
+      },
       chapter_degree:{
         required: true,
         number: true,
@@ -317,6 +381,11 @@ $(document).ready(function(){
       },
     },
     messages:{
+      final_practical:{
+        required: "الرجاء ادخال الامتحان العملي!",
+        number: "الرجاء ادخال ارقام فقط!",
+        min: "الرجاء ادخال قيمة اكبر من او تساوي الصفر",
+      },
       chapter_degree:{
         required: "الرجاء ادخال أعمال السنة!",
         number: "الرجاء ادخال ارقام فقط!",

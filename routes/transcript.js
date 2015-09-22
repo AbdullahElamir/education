@@ -1547,7 +1547,15 @@ router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
       res.send({has:subject[0][0].has_practical});
     });
 });
-
+///transcript/getSubjectbyAcadimId/
+router.get('/getSubjectbyAcadimId/:id', userHelpers.isLogin, function (req, res) {
+ models.sequelize.query('select sub.has_practical from Subjects as sub,Sub_groups as s,Academic_transcripts as at where at.SubGroupId=s.id and at.id=? and sub.id =s.SubjectId', {
+      replacements: [req.params.id]
+    })
+    .then(function (subject) {
+      res.send({has:subject[0][0].has_practical});
+    });
+});
 
 
 
@@ -2013,15 +2021,54 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
 });
 
 router.post('/updateG', userHelpers.isLogin, function (req, res) {
-  models.sequelize.query('select s.final_theor from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=1 and at.SubGroupId=sg.id and sg.SubjectId=s.id', {
+  console.log(req.body.id);
+  models.sequelize.query('select s.final_theor,s.has_practical from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=? and at.SubGroupId=sg.id and sg.SubjectId=s.id', {
       replacements: [req.body.id]
     })
     .then(function (obj) {
-      if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+      console.log(obj[0][0].has_practical);
+
+            if(obj[0][0].has_practical==1){
+        // most has practical exam 
+        console.log("has practical");
+        console.log(req.body.body.final_practical);
+        if(req.body.body.isPractical != undefined){
+          console.log("do practical exam ");
+          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+            req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) + parseFloat(req.body.body.final_practical);
+          } else {
+            req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
+          }
+        } else {
+          console.log("don't");
+          req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);  
+          req.body.body.final_practical=-8;
+      }
+    }
+      if(obj[0][0].has_practical==2){
+        // dont has practical exam 
+        console.log("the subject dont has practical exam");
+         if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+            req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) ;
+          } else {
+            req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
+          }
+
+      }
+
+
+
+
+
+
+
+
+
+    /*  if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
         req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam);
       } else {
         req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
-      }
+      }*/
 
       models.Academic_transcript.update(req.body.body, {
           where: {
@@ -2052,6 +2099,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
               res.send(acTr);
             });
         });
+
     });
 });
 
