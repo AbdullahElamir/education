@@ -112,16 +112,7 @@ $(document).ready(function(){
     $('#generale_teble').hide(200);
   });
 
- /* $('#toggle-one').change(function() {
-    if ($(this).prop('checked') == true) {
-      $("#practical").prop('disabled', false);
-    } else {
-      $("#practical").prop('disabled', true);
-    }
-  }); */
 
-  
-  
   $('body').on('click', '#viw', function (e) {
     var test=$('[data-id = "'+$(this).val()+'"]').data('pract');
     $.get('/transcript/getSubjectbyAcadimId/'+$(this).val(),function(todo){
@@ -130,7 +121,7 @@ $(document).ready(function(){
         // enable 
         if(test ==-8){
           $( "#toggle_mod" ).empty();
-          $( "#toggle_mod" ).prepend('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
+          ( "#toggle_mod" ).prepend('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
           $("#practical").prop('disabled', true);
           $("#toggle_mod").show();
           $('#toggleRR').bootstrapToggle(); 
@@ -150,12 +141,12 @@ $(document).ready(function(){
           $("#toggle_mod").show();
           $('#toggleRR').bootstrapToggle(); 
           $('#toggleRR').prop('checked', true).change() ;
-            $('#toggleRR').change(function() {
-              if ($(this).prop('checked') == true) {
-                $("#practical").prop('disabled', false);
-              } else {
-                $("#practical").prop('disabled', true);
-              }     
+          $('#toggleRR').change(function() {
+            if ($(this).prop('checked') == true) {
+              $("#practical").prop('disabled', false);
+            } else {
+              $("#practical").prop('disabled', true);
+            }     
           });
         }  
        }
@@ -164,7 +155,7 @@ $(document).ready(function(){
         $("#toggle_mod").hide();     
         $("#practical").prop('disabled', true);
       }
-  });
+    });
     var pract=$('[data-id = "'+$(this).val()+'"]').data('pract');
     if(pract ==-8){
       pract=0;
@@ -173,17 +164,15 @@ $(document).ready(function(){
     $('#chapter_degree').val($('[data-id = "'+$(this).val()+'"]').data('deg'));
     $('#final_exam').val($('[data-id = "'+$(this).val()+'"]').data('fin'));
     $('#practical').val(pract);
-
     $('#subject_status').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('sub'));
     $('#result_case').selectpicker('val' ,$('[data-id = "'+$(this).val()+'"]').data('case')); 
     $('#notes').selectpicker('val',$('[data-id = "'+$(this).val()+'"]').data('notes'));
   });
 
-
-
   $('body').on('click', '#del', function (e) {
     $('#ok').val($(this).val());
   });
+  
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
     $.get('/transcript/deletetranscript/'+$(this).val(),function(todo){
@@ -283,28 +272,6 @@ $(document).ready(function(){
           } else  {
           window.location.href='/transcript/addStudentSubject/'+id;
           }
-
-/*        if(data!=false){
-          $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
-            '<td>'+data.Sub_group.Subject.name+'</td>'+
-            '<td>'+data.Sub_group.Subject.name_en+'</td>'+
-            '<td>'+data.Sub_group.Subject.code+'</td>'+
-            '<td>'+data.Sub_group.sub_group_name+'</td>'+
-            '<td class="text-center">'+
-              '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
-                '<button id="viw" value="'+data.id+'" data-title="تعديل" data-toggle="modal" data-target="#Show_Semester" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>'+
-              '</p></td><td class="text-center">'+
-              '<p data-placement="top" data-toggle="tooltip" title="حذف">'+
-                '<button id="del" value="'+data.id+'" data-title="حذف" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>'
-          );
-          $('#add').modal('hide');
-          custNotify("success","نجح","تم الاضافة بنجاح","ok-sign","bounceInDown","bounceOutUp");
-        }
-        else {
-          $('#add').modal('hide');
-          custNotify("danger","خطا","هذه المادة موجودة","warning-sign","bounceInDown","bounceOutUp");
-        }
-        */
       });
     }
     return false;
@@ -323,23 +290,6 @@ $(document).ready(function(){
           url=document.URL;
           var id = url.substring(url.lastIndexOf('/') + 1);
           window.location.href='/transcript/addStudentSubject/'+id;
-/*        $('[data-id = "'+$('#upres').val()+'"]').remove();
-        $("#Acbody").prepend('<tr data-id="'+data.id+'" data-sub="'+data.subject_status+'" data-case="'+data.result_case+'" data-deg="'+data.chapter_degree+'" data-fin="'+data.final_exam+'">'+
-                '<td>'+data.Sub_group.Subject.name+'</td>'+
-                '<td>'+data.Sub_group.Subject.name_en+'</td>'+
-                '<td>'+data.Sub_group.Subject.code+'</td>'+
-                '<td>'+data.Sub_group.sub_group_name+'</td>'+
-                '<td>'+data.chapter_degree+ '\\'+data.Sub_group.Subject.chapter_degree+'</td>'+
-                '<td>'+data.final_exam +'\\'+ data.Sub_group.Subject.final_theor+'</td>'+
-                '<td>'+data.sum_dagree+'\\'+ (data.Sub_group.Subject.final_theor + data.Sub_group.Subject.chapter_degree)+'</td>'+
-                '<td class="text-center">'+
-                  '<p data-placement="top" data-toggle="tooltip" title="تعديل">'+
-                    '<button id="viw" value="'+data.id+'" data-title="تعديل" data-toggle="modal" data-target="#Show_Semester" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>'+
-                  '</p></td><td class="text-center">'+
-                  '<p data-placement="top" data-toggle="tooltip" title="حذف">'+
-                    '<button id="del" value="'+data.id+'" data-title="حذف" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>');
-        $('#Show_Semester').modal('hide');
-        custNotify("success","نجح","تم التعديل بنجاح","ok-sign","bounceInDown","bounceOutUp");*/
       });
     }
     return false;
