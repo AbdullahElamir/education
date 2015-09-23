@@ -71,7 +71,7 @@ block content
                           td(id='final'+u) #{re.final_exam} \ #{re.Sub_group.Subject.final_theor}
                           td(id='fina'+u,hidden) #{re.final_exam}
                           td(id='fin'+u,hidden) #{re.Sub_group.Subject.final_theor}
-                          if re.Sub_group.Subject.has_practical ==1
+                          if re.Sub_group.Subject.has_practical ==2
                             if re.final_practical == -8 
                               td لم يحضر الامتحان العملي
                             else
@@ -199,12 +199,10 @@ block content
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
               span.glyphicon.glyphicon-remove(aria-hidden="true")
             h4#Heading.modal-title.custom_align تعديل فصل دراسي
-          .modal-body
             .form-group
               .row
                 .col-xs-7.col-md-7
                   .modal-body#toggle_mod
-               
                        //- | هل حضر الامتحان العملي ؟   
                        //- input#toggle-subj(name='isPractical',type='checkbox',data-on="نعم",data-off="لا", data-toggle='toggle')
             .form-group
@@ -327,7 +325,6 @@ block content
             | 
             span حسنا
 
-  script(src='/js/bootstrap-toggle.min.js') 
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js') 

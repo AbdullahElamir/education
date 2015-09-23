@@ -1539,11 +1539,11 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
 
 
 router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
-  models.sequelize.query('select final_practical,has_practical from Subjects where id=?', {
+  models.sequelize.query('select has_practical from Subjects where id=?', {
       replacements: [req.params.id]
     })
     .then(function (subject) {
-      subject[0][0].has_practical;
+      console.log(subject);
       res.send({has:subject[0][0].has_practical});
     });
 });
@@ -1953,7 +1953,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
-      if(obj[0][0].has_practical==1){
+      if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.isPractical != undefined){
           //console.log("do practical exam ");
@@ -1968,7 +1968,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
           req.body.final_practical=-8;
       }
     }
-      if(obj[0][0].has_practical==2){
+      if(obj[0][0].has_practical==1){
         // dont has practical exam 
         //console.log("the subject dont has practical exam");
          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
@@ -2024,7 +2024,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
   models.sequelize.query('select s.final_theor,s.has_practical from Academic_transcripts as at,Sub_groups as sg,Subjects as s where at.id=? and at.SubGroupId=sg.id and sg.SubjectId=s.id', {
     replacements: [req.body.id]
   }).then(function (obj) {
-      if(obj[0][0].has_practical==1){
+      if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.body.isPractical != undefined){
           if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
@@ -2037,7 +2037,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
           req.body.body.final_practical=-8;
         }
       }
-      if(obj[0][0].has_practical==2){
+      if(obj[0][0].has_practical==1){
         // dont has practical exam 
         if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) ;

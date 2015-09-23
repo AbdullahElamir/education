@@ -117,40 +117,40 @@ $(document).ready(function(){
     var test=$('[data-id = "'+$(this).val()+'"]').data('pract');
     $.get('/transcript/getSubjectbyAcadimId/'+$(this).val(),function(todo){
       $('#tog').val(todo.has);
-        if(todo.has==1){
+        if(todo.has==2){
         // enable 
-        if(test ==-8){
-          $( "#toggle_mod" ).empty();
-          ( "#toggle_mod" ).prepend('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
-          $("#practical").prop('disabled', true);
-          $("#toggle_mod").show();
-          $('#toggleRR').bootstrapToggle(); 
-          $('#toggleRR').prop('checked', false).change() ;
-          $('#toggleRR').change(function() {
+          if(test ==-8){
+            $("#toggle_mod").empty();
+            var html='هل حضر الامتحان العملي ؟   <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">';
+            $("#toggle_mod").append(html);
+            $("#practical").prop('disabled', true);
+            $("#toggle_mod").show();
+            $('#toggleRR').bootstrapToggle(); 
+            $('#toggleRR').prop('checked', false).change() ;
+            $('#toggleRR').change(function() {
+                if ($(this).prop('checked') == true) {
+                  $("#practical").prop('disabled', false);
+                } else {
+                  $("#practical").prop('disabled', true);
+                }     
+            });
+          } else {
+            $("#toggle_mod").empty();
+            $("#toggle_mod").append('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
+            $("#practical").prop('disabled', false);
+            $("#toggle_mod").show();
+            $('#toggleRR').bootstrapToggle(); 
+            $('#toggleRR').prop('checked', true).change() ;
+            $('#toggleRR').change(function() {
               if ($(this).prop('checked') == true) {
                 $("#practical").prop('disabled', false);
               } else {
                 $("#practical").prop('disabled', true);
               }     
-          });
-
-        } else {
-          $( "#toggle_mod" ).empty();
-          $( "#toggle_mod" ).prepend('هل حضر الامتحان العملي ؟  <input name="isPractical" id="toggleRR" data-on="نعم" data-off="لا"  type="checkbox">');
-          $("#practical").prop('disabled', false);
-          $("#toggle_mod").show();
-          $('#toggleRR').bootstrapToggle(); 
-          $('#toggleRR').prop('checked', true).change() ;
-          $('#toggleRR').change(function() {
-            if ($(this).prop('checked') == true) {
-              $("#practical").prop('disabled', false);
-            } else {
-              $("#practical").prop('disabled', true);
-            }     
-          });
-        }  
+            });
+          }  
        }
-      if(todo.has==2){
+      if(todo.has==1){
         // disable
         $("#toggle_mod").hide();     
         $("#practical").prop('disabled', true);
@@ -193,12 +193,12 @@ $(document).ready(function(){
     /* final degree in the validation section */
     $.get('/transcript/getSubject/'+$(this).val(),function(todo){
     $('#tog').val(todo.has);
-    if(todo.has==1){
+    if(todo.has==2){
         // enable
       $("#parct").prop('disabled', true);
         $("#toggle_model").show();
     }
-    if(todo.has==2){
+    if(todo.has==1){
         // disable
       $("#toggle_model").hide();     
       $("#parct").prop('disabled', true);
@@ -216,12 +216,12 @@ $(document).ready(function(){
     /* final degree in the validation section */
     $.get('/transcript/getSubject/'+$(this).val(),function(todo){
       $('#tog').val(todo.has); 
-      if(todo.has==1){
+      if(todo.has==2){
         // enable  
         $("#parct").prop('disabled', true);
         $("#toggle_model").show();
       }
-      if(todo.has==2){
+      if(todo.has==1){
         // disable
         $("#toggle_model").hide();     
         $("#parct").prop('disabled', true);
@@ -238,12 +238,12 @@ $(document).ready(function(){
     /* final degree in the validation section */
     $.get('/transcript/getSubject/'+$(this).val(),function(todo){
       $('#tog').val(todo.has);
-      if(todo.has==1){
+      if(todo.has==2){
         // enable
         $("#parct").prop('disabled', true);
         $("#toggle_model").show();
       }
-      if(todo.has==2){
+      if(todo.has==1){
         // disable
         $("#toggle_model").hide();     
         $("#parct").prop('disabled', true);
@@ -389,5 +389,85 @@ $(document).ready(function(){
     $('.selectpicker').selectpicker('val', null);
     $('#addForm').validate().resetForm();
   });
-
+  $("#updateG").validate({
+    ignore: ':not(select:hidden, input:visible, textarea:visible)',
+    rules:{
+      practical:{
+        required: true,
+        number: true,
+        min:0.0,
+      },
+      chapter_degree:{
+        required: true,
+        number: true,
+        min:0.0,
+       /* max: function(){
+              return parseFloat($("#chapterGlobalVaribalButton").val());
+            }*/
+      },
+      final_exam:{
+        required: true,
+        number: true,
+        min:0.0,
+       /* max: function(){
+              return parseFloat($("#finalGlobalVaribalButton").val());
+            }*/
+      },
+      subject_status:{
+        required:true,
+      },
+      result_case:{
+        required:true,
+      },
+      note:{
+        required:true,
+      },
+    },
+    messages:{
+      final_practical:{
+        required: "الرجاء ادخال الامتحان العملي!",
+        number: "الرجاء ادخال ارقام فقط!",
+        min: "الرجاء ادخال قيمة اكبر من او تساوي الصفر",
+      },
+      chapter_degree:{
+        required: "الرجاء ادخال أعمال السنة!",
+        number: "الرجاء ادخال ارقام فقط!",
+        min: "الرجاء ادخال قيمة اكبر من او تساوي الصفر",
+       /* max: function(){
+              return "درجة اعمال هذه المادة من "+$("#chapterGlobalVaribalButton").val() + " الرجاء التأكد من الدرجة المدخلة";
+            }*/
+      },
+      final_exam:{
+        required: "الرجاء ادخال درجة الامتحان النهائي!",
+        number: "الرجاء ادخال ارقام فقط!",
+        min: "الرجاء ادخال قيمة اكبر من او تساوي الصفر",
+       /* max: function(){
+              return "درجة اعمال هذه المادة من "+$("#finalGlobalVaribalButton").val() + " الرجاء التأكد من الدرجة المدخلة";
+            }*/
+      },
+      subject_status:{
+        required:"الرجاء اختيار حالة المادة!",
+      },
+      result_case:{
+        required:"الرجاء اختيار التقدير!",
+      },
+      note:{
+        required:"الرجاء اختيار الملاحضة!",
+      },
+    },
+    errorClass: 'custom-error',
+    errorPlacement: function (error, element) {
+      if ($(element).is('select')) {
+          element.next().after(error);
+      } else {
+          error.insertAfter(element);
+      }
+    },
+    highlight: function(element) {
+      $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+      $(element).closest('.form-group').removeClass('has-error');
+    },
+  });
 });
