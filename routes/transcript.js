@@ -1543,7 +1543,6 @@ router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
       replacements: [req.params.id]
     })
     .then(function (subject) {
-      console.log(subject);
       res.send({has:subject[0][0].has_practical});
     });
 });

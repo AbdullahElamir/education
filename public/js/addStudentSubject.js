@@ -210,6 +210,12 @@ $(document).ready(function(){
     $('#subG').val($(this).val());   
   });
 
+   rowindex = $(this).closest('tr').index();
+    $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
+    $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
+    $('#subG').val($(this).val()); 
+
+
 
   $('body').on('click', '#ad', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
@@ -392,7 +398,7 @@ $(document).ready(function(){
   $("#updateG").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
-      practical:{
+      final_practical:{
         required: true,
         number: true,
         min:0.0,
@@ -401,7 +407,7 @@ $(document).ready(function(){
         required: true,
         number: true,
         min:0.0,
-       /* max: function(){
+        /*max: function(){
               return parseFloat($("#chapterGlobalVaribalButton").val());
             }*/
       },
