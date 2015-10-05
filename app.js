@@ -33,12 +33,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(session({ store: new RedisStore({
-//   client: client,
-//   host:'127.0.0.1',
-//   port:6379,
-//   prefix:'sess'
-// }), secret: 'SEKR37' }));
 app.use(session({secret: 'naga_app',resave: true,saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -75,6 +69,8 @@ if (app.get('env') === 'development') {
         });
     });
 }
+
+
 
 // production error handler
 // no stacktraces leaked to user

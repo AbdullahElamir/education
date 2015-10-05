@@ -1339,7 +1339,7 @@ router.get('/certificate/:id', userHelpers.isLogin, function (req, res, next) {
                   },
                   data: {
                     st: obj[0][0],
-                    nat: nationality[obj[0][0].nationality - 1],
+                    nat: nationality[obj[0][0].nationality],
                     date: obj[0][0].birth_date.getDate() + '-' + obj[0][0].birth_date.getMonth() + 1 + '-' + obj[0][0].birth_date.getFullYear(),
                     sem: sem,
                     year: year,
@@ -1427,6 +1427,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                   status = "ضعيف جدا";
                   var status_en = 'Very Week';
                 }
+                var nat =findCountry(nationality,obj[0][0].nationality);
                 jsr.render({
                     template: {
                       content: fs.readFileSync(path.join(__dirname, "../views/arabicGraduationCertificate.html"), "utf8"),
@@ -1434,7 +1435,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                     },
                     data: {
                       st: obj[0][0],
-                      nat: nationality[obj[0][0].nationality - 1],
+                      nat: nat,
                       date: obj[0][0].birth_date.getDate() + '-' + obj[0][0].birth_date.getMonth() + 1 + '-' + obj[0][0].birth_date.getFullYear(),
                       sem: sem,
                       year: year,
@@ -1508,6 +1509,7 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                   status = "ضعيف جدا";
                   var status_en = 'Very Week';
                 }
+                var nat =findCountry(nationality,obj[0][0].nationality);
                 jsr.render({
                     template: {
                       content: fs.readFileSync(path.join(__dirname, "../views/englishGraduationCertificate.html"), "utf8"),
@@ -1515,7 +1517,7 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                     },
                     data: {
                       st: obj[0][0],
-                      nat: nationality[obj[0][0].nationality - 1],
+                      nat: nat,
                       date: obj[0][0].birth_date.getDate() + '-' + obj[0][0].birth_date.getMonth() + 1 + '-' + obj[0][0].birth_date.getFullYear(),
                       sem: sem,
                       year: year,
@@ -1625,7 +1627,16 @@ router.get('/studentSemesters', userHelpers.isLogin, function (req, res) {
   });
 });
 
-
+findCountry = function(countryList,id) {
+  var found=null;
+  for (obj in countryList) {
+    if(countryList[obj].id==id){
+      found= countryList[obj];
+      break;
+    }
+  }
+  return found;
+}
 // this algorithem to get ratio for all semester it's hard to explain
 getRatioForALlSemester = function (mix) {
     if (mix[0] != 0) {
