@@ -1,0 +1,22 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default.active طباعة التقارير
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script.
+    $(document).ready(function(){
+      $("[data-toggle=tooltip]").tooltip();
+    });
