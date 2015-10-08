@@ -230,8 +230,8 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
     models.sequelize.query('select id from Semesters where year=? and sem_type=?', {
     replacements: [date,objReport.semType]
     }).then(function (semId) {
-      models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=?', {
-      replacements: [objReport.courseId,semId[0][0].id]
+      models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=? and s.DivisionId=?', {
+      replacements: [objReport.courseId,semId[0][0].id,objReport.devId]
       }).then(function (subg) {
         models.sequelize.query('select name from Faculty_members where id=?', {
           replacements: [subg[0][0].FacultyMemberId]
