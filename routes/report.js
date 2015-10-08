@@ -92,21 +92,18 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
             <tbody> \
             ';
             for(i in obj){
-
-            HTML=HTML+' \
-             <tr>\
-                <td class="text-center number">1</td>\
-                <td class="text-center">'+obj[i].first_name +' '+obj[i].father_name+' '+obj[i].last_name+'</td> \
-                <td class="text-center number">209103304</td>\
-                <td class="text-center"></td>\
-                <td class="text-center"></td>\
-                <td class="text-center"></td>\
-                <td class="text-center"></td>\
-                <td class="text-center"></td>\
-              </tr> ' ;
+              HTML=HTML+' \
+               <tr>\
+                  <td class="text-center number">1</td>\
+                  <td class="text-center">'+obj[i].first_name +' '+obj[i].father_name+' '+obj[i].last_name+'</td> \
+                  <td class="text-center number">209103304</td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                </tr> ' ;
             }
-           
-
           HTML=HTML+' </tbody> \
           <table>\
         </div>\
@@ -114,7 +111,6 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
     </div>\
   </body>';
 return HTML;
-
 }
 
 
@@ -158,7 +154,6 @@ function presenceAbsenceSubject(obj,newObj) {
             </thead> \
             <tbody> ';
             for(i in obj){
-
             HTML=HTML+' <tr> \
                 <td class="text-center number">1</td> \
                 <td class="text-center">'+obj[i].first_name +' '+obj[i].father_name+' '+obj[i].last_name+'</td> \
@@ -166,32 +161,30 @@ function presenceAbsenceSubject(obj,newObj) {
                 <td class="text-center"></td> \
               </tr> ';
             }
-           
-
-          HTML=HTML+'</tbody> \
+            HTML=HTML+'</tbody> \
           <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
         </div> \
-        <div class="col-xs-6"> \
-          <h5 class="text-center"> \
-            اسم الملاحظ <span>/</span> \
-          </h5> \
-          <h5 class="text-center"> \
-            <span>..................................................</span> \
-          </h5> \
-        </div> \
-        <div class="col-xs-6"> \
-          <h5 class="text-center"> \
-            التوقيع <span>/</span> \
-          </h5> \
-          <h5 class="text-center"> \
-            <span>.............................</span> \
-          </h5> \
-        </div> \
-      </div> \
-    </div> \
-  </body> \
-</html>';
-return HTML;
+      </body> \
+    </html>';
+  return HTML;
   }
 
 
@@ -202,68 +195,65 @@ router.post('/setData', userHelpers.isLogin, function (req, res, next) {
 });
 
 router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, next) {
-  console.log(objReport);
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
   console.log(dateSem);
   var date=new Date(dateSem);
   console.log(date);
-   models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId = (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
-                  replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
-   }).then(function (studentReport) {
-      jsreport.render({
-        template: {
-          content: fs.readFileSync(path.join(__dirname, "../views/presenceAbsenceSubject.html"), "utf8"),
-          recipe: "phantom-pdf",
-           helpers: presenceAbsenceSubject.toString()
-        },
-         data: {
-                obj:studentReport[0]  ,
-                newObj:objReport
-         }
-      }).then(function (response) {
-        response.result.pipe(res);
-      });
+  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId = (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
+    replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
+  }).then(function (studentReport) {
+    jsreport.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/presenceAbsenceSubject.html"), "utf8"),
+        recipe: "phantom-pdf",
+         helpers: presenceAbsenceSubject.toString()
+      },
+       data: {
+              obj:studentReport[0]  ,
+              newObj:objReport
+       }
+    }).then(function (response) {
+      response.result.pipe(res);
     });
+  });
 });
 
 router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, next) {
-  console.log(objReport);
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
   console.log(dateSem);
   var date=new Date(dateSem);
-  console.log(date);
-   models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId = (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
-                  replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
-   }).then(function (studentReport) {
-     models.sequelize.query('select id from Semesters where year=? and sem_type=?', {
-                  replacements: [date,objReport.semType]
-   }).then(function (semId) {
-     models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=?', {
-              replacements: [objReport.courseId,semId[0][0].id]
-   }).then(function (subg) {
-    models.sequelize.query('select name from Faculty_members where id=?', {
-              replacements: [subg[0][0].FacultyMemberId]
-   }).then(function (doc) {
-  jsreport.render({
-    template: {
-      content: fs.readFileSync(path.join(__dirname, "../views/presenceAbsenceLectures.html"), "utf8"),
-      recipe: "phantom-pdf",
-      helpers: PresenceAbsenceLectures.toString()
-    },
-    data: {
-                obj:studentReport[0]  ,
-                newObj:objReport,
-                sub:subg[0][0].sub_group_name,
-                doct:doc[0][0].name
-         }
-  }).then(function (response) {
-    response.result.pipe(res);
-    }); 
-  });
+  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
+    replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
+  }).then(function (studentReport) {
+    models.sequelize.query('select id from Semesters where year=? and sem_type=?', {
+    replacements: [date,objReport.semType]
+    }).then(function (semId) {
+      models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=?', {
+      replacements: [objReport.courseId,semId[0][0].id]
+      }).then(function (subg) {
+        models.sequelize.query('select name from Faculty_members where id=?', {
+          replacements: [subg[0][0].FacultyMemberId]
+        }).then(function (doc) {
+          jsreport.render({
+          template: {
+            content: fs.readFileSync(path.join(__dirname, "../views/presenceAbsenceLectures.html"), "utf8"),
+            recipe: "phantom-pdf",
+            helpers: PresenceAbsenceLectures.toString()
+          },
+          data: {
+            obj:studentReport[0]  ,
+            newObj:objReport,
+            sub:subg[0][0].sub_group_name,
+            doct:doc[0][0].name
+          }
+          }).then(function (response) {
+            response.result.pipe(res);
+          }); 
+        });
+      });
     });
-   });
   });
 });
 
