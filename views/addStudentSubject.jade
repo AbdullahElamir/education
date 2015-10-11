@@ -50,7 +50,7 @@ block content
                     th اسم المادة
                     th Subject Name
                     th رمز المادة
-                    //th المجموعة
+                    th المجموعة
                     th الإمتحان النصفي
                     th الإمتحان النهائي
                     th الإمتحان العملي
@@ -65,7 +65,7 @@ block content
                           td #{re.Sub_group.Subject.name}
                           td #{re.Sub_group.Subject.name_en}
                           td #{re.Sub_group.Subject.code}
-                          //td #{re.Sub_group.sub_group_name}
+                          td #{re.Sub_group.sub_group_name}
                           td(id='chapter'+u) #{re.chapter_degree} \  #{re.Sub_group.Subject.chapter_degree}
                           td(id='chap'+u ,hidden) #{re.Sub_group.Subject.chapter_degree}
                           td(id='final'+u) #{re.final_exam} \ #{re.Sub_group.Subject.final_theor}
