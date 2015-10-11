@@ -91,18 +91,36 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
             </thead> \
             <tbody> \
             ';
+            var count=0;
             for(i in obj){
+              count++;
               HTML=HTML+' \
                <tr>\
-                  <td class="text-center number">1</td>\
+                  <td class="text-center number">'+(count)+'</td>\
                   <td class="text-center">'+obj[i].first_name +' '+obj[i].father_name+' '+obj[i].last_name+'</td> \
-                  <td class="text-center number">209103304</td>\
+                  <td class="text-center number">'+obj[i].set_number+'</td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                 </tr> ' ;
+            }
+            var x=count;
+            for(var t=0;t<(28-x);t++){
+              count++;
+                HTML=HTML+' \
+               <tr>\
+                  <td class="text-center number">'+(count)+'</td>\
+                  <td class="text-center"></td> \
+                  <td class="text-center number"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                </tr> ' ;
+
             }
           HTML=HTML+' </tbody> \
           <table>\
@@ -153,14 +171,31 @@ function presenceAbsenceSubject(obj,newObj) {
               </tr> \
             </thead> \
             <tbody> ';
+            var rowcounter=0;
+            var count=0;
             for(i in obj){
-            HTML=HTML+' <tr> \
-                <td class="text-center number">1</td> \
-                <td class="text-center">'+obj[i].first_name +' '+obj[i].father_name+' '+obj[i].last_name+'</td> \
-                <td class="text-center number">209103304</td> \
-                <td class="text-center"></td> \
-              </tr> ';
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].first_name +' '+obj[i].father_name+' '+obj[i].last_name+'</td> \
+                  <td class="text-center number">'+obj[i].set_number+'</td> \
+                  <td class="text-center"></td> \
+                </tr> ';
             }
+            var emptyRecord = 28-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center number"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
             HTML=HTML+'</tbody> \
           <table> \
             </div> \
@@ -200,7 +235,7 @@ router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, n
   console.log(dateSem);
   var date=new Date(dateSem);
   console.log(date);
-  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId = (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
+  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
   }).then(function (studentReport) {
     jsreport.render({
