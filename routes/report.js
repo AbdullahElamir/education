@@ -265,12 +265,34 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
     models.sequelize.query('select id from Semesters where year=? and sem_type=?', {
     replacements: [date,objReport.semType]
     }).then(function (semId) {
+        var semId;
+        if(semId[0][0]== undefined){
+        semId=-9;
+        } else {
+          semId=semId[0][0].id;
+        }
       models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=? and s.DivisionId=?', {
-      replacements: [objReport.courseId,semId[0][0].id,objReport.devId]
+      replacements: [objReport.courseId,semId,objReport.devId]
       }).then(function (subg) {
+        console.log(subg);
+        var su;
+        var subString='';
+        if(subg[0][0]== undefined){
+          subString="لايوجد";
+          su=0;
+        } else {
+          subString=subg[0][0].sub_group_name;
+          su=subg[0][0].FacultyMemberId;
+        }
         models.sequelize.query('select name from Faculty_members where id=?', {
-          replacements: [subg[0][0].FacultyMemberId]
+          replacements: [su]
         }).then(function (doc) {
+          var docString="";
+          if(doc[0][0]==undefined){
+            docString="لايوجد";
+          } else { 
+            docString=doc[0][0].name;
+          }
           jsreport.render({
           template: {
             content: fs.readFileSync(path.join(__dirname, "../views/presenceAbsenceLectures.html"), "utf8"),
@@ -280,8 +302,8 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
           data: {
             obj:studentReport[0]  ,
             newObj:objReport,
-            sub:subg[0][0].sub_group_name,
-            doct:doc[0][0].name
+            sub:subString,
+            doct:docString
           }
           }).then(function (response) {
             response.result.pipe(res);
