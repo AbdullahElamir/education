@@ -1380,12 +1380,14 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
       replacements: [req.params.id]
     })
     .then(function (obj) {
+      console.log(obj);
       models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
           replacements: [req.params.id]
         })
         .then(function (arabicTranscriptObject) {
           if (arabicTranscriptObject[0].length != 0) {
             var myob = arabicTranscriptObject[0][arabicTranscriptObject[0].length - 1];
+           
             if (myob.system_type == 1) {
               if (myob.sem_type == 1) {
                 var sem = 'ربيع';
@@ -1859,15 +1861,28 @@ function round(value, ndec) {
     return Math.round(value * n) / n;
 }
 
-
 router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
   objStudent = req.body;
+  console.log(objStudent);
   objStudent.UserId = req.session.idu;
-  models.SemesterStudent.create(req.body)
-    .then(function (result) {
-      res.send(true);
+  
+   models.sequelize.query('select * from SemesterStudents where SemesterId=? and StudentId=?', {
+                  replacements: [objStudent.SemesterId,objStudent.StudentId]
+                })
+                .then(function (semster) {
+                  if(semster[0][0] == undefined ){
+                    models.SemesterStudent.create(req.body)
+                    .then(function (result) {
+                    res.send(true);
+                  });
+                  } else {
+                    console.log("false");
+                     res.send(false);
+                    //req.redirect({msg:"4"});
+                  }
+                 
+      });
     });
-});
 
 router.get('/addStudentSubject/:id', userHelpers.isLogin, function (req, res) {
   models.SemesterStudent.findOne({
