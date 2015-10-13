@@ -1494,7 +1494,7 @@ router.get('/giftCertificate', userHelpers.isLogin, function (req, res, next) {
 
 // this certificate
 router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', {
+  models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede,level FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId`AND Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? order by level desc', {
       replacements: [req.params.id]
     })
     .then(function (obj) {
@@ -1576,7 +1576,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
 
 // this sertificate
 router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId` and Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? ; ', {
+  models.sequelize.query('SELECT *,Dp.name as named,Dp.name_en as namede,level FROM `SemesterStudents`as`smst`,`Semesters`as`sm`,`Students` as `st`,`Departments` as `Dp`,`Divisions` as `Dv` WHERE Dp.`id`= smst.`DepartmentId`AND Dv.`id` = smst.`DivisionId` and sm.`id` =smst.`SemesterId` and st.`id`=smst.`StudentId` and st.`id` =? order by level desc; ', {
       replacements: [req.params.id]
     })
     .then(function (obj) {
