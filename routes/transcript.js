@@ -1091,46 +1091,47 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
             <th class="text-center" width="8%">التقدير العام</th>\
             <th class="text-center" width="9%">النتيجة النهائية</th>\
           </tr>\
-      </thead>';
+        </thead>';
     }
     html += '<tbody style="border: 2px solid #000;">\
-        <tr>\
-          <td></td>\
-          <td>' + stu[i][0].first_name + '</td>\
-          <td style="border-bottom-style: none;"></td>\
-          <td style="font-size: 14px;" class="text-center">أعمال السنة</td>\
-          ' + cahp + '\
-          <td style="width: 20%;">' + not + '</td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-        <tr>\
-          <td></td>\
-          <td class="text-center">' + stu[i][0].father_name + ' ' + stu[i][0].grand_name + '</td>\
-          <td class="text-center" style="border-style:none;">' + stu[i][0].set_number + '</td>\
-          <td style="font-size: 14px;" class="text-center">نهاية العــام</td>\
-          ' + fin + '\
-          <td style="width: 20%;"></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-        <tr>\
-          <td></td>\
-          <td class="text-left">' + stu[i][0].last_name + '</td>\
-          <td style="border-top-style: none;"></td>\
-          <td style="font-size: 14px;" class="text-center">المجمـــــــــــوع</td>\
-          ' + sum + '\
-          <td style="width: 20%;"></td>\
-          <td></td>\
-          <td></td>\
-          <td></td>\
-        </tr>\
-      </tbody>';
+      <tr>\
+        <td></td>\
+        <td>' + stu[i][0].first_name + '</td>\
+        <td style="border-bottom-style: none;"></td>\
+        <td style="font-size: 14px;" class="text-center">أعمال السنة</td>\
+        ' + cahp + '\
+        <td style="width: 20%;">' + not + '</td>\
+        <td></td>\
+        <td></td>\
+        <td></td>\
+      </tr>\
+      <tr>\
+        <td></td>\
+        <td class="text-center">' + stu[i][0].father_name + ' ' + stu[i][0].grand_name + '</td>\
+        <td class="text-center" style="border-style:none;">' + stu[i][0].set_number + '</td>\
+        <td style="font-size: 14px;" class="text-center">نهاية العــام</td>\
+        ' + fin + '\
+        <td style="width: 20%;"></td>\
+        <td></td>\
+        <td></td>\
+        <td></td>\
+      </tr>\
+      <tr>\
+        <td></td>\
+        <td class="text-left">' + stu[i][0].last_name + '</td>\
+        <td style="border-top-style: none;"></td>\
+        <td style="font-size: 14px;" class="text-center">المجمـــــــــــوع</td>\
+        ' + sum + '\
+        <td style="width: 20%;"></td>\
+        <td></td>\
+        <td></td>\
+        <td></td>\
+      </tr>\
+    </tbody>';
 
-  if(p%5==4){
-       html += '</table> </div>\
+    if(p%5==4){
+      html += '</table>\
+        </div>\
           <div class="col-xs-3">\
             <div class="space"></div>\
             <div class="pull-right"> \
@@ -1166,14 +1167,14 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
         </div>\
       </div>\
       </br></br></br></br></br>\
-    </body>';
-  }
-
-  p++;
+      </body>';
+    }
+    p++;
   }
   p--;
-if(p%5<4){
-    html += '</table> </div>\
+  if(p%5<4){
+    html += '</table>\
+        </div>\
           <div class="col-xs-3">\
             <div class="space"></div>\
             <div class="pull-right"> \
@@ -1210,24 +1211,19 @@ if(p%5<4){
       </div>\
       </br></br></br></br></br>\
     </body>';
-
   }
-
-  
-
   return html;
-
 }
 
-router.get('/transcript', userHelpers.isLogin, function (req, res, next) {
-  function draw(obj) {
-    var str = '';
-    for (key in obj) {
-      str += "<p>" + key + "</p>";
+  router.get('/transcript', userHelpers.isLogin, function (req, res, next) {
+    function draw(obj) {
+      var str = '';
+      for (key in obj) {
+        str += "<p>" + key + "</p>";
+      }
+      return str;
     }
-    return str;
-  }
-  jsr.render({
+    jsr.render({
       template: {
         content: fs.readFileSync(path.join(__dirname, "../views/transcript.html"), "utf8"),
         recipe: "phantom-pdf",
@@ -1238,47 +1234,46 @@ router.get('/transcript', userHelpers.isLogin, function (req, res, next) {
     .then(function (response) {
       response.result.pipe(res);
     });
-});
+  });
 
-
-router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
+  router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
+    models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
       replacements: [req.params.id]
     })
     .then(function (arabicTranscriptObject) {
       models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date', {
-          replacements: [req.params.id]
-        })
-        .then(function (mix) {
-          if (arabicTranscriptObject[0][0] != undefined) {
-            var array = getRatioForALlSemester(mix);
-            var fullName = returnFullName(arabicTranscriptObject);
-            var setNumber = arabicTranscriptObject[0][0].set_number;
-            if (array == undefined) {
-              array = [];
-            }
-            jsr.render({
-                template: {
-                  content: fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
-                  recipe: "phantom-pdf",
-                  helpers: htmlTagsDraw.toString()
-                },
-                data: {
-                  obj: arabicTranscriptObject,
-                  o: array,
-                  name: fullName,
-                  setNum: setNumber
-                }
-              })
-              .then(function (response) {
-                response.result.pipe(res);
-              });
-          } else {
-            res.redirect('/transcript?msg=3');
+        replacements: [req.params.id]
+      })
+      .then(function (mix) {
+        if (arabicTranscriptObject[0][0] != undefined) {
+          var array = getRatioForALlSemester(mix);
+          var fullName = returnFullName(arabicTranscriptObject);
+          var setNumber = arabicTranscriptObject[0][0].set_number;
+          if (array == undefined) {
+            array = [];
           }
-        });
-    });
-});
+          jsr.render({
+                  template: {
+                    content: fs.readFileSync(path.join(__dirname, "../views/arabicTranscript.html"), "utf8"),
+                    recipe: "phantom-pdf",
+                    helpers: htmlTagsDraw.toString()
+                  },
+                  data: {
+                    obj: arabicTranscriptObject,
+                    o: array,
+                    name: fullName,
+                    setNum: setNumber
+                  }
+                })
+                .then(function (response) {
+                  response.result.pipe(res);
+                });
+            } else {
+              res.redirect('/transcript?msg=3');
+            }
+          });
+      });
+  });
 
 router.get('/englishTranscript/:id', userHelpers.isLogin, function (req, res, next) {
   models.sequelize.query('SELECT ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name_en`,st.`father_name_en`,st.`grand_name_en`,st.`last_name_en`,sb.`no_th_unit`,sb.`code`,sb.`name_en`,sb.`code`,sb.`no_th_unit`,dd.name_en as deptName,dev.id as idDev,dev.name_en as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status=1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
@@ -1319,13 +1314,12 @@ router.get('/englishTranscript/:id', userHelpers.isLogin, function (req, res, ne
     });
 });
 
-
 router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res, next) {
   models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`level` =? AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', {
       replacements: [req.params.idv, req.params.idse, req.params.idl]
     })
     .then(function (obj) {
-      models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', {
+      models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`at`.`notices`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', {
           replacements: [req.params.idv, req.params.idse]
         })
         .then(function (subjects) {
@@ -1495,8 +1489,8 @@ router.get('/certificate/:id', userHelpers.isLogin, function (req, res, next) {
 });
 
 // this sertificate
-router.get('/giftCertificate', userHelpers.isLogin, function (req, res, next) {
-  jsr.render({
+  router.get('/giftCertificate', userHelpers.isLogin, function (req, res, next) {
+    jsr.render({
       template: {
         content: fs.readFileSync(path.join(__dirname, "../views/giftCertificate.html"), "utf8"),
         phantom: {
@@ -1509,7 +1503,7 @@ router.get('/giftCertificate', userHelpers.isLogin, function (req, res, next) {
     .then(function (response) {
       response.result.pipe(res);
     });
-});
+  });
 
 // this certificate
 router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
