@@ -986,7 +986,7 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
   return htmldraw;
 }
 
-function htmlTagsDrawDetection(data, stu) {
+function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
   var html = ' ';
   var sub = ' ';
   var subject = [];
@@ -999,20 +999,7 @@ function htmlTagsDrawDetection(data, stu) {
     sub = '<td></td>';
   }
 
-  html += '<table class="table condensed">\
-    <thead>\
-      <tr style="border-top-style: solid; border-top-width: 2px;">\
-        <th class="text-center" width="1%" height="46">ت</th>\
-        <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
-        <th class="text-center" width="6%">رقم القيد</th>\
-        <th class="text-center" width="1%">الدرجــــــــة</th>\
-        ' + sub + '\
-        <th class="text-center" style="width: 20%;">ملاحظات</th>\
-        <th class="text-center" width="8%">المجموع العام</th>\
-        <th class="text-center" width="8%">التقدير العام</th>\
-        <th class="text-center" width="9%">النتيجة النهائية</th>\
-      </tr>\
-  </thead>';
+  var p=0;
   for (i in stu) {
     var cahp = ' ';
     var fin = ' ';
@@ -1026,6 +1013,9 @@ function htmlTagsDrawDetection(data, stu) {
         sum += '<td class="text-center">' + stu[i][k].sum_dagree + '</td>';
         j++;
       } else {
+        cahp += '<td class="text-center"></td>';
+        fin += '<td class="text-center"></td>';
+        sum += '<td class="text-center"></td>';
         not += '<p>' + stu[i][k].code + ' : ' + stu[i][k].sum_dagree + ' </p> ';
       }
     }
@@ -1037,6 +1027,52 @@ function htmlTagsDrawDetection(data, stu) {
     }
     if (fin.length == 1) {
       fin = '<td width="9%"></td>';
+    }
+    if(p%5==0){
+      html+=p+'<body></br>\
+        <div class="container">\
+          <div class="row">\
+            <div class="col-xs-4">\
+              <div class="text-right"> \
+                <h4 class="h4">وزارة التعليـم العالـــــــي والبحث العلــــــــمي\
+                <div class="space"></div>\
+                الهيئـة الوطنيـة للتعليـم التقنـــي والفنـــي\
+                <div class="space"></div>\
+                المعهد العالي للمهن الطبية القره بوللي</h4>\
+              </div>\
+            </div>\
+            <div class="col-xs-5">\
+              <div class="text-center"> \
+                <h3> كشف رصد درجات الامتحان النهائي </h3>\
+              </div>\
+              <div class="text-center">\
+                <h3> '+type+'<span>:</span>'+semester+
+              '</h3></div>\
+            </div>\
+            <div class="col-xs-3">\
+              <div class="halfSpace"></div>\
+              <div class="text-left">\
+                <h4 class="h4">الفصـــل <span>/ </span> '+level+' </h4>\
+                <h4 class="h4">الشعبة <span>/ </span> '+name+' </h4>\
+              </div>\
+            </div>\
+            <div class="col-xs-12">\
+              <h6 class="text-left">صفحة رقم <sapn>(001)</span> </h6>';
+
+      html += '<table class="table condensed">\
+        <thead>\
+          <tr style="border-top-style: solid; border-top-width: 2px;">\
+            <th class="text-center" width="1%" height="46">ت</th>\
+            <th class="text-center" width="13%">اسم الطالب<span>/</span>ة</th>\
+            <th class="text-center" width="6%">رقم القيد</th>\
+            <th class="text-center" width="1%">الدرجــــــــة</th>\
+            ' + sub + '\
+            <th class="text-center" style="width: 20%;">ملاحظات</th>\
+            <th class="text-center" width="8%">المجموع العام</th>\
+            <th class="text-center" width="8%">التقدير العام</th>\
+            <th class="text-center" width="9%">النتيجة النهائية</th>\
+          </tr>\
+      </thead>';
     }
     html += '<tbody style="border: 2px solid #000;">\
         <tr>\
@@ -1074,9 +1110,91 @@ function htmlTagsDrawDetection(data, stu) {
         </tr>\
       </tbody>';
 
+  if(p%5==4){
+       html += '</table> </div>\
+          <div class="col-xs-3">\
+            <div class="space"></div>\
+            <div class="pull-right"> \
+              <h4 class="h4">قسم الدراسة واﻷمتحانات</h4>\
+              <div class="halfSpace"></div>\
+              <h4>.....................................</h4>\
+              <div class="halfSpace"></div>\
+              <div class="text-center">\
+                <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
+                <h6> الموافق <span> ....../ ....../ ......</span></h6>\
+              </div>\
+            </div>\
+          </div>\
+          <div class="col-xs-6">\
+            <div class="space"></div>\
+            <div class="text-center"> \
+              <h4 class="h4"> لجنـــة اﻷمتحانات </h4>\
+              <div class="halfSpace"></div>\
+              <h4>....................................</h4>\
+              <div class="halfSpace"></div>\
+              <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
+              <h6> الموافق <span> ....../ ....../ ......</span></h6>\
+            </div>\
+          </div>\
+          <div class="col-xs-3">\
+            <div class="space"></div>\
+            <div class="text-left">\
+              <h4 class="h4">يعتمد<span> / </span>مدير عام المعهد</h4>\
+              <div class="halfSpace"></div>\
+              <h4>....................................</h4>\
+            </div>\
+          </div>\
+        </div>\
+      </div>\
+      </br></br></br></br></br>\
+    </body>';
   }
-  html += '</table>';
 
+  p++;
+  }
+  p--;
+if(p%5<4){
+    html += '</table> </div>\
+          <div class="col-xs-3">\
+            <div class="space"></div>\
+            <div class="pull-right"> \
+              <h4 class="h4">قسم الدراسة واﻷمتحانات</h4>\
+              <div class="halfSpace"></div>\
+              <h4>.....................................</h4>\
+              <div class="halfSpace"></div>\
+              <div class="text-center">\
+                <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
+                <h6> الموافق <span> ....../ ....../ ......</span></h6>\
+              </div>\
+            </div>\
+          </div>\
+          <div class="col-xs-6">\
+            <div class="space"></div>\
+            <div class="text-center"> \
+              <h4 class="h4"> لجنـــة اﻷمتحانات </h4>\
+              <div class="halfSpace"></div>\
+              <h4>....................................</h4>\
+              <div class="halfSpace"></div>\
+              <h6> التاريخ <span> ....../ ....../ ......</span></h6>\
+              <h6> الموافق <span> ....../ ....../ ......</span></h6>\
+            </div>\
+          </div>\
+          <div class="col-xs-3">\
+            <div class="space"></div>\
+            <div class="text-left">\
+              <h4 class="h4">يعتمد<span> / </span>مدير عام المعهد</h4>\
+              <div class="halfSpace"></div>\
+              <h4>....................................</h4>\
+            </div>\
+          </div>\
+        </div>\
+      </div>\
+      </br></br></br></br></br>\
+    </body>';
+
+  }
+
+  
 
   return html;
 
@@ -1183,7 +1301,7 @@ router.get('/englishTranscript/:id', userHelpers.isLogin, function (req, res, ne
 });
 
 
-router.get('/detection/:idse/:idv/:idl', userHelpers.isLogin, function (req, res, next) {
+router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res, next) {
   models.sequelize.query('SELECT DISTINCT(`s`.`id`),`s`.`code` FROM `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`level` =? AND `ss`.`status`=1 AND `at`.`notices`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` ORDER BY `s`.`id`;', {
       replacements: [req.params.idv, req.params.idse, req.params.idl]
     })
