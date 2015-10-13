@@ -2087,16 +2087,14 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
 });
 
 router.get('/deletetranscript/:id', userHelpers.isLogin, function (req, res) {
-  models.Academic_transcript.update({
-      status: 0
-    }, {
-      where: {
-        id: req.params.id
-      }
-    })
-    .then(function (result) {
-      res.send(true);
-    });
+  models.Academic_transcript.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(function (result) {
+    res.send(true);
+  });
 });
 
 router.get('/division/:id', userHelpers.isLogin, function (req, res) {

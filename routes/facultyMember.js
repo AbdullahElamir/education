@@ -77,18 +77,20 @@ var nationality = require('../Nationality');
 
   // delete FaculityMembers
   router.get('/deleteFaculityMembers/:id',userHelpers.isLogin, function(req, res) {
-    models.Faculty_member.find({
+    models.Faculty_member.destroy({
       where: {
         id: req.params.id
       }
-    }).then(function (todo) {
-      todo.updateAttributes({
-        status: 0
-      }).then(function (todo) {
-        res.send(todo);
-      }).catch(function (err) {
-        console.log(err);
-      });
+    })
+    .then(function (todo) {
+      res.send({
+        msg: "1"
+      }); //got deleted successfully
+    })
+    .catch(function (err) {
+      res.send({
+        msg: "2"
+      }); //has foreign-key restriction
     });
   });
 

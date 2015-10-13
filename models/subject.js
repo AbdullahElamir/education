@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
     final_practical: DataTypes.FLOAT(),
     subject_type: DataTypes.INTEGER(1),
     system_type: DataTypes.INTEGER(1),
-    has_practical :{type: DataTypes.INTEGER(1),defaultValue:2},
+    has_practical :{type: DataTypes.INTEGER(1),defaultValue:1},
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
   }, {
     classMethods: {
