@@ -1029,7 +1029,7 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
       fin = '<td width="9%"></td>';
     }
     if(p%5==0){
-      html+=p+'<body></br>\
+      html+='<body></br>\
         <div class="container">\
           <div class="row">\
             <div class="col-xs-4">\
