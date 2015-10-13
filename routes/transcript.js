@@ -296,17 +296,21 @@ function htmlTagsDrawEnglish(obj, o, name, setNum) {
             <div class="row" style="font-size:17px;font-weight: 500;">\
             <div class="col-xs-12">\
             <div class="text-center">\
-            <span> Minstry of Higher Education and Scientific Research </span>\
+            <span>  </span>\
             </div>\
             <div class="text-center">\
-            <span> National Board for Technical & Vacational Education </span>\
+            <span>  </span>\
             </div>\
             <div class="text-center">\
-            <span> Higher Technical Institutions Administration </span>\
+            <span>  </span>\
             </div>\
             <div class="text-center">\
-            <span> Elgarabuli High Institute of Medical Vocations </span>\
+            <span>  </span>\
             </div>\
+            <br>\
+            <br>\
+            <br>\
+            <br>\
             <div style="height: 10px;"></div>\
             <div class="text-center" style="font-size: 20px;font-weight: 600;">\
             <span> Transcript </span>\
@@ -405,7 +409,7 @@ function htmlTagsDrawEnglish(obj, o, name, setNum) {
       counter++;
     }
     var tableStatic = 0;
-    tableStatic = (8 - counter);
+    tableStatic = (6 - counter);
     for (var i = 0; i < tableStatic; i++) {
       htmldraw += '<tr> \
               <td class="text-center">' + counter + '</td>\
@@ -550,6 +554,9 @@ function htmlTagsDrawEnglish(obj, o, name, setNum) {
       <br>\
       <br>\
       <br>\
+      <br>\
+      <br>\
+      <br>\
       <table class="table table-condensed">\
         <thead>\
           <tr>\
@@ -667,16 +674,21 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
           <div class="row" style="font-size:15px;">\
           <div class="col-xs-12">\
           <div class="text-center">\
-          <span> وزارة التعليم العالى والبحث العلمى </span>\
+          <span>  </span>\
           </div>\
           <div class="text-center">\
-          <span> الهيئة الوطنية للتعليم التقنى والفني </span>\
+          <span>  </span>\
           </div>\
           <div class="text-center">\
-          <span> ادارة المعاهــــــــد التقنيـــــــــة العليـــــــــا </span>\
+          <span>  </span>\
           </div>\
           <div class="text-center">\
-          <span> المعهد العالي للمهن الطبية القره بوللي </span>\
+          <span>   </span>\
+          <br>\
+          <br>\
+          <br>\
+          <br>\
+          <br>\
           </div>\
           <div style="height: 10px;"></div>\
           <div class="text-center" style="font-size: 20px;">\
@@ -921,6 +933,13 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
     ostatus = "ضعيف جدا";
   }
   htmldraw += '\
+                <br>\
+                <br>\
+                <br>\
+                <br>\
+                <br>\
+                <br>\
+                <br>\
                 <br>\
                 <br>\
                   <table class="table table-condensed">\
