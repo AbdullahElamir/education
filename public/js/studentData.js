@@ -1,13 +1,19 @@
 
 $(document).ready(function(){
-  $('body').on('click', '#addStudentData', function() {
+  $('body').on('click', '#addStudentData', function(e) {
+    e.preventDefault();
   	var obj = {student_status:$('#student_status').val(),StudentId:$('#studentId').val(),DepartmentId:parseInt($('#department_iddepartment').val()),SemesterId:$(this).val(),DivisionId:$('#division_iddivision').val(),level:$('#level').val()} ;
   	var isvalidate=$("#addSemester").valid();
     if(isvalidate){
 	  	$.post('/transcript/addSemesterStudent',obj,function(todo){
+        console.log(todo);
 	  	 	if(todo){
 	  	 		window.location.href ="/transcript/studentData/"+obj.StudentId;
-	  	 	}
+	  	 	} else {
+          // alert("sdfklbnklbnkl");
+          $('#Add_Semester').modal('hide');
+          custNotify("danger","خطأ","لقد تم تسجيل هذا الفصل سابقا","warning-sign","bounceIn","bounceOut");
+        }
 	  	});
   	}
   });

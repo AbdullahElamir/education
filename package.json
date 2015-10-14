@@ -1,6 +1,6 @@
 {
   "name": "EducationByAngularJS",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "nodejs ./bin/www"
@@ -18,13 +18,13 @@
     "light-orm": "~0.1.4",
     "math": "0.0.3",
     "morgan": "~1.0.0",
-    "mysql": "~2.8.0",
+    "mysql": "^2.8.0",
     "passport": "~0.2.2",
     "passport-local": "~1.0.0",
     "password-generator": "~1.0.0",
     "redis": "^0.12.1",
     "redis-connect": "^0.2.0",
-    "sequelize": "^3.5.1",
+    "sequelize": "^3.10.0",
     "static-favicon": "~1.0.0"
   }
 }
