@@ -1026,15 +1026,20 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
     var not = ' ';
     var j = 0;
     for (k in stu[i]) {
-      if (subject[j] == stu[i][k].id) {
+      if (stu[i][k].notices!=2) {
+        for(;j<subject.length;j++){
+          if(subject[j]==stu[i][k].id){break;}else{
+            cahp += '<td class="text-center"></td>';
+            fin += '<td class="text-center"></td>';
+            sum += '<td class="text-center"></td>';
+          }
+        }
         cahp += '<td class="text-center">' + stu[i][k].chapter_degree + '</td>';
         fin += '<td class="text-center">' + stu[i][k].final_exam + '</td>';
         sum += '<td class="text-center">' + stu[i][k].sum_dagree + '</td>';
         j++;
       } else {
-        cahp += '<td class="text-center"></td>';
-        fin += '<td class="text-center"></td>';
-        sum += '<td class="text-center"></td>';
+        
         not += '<p>' + stu[i][k].code + ' : ' + stu[i][k].sum_dagree + ' </p> ';
       }
     }
@@ -1319,8 +1324,8 @@ router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res
       replacements: [req.params.idv, req.params.idse, req.params.idl]
     })
     .then(function (obj) {
-      models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`at`.`notices`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', {
-          replacements: [req.params.idv, req.params.idse]
+      models.sequelize.query('SELECT `at`.`sum_dagree`,`s`.`code`,`at`.`notices`,`s`.`id`,`at`.`chapter_degree`,`at`.`final_exam`,`at`.`sum_dagree`,`at`.`StudentId`,`st`.`first_name` ,`st`.`father_name`,`st`.`grand_name`,`st`.`last_name`,`st`.`set_number`FROM `Students` AS `st`, `Subjects` AS `s`,`Sub_groups` AS `sg`,`Academic_transcripts` AS `at` INNER JOIN  `SemesterStudents` AS `ss` ON(`ss`.`level`=? AND`at`.`SemesterStudentId`=`ss`.`id` AND `ss`.`DivisionId`=? AND `ss`.`SemesterId` =? AND `ss`.`status`=1 ) WHERE `at`.`SubGroupId`= `sg`.`id` AND `at`.`status`=1 AND `sg`.`SubjectId`=`s`.`id` AND `st`.`id`=`at`.`StudentId` AND `st`.`status`=1 ORDER BY `at`.`StudentId`,`s`.`id` ;', {
+          replacements: [req.params.idl,req.params.idv, req.params.idse]
         })
         .then(function (subjects) {
           models.Semester.findOne({
@@ -1511,7 +1516,6 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
       replacements: [req.params.id]
     })
     .then(function (obj) {
-      console.log(obj);
       models.sequelize.query('SELECT at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
           replacements: [req.params.id]
         })
@@ -1741,7 +1745,6 @@ router.get('/academicTranscripts', userHelpers.isLogin, function (req, res) {
     .then(function (student) {
       var pageCount = userHelpers.getPageCount(student.count);
       var pagination = userHelpers.paginate(page, pageCount);
-      console.log(pagination);
       res.render('academicTranscripts', {
         title: 'Academic Transcripts',
         nats: nationality,
@@ -1994,7 +1997,6 @@ function round(value, ndec) {
 
 router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
   objStudent = req.body;
-  console.log(objStudent);
   objStudent.UserId = req.session.idu;
   
    models.sequelize.query('select * from SemesterStudents where SemesterId=? and StudentId=?', {
@@ -2007,7 +2009,6 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                     res.send(true);
                   });
                   } else {
-                    console.log("false");
                      res.send(false);
                     //req.redirect({msg:"4"});
                   }
@@ -2134,7 +2135,6 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
           }
 
       }
-     console.log(req.body);
 
       models.Academic_transcript.findOrCreate({
           where: {
