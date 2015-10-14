@@ -9,30 +9,23 @@ block content
           .btn-group.btn-breadcrumb
               a.btn.btn-default(href="/cPanel")
                 i.glyphicon.glyphicon-home
-              .btn.btn-default.active عرض نتائج الطلبة
+              .btn.btn-default.active طباعة تقرير عن الحضور والغياب 
       br
       br
       br
       .col-md-6.col-md-offset-2
-        form.form#delectionsForm(action="", method="", accept-charset="utf-8", role="form")
-          legend  عرض نتائج الطلبة
+        form.form#reportForm(action="", method="", accept-charset="utf-8", role="form")
+          legend  طباعة تقرير عن الحضور والغياب
+
           .form-group
             .row
               .col-xs-6.col-md-6
-                label.h4 النظام الدراسي
-                select.form-control.selectpicker#semester(name="semester", data-live-search="true", data-size=5)
-                  option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
-                  for s in sem
-                    option(value="#{s.id}")  
-                      if s.system_type==1
-                        if s.sem_type == 1
-                          | فصل ربيعي #{s.year.getFullYear()}
-                        if s.sem_type == 2
-                          | فصل خريفي #{s.year.getFullYear()}
-                        if s.sem_type == 3
-                          | فصل صيفي #{s.year.getFullYear()}
-                      if s.system_type==2
-                        | سنة #{s.year.getFullYear()}
+                label.h4 الفصل الدراسي لسنة
+                select.form-control.selectpicker#semType(name="semType", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي ...
+                  option(value="1") ربيعي
+                  option(value="2") خريفي
+                  option(value="3") صيفي
               .col-xs-6.col-md-6
                 label.h4 المستوى
                 select.form-control.selectpicker#level(name="level", data-size=5)
@@ -52,6 +45,20 @@ block content
           .form-group
             .row
               .col-xs-6.col-md-6
+                label.h4 الفصل الدراسي لسنة
+                select.form-control.selectpicker#semester(name="semester", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي ...
+                  for s in sem
+                    option(value="#{s.id}") #{s.year.getFullYear()} 
+              .col-xs-6.col-md-6
+                label.h4 اسم المادة
+                select.form-control.selectpicker#course(name="course", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر المادة...
+                  for i in sub
+                    option(value="#{i.id}")|#{i.name}
+          .form-group
+            .row
+              .col-xs-6.col-md-6
                 label.h4 اسم القسم
                 select.form-control.selectpicker#department(name="department", data-live-search="true", data-size=5)
                   option(value="", style='color:grey; display:none;') اختر القسم...
@@ -60,14 +67,19 @@ block content
               .col-xs-6.col-md-6
                 label.h4 اسم الشعبة
                 select.form-control.selectpicker#division(name="division", data-live-search="true", data-size=5)
-                  option(value="", style='color:grey; display:none;') اختر الشعبة...
+                  option(value="", style='color:grey; display:none;') اختر الشعبة...     
           br
           hr
-          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
-            button#submit.btn.btn-primary(type="button")
-              i.fa.fa-eye
-              span  عرض
-  br
+          .form-group
+            .row
+              .col-xs-4.col-xs-offset-1.col-md-4.col-md-offset-2
+                button#normal.btn.btn-primary(target="_blank", type="button")
+                  i.fa.fa-eye
+                  span  كشف الحضور للأمتحانات
+              .col-xs-4.col-md-4
+                button#test.btn.btn-info(target="_blank", type="button")
+                  i.fa.fa-eye
+                  span  كشف الحضور للمحاضرات
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
@@ -76,3 +88,4 @@ block content
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
   script(src='/js/detections.js')
+  script(src='/js/reports.js')

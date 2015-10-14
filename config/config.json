@@ -6,6 +6,7 @@
     "database": "education",
     "host": "localhost",
     "logging": false
+
   },
   "test": {
     "username": "root",
