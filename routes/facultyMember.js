@@ -10,8 +10,7 @@ var nationality = require('../Nationality');
     var page = userHelpers.getPage(req);
     var limit = userHelpers.getLimit(page);
     var q = userHelpers.getQuery(req);
-    if (q == undefined)
-    {
+    if (q == undefined){
       models.Faculty_member.findAndCountAll({
         include: [{
           model: models.Department,
@@ -24,15 +23,15 @@ var nationality = require('../Nationality');
         offset: limit,
       }).then(function(facultyMembers) {
         models.Department.findAll({
-        where: {
-          status: 1
-        }
-      }).then(function(allDepartments) {
-        var pageCount = userHelpers.getPageCount(facultyMembers.count);
-        var pagination = userHelpers.paginate(page,pageCount);
-        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active', name:req.session.name });
+          where: {
+            status: 1
+          }
+        }).then(function(allDepartments) {
+          var pageCount = userHelpers.getPageCount(facultyMembers.count);
+          var pagination = userHelpers.paginate(page,pageCount);
+          res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active', name:req.session.name });
+        });
       });
-    });
     }else{
       models.Faculty_member.findAndCountAll({
         include: [{
@@ -47,17 +46,18 @@ var nationality = require('../Nationality');
         offset: limit,
       }).then(function(facultyMembers) {
         models.Department.findAll({
-        where: {
-          status: 1
-        }
-      }).then(function(allDepartments) {
-        var pageCount = userHelpers.getPageCount(facultyMembers.count);
-        var pagination = userHelpers.paginate(page,pageCount);
-        res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active', name:req.session.name });
+          where: {
+            status: 1
+          }
+        }).then(function(allDepartments) {
+          var pageCount = userHelpers.getPageCount(facultyMembers.count);
+          var pagination = userHelpers.paginate(page,pageCount);
+          res.render('facultyMember', { title: 'عرض المحاضرين',nationalityJade:nationality,depts:allDepartments,pagination:pagination,collapseSix: 'collapse in', faculty_Members:facultyMembers.rows, activeSixOne: 'active', name:req.session.name });
+        });
       });
-    });
-  }
+    }
   });
+  
   router.get('/newFacultyMember',userHelpers.isLogin, function(req, res) {
     models.Department.findAll({
       where: {
@@ -65,7 +65,7 @@ var nationality = require('../Nationality');
       }
     }).then(function(Departments) {
       res.render('newFacultyMember', { title: 'إضافة محاضر جديد', name:req.session.name,nationalityJade:nationality, departments:Departments , collapseSix: 'collapse in', activeSixTwo: 'active' });
-    });    
+    });
   });
 
   router.post('/addFacultyMembers',userHelpers.isLogin, function(req, res) {
@@ -126,21 +126,22 @@ var nationality = require('../Nationality');
       });
     });
   });
-router.get('/facultyMembersearch/:name',function(req, res) {
-   models.Faculty_member.findAll({      
-    include: [{
+
+  router.get('/facultyMembersearch/:name',function(req, res) {
+    models.Faculty_member.findAll({
+      include: [{
         model: models.Department,
         where: { status: 1 }
       }],
       where: {
         status: 1,
-        name: {$like:'%'+req.params.name+'%'} 
+        name: {$like:'%'+req.params.name+'%'}
       }
-  }).then(function(facultymember) {
-    console.log(nationality);
-    res.send(facultymember);
+    }).then(function(facultymember) {
+      console.log(nationality);
+      res.send(facultymember);
+    });
   });
-});
 // ///  End facility member  //////////////////////////////////////////////
 
 module.exports = router;
