@@ -2,10 +2,11 @@
   font-family: 'droidkufi';
   src : url("../fonts/DroidKufi-Regular.ttf") format("truetype");
 }
-.font {
-  /*font-family: 'Droid Arabic Kufi', sans-serif;*/
-  /*font-family: 'Droid Arabic Naskh', serif;*/
+body {
   font-family: 'droidkufi', sans-serif; 
+}
+.i {
+  text-align: right;
 }
 /*FONT STYLE END*/
 #h3{

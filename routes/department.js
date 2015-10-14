@@ -17,17 +17,30 @@ var userHelpers = require('../app/userHelpers');
     }).then(function(department) {
       var pageCount = userHelpers.getPageCount(department.count);
       var pagination = userHelpers.paginate(page,pageCount);
-      res.render('department', { title: 'عرض اﻷقسام', name:req.session.name,pagination:pagination,collapseFour: 'collapse in', dept:department.rows, activeFourOne: 'active' });
+      res.render('department', { title: 'عرض اﻷقسام', name:req.session.name,pagination:pagination,collapseFour: 'collapse in', activeFourOne: 'active' });
     });
   });
 
-  router.get('/editDepartments/:id',userHelpers.isLogin, function(req, res) {
-     models.Department.findAll({
+  router.get('/getDepartments',userHelpers.isLogin, function(req, res) {
+    models.Department.findAll({
       where: {
-        id: req.params.id
+        status: 1
       }
     }).then(function(department) {
       res.send(department);
+    });
+  });
+
+  router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
+    req.body.UserId=req.session.idu;
+    models.Department.create(req.body).then(function(){
+      models.Department.findAll({
+        where: {
+          status: 1
+        }
+      }).then(function(department) {
+        res.send(department);
+      });
     });
   });
 
@@ -39,12 +52,15 @@ var userHelpers = require('../app/userHelpers');
       where: {
         id: id
       }
-      }).then(function (todo) {
-      todo.updateAttributes(req.body).then(function (todo) {
-          var rel = {result : todo ,stat : true};
-          res.send(rel);
-      }).catch(function (err) {
-          console.log(err);
+    }).then(function (todo) {
+      todo.updateAttributes(req.body).then(function(){
+        models.Department.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function(department) {
+          res.send(department);
+        });
       });
     });
   });
@@ -69,27 +85,5 @@ var userHelpers = require('../app/userHelpers');
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
     res.render('newDepartment', { title: 'إضافة قسم جديد', name:req.session.name, collapseFour: 'collapse in', activeFourTwo: 'active' });
   });
-
-
-
-  router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
-    req.body.UserId=req.session.idu;
-    models.Department.create(req.body).then(function() {
-      res.redirect('/department?msg=1');
-    });
-  });
-//search department by name
-router.get('/departmentsearch/:name',function(req, res) {
-   models.Department.findAll({
-    where: {
-      name:{
-        $like:'%'+req.params.name+'%'
-      } 
-    }
-  }).then(function(departments) {
-    res.send(departments);
-  });
-});
-// End department ////////////////////////////////////////////////////////
 
 module.exports = router;

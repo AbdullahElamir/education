@@ -119,7 +119,6 @@ $(document).ready(function(){
         required: "الرجاء اختيار اسم القسم!",
       },
     },
-    // errorElement: 'label',
     errorClass: 'custom-error',
     errorPlacement: function (error, element) {
       if ($(element).is('select')) {

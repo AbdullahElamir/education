@@ -2,115 +2,141 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-  .container
-    .row
-      .col-md-10
-        .btn-group.btn-breadcrumb
-          a.btn.btn-default(href="/cPanel")
-            i.glyphicon.glyphicon-home
-          .btn.btn-default.active عرض اﻷقسام
+  div(ng-controller="mainController", data-ng-init="init()")
+    .container
+      .row
+        .col-md-10
+          button.btn.btn-primary(ng-click="primary()") Primary Notification
+          button.btn.btn-danger(ng-click="error()", style="margin-right: 10px;") Error Notification
+          button.btn.btn-success(ng-click="success()", style="margin-right: 10px;") Success Notification
+          button.btn.btn-info(ng-click="info()", style="margin-right: 10px;") Information Notification
+          button.btn.btn-warning(ng-click="warning()", style="margin-right: 10px;") Warning Notification
         br
         br
-        .panel.panel-default
-          .panel-heading
-            .row
-              .pull-right(style="margin-right: 10px;")
-                h3#h3.panel-title عرض اﻷقسام
-              .col-xs-7.col-md-7
-                .input-group
-                  input.form-control#department_search(name = department_search,type='text', placeholder='بحث...')
-                  .input-group-btn
-                    button.btn.btn-default
-                      i.glyphicon.glyphicon-search
-                        
-              .pull-left(style="margin-left: 10px;")
-                a.btn.btn-success(href='/department/newDepartment', role='button',data-toggle='modal')
-                  span.glyphicon.glyphicon-plus
-                  span.text-none  إضافة قسم جديد
-          .table-responsive
-            table#mytable.table.table-bordred.table-striped.text-right(border="0")
-              thead
-                th اسم القسم
-                th.text-left Department Name
-                th(style="width:25%;")
-                th.text-center تعديل
-                th.text-center الغاء
-              tbody#tbody
-                for Department in dept
-                  tr(data-id = '#{Department.id}',data-name = '#{Department.name}',data-name_en = '#{Department.name_en}')
-                    td #{Department.name}
-                    td.text-left #{Department.name_en}
+        .col-md-10
+          button.btn.btn-primary(ng-click="primaryTitle()") Notification with title
+          button.btn.btn-danger(ng-click="successHtml()", style="margin-right: 10px;") Success Notification with HTML
+          //- button.btn.btn-success(ng-click="success()", style="margin-right: 10px;") Success Notification
+          //- button.btn.btn-info(ng-click="info()", style="margin-right: 10px;") Information Notification
+          //- button.btn.btn-warning(ng-click="warning()", style="margin-right: 10px;") Warning Notification
+          br
+          br
+          .panel.panel-default
+            .panel-heading
+              .row
+                .pull-right(style="margin-right: 10px;")
+                  h3#h3.panel-title عرض اﻷقسام
+                .col-xs-7.col-md-7
+                  .input-group
+                    input.form-control#department_search(name = department_search,type='text', placeholder='بحث...')
+                    .input-group-btn
+                      button.btn.btn-default
+                        i.glyphicon.glyphicon-search
+                .pull-left(style="margin-left: 10px;")
+                  button.btn.btn-success(data-toggle="modal", data-target="#add")
+                    span.glyphicon.glyphicon-plus
+                    span.text-none  إضافة قسم جديد
+            .table-responsive
+              table.table.table-bordred.table-striped.text-right(border="0")
+                thead
+                  th اسم القسم
+                  th.text-left Department Name
+                  th(style="width:25%;")
+                  th.text-center تعديل
+                  th.text-center الغاء
+                tbody
+                  tr(ng-repeat="department in departments")
+                    td {{department.name}}
+                    td.text-left {{department.name_en}}
                     td
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                        button#Edit.btn.btn-primary.btn-xs.editDepartment(value='#{Department.id}',data-title="Edit",data-nn="#{Department.id}", data-toggle="modal", data-target="#edit")
+                        button.btn.btn-primary.btn-xs(value='',data-title="Edit", data-toggle="modal", data-target="#edit", ng-click="editDep(department)")
                           span.glyphicon.glyphicon-pencil
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إلغاء")
-                        button#Delete.btn.btn-danger.btn-xs(value='#{Department.id}',data-title="Delete", data-toggle="modal", data-target="#delete")
+                        button.btn.btn-danger.btn-xs(value='',data-title="Delete", data-toggle="modal", data-target="#delete", ng-click="deleteDep(department)")
                           span.glyphicon.glyphicon-trash
-        if pagination
-          .text-center
-            ul.pagination
-              li(class='#{pagination.previous.disabled}')
-                a(href='?p=#{pagination.previous.n.}') السابق
-              for page in pagination.pages
-                li(class="#{page.active}")
-                  a(href='?p=#{page.n}') #{page.n}
-              li(class="#{pagination.next.disabled}")
-                a(href='?p=#{pagination.next.n}') التالي
-  #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align تعديل قسم
-        .modal-body 
-          form#formDepartment.form-signin(role="form",name='formDepartment')
-            .form-group
-              .row
-                .col-xs-6.col-md-6
-                  label.h4 اسم القسم
-                  input#name.form-control(type="text", placeholder="اسم القسم", name="name")
-                .col-xs-6.col-md-6.text-left
-                  label.h4.pull-left Department name
-                  input#name_en.form-control(type="text", placeholder="Department name", name="name_en", dir="ltr")
-                  input#id(name="id",type="hidden")
-        .modal-footer
-          button#save.btn.btn-warning.btn-lg(style="width: 100%;")
-            span.glyphicon.glyphicon-ok-sign
-            |  تعديل
-    // /.modal-content
-  // /.modal-dialog
-  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal", aria-hidden="true")
-            span.glyphicon.glyphicon-remove(aria-hidden="true")
-          h4#Heading.modal-title.custom_align إلغاء قسم
-        .modal-body
-          .alert.alert-danger
-            span.glyphicon.glyphicon-warning-sign
-            |  هل انت متأكد من إلغاء هذا القسم؟
-        .modal-footer
-          button#ok.btn.btn-success(type="button", data-dismiss="modal")
-            span.glyphicon.glyphicon-ok-sign
-            |  نعم
-          button.btn.btn-default(type="button", data-dismiss="modal")
-            span.glyphicon.glyphicon-remove
-            |  لا
-      // /.modal-content
-    // /.modal-dialog
+          if pagination
+            .text-center
+              ul.pagination
+                li(class='#{pagination.previous.disabled}')
+                  a(href='?p=#{pagination.previous.n.}') السابق
+                for page in pagination.pages
+                  li(class="#{page.active}")
+                    a(href='?p=#{page.n}') #{page.n}
+                li(class="#{pagination.next.disabled}")
+                  a(href='?p=#{pagination.next.n}') التالي
+    #add.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          form(role="form")
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                span.glyphicon.glyphicon-remove(aria-hidden="true")
+              h4.modal-title.custom_align إضافة قسم
+            .modal-body
+              .form-group
+                .row
+                  .col-xs-6.col-md-6
+                    label.h4 اسم القسم
+                    input.form-control(type="text", placeholder="اسم القسم", ng-model="name")
+                  .col-xs-6.col-md-6.text-left
+                    label.h4.pull-left Department name
+                    input.form-control(type="text", placeholder="Department name", ng-model="name_en", dir="ltr")
+            .modal-footer
+              button.btn.btn-success.btn-lg(ng-click="addDep()", data-dismiss="modal", style="width: 100%;")
+                span.glyphicon.glyphicon-ok-sign
+                |  إضافة
+    #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4.modal-title.custom_align تعديل قسم
+          .modal-body 
+            form(name='formDepartment')
+              .form-group
+                .row
+                  .col-xs-6.col-md-6
+                    label.h4 اسم القسم
+                    input.form-control(type="text", placeholder="اسم القسم",ng-model="name")
+                  .col-xs-6.col-md-6.text-left
+                    label.h4.pull-left Department name
+                    input.form-control(type="text", placeholder="Department name",ng-model="name_en", dir="ltr")
+          .modal-footer
+            button#save.btn.btn-warning.btn-lg(style="width: 100%;", data-dismiss="modal", ng-click="updateDep()")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
+    #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4.modal-title.custom_align إلغاء قسم
+          .modal-body
+            .alert.alert-danger
+              span.glyphicon.glyphicon-warning-sign
+              |  هل انت متأكد من إلغاء هذا القسم؟
+          .modal-footer
+            button#ok.btn.btn-success(type="button", data-dismiss="modal")
+              span.glyphicon.glyphicon-ok-sign
+              |  نعم
+            button.btn.btn-default(type="button", data-dismiss="modal")
+              span.glyphicon.glyphicon-remove
+              |  لا
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
-  script(src='/js/bootstrap-notify.min.js')
-  script(src='/js/jquery.validate.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
-  script(src='/js/departments.js')
+  script(src='/js/angular-1.4.7/angular.min.js')
+  script(src='/js/angular-1.4.7/angular-validation.min.js')
+  script(src='/js/angular-1.4.7/angular-validation-rule.min.js')
+  script(src='/js/angular-1.4.7/angular-ui-notification.min.js')
+  script(src='/js/departmentAngular.js')
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();
