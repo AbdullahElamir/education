@@ -2,7 +2,7 @@ var app = angular.module('education',['validation', 'validation.rule', 'ui-notif
 
 app.config(function(NotificationProvider) {
   NotificationProvider.setOptions({
-      delay: 1000000,
+      delay: 10000,
       right:10,
       startTop: 20,
       startRight: 10,
@@ -56,6 +56,7 @@ app.controller('mainController',['$scope','$http','$log','Notification',function
       $scope.departments = result;
       $scope.name='';
       $scope.name_en='';
+      Notification.success({message: 'تمت اضافة قسم جديد بنجاح', title: 'نجاح'});
     }).error(function (data, status){
       console.log(data);
     });
@@ -65,6 +66,7 @@ app.controller('mainController',['$scope','$http','$log','Notification',function
     $scope.id = department.id;
     $scope.name = department.name;
     $scope.name_en = department.name_en;
+    Notification.warning({message: '<div style="text-align:left;">It has brought this department to bootstrap modal success</div>', title: '<div class="text-left">Successful operation</div>'});
     // $log.info($scope.id, $scope.name, $scope.name_en);
   };
 
@@ -77,6 +79,7 @@ app.controller('mainController',['$scope','$http','$log','Notification',function
       $scope.departments = result;
       $scope.name='';
       $scope.name_en='';
+      Notification.info({message: 'تمت تعديل هذا القسم بنجاح', title: 'نجاح'});
     }).error(function (data, status){
       console.log(data);
     });
