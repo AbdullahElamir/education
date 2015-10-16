@@ -352,7 +352,7 @@ function htmlTagsDrawEnglish(obj, o, name, setNum) {
                       <thead>\
                         <tr>\
                           <th class="text-center" width="1%">No</th>\
-                          <th class="text-center" width="10%">Course No</th>\
+                          <th class="text-center" >Course No</th>\
                           <th class="text-center" width="35%">Course Name</th>\
                           <th class="text-center" width="1%">Units</th>\
                           <th class="text-center" width="1%">Credits</th>\
@@ -399,7 +399,7 @@ function htmlTagsDrawEnglish(obj, o, name, setNum) {
 
       htmldraw += '<tr> \
               <td class="text-center">' + counter + '</td>\
-              <td class="text-center" height="12%">' + obj[0][i].code + '</td> \
+              <td class="text-center" >' + obj[0][i].code + '</td> \
               <td class="text-center">' + obj[0][i].name_en + '</td> \
               <td class="text-center">' + obj[0][i].no_th_unit + '</td> \
               <td class="text-center">' + obj[0][i].sum_dagree + '</td> \
@@ -791,7 +791,7 @@ function htmlTagsDraw(obj, o, name, setNum, mathObject) {
       counter++;
     }
     var tableStatic = 0;
-    tableStatic = (8 - counter);
+    tableStatic = (5 - counter);
     for (var i = 0; i < tableStatic; i++) {
       htmldraw += ' <tr> \
                       <td class="text-center">' + counter + '</td>\
