@@ -5,37 +5,41 @@ block content
   div(ng-controller="mainController", data-ng-init="init()")
     .container
       .row
+        //- .col-md-10
+        //-   button.btn.btn-primary(ng-click="primary()") Primary Notification
+        //-   button.btn.btn-danger(ng-click="error()", style="margin-right: 10px;") Error Notification
+        //-   button.btn.btn-success(ng-click="success()", style="margin-right: 10px;") Success Notification
+        //-   button.btn.btn-info(ng-click="info()", style="margin-right: 10px;") Information Notification
+        //-   button.btn.btn-warning(ng-click="warning()", style="margin-right: 10px;") Warning Notification
+        //- br
+        //- br
         .col-md-10
-          button.btn.btn-primary(ng-click="primary()") Primary Notification
-          button.btn.btn-danger(ng-click="error()", style="margin-right: 10px;") Error Notification
-          button.btn.btn-success(ng-click="success()", style="margin-right: 10px;") Success Notification
-          button.btn.btn-info(ng-click="info()", style="margin-right: 10px;") Information Notification
-          button.btn.btn-warning(ng-click="warning()", style="margin-right: 10px;") Warning Notification
-        br
-        br
-        .col-md-10
-          button.btn.btn-primary(ng-click="primaryTitle()") Notification with title
-          button.btn.btn-danger(ng-click="successHtml()", style="margin-right: 10px;") Success Notification with HTML
+          //- button.btn.btn-primary(ng-click="primaryTitle()") Notification with title
+          //- button.btn.btn-danger(ng-click="successHtml()", style="margin-right: 10px;") Success Notification with HTML
           //- button.btn.btn-success(ng-click="success()", style="margin-right: 10px;") Success Notification
           //- button.btn.btn-info(ng-click="info()", style="margin-right: 10px;") Information Notification
           //- button.btn.btn-warning(ng-click="warning()", style="margin-right: 10px;") Warning Notification
-          br
-          br
           .panel.panel-default
             .panel-heading
               .row
-                .pull-right(style="margin-right: 10px;")
+                .col-md-2
                   h3#h3.panel-title عرض اﻷقسام
-                .col-xs-7.col-md-7
+                .col-md-6
                   .input-group
                     input.form-control#department_search(name = department_search,type='text', placeholder='بحث...')
                     .input-group-btn
                       button.btn.btn-default
                         i.glyphicon.glyphicon-search
-                .pull-left(style="margin-left: 10px;")
-                  button.btn.btn-success(data-toggle="modal", data-target="#add")
-                    span.glyphicon.glyphicon-plus
-                    span.text-none  إضافة قسم جديد
+                .col-md-4
+                  .row
+                    .col-md-4.col-md-offset-1
+                      a.btn.btn-primary(href="/department/printDepartment", target="_blank")
+                        span.glyphicon.glyphicon-print
+                        span.text-none  طباعة
+                    .col-md-4
+                      button.btn.btn-success(data-toggle="modal", data-target="#add")
+                        span.glyphicon.glyphicon-plus
+                        span.text-none  إضافة قسم جديد
             .table-responsive
               table.table.table-bordred.table-striped.text-right(border="0")
                 thead

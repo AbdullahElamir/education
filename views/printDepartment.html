@@ -1,0 +1,74 @@
+<html ng-app="education">
+  <head>
+    <meta charset="utf-8">
+    <title>كشف حضور وغياب المادة</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
+    <style>
+      .break { 
+        page-break-before: always; 
+      }
+      @media print {
+        footer { 
+          page-break-after: always;
+        }
+      }
+      @font-face {
+        font-family: 'Droid Arabic Kufi';
+        src : url("//localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
+      }
+      body {
+        font-family: 'Droid Arabic Kufi';
+      }
+      .englishFont {
+        font-family: Times, "Times New Roman", Georgia, serif;
+      }
+      .table,.table>thead>tr>th,.table>tbody>tr>td{
+        font-size: 12px;
+        border: 1px solid #000;
+      }
+      .condensed>thead>tr>th, .condensed>tbody>tr>td {
+        padding: 5px;
+      }
+      .condensed>tbody>tr>td {
+        padding: 3px;
+      }
+      .number {
+        font-family: Times, "Times New Roman", Georgia, serif;
+        font-size: 14px !important;
+      }
+    </style>
+    <script src="http://localhost:3000/js/angular-1.4.7/angular.min.js"></script>
+    <script src="http://localhost:3000/js/printDepartment.js"></script>
+  </head>
+  <body>
+    <div class="container" ng-controller="mainController">
+      <div class="row">
+        <div class="col-xs-12">
+          <h5 class="text-center"> 
+            المعهد العالي للمهن الطبية القره بوللي
+          </h5>
+          <h5 class="text-center"> 
+            كشف الاقسام التي تدرس داخل المعهد
+          </h5>
+          <table class="table condensed">
+            <thead>
+              <tr>
+                <th class="text-center" width="7%">ت</th>
+                <th class="text-center" width="50%">اسم القسم</th>
+                <th class="text-center englishFont" width="50%">Departmint name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="department in departments">
+                <td class="text-center number">{{department.id}}</td>
+                <td class="text-center">{{department.name}}</td>
+                <td class="text-center">{{department.name_en}}</td>
+              </tr>
+            </tbody>
+          <table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

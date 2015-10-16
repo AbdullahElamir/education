@@ -47,6 +47,8 @@ app.controller('mainController',['$scope','$http','$log','Notification',function
       console.log(data);
     });
   };
+
+  console.log("kgbmklht");
   
   $scope.addDep = function(){
     $http.post('/department/newDepartment',{

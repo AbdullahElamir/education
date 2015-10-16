@@ -3,25 +3,18 @@ var router = express.Router();
 var models  = require('../models');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
+var jsreport = require("jsreport");
+var fs = require("fs");
+var path = require("path");
+var htmlToText = require('html-to-text');
 
 // Start department /////////////////////////////////////////////////////////
-  router.get('/',userHelpers.isLogin, function(req, res) {
-    var page = userHelpers.getPage(req);
-    var limit = userHelpers.getLimit(page);
-    models.Department.findAndCountAll({
-      where: {
-        status: 1
-      },
-      limit : 10,
-      offset: limit,
-    }).then(function(department) {
-      var pageCount = userHelpers.getPageCount(department.count);
-      var pagination = userHelpers.paginate(page,pageCount);
-      res.render('department', { title: 'عرض اﻷقسام', name:req.session.name,pagination:pagination,collapseFour: 'collapse in', activeFourOne: 'active' });
-    });
+  router.get('/', function(req, res) {
+    res.render('department', { title: 'عرض اﻷقسام', name:req.session.name,collapseFour: 'collapse in', activeFourOne: 'active' });
   });
 
-  router.get('/getDepartments',userHelpers.isLogin, function(req, res) {
+
+  router.get('/getDepartments', function(req, res) {
     models.Department.findAll({
       where: {
         status: 1
@@ -31,7 +24,7 @@ var userHelpers = require('../app/userHelpers');
     });
   });
 
-  router.post('/newDepartment',userHelpers.isLogin, function(req, res) {
+  router.post('/newDepartment', function(req, res) {
     req.body.UserId=req.session.idu;
     models.Department.create(req.body).then(function(){
       models.Department.findAll({
@@ -45,7 +38,7 @@ var userHelpers = require('../app/userHelpers');
   });
 
   // edit department
-  router.post('/updateDepartment',userHelpers.isLogin,function(req, res) {
+  router.post('/updateDepartment',function(req, res) {
     id = req.body.id;
     delete req.body.id;
     models.Department.find({
@@ -82,6 +75,19 @@ var userHelpers = require('../app/userHelpers');
     }
   });
 
+  router.get('/printDepartment', function(req, res) {
+    jsreport.render({
+      template: { 
+        engine: "jsrender",
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/printDepartment.html"), "utf8")
+      }
+    }).then(function (response) {
+       //you can for example pipe it to express.js response
+       response.stream.pipe(res);
+    });
+  });
+  
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {
     res.render('newDepartment', { title: 'إضافة قسم جديد', name:req.session.name, collapseFour: 'collapse in', activeFourTwo: 'active' });
   });
