@@ -40,16 +40,12 @@ app.controller('mainController',['$scope','$http','$log','Notification',function
   };
   // Notification function end
 
-  $scope.init = function(){
-    $http.get('/department/getDepartments').success(function (result){
-      $scope.departments = result;
-    }).error(function (data, status){
-      console.log(data);
-    });
-  };
+  $http.get('/department/getDepartments').success(function (result){
+    $scope.departments = result;
+  }).error(function (data, status){
+    console.log(data);
+  });
 
-  console.log("kgbmklht");
-  
   $scope.addDep = function(){
     $http.post('/department/newDepartment',{
       'name': $scope.name,

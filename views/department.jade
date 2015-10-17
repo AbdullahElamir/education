@@ -2,7 +2,7 @@ extends layout
 block authenticationStyle
 block errorStyle
 block content
-  div(ng-controller="mainController", data-ng-init="init()")
+  div(ng-controller="mainController")
     .container
       .row
         //- .col-md-10
@@ -26,7 +26,7 @@ block content
                   h3#h3.panel-title عرض اﻷقسام
                 .col-md-6
                   .input-group
-                    input.form-control#department_search(name = department_search,type='text', placeholder='بحث...')
+                    input.form-control#department_search(name='department_search' ,type='text', placeholder='بحث...')
                     .input-group-btn
                       button.btn.btn-default
                         i.glyphicon.glyphicon-search
@@ -43,6 +43,7 @@ block content
             .table-responsive
               table.table.table-bordred.table-striped.text-right(border="0")
                 thead
+                  th.text-center طباعة بالتحديد
                   th اسم القسم
                   th.text-left Department Name
                   th(style="width:25%;")
@@ -50,6 +51,8 @@ block content
                   th.text-center الغاء
                 tbody
                   tr(ng-repeat="department in departments")
+                    td.text-center
+                      input(type="checkbox", ng-model="department.id")
                     td {{department.name}}
                     td.text-left {{department.name_en}}
                     td

@@ -3,10 +3,6 @@ var router = express.Router();
 var models  = require('../models');
 var login = require('../app/login')(router);
 var userHelpers = require('../app/userHelpers');
-var jsreport = require("jsreport");
-var fs = require("fs");
-var path = require("path");
-var htmlToText = require('html-to-text');
 
 // Start department /////////////////////////////////////////////////////////
   router.get('/', function(req, res) {
@@ -76,16 +72,7 @@ var htmlToText = require('html-to-text');
   });
 
   router.get('/printDepartment', function(req, res) {
-    jsreport.render({
-      template: { 
-        engine: "jsrender",
-        recipe: "phantom-pdf",
-        content: fs.readFileSync(path.join(__dirname, "../views/printDepartment.html"), "utf8")
-      }
-    }).then(function (response) {
-       //you can for example pipe it to express.js response
-       response.stream.pipe(res);
-    });
+    userHelpers.printReport("printDepartment.html",res);
   });
   
   router.get('/newDepartment',userHelpers.isLogin, function(req, res) {

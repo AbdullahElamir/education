@@ -2,6 +2,9 @@ var generatePassword = require('password-generator'),
   easyPbkdf2 = require("easy-pbkdf2")(),
   url=require('url');
 var models  = require('../models');
+var jsreport = require("jsreport");
+var fs = require("fs");
+var path = require("path");
 
 module.exports = {
 
@@ -146,7 +149,19 @@ module.exports = {
     }
   },
 
-
+  printReport : function(HTMLprint, res){
+    jsreport.render({
+      template: { 
+        engine: "jsrender",
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/"+HTMLprint), "utf8")
+      }
+    }).then(function (response) {
+       //you can for example pipe it to express.js response
+       response.stream.pipe(res);
+    });
+  },
+  
 };
 
 
