@@ -41,7 +41,7 @@ block content
                 th.text-center إلغاء
               tbody#tbody
                 for faculty_Member in faculty_Members
-                  tr(id="#{faculty_Member.id}", data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
+                  tr(id="id-#{faculty_Member.id}", data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
                     td(id="name-#{faculty_Member.id}") #{faculty_Member.name}
                     td(id="qualification-#{faculty_Member.id}") #{faculty_Member.qualification}
                     td(id="specialization-#{faculty_Member.id}") #{faculty_Member.specialization}

@@ -65,6 +65,17 @@ $(document).ready(function(){
           }
           $('#department-'+facultyMId).html(data.Department.name);
           $('#nationality-'+facultyMId).html(data.nationalityName);
+
+          $('[data-id = "'+facultyMId+'"]').data('name',data.name);
+          $('[data-id = "'+facultyMId+'"]').data('qualification',data.qualification);
+          $('[data-id = "'+facultyMId+'"]').data('specialization',data.specialization);
+          $('[data-id = "'+facultyMId+'"]').data('gender',data.gender);
+          $('[data-id = "'+facultyMId+'"]').data('dDepartmentId',data.DepartmentId);
+          $('[data-id = "'+facultyMId+'"]').data('nationality',data.nationality);
+          // $('[data-id = "'+facultyMId+'"]').data('birth_date',data.birth_date);
+          $('[data-id = "'+facultyMId+'"]').data('place_birth',data.place_birth);
+          $('[data-id = "'+facultyMId+'"]').data('physical_address',data.physical_address);
+          $('[data-id = "'+facultyMId+'"]').data('phone',data.phone);
           $('#edit').modal('hide');
         }
       });
@@ -79,7 +90,7 @@ $(document).ready(function(){
   jQuery.validator.addMethod("arabicLettersWithSpacesOnly", function(value, element) {
     return this.optional(element) || /^[أ-ي,ﻻ,ء," "]+$/i.test(value);
   }, "الرجاء ادخال حروف عربية فقط!");
-  
+
   jQuery.validator.addMethod("englishLettersWithSpacesOnly", function(value, element) {
     return this.optional(element) || /^[a-z," "]+$/i.test(value);
   }, "الرجاء ادخال حروف انجليزية فقط!");
