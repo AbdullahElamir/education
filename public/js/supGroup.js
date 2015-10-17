@@ -54,9 +54,19 @@ $(document).ready(function(){
 
   $('body').on('click', '#yes', function(){
     var id=$(this).val();
-    $.get('/semester/deleteSubGroup/'+id,function(todo){
-      $('#delete').modal('hide');
-      $('[data-id = "'+id+'"]').remove();
+    $.get('/semester/deleteSubGroup/'+id,function(result){
+      switch(result.msg){
+        case "1" :
+          $('#delete').modal('hide');
+          $('[data-id = "'+id+'"]').remove();
+          custNotify("success","نجح","تم الغاء هذه المادة من الفصل بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          break;
+        case "2" :
+          $('#delete').modal('hide');
+          custNotify("danger","فشل","لايمكن حذف هذه المادة من الفصل لادراسي لاعتماد بعض الكيانات عليها","warning-sign","bounceIn","bounceOut");
+          break;
+
+      }
     });
   });
   $('body').on('click', '.editSub', function(){

@@ -41,7 +41,7 @@ block content
                 th.text-center إلغاء
               tbody#tbody
                 for faculty_Member in faculty_Members
-                  tr(data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
+                  tr(id="#{faculty_Member.id}", data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
                     td #{faculty_Member.name}
                     td #{faculty_Member.qualification}
                     td #{faculty_Member.specialization}
@@ -57,7 +57,7 @@ block content
                           |  #{nat.name}
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                        button#editt.btn.btn-primary.btn-xs(value="#{faculty_Member.id}",data-toggle="modal", data-target="#edit")
+                        button#editt.btn.btn-primary.btn-xs.editFacultyMember(value="#{faculty_Member.id}",data-toggle="modal", data-target="#edit")
                           span.glyphicon.glyphicon-pencil
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إلغاء")
@@ -134,7 +134,7 @@ block content
                   input.form-control#phoneFaculty(value="", name="phone", type="text", placeholder="رقم الهاتف")
                   input#id_faculty_Member(name="id" , type="hidden")  
           .modal-footer
-            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+            button#editFM.btn.btn-warning.btn-lg(data-idd="" ,type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -163,6 +163,7 @@ block content
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
   script(src='/js/facultyMembers.js')

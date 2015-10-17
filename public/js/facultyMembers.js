@@ -9,8 +9,19 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/facultyMember/deleteFaculityMembers/'+$(this).val(),function(todo){
-      $('[date-id = "'+id+'"]').remove();
+    console.log(id);
+    $('[date-id = "'+id+'"]').remove();
+    $.get('/facultyMember/deleteFaculityMembers/'+$(this).val(),function(result){
+      switch(result.msg){
+        case "1" :
+          $('#'+id).remove();
+          custNotify("success","نجح","تم حذف هذا المحاضر بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          break;
+        case "2" :
+          $('#delete').modal('hide');
+          custNotify("danger","فشل","لايمكن حذف هذا المحاضر  لاعتماد بعض الكيانات عليه","warning-sign","bounceIn","bounceOut");
+          break;
+      }
     });
   });
   
@@ -35,6 +46,74 @@ $(document).ready(function(){
       };
     });
   });
+  
+  $('body').on('click', '.editFacultyMember', function(){
+    var myDataAttr = $(this).val();
+    $('#editFM').val(myDataAttr);
+    $('#editFM').data('idd',$('[data-id = "'+myDataAttr+'"]').data('idd'));
+    $('#name_e').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+    $('#code_e').val($('[data-id = "'+myDataAttr+'"]').data('code'));
+    $('#faculty_Member').selectpicker('val', $('[data-id = "'+myDataAttr+'"]').data('fac'));
+    $('#sub_group_n').val($('[data-id = "'+myDataAttr+'"]').data('groupname'));
+    $('#quantit').val($('[data-id = "'+myDataAttr+'"]').data('quantity'));
+    $('#location').selectpicker('val', $('[data-id = "'+myDataAttr+'"]').data('loc'));
+  });
+
+  $('body').on('click', '#editSubGr', function (e) {
+    e.preventDefault();
+    $('#editForm').submit();
+  });
+
+
+  // $('body').on('click', '.editSub', function(){
+  //   var myDataAttr = $(this).val();
+  //   $('#editSubGr').val(myDataAttr);
+  //   $('#editSubGr').data('idd',$('[data-id = "'+myDataAttr+'"]').data('idd'));
+  //   $('#name_e').val($('[data-id = "'+myDataAttr+'"]').data('name'));
+  //   $('#code_e').val($('[data-id = "'+myDataAttr+'"]').data('code'));
+  //   $('#faculty_Member').selectpicker('val', $('[data-id = "'+myDataAttr+'"]').data('fac'));
+  //   $('#sub_group_n').val($('[data-id = "'+myDataAttr+'"]').data('groupname'));
+  //   $('#quantit').val($('[data-id = "'+myDataAttr+'"]').data('quantity'));
+  //   $('#location').selectpicker('val', $('[data-id = "'+myDataAttr+'"]').data('loc'));
+  // });
+
+  // $('body').on('click', '#editSubGr', function (e) {
+  //   e.preventDefault();
+  //   $('#editForm').submit();
+  // });
+
+  
+
+  // $("#editForm").submit(function(e) {
+  //   var isvalidate=$("#editForm").valid();
+  //   if(isvalidate){
+  //     $.post("/semester/updateSub", {body:$("#editForm").serializeObject(),id:$('#editSubGr').val()}, function(data, error){
+  //       if(data ==null){
+  //         // $("#err").empty();
+  //         // for (err in data.result) {
+  //         //   $("#err").append('<h1>'+data.result[err].msg+'</h1>');
+  //         // }
+  //       } 
+  //       else {
+  //         console.log("gothere");
+  //         var subGId = $('#editSubGr').val();
+  //         console.log(subGId);
+  //         $('#name-'+subGId).html(data.Subject.name);
+  //         $('#code-'+subGId).html(data.Subject.code);
+  //         $('#Faculty_member-'+subGId).html(data.Faculty_member.name);
+  //         $('[data-id = "'+subGId+'"]').data('fac',data.Faculty_member.id);
+  //         $('#sub_group_name-'+subGId).html(data.sub_group_name);
+  //         $('[data-id = "'+subGId+'"]').data('groupname',data.sub_group_name);
+  //         $('#quantity-'+subGId).html(data.quantity);
+  //         $('[data-id = "'+subGId+'"]').data('quantity',data.quantity);
+  //         $('#Location-'+subGId).html(data.Location.name);
+  //         $('[data-id = "'+subGId+'"]').data('loc',data.Location.id);
+  //         $('#edit').modal('hide');
+  //       }
+  //     });
+  //   }
+  //   return false;
+  // });
 
   $.get('/facultyMember/getAllNationality/',function(todo){
     for (var i = 0; i < todo.length; i++) {
