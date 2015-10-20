@@ -1682,6 +1682,7 @@ router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
       replacements: [req.params.id]
     })
     .then(function (subject) {
+      console.log(subject);
       res.send({has:subject[0][0].has_practical});
     });
 });
@@ -2062,7 +2063,7 @@ router.get('/addStudentSubject/:id', userHelpers.isLogin, function (req, res) {
         }]
             })
             .then(function (div) {
-              models.sequelize.query('SELECT *,`sg`.`id` FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', {
+              models.sequelize.query('SELECT *,`sg`.`id`,s.id as ids FROM `Sub_groups` sg ,`Subjects` s WHERE `sg`.`SubjectId`=`s`.id AND `s`.`status`=1 AND `sg`.`DivisionId` IN(SELECT id FROM `Divisions` WHERE `status`=1 AND `DepartmentId`= ? ); ', {
                   replacements: [sem.DepartmentId]
                 })
                 .then(function (dept) {
