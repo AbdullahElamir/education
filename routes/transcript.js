@@ -1678,12 +1678,22 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
 
 
 router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
-  models.sequelize.query('select has_practical from Subjects where id=?', {
-      replacements: [req.params.id]
-    })
-    .then(function (subject) {
-      res.send({has:subject[0][0].has_practical});
-    });
+  models.Subject.findOne({
+    attributes: ['has_practical'],
+    where: {
+      status: 1,
+      id: req.params.id
+    }
+  }).then(function (subject) {
+    res.send({has : subject.has_practical});
+  });
+      
+  // models.sequelize.query('select has_practical from Subjects where id=?', {
+  //     replacements: [req.params.id]
+  //   })
+  //   .then(function (subject) {
+  //     res.send({has:subject[0][0].has_practical});
+  //   });
 });
 ///transcript/getSubjectbyAcadimId/
 router.get('/getSubjectbyAcadimId/:id', userHelpers.isLogin, function (req, res) {
@@ -2110,6 +2120,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
+      console.log(obj);
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.isPractical != undefined){

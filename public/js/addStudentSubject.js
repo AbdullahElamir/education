@@ -176,8 +176,6 @@ $(document).ready(function(){
   $('body').on('click', '#del_subject', function(){
     var id=$(this).val();
     $.get('/transcript/deletetranscript/'+$(this).val(),function(result){
-      // console.log(todo);
-      // $('[data-id = "'+id+'"]').remove();
       switch(result.msg){
         case "1" :
           $('[data-id = "'+id+'"]').remove();
@@ -202,7 +200,9 @@ $(document).ready(function(){
   $('body').on('click', '#adA', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
-    $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+    var subgroupId= $(this).val();
+    var subjectId = $('#depSub-'+subgroupId).data('subjectid');
+    $.get('/transcript/getSubject/'+subjectId,function(todo){
     $('#tog').val(todo.has);
     if(todo.has==2){
         // enable
@@ -218,20 +218,22 @@ $(document).ready(function(){
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
-    $('#subG').val($(this).val());   
+    $('#subG').val(subgroupId);   
   });
 
-   rowindex = $(this).closest('tr').index();
-    $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
-    $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
-    $('#subG').val($(this).val()); 
+   // rowindex = $(this).closest('tr').index();
+   //  $('#chapterGlobalVaribalButton').val( $("#mytablee #chap"+rowindex).text());
+   //  $('#finalGlobalVaribalButton').val( $("#mytablee #final"+rowindex).text());
+   //  $('#subG').val($(this).val()); 
 
 
 
   $('body').on('click', '#ad', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
-    $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+    var subgroupId= $(this).val();
+    var subjectId = $('#genSub-'+subgroupId).data('subjectid');
+    $.get('/transcript/getSubject/'+subjectId,function(todo){
       $('#tog').val(todo.has); 
       if(todo.has==2){
         // enable  
@@ -247,13 +249,15 @@ $(document).ready(function(){
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytableee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytableee #final"+rowindex).text());
-    $('#subG').val($(this).val());   
+    $('#subG').val(subgroupId);   
   });
 
   $('body').on('click', '#a', function (e) {
     /* in this line I used hidden button like global varibal to use it in the max chapter and */
     /* final degree in the validation section */
-    $.get('/transcript/getSubject/'+$(this).val(),function(todo){
+    var subgroupId= $(this).val();
+    var subjectId = $('#divSub-'+subgroupId).data('subjectid');
+    $.get('/transcript/getSubject/'+subjectId,function(todo){
       $('#tog').val(todo.has);
       if(todo.has==2){
         // enable
@@ -269,7 +273,7 @@ $(document).ready(function(){
     rowindex = $(this).closest('tr').index();
     $('#chapterGlobalVaribalButton').val( $("#mytableeee #chap"+rowindex).text());
     $('#finalGlobalVaribalButton').val( $("#mytableeee #final"+rowindex).text());
-    $('#subG').val($(this).val());   
+    $('#subG').val(subgroupId);   
   });
 
   $('body').on('click', '#submit', function (e) {
