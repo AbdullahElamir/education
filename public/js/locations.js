@@ -36,8 +36,17 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/location/deleteLocation/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+    $.get('/location/deleteLocation/'+$(this).val(),function(result){
+      switch(result.msg){
+        case "1" :
+          $('[data-id = "'+id+'"]').remove();
+          custNotify("success","نجح","تم حذف هذه القاعة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          break;
+        case "2" :
+          $('#delete').modal('hide');
+          custNotify("danger","فشل","لايمكن حذف هذه القاعة  لاعتماد بعض الكيانات عليها","warning-sign","bounceIn","bounceOut");
+          break;
+      }
     });
   }); 
 

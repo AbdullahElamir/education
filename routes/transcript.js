@@ -2237,9 +2237,14 @@ router.get('/deletetranscript/:id', userHelpers.isLogin, function (req, res) {
     where: {
       id: req.params.id
     }
-  })
-  .then(function (result) {
-    res.send(true);
+  }).then(function (todo) {
+    res.send({
+      msg: "1"
+    }); //got deleted successfully
+  }).catch(function (err) {
+    res.send({
+      msg: "2"
+    }); //has foreign-key restriction
   });
 });
 

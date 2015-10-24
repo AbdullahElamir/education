@@ -170,13 +170,24 @@ $(document).ready(function(){
   });
 
   $('body').on('click', '#del', function (e) {
-    $('#ok').val($(this).val());
+    $('#del_subject').val($(this).val());
   });
   
-  $('body').on('click', '#ok', function(){
+  $('body').on('click', '#del_subject', function(){
     var id=$(this).val();
-    $.get('/transcript/deletetranscript/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+    $.get('/transcript/deletetranscript/'+$(this).val(),function(result){
+      // console.log(todo);
+      // $('[data-id = "'+id+'"]').remove();
+      switch(result.msg){
+        case "1" :
+          $('[data-id = "'+id+'"]').remove();
+          custNotify("success","نجح","تم حذف هذه المادة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          break;
+        case "2" :
+          $('#delete').modal('hide');
+          custNotify("danger","فشل","لايمكن حذف هذه المادة لاعتماد بعض الكيانات عليها","warning-sign","bounceIn","bounceOut");
+          break;
+      }
     });
   });
 

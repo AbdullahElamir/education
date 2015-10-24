@@ -63,18 +63,18 @@ var userHelpers = require('../app/userHelpers');
   });
 
   router.get('/deleteLocation/:id',userHelpers.isLogin, function(req, res) {
-    models.Location.find({
+    models.Location.destroy({
       where: {
         id: req.params.id
       }
-      }).then(function (todo) {
-      todo.updateAttributes({
-          status: 0
-      }).then(function (todo) {
-          res.send(todo);
-      }).catch(function (err) {
-          console.log(err);
-      });
+    }).then(function (todo) {
+      res.send({
+        msg: "1"
+      }); //got deleted successfully
+    }).catch(function (err) {
+      res.send({
+        msg: "2"
+      }); //has foreign-key restriction
     });
   });
 // End locations /////////////////////////////////////////////////////////
