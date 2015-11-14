@@ -10,147 +10,6 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-var obj = {
-  subjects: [{
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }, {
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }, {
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }],
-  classes: [{
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 2,
-    class_name: 'الثاني',
-    subjects: [{
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }]
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 3,
-    class_name: 'الاول',
-    subjects: [{
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }]
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 3,
-    class_name: 'الثالث'
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 4,
-    class_name: 'الرابع'
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 5,
-    class_name: 'الخامس'
-  }],
-}
 
 router.get('/', userHelpers.isLogin, function (req, res) {
   var page = userHelpers.getPage(req);
@@ -2016,7 +1875,49 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                   if(semster[0][0] == undefined ){
                     models.SemesterStudent.create(req.body)
                     .then(function (result) {
-                    res.send(true);
+
+                      models.Sub_group.findAll({
+                      where: {
+                        SemesterId: objStudent.SemesterId,
+                        DivisionId: objStudent.DivisionId,
+                        status: 1
+                      },
+                      include: [{
+                        model: models.Subject,
+                        required: false,
+                        where: {
+                          status: 1
+                        }
+                }]
+                    })
+                    .then(function (div) {
+                      var academic_body={
+                        result_case:6,
+                        chapter_degree:0,
+                        sum_dagree:0,
+                        final_exam:0,
+                        final_practical:0,
+                        subject_status:0,
+                        notices:1,
+                        StudentId:objStudent.StudentId,
+                        SemesterStudentId:result.id,
+                        UserId:req.session.idu
+
+                      }
+                      for (i in div){
+                        academic_body.SubGroupId=div[i].id;
+                        models.Academic_transcript.findOrCreate({
+                        where: {
+                          StudentId: objStudent.StudentId,
+                          status: 1,
+                          SemesterStudentId: result.id,
+                          SubGroupId: div[i].id
+                        },
+                        defaults: academic_body
+                      });
+                      }
+                      res.send(true);
+                    });
                   });
                   } else {
                      res.send(false);
@@ -2120,7 +2021,6 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
-      console.log(obj);
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.isPractical != undefined){
