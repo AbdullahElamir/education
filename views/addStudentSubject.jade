@@ -117,7 +117,7 @@ block content
                       th.text-center إضافة
                     tbody
                       for d,u in dept
-                        tr()
+                        tr(id = 'depSub-#{d.id}',data-practical = '#{d.has_practical}', data-subjectid='#{d.SubjectId}')
                           td #{d.name}
                           td #{d.code}
                           td #{d.sub_group_name}
@@ -147,7 +147,7 @@ block content
                     tbody
                       for g,u in gen
                         if g.Subject != nul
-                          tr()
+                          tr(id = 'genSub-#{g.id}',data-practical = '#{g.has_practical}', data-subjectid='#{g.Subject.id}')
                             td #{g.Subject.name}
                             td #{g.Subject.code}
                             td #{g.sub_group_name}
@@ -177,7 +177,7 @@ block content
                     tbody
                       for di,u in div
                         if di.Subject != nul
-                          tr()
+                          tr(id = 'divSub-#{di.id}',data-practical = '#{di.has_practical}', data-subjectid='#{di.Subject.id}')
                             td #{di.Subject.name}
                             td #{di.Subject.code}
                             td #{di.sub_group_name}
@@ -254,9 +254,9 @@ block content
         .modal-body
           .alert.alert-danger
             span.glyphicon.glyphicon-warning-sign
-            |  هل انت متأكد من إلغاء هذاه المادة
+            |  هل انت متأكد من إلغاء هذه المادة
         .modal-footer
-          button#ok.btn.btn-success(type="button", data-dismiss="modal")
+          button#del_subject.btn.btn-success(type="button", data-dismiss="modal")
             span.glyphicon.glyphicon-ok-sign
             |  نعم
           button.btn.btn-default(type="button", data-dismiss="modal")

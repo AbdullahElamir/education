@@ -6,12 +6,10 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    console.log(id);
-    $('[date-id = "'+id+'"]').remove();
     $.get('/facultyMember/deleteFaculityMembers/'+$(this).val(),function(result){
       switch(result.msg){
         case "1" :
-          $('#'+id).remove();
+          $('#id-'+id).remove();
           custNotify("success","نجح","تم حذف هذا المحاضر بنجاح","ok-sign","bounceInDown","bounceOutUp");
           break;
         case "2" :
