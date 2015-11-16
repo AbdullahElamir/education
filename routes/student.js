@@ -52,6 +52,7 @@ router.get('/', userHelpers.isLogin, function (req, res) {
 				pagination: pagination,
 				collapseFive: 'collapse in',
 				activeFiveOne: 'active',
+				name: req.session.name,
 				q: q
 			});
 		});
