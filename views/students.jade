@@ -40,6 +40,22 @@ block content
                 input.search-query.form-control#father_name(name="father_name",type='text', placeholder='أسم الأب')
               .col-md-4
                 input.search-query.form-control#last_name(name="last_name",type='text', placeholder='اللقب')
+            br
+            .row
+              .col-md-4
+                | هل الطالب منقطع ؟ 
+                input(data-on="نعم",data-off="لا",checked='', data-toggle='toggle', type='checkbox')
+              .col-md-4
+                label السنة والفصل الدراسي
+                    select#studing_year.form-control.selectpicker(name="studing_year", data-live-search="true", data-size=5)
+                      option(value="", style='color:grey; display:none;') اختر السنة الدراسية...
+                      for i in year
+                        if i.sem_type==1
+                          option(value="#{i.id}")  #{i.year.getFullYear()} ربيعي 
+                        if i.sem_type==2
+                          option(value="#{i.id}")  #{i.year.getFullYear()} خريفي 
+                        if i.sem_type==3
+                          option(value="#{i.id}")  #{i.year.getFullYear()} صيفي 
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
@@ -252,6 +268,8 @@ block content
     // /.modal-dialog
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-toggle.min')
+  script(src='/js/bootstrap-toggle.min.js')
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')

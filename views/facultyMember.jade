@@ -41,23 +41,23 @@ block content
                 th.text-center إلغاء
               tbody#tbody
                 for faculty_Member in faculty_Members
-                  tr(data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
-                    td #{faculty_Member.name}
-                    td #{faculty_Member.qualification}
-                    td #{faculty_Member.specialization}
-                    td
+                  tr(id="id-#{faculty_Member.id}", data-id="#{faculty_Member.id}",data-dDepartmentId="#{faculty_Member.DepartmentId}",data-name="#{faculty_Member.name}",data-qualification="#{faculty_Member.qualification}",data-specialization="#{faculty_Member.specialization}",data-gender="#{faculty_Member.gender}",data-phone="#{faculty_Member.phone}",data-physical_address="#{faculty_Member.physical_address}",data-place_birth="#{faculty_Member.place_birth}",data-birth_date="'#{faculty_Member.birth_date}'",data-nationality="#{faculty_Member.nationality}")
+                    td(id="name-#{faculty_Member.id}") #{faculty_Member.name}
+                    td(id="qualification-#{faculty_Member.id}") #{faculty_Member.qualification}
+                    td(id="specialization-#{faculty_Member.id}") #{faculty_Member.specialization}
+                    td(id="gender-#{faculty_Member.id}")
                       if faculty_Member.gender == 1
                         | أنثى
                       else
                         | ذكر
-                    td #{faculty_Member.Department.name}
-                    td 
+                    td(id="department-#{faculty_Member.id}") #{faculty_Member.Department.name}
+                    td(id="nationality-#{faculty_Member.id}")
                       for nat in nationalityJade
                         if nat.id == faculty_Member.nationality
                           |  #{nat.name}
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تعديل")
-                        button#editt.btn.btn-primary.btn-xs(value="#{faculty_Member.id}",data-toggle="modal", data-target="#edit")
+                        button.btn.btn-primary.btn-xs.editFacultyMember(value="#{faculty_Member.id}",data-toggle="modal", data-target="#edit")
                           span.glyphicon.glyphicon-pencil
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="إلغاء")
@@ -75,7 +75,7 @@ block content
                 a(href='?p=#{pagination.next.n}') التالي  
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
-      form.form#updateFacultyMember(role="form" ,name='updateFacultyMember')
+      form.form#editFacultyMemberForm(role="form" ,name='updateFacultyMember')
         .modal-content
           .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true")
@@ -87,6 +87,7 @@ block content
                 .col-xs-6.col-md-6
                   label اسم المحاضر/ة
                   input#name.form-control(type="text", name="name", placeholder="اسم المحاضر/ة")
+                  input#id.form-control(type="hidden", name="id",value="")
                 .col-xs-6.col-md-6
                   label المؤهل العلمي
                   input#qualification.form-control(type="text", name="qualification", placeholder="المؤهل العلمي")
@@ -96,8 +97,7 @@ block content
                   label القسم
                   select#departmentId.form-control.selectpicker.show-tick(name="DepartmentId", data-live-search="true", data-size=5)
                     for dept in depts
-                      option(value="#{dept.id}",data-name="#{dept.name}") #{dept.name}
-                      
+                      option(value="#{dept.id}",data-name="#{dept.name}") #{dept.name}         
                 .col-xs-6.col-md-6
                   label التخصص
                   input#specialization.form-control(type="text", name="specialization", placeholder="التخصص")
@@ -134,7 +134,7 @@ block content
                   input.form-control#phoneFaculty(value="", name="phone", type="text", placeholder="رقم الهاتف")
                   input#id_faculty_Member(name="id" , type="hidden")  
           .modal-footer
-            button#save.btn.btn-warning.btn-lg(type="submit", style="width: 100%;")
+            button#editFM.btn.btn-warning.btn-lg(data-idd="" ,type="submit", style="width: 100%;")
               span.glyphicon.glyphicon-ok-sign
               |  تعديل
   #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
@@ -163,6 +163,7 @@ block content
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/moment-with-locales.min.js')
   script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
   script(src='/js/facultyMembers.js')
