@@ -1619,8 +1619,9 @@ router.get('/academicTranscripts', userHelpers.isLogin, function (req, res) {
         nats: nationality,
         student: student.rows,
         pagination: pagination,
-        collapseFive: 'collapse in',
-        activeFiveOne: 'active',
+        collapseSeven: 'collapse in',
+        activeSevenOne: 'active',
+        name: req.session.name,
         q: q
       });
     });
