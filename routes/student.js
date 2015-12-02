@@ -7,59 +7,56 @@ var nationality = require('../Nationality');
 
 // /// Start students //////////////////////////////
 router.get('/', userHelpers.isLogin, function (req, res) {
-  var page = userHelpers.getPage(req);
-  var limit = userHelpers.getLimit(page);
-  var q = userHelpers.getQuery(req);
-  var first_name = userHelpers.getname(req);
-  var father_name = userHelpers.getfather_name(req);
-  var last_name = userHelpers.getlast_name(req);
-  var obj = {
-    where: {
-      status: 1
-    }
-  };
-  if (q != "") {
-    obj.where.set_number = {
-      $like: '%' + q + '%'
-    };
-  }
-  if (first_name != "") {
-    obj.where.first_name = {
-      $like: '%' + first_name + '%'
-    };
-  }
-  if (father_name != "") {
-    obj.where.father_name = {
-      $like: '%' + father_name + '%'
-    };
-  }
-  if (last_name != "") {
-    obj.where.last_name = {
-      $like: '%' + last_name + '%'
-    };
-  }
-  obj.limit = 10;
-  obj.offset = limit;
- 
-  models.sequelize.query('SELECT DISTINCT year,sem_type,id FROM `Semesters` WHERE status=1 order by year'
-    ).then(function (studing_years) {
-      console.log(studing_years[0]);
-  models.Student.findAndCountAll(obj)
-    .then(function (student) {
-      var pageCount = userHelpers.getPageCount(student.count);
-      var pagination = userHelpers.paginate(page, pageCount);
-      res.render('students', {
-        title: 'View Students',
-        nats: nationality,
-        student: student.rows,
-        pagination: pagination,
-        year : studing_years[0],
-        collapseFive: 'collapse in',
-        activeFiveOne: 'active',
-        q: q
-      });
-    });
-  });
+
+	var page = userHelpers.getPage(req);
+	var limit = userHelpers.getLimit(page);
+	var q = userHelpers.getQuery(req);
+	var first_name = userHelpers.getname(req);
+	var father_name = userHelpers.getfather_name(req);
+	var last_name = userHelpers.getlast_name(req);
+	var obj = {
+		where: {
+			status: 1
+		}
+	};
+	if (q != "") {
+		obj.where.set_number = {
+			$like: '%' + q + '%'
+		};
+	}
+	if (first_name != "") {
+		obj.where.first_name = {
+			$like: '%' + first_name + '%'
+		};
+	}
+	if (father_name != "") {
+		obj.where.father_name = {
+			$like: '%' + father_name + '%'
+		};
+	}
+	if (last_name != "") {
+		obj.where.last_name = {
+			$like: '%' + last_name + '%'
+		};
+	}
+	obj.limit = 10;
+	obj.offset = limit;
+	models.Student.findAndCountAll(obj)
+		.then(function (student) {
+			var pageCount = userHelpers.getPageCount(student.count);
+			var pagination = userHelpers.paginate(page, pageCount);
+			console.log(pagination);
+			res.render('students', {
+				title: 'View Students',
+				nats: nationality,
+				student: student.rows,
+				pagination: pagination,
+				collapseFive: 'collapse in',
+				activeFiveOne: 'active',
+				name: req.session.name,
+				q: q
+			});
+		});
 });
 
 router.get('/newStudent', userHelpers.isLogin, function (req, res) {

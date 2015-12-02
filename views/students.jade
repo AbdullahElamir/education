@@ -49,13 +49,13 @@ block content
                 label السنة والفصل الدراسي
                     select#studing_year.form-control.selectpicker(name="studing_year", data-live-search="true", data-size=5)
                       option(value="", style='color:grey; display:none;') اختر السنة الدراسية...
-                      for i in year
-                        if i.sem_type==1
-                          option(value="#{i.id}")  #{i.year.getFullYear()} ربيعي 
-                        if i.sem_type==2
-                          option(value="#{i.id}")  #{i.year.getFullYear()} خريفي 
-                        if i.sem_type==3
-                          option(value="#{i.id}")  #{i.year.getFullYear()} صيفي 
+                      //- for i in year
+                      //-   if i.sem_type==1
+                      //-     option(value="#{i.id}")  #{i.year.getFullYear()} ربيعي 
+                      //-   if i.sem_type==2
+                      //-     option(value="#{i.id}")  #{i.year.getFullYear()} خريفي 
+                      //-   if i.sem_type==3
+                      //-     option(value="#{i.id}")  #{i.year.getFullYear()} صيفي 
           .table-responsive
             table#mytable.table.table-bordred.table-striped.text-right
               thead
@@ -277,8 +277,7 @@ block content
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
-  script(src='/js/students.js')
-  script(src='/js/student.js')
+
   script.
     $(document).ready(function(){
       $("[data-toggle=tooltip]").tooltip();

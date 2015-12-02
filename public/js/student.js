@@ -8,8 +8,18 @@ $(document).ready(function(){
 
   $('body').on('click', '#ok', function(){
     var id=$(this).val();
-    $.get('/student/deleteStudent/'+$(this).val(),function(todo){
-      $('[data-id = "'+id+'"]').remove();
+    $.get('/student/deleteStudent/'+$(this).val(),function(result){
+      //$('[data-id = "'+id+'"]').remove();
+      switch(result.msg){
+        case "1" :
+          $('[data-id = "'+id+'"]').remove();
+          custNotify("success","نجح","تم حذف لاطالب/الطالبة بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          break;
+        case "2" :
+          $('#delete').modal('hide');
+          custNotify("danger","فشل","لايمكن حذف الطالب/الطالبة  لاعتماد بعض الكيانات عليها/عليه ","warning-sign","bounceIn","bounceOut");
+          break;
+      }
     });
   });
 

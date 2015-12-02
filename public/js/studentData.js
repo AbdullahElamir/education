@@ -21,7 +21,7 @@ $(document).ready(function(){
 
   var path=document.URL;
       var StudentId=path.split('/').pop();
-      alert(StudentId);
+     // alert(StudentId);
 
   
 
