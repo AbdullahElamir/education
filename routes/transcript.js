@@ -1894,7 +1894,11 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                 }]
                     })
                     .then(function (div) {
-                      var academic_body={
+                      var list = [];
+                      
+                      var j=0;
+                      for (i in div){
+                        var academic_body={
                         result_case:6,
                         chapter_degree:0,
                         sum_dagree:0,
@@ -1907,18 +1911,15 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                         UserId:req.session.idu
 
                       }
-                      for (i in div){
                         academic_body.SubGroupId=div[i].id;
-                        models.Academic_transcript.findOrCreate({
-                        where: {
-                          StudentId: objStudent.StudentId,
-                          status: 1,
-                          SemesterStudentId: result.id,
-                          SubGroupId: div[i].id
-                        },
-                        defaults: academic_body
-                      });
+                        list[j]= academic_body;
+                        j++;
+                       
                       }
+                      models.Academic_transcript.bulkCreate(list);
+                      
+                      
+                      
                       res.send(true);
                     });
                   });
