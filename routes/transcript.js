@@ -1822,8 +1822,10 @@ getRatioForALlSemester = function (mix) {
                             replacements: [idstudent]
                           })
                           .then(function (mix) {
+          
                             // this is for semester Ratio
                             var array = getRatioForSemester(mix);
+                            console.log(array);
                             // this is for all semester ratio
                             var arrayy = getRatioForALlSemester(mix);
                             if (arrayy != undefined) {
@@ -2207,6 +2209,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
 });
 
 router.get('/deletetranscript/:id', userHelpers.isLogin, function (req, res) {
+
   models.Academic_transcript.destroy({
     where: {
       id: req.params.id
