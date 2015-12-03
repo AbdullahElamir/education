@@ -3,6 +3,7 @@ $(document).ready(function(){
   var nat = new Array();
 
   $('body').on('click', '#Deletee', function(){
+    alert("delete");
     $('#ok').val($(this).val());
   });
 
