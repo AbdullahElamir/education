@@ -7,6 +7,7 @@ var nationality = require('../Nationality');
 
 // /// Start students //////////////////////////////
 router.get('/', userHelpers.isLogin, function (req, res) {
+
 	var page = userHelpers.getPage(req);
 	var limit = userHelpers.getLimit(page);
 	var q = userHelpers.getQuery(req);
@@ -52,95 +53,94 @@ router.get('/', userHelpers.isLogin, function (req, res) {
 				pagination: pagination,
 				collapseFive: 'collapse in',
 				activeFiveOne: 'active',
+				name: req.session.name,
 				q: q
 			});
 		});
 });
+
 router.get('/newStudent', userHelpers.isLogin, function (req, res) {
-	res.render('newStudent', {
-		title: 'تسجيل طالب جديد',
-		name: req.session.name,
-		collapseFive: 'collapse in',
-		nats: nationality,
-		activeFiveTwo: 'active'
-	});
+  res.render('newStudent', {
+    title: 'تسجيل طالب جديد',
+    name: req.session.name,
+    collapseFive: 'collapse in',
+    nats: nationality,
+    activeFiveTwo: 'active'
+  });
 });
 
 router.post('/newStudent', userHelpers.isLogin, function (req, res) {
-	req.body.UserId = 1;
-	models.Student.create(req.body)
-		.then(function () {
-			res.redirect('/student?msg=1');
-		});
+  req.body.UserId = 1;
+  models.Student.create(req.body)
+    .then(function () {
+      res.redirect('/student?msg=1');
+    });
 });
 
 // getAllNationality
 router.get('/getAllNationality', userHelpers.isLogin, function (req, res) {
-	res.send(nationality);
+  res.send(nationality);
 });
 
 /////////////// delete deleteStudent
 router.get('/deleteStudent/:id', userHelpers.isLogin, function (req, res) {
-	models.Student.find({
-			where: {
-				id: req.params.id
-			}
-		})
-		.then(function (todo) {
-			todo.updateAttributes({
-					status: 0
-				})
-				.then(function (todo) {
-					res.send(todo);
-				})
-				.catch(function (err) {
-					console.log(err);
-				});
-		});
+  models.Student.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(function (todo) {
+        res.send({
+          msg: "1"
+        }); //got deleted successfully
+    }).catch(function (err) {
+        res.send({
+          msg: "2"
+        }); //has foreign-key restriction
+    });
 });
 
 // updateStudent
 router.post('/updateStudent', userHelpers.isLogin, function (req, res) {
-	id = req.body.id;
-	delete req.body.id;
-	models.Student.find({
-			where: {
-				id: id
-			}
-		})
-		.then(function (todo) {
-			todo.updateAttributes(req.body)
-				.then(function (todo) {
-					res.send(true);
-				})
-				.catch(function (err) {
-					console.log(err);
-				});
-		});
+  id = req.body.id;
+  delete req.body.id;
+  models.Student.find({
+      where: {
+        id: id
+      }
+    })
+    .then(function (todo) {
+      todo.updateAttributes(req.body)
+        .then(function (todo) {
+          res.send(true);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    });
 });
 
 router.get('/studentsearch/:name', function (req, res) {
-	var page = userHelpers.getPage(req);
-	var limit = userHelpers.getLimit(page);
-	models.Student.findAndCountAll({
-			where: {
-				first_name: {
-					$like: '%' + req.params.name + '%'
-				}
-			},
-			limit: 10,
-			offset: limit,
-		})
-		.then(function (students) {
-			var pageCount = userHelpers.getPageCount(students.count);
-			var pagination = userHelpers.paginate(page, pageCount);
-			console.log(students, pagination);
-			var obj = {
-				students: students,
-				pagination: pagination
-			};
-			res.send(obj);
-		});
+  var page = userHelpers.getPage(req);
+  var limit = userHelpers.getLimit(page);
+  models.Student.findAndCountAll({
+      where: {
+        first_name: {
+          $like: '%' + req.params.name + '%'
+        }
+      },
+      limit: 10,
+      offset: limit,
+    })
+    .then(function (students) {
+      var pageCount = userHelpers.getPageCount(students.count);
+      var pagination = userHelpers.paginate(page, pageCount);
+      console.log(students, pagination);
+      var obj = {
+        students: students,
+        pagination: pagination
+      };
+      res.send(obj);
+    });
 });
 // //////End students /////////////////////////////////////////
 

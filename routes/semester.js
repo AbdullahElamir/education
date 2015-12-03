@@ -294,26 +294,27 @@ router.get('/deleteSubGroup/:id',userHelpers.isLogin, function(req, res) {
       id:req.params.id
     }
   }).then(function(){
-  //   models.Timeline.destroy({
-  //   where:{
-  //     SubGroupId:req.params.id
-  //   }
-  // }).then(function(){
-    res.send(true);
-  // });
-});
-});
-  router.get('/deleteSemesters/:id', function(req, res) {
-    models.Semester.destroy({
-        where: {
-          id: req.params.id
-        }      
-      }).then(function (todo) {
-        res.send({msg:"1"});
-      }).catch(function (err) {
-        res.send({msg:"2"});
-      });
+    where: {
+      id: req.params.id
+    }      
+  }).then(function (todo) {
+    res.send({msg:"1"});
+  }).catch(function (err) {
+    res.send({msg:"2"});
   });
+});
+
+router.get('/deleteSemesters/:id', function(req, res) {
+  models.Semester.destroy({
+    where: {
+      id: req.params.id
+    }      
+  }).then(function (todo) {
+    res.send({msg:"1"});
+  }).catch(function (err) {
+    res.send({msg:"2"});
+  });
+});
 // End Semester /////////////////////////////////////////////////////////
 
 

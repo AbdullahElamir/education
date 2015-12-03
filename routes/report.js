@@ -222,7 +222,6 @@ function presenceAbsenceSubject(obj,newObj) {
   return HTML;
   }
 
-
 var objReport={};
 router.post('/setData', userHelpers.isLogin, function (req, res, next) {
   objReport=req.body;
@@ -235,7 +234,7 @@ router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, n
   console.log(dateSem);
   var date=new Date(dateSem);
   console.log(date);
-  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
+  models.sequelize.query('select  std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1))) and status=1', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
   }).then(function (studentReport) {
     jsreport.render({
@@ -259,7 +258,7 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
   dateSem = dateSem.replace(/\s/g, '');
   console.log(dateSem);
   var date=new Date(dateSem);
-  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1)))', {
+  models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1))) and status=1', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
   }).then(function (studentReport) {
     models.sequelize.query('select id from Semesters where year=? and sem_type=?', {
