@@ -314,4 +314,12 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
   });
 });
 
+router.get('/report1', function(req, res) {
+  userHelpers.printReport("report1.html",res);
+});
+
+router.get('/report2', function(req, res) {
+  userHelpers.printReport("report2.html",res);
+});
+
 module.exports = router;
