@@ -321,4 +321,8 @@ router.get('/report2', function(req, res) {
   userHelpers.printReport("report2.html",res);
 });
 
+router.get('/report3', function(req, res) {
+  userHelpers.printReport("report3.html",res);
+});
+
 module.exports = router;
