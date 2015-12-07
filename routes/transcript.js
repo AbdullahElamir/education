@@ -1822,8 +1822,10 @@ getRatioForALlSemester = function (mix) {
                             replacements: [idstudent]
                           })
                           .then(function (mix) {
+          
                             // this is for semester Ratio
                             var array = getRatioForSemester(mix);
+                            console.log(array);
                             // this is for all semester ratio
                             var arrayy = getRatioForALlSemester(mix);
                             if (arrayy != undefined) {
@@ -1873,6 +1875,7 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                   replacements: [objStudent.SemesterId,objStudent.StudentId]
                 })
                 .then(function (semster) {
+
                   if(semster[0][0] == undefined ){
                     models.SemesterStudent.create(req.body)
                     .then(function (result) {
@@ -1892,32 +1895,93 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                 }]
                     })
                     .then(function (div) {
-                      var academic_body={
-                        result_case:6,
-                        chapter_degree:0,
-                        sum_dagree:0,
-                        final_exam:0,
-                        final_practical:0,
-                        subject_status:0,
-                        notices:1,
-                        StudentId:objStudent.StudentId,
-                        SemesterStudentId:result.id,
-                        UserId:req.session.idu
-
-                      }
-                      for (i in div){
-                        academic_body.SubGroupId=div[i].id;
-                        models.Academic_transcript.findOrCreate({
-                        where: {
-                          StudentId: objStudent.StudentId,
-                          status: 1,
-                          SemesterStudentId: result.id,
-                          SubGroupId: div[i].id
+                      models.SemesterStudent.findAll({
+                        where: { status: 1,
+                          StudentId:objStudent.StudentId
                         },
-                        defaults: academic_body
+                        order: '`id` DESC',
+                        limit:2,
+                      }).then(function(semesterid){
+                        models.Academic_transcript.findAll({
+                          where:{
+                            SemesterStudentId:semesterid[1].id,
+                            sum_dagree:{$lt: 50}
+                          },
+                          include: [{
+                            model: models.Sub_group,
+                            where:{status: 1}
+                          }]
+                        }).then(function(ress){
+                          var id_subj=[];
+                          if(ress.length>0){
+                            for (i in ress){
+                            id_subj[i]=ress[i].Sub_group.SubjectId;
+                            }
+                            models.Sub_group.findAll({
+                              attributes: ['id'],
+                              where:{
+                                SubjectId:{
+                                  $in: id_subj,  
+                                },
+                                SemesterId: objStudent.SemesterId
+                              }
+                            }).then(function(subg){
+                              var listF = [];
+                      
+                              var k=0;
+                              for (i in subg){
+                                var academic_body={
+                                result_case:6,
+                                chapter_degree:0,
+                                sum_dagree:0,
+                                final_exam:0,
+                                final_practical:0,
+                                subject_status:0,
+                                notices:1,
+                                StudentId:objStudent.StudentId,
+                                SemesterStudentId:result.id,
+                                UserId:req.session.idu
+
+                              }
+                                academic_body.SubGroupId=subg[i].id;
+                                listF[j]= academic_body;
+                                j++;
+                               
+                              }
+                              models.Academic_transcript.bulkCreate(listF);
+                            });  
+                          }
+                          var list = [];
+                      
+                          var j=0;
+                          if(ress.length<3){
+                            for (i in div){
+                              var academic_body={
+                              result_case:6,
+                              chapter_degree:0,
+                              sum_dagree:0,
+                              final_exam:0,
+                              final_practical:0,
+                              subject_status:0,
+                              notices:1,
+                              StudentId:objStudent.StudentId,
+                              SemesterStudentId:result.id,
+                              UserId:req.session.idu
+
+                            }
+                              academic_body.SubGroupId=div[i].id;
+                              list[j]= academic_body;
+                              j++;
+                             
+                            }
+                            models.Academic_transcript.bulkCreate(list);
+                            
+                          }
+                          res.send(true);
+                        });
                       });
-                      }
-                      res.send(true);
+                      
+                      
                     });
                   });
                   } else {
@@ -2145,6 +2209,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
 });
 
 router.get('/deletetranscript/:id', userHelpers.isLogin, function (req, res) {
+
   models.Academic_transcript.destroy({
     where: {
       id: req.params.id

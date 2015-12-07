@@ -222,7 +222,6 @@ function presenceAbsenceSubject(obj,newObj) {
   return HTML;
   }
 
-
 var objReport={};
 router.post('/setData', userHelpers.isLogin, function (req, res, next) {
   objReport=req.body;
@@ -314,7 +313,8 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
   });
 });
 
-  // this statisticalNumberOfStudents // widght A4
+
+  // this statisticalNumberOfStudents // widght A3
   router.get('/statisticalNumberOfStudents', userHelpers.isLogin, function (req, res, next) {
     jsreport.render({
       template: {
@@ -345,6 +345,18 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
     }).then(function (response) {
       response.result.pipe(res);
     });
+  });
+
+  router.get('/report1', function(req, res) {
+    userHelpers.printReport("report1.html",res);
+  });
+
+  router.get('/report2', function(req, res) {
+    userHelpers.printReport("report2.html",res);
+  });
+
+  router.get('/report3', function(req, res) {
+    userHelpers.printReport("report3.html",res);
   });
 
 module.exports = router;
