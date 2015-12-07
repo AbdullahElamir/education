@@ -314,4 +314,37 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
   });
 });
 
+  // this statisticalNumberOfStudents // widght A4
+  router.get('/statisticalNumberOfStudents', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
+        phantom:{
+          format: 'A3',
+          orientation: "landscape",
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  // this statisticalNumberOfStudentsNot // widght A4
+  router.get('/statisticalNumberOfStudentsNot', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
+        phantom:{
+          orientation: "landscape"
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
 module.exports = router;
