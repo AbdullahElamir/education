@@ -149,18 +149,7 @@ module.exports = {
     }
   },
 
-  printReport : function(HTMLprint, res){
-    jsreport.render({
-      template: { 
-        engine: "jsrender",
-        recipe: "phantom-pdf",
-        content: fs.readFileSync(path.join(__dirname, "../views/"+HTMLprint), "utf8")
-      }
-    }).then(function (response) {
-       //you can for example pipe it to express.js response
-       response.stream.pipe(res);
-    });
-  },
+
 
 };
 
