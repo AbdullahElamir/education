@@ -1,0 +1,301 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jsreport <%= version %></title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
+    <style>
+      .break { 
+        page-break-before: always; 
+      }
+      @media print {
+        footer { 
+          page-break-after: always;
+        }
+      }
+      @font-face {
+        font-family: 'Droid Arabic Kufi';
+        src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: 'Droid Arabic Naskh';
+        src : url("http://localhost:3000/fonts/droidarabicnaskh/DroidNaskh-Regular.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: 'mushaf';
+        src : url("http://localhost:3000/fonts/Al_Mushaf.ttf") format("truetype");
+      }
+      body {
+        font-family: 'Droid Arabic Naskh', serif;
+        font-size: 12px;
+      }
+      .table,.table>thead>tr>th{
+        font-size: 14px;
+        border: 1px solid #000;
+      }
+      .table>tbody>tr>td{
+        font-size: 13px;
+        border: 1px solid #000;
+      }
+      .condensed>thead>tr>th, .condensed>tbody>tr>td {
+        padding: 3px;
+      }
+      .fontSizeBody{
+        font-size: 13px;
+      }
+      .fontSizeOfficeName{
+        font-size: 15px;
+      }
+    </style>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <div style="height: 23px;"></div>
+    <div class="row text-center fontSizeOfficeName">
+      وزارة الـتـعـلـيـم الـعـالـي والـبـحـث الـعـلـمـي
+    </div>
+    <div style="height: 9px;"></div>
+    <div class="row text-center fontSizeOfficeName">
+      احـصـائـيـة بـالـطـلـبـة الـفـصـل الـدراسـي ربـيـع 2014م وغـير مـقـيـمـيـن بـالـسـكـن الـطـلابـي
+    </div>
+    <div style="height: 9px;"></div>
+    <div class="row text-center fontSizeOfficeName">
+      نـمـوذج <span>(</span> 6 <span>)</span> الـمـعـاهـد الـتـقـنـيـة الـعلـيـا
+    </div>
+    <div style="height: 9px;"></div>
+    <div class="row text-center fontSizeOfficeName">
+      الـمـعـهـد الـعـالـي لـلـمـهـن الـشـامـلـة<span>/</span>الـقـره بولـلـي
+    </div>
+    <div style="height: 35px;"></div>
+    <table class="table table-bordered text-center fontSizeBody">
+      <tr>
+        <th> ر.م </th>
+        <th> رقـم ورقـة الـعـائـلـة </th>    
+        <tH> قـيـد الـعـائـلـة </th>
+        <th> اسـم الـطـالـب </th>
+        <th> اسـم الـعـائـلـة </th>
+        <th> تـاريـخ الـمـيـلاد </th>
+        <th> مـكـان الـمـيـلاد </th>
+        <th> مـكـان الـمـيلاد </th>
+        <th> الـجـنـس </th>
+        <th> الـمـعـهـد الـعـالـي </th>    
+        <tH> رقـم الـقـيد </th>
+        <th> الـقـسـم </th>
+        <th> الـفـصـل </th>
+        <th> الـمـصـرف </th>
+        <th> الـفـرع </th>
+        <th> رقـم الـحـسـاب </th>
+        <th> الـرقـم الـوطـنـي </th>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> 33243 </td>
+        <td> 432 </td>
+        <td> فيصل </td>
+        <td> عبدالحفيظ </td>
+        <td> رحيل </td>
+        <td> 10-9-1989 </td>    
+        <td> سـبـهـــا </td>
+        <td> ذكــر </td>
+        <td> الفنون والصنائع </td>
+        <td> 20900246 </td>
+        <td> حاسب الي </td>
+        <td> 7 </td>
+        <td> الجمهورية </td>
+        <td> وكالة قرجي </td>    
+        <td> 3402159 </td>
+        <td> 119890002159 </td>
+      </tr>
+    </table>
+  </body>
+</html>

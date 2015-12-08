@@ -612,4 +612,73 @@ router.get('/report2/:id', function(req, res) {
  
 });
 
+  // this statisticalNumberOfStudents // widght A3
+  router.get('/statisticalNumberOfStudents', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
+        phantom:{
+          format: 'A3',
+          orientation: "landscape",
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  // this statisticalNumberOfStudentsNot // widght A4
+  router.get('/statisticalNumberOfStudentsNot', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
+        phantom:{
+          format: 'A3',
+          orientation: "landscape"
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+
+  router.get('/report3', function(req, res) {
+    //userHelpers.printReport("report3.html",res);
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/report3.html"), "utf8"),
+        phantom:{
+          format: 'A3',
+          orientation: "landscape"
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  // this stopStudentID // widght A4
+  router.get('/stopStudentID', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/stopStudentID.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  // router.get('/stopStudentID', function(req, res) {
+  //   userHelpers.printReport("stopStudentID.html",res);
+  // });
+
 module.exports = router;
