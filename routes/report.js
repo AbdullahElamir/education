@@ -647,21 +647,80 @@ router.get('/report2/:id', function(req, res) {
   });
 
 
-  router.get('/report3', function(req, res) {
-    //userHelpers.printReport("report3.html",res);
-    jsreport.render({
-      template: {
-        content:  fs.readFileSync(path.join(__dirname, "../views/report3.html"), "utf8"),
-        phantom:{
-          format: 'A3',
-          orientation: "landscape"
-        },
-        recipe: "phantom-pdf"
+  router.get('/report3/:id', function(req, res) {
+    //select name from Departments where id =(select DepartmentId from SemesterStudents where id=5)
+     models.Academic_transcript.findAll({
+    where: {
+      SemesterStudentId: req.params.id,
+      status: 1
+    },
+    include: [{
+      model: models.Sub_group,
+      required: false,
+      where: {
+        status: 1
       },
-      // data:{allResults : results , national:nationality}
+      include: [{
+        model: models.Subject,
+        required: false,
+        where: {
+          status: 1
+        }
+      }]
+    }]
+  })
+  .then(function (result) {
+     models.sequelize.query('select name from Departments where id =(select DepartmentId from SemesterStudents where id=?)', {
+      replacements: [req.params.id]
+    }).then(function (department) {
+    models.sequelize.query('select * from Students where id =(SELECT StudentId FROM SemesterStudents WHERE id = ?)', {
+      replacements: [req.params.id]
+    }).then(function (studentReport) {
+      models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=?)', {
+      replacements: [req.params.id]
+    }).then(function (sem) {
+       
+
+    var year = sem[0][0].year.getFullYear();
+    var sem;
+    var semtype=sem[0][0].sem_type;
+    if(semtype==1){
+      sem="ربيع";
+    } else if(semtype==2){
+      sem="خريف";
+    } else if(semtype==3){
+      sem="صيف";
+    } 
+    var name = studentReport[0][0].first_name;
+    var father = studentReport[0][0].father_name;
+    var grand = studentReport[0][0].grand_name;
+    var last_name= studentReport[0][0].last_name;
+    var full_name= name+" "+father+" "+last_name;
+    var set_number=studentReport[0][0].set_number;
+    var notice=[];
+    for(i in result){
+    notice.push(result[i].dataValues.notices);
+  }
+    jsreport.render({
+      template: { 
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/report3.html"), "utf8"),
+       // helpers: showReportt2.toString()
+      },
+       data: {
+          full_name:full_name,
+          set_number: set_number,
+          sem : sem,
+          year:year,
+          dept:department[0][0].name,
+         /* res:result,
+          notice:notice,*/
+        }
     }).then(function (response) {
       response.result.pipe(res);
-    });
+    });  }); }); });
+  });
+ 
   });
 
   // this stopStudentID // widght A4
