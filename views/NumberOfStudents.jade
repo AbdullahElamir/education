@@ -1,0 +1,54 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-6
+        .pull-right
+          .btn-group.btn-breadcrumb
+              a.btn.btn-default(href="/cPanel")
+                i.glyphicon.glyphicon-home
+              .btn.btn-default.active طباعة تقرير عن الحضور والغياب 
+      br
+      br
+      br
+      .col-md-6.col-md-offset-2
+        form.form#reportForm(action="", method="", accept-charset="utf-8", role="form")
+          legend  احصائية بالطلبة الغير مقيمين بالسكن الطلابي
+          .form-group
+            .row
+              .col-xs-6.col-md-offset-3
+                label.h4 الفصل الدراسي لسنة
+                select.form-control.selectpicker#semType(name="semType", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي ...
+                  option(value="1") ربيعي
+                  option(value="2") خريفي
+                  option(value="3") صيفي
+              
+          .form-group
+            .row
+              .col-xs-6.col-md-offset-3
+                label.h4 الفصل الدراسي لسنة
+                select.form-control.selectpicker#semester(name="semester", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر الفصل الدراسي ...
+                  for s in sem
+                    option(value="#{s.id}") #{s.year.getFullYear()} 
+          br
+          hr
+          .form-group
+            .row
+              .col-xs-4.col-xs-offset-1.col-md-4.col-md-offset-4
+                button#normal.btn.btn-primary(target="_blank", type="button")
+                  i.fa.fa-eye
+                  span  عرض الطلبة 
+            
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/detections.js')
+  script(src='/js/NumberOfStudents.js')

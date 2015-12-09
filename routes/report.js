@@ -7,6 +7,36 @@ var jsreport = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 
+router.get('/NumberOfStudents', userHelpers.isLogin, function (req, res) {
+   models.Semester.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function (semester) {
+      models.Department.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function (department) {
+           models.Subject.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function (subject) {
+    res.render('NumberOfStudents', {
+    title: 'طباعة تقارير',
+    name: req.session.name,
+    sem: semester,
+    dep: department,
+    sub:subject,
+    collapseEight: 'collapse in',
+    activeEightThree: 'active'
+    });
+    });
+  });
+});
+});
+
 router.get('/', userHelpers.isLogin, function (req, res) {
    models.Semester.findAll({
       where: {
@@ -130,6 +160,11 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
   </body>';
 return HTML;
 }
+
+function showReportt3(){
+
+
+  }
 
  function showReportt2(res,notice){
    var HTML=' ';
@@ -382,6 +417,12 @@ router.post('/setData', userHelpers.isLogin, function (req, res, next) {
   res.send(true);
 });
 
+var objReport2={};
+router.post('/setData2', userHelpers.isLogin, function (req, res, next) {
+  objReport2=req.body;
+  res.send(true);
+});
+
 router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, next) {
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
@@ -631,12 +672,25 @@ router.get('/report2/:id', function(req, res) {
 
   // this statisticalNumberOfStudentsNot // widght A4
   router.get('/statisticalNumberOfStudentsNot', userHelpers.isLogin, function (req, res, next) {
+    console.log(objReport2.type);
+    console.log(objReport2.semester);
+    var date1 = objReport2.semester+"-01-01";
+    var date=date1.replace(" ","");
+    console.log(date);
+        models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
+      replacements: [objReport2.type,date]
+    }).then(function (studentReport) {
+      console.log(studentReport);
     jsreport.render({
       template: {
         content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
+        helpers: showReportt3.toString(),
         phantom:{
           format: 'A3',
           orientation: "landscape"
+        },
+        data: {
+         
         },
         recipe: "phantom-pdf"
       },
@@ -644,6 +698,8 @@ router.get('/report2/:id', function(req, res) {
     }).then(function (response) {
       response.result.pipe(res);
     });
+
+  });
   });
 
 
@@ -670,13 +726,13 @@ router.get('/report2/:id', function(req, res) {
     }]
   })
   .then(function (result) {
-     models.sequelize.query('select name from Departments where id =(select DepartmentId from SemesterStudents where id=?)', {
+     models.sequelize.query('select name from Departments where id =(select DepartmentId from SemesterStudents where id=? and status=1) and status=1', {
       replacements: [req.params.id]
     }).then(function (department) {
-    models.sequelize.query('select * from Students where id =(SELECT StudentId FROM SemesterStudents WHERE id = ?)', {
+    models.sequelize.query('select * from Students where id =(SELECT StudentId FROM SemesterStudents WHERE id = ? and status=1) and status=1', {
       replacements: [req.params.id]
     }).then(function (studentReport) {
-      models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=?)', {
+      models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=? and status=1) and status=1', {
       replacements: [req.params.id]
     }).then(function (sem) {
        
