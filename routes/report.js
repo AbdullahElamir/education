@@ -373,8 +373,18 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
     });
   });
 
-  // router.get('/stopStudentID', function(req, res) {
-  //   userHelpers.printReport("stopStudentID.html",res);
-  // });
+  
+  // this studentDefinition // widght A4
+  router.get('/studentDefinition', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/studentDefinition.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
 
 module.exports = router;
