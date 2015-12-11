@@ -26,11 +26,11 @@ block content
                     option(value="#{s.id}")  
                       if s.system_type==1
                         if s.sem_type == 1
-                          | فصل ربيعي #{s.year.getFullYear()}
+                          | ربيع #{s.year.getFullYear()}
                         if s.sem_type == 2
-                          | فصل خريفي #{s.year.getFullYear()}
+                          | خريف #{s.year.getFullYear()}
                         if s.sem_type == 3
-                          | فصل صيفي #{s.year.getFullYear()}
+                          | صيف #{s.year.getFullYear()}
                       if s.system_type==2
                         | سنة #{s.year.getFullYear()}
               .col-xs-6.col-md-6
@@ -63,10 +63,16 @@ block content
                   option(value="", style='color:grey; display:none;') اختر الشعبة...
           br
           hr
-          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
-            button#submit.btn.btn-primary(type="button")
-              i.fa.fa-eye
-              span  عرض
+          .form-group
+            .row
+              .col-xs-4.col-xs-offset-1.col-md-4.col-md-offset-2
+                button#submit.btn.btn-primary(type="button")
+                  i.fa.fa-eye
+                  span  عرض نتائج الطلبة
+              .col-xs-4.col-md-4
+                button#viweStudentp.btn.btn-primary(type="button")
+                  i.fa.fa-eye
+                  span  عرض أسماء الطلبة    
   br
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
@@ -74,5 +80,6 @@ block content
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
+  script(src='/js/reports.js')
   script(src='/js/helpers.js')
-  script(src='/js/detections.js')
+  script(src='/js/detections.js')  

@@ -10,6 +10,26 @@ $(document).ready(function(){
     });
   });
 
+  $('body').on('click', '#print', function(){
+    obj={devId:$("#Division option:selected").val(),department:$("#Department option:selected").text(),dev:$("#Division option:selected").text()};
+    $.post('/report/setData/',obj,function(result){
+      var isvalidate=$("#reportFormMember").valid();
+      if(isvalidate){
+      window.location.href='/report/facultyMemberReport';
+    }
+    });
+  });
+
+   $('body').on('click', '#print1', function(){
+    obj={devId:$("#Division option:selected").val(),department:$("#Department option:selected").text(),dev:$("#Division option:selected").text()};
+    $.post('/report/setData/',obj,function(result){
+      var isvalidate=$("#reportFormMember").valid();
+      if(isvalidate){
+      window.location.href='/report/subjectReport';
+    }
+    });
+  });
+
   $('body').on('click', '#test', function(){
     obj={devId:$("#division option:selected").val(),semType:$("#semType option:selected").val(),courseName:$("#course option:selected").text(),courseId:$("#course option:selected").val(),semester:$("#semester option:selected").text(),level:$("#level option:selected").val(),department:$("#department option:selected").text(),dev:$("#division option:selected").text()};
     $.post('/report/setData/',obj,function(todo){
