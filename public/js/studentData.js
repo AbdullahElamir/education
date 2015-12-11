@@ -6,7 +6,7 @@ $(document).ready(function(){
   	var isvalidate=$("#addSemester").valid();
     if(isvalidate){
 	  	$.post('/transcript/addSemesterStudent',obj,function(todo){
-        console.log(todo);
+ 
 	  	 	if(todo){
 	  	 		window.location.href ="/transcript/studentData/"+obj.StudentId;
 	  	 	} else {
@@ -17,6 +17,24 @@ $(document).ready(function(){
 	  	});
   	}
   });
+
+
+  var path=document.URL;
+      var StudentId=path.split('/').pop();
+     // alert(StudentId);
+
+  
+
+
+
+
+
+
+
+
+
+
+
 
 
   // alert($('#std').val());

@@ -1,0 +1,199 @@
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
+   <meta charset="utf-8"/>
+   <style>
+      .break { 
+        page-break-before: always; 
+      }
+      @media print {
+        footer { 
+          page-break-after: always;
+        }
+      }
+      @font-face {
+        font-family: 'Droid Arabic Kufi';
+        src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
+      }
+      body {
+        font-family: 'Droid Arabic Kufi';
+        font-size: 12px;
+      }
+      .table>thead>tr>th{
+        font-weight: bold;
+        font-size: 12px;
+      border: 1px solid black !important;
+      }
+
+
+      .table>tbody>tr>td{
+        border: 1px solid black;
+        font-size: 10px;
+      }
+      .condensed>thead>tr>th, .condensed>tbody>tr>td {
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div style="height: 20px;"></div>
+          <div class="row">
+            <div class="col-xs-5">
+                <div style="height: 10px;"></div>
+                <span>الهيئة الوطنية للتعليم التقني والفني</span>
+              
+              <div class="col-xs-offset-1">
+                <div style="height: 10px;"></div>
+                <span>المعهد العالي للمهن الشاملة</span>
+              </div>       
+
+              <div class="col-xs-offset-3">
+                <div style="height: 10px;"></div>
+                <span>القره بوللــي</span> 
+              </div>   
+
+              <div class="col-xs-offset-2">
+                <div style="height: 20px;"></div>
+                <span>ألقســـــــــــــــــــــــم</span> 
+              </div>
+              <div class="col-xs-offset-3">
+                <div style="height: 10px;"></div>
+                <span>الحاسب</span> 
+              </div>          
+            </div> 
+
+
+            <div class="col-xs-3">
+              <div style="height: 20px;"></div>
+                <span>الشعار</span>
+              </div>
+            
+             
+
+            <div class="col-xs-4">
+              <div class="col-xs-offset-1">
+              <div style="height: 20px;"></div>
+                <span>الفصل الدراسي <span>:</span> {{sem}} {{year}} </span>
+              </div>
+                
+                <div style="height: 20px;"></div>
+                <span>اسم الطالب <span>:</span> {{full_name}} </span>     
+
+              <div class="col-xs-offset-1">
+                <div style="height: 20px;"></div>
+                <span>رقم القيد <span>:</span> {{set_number}} </span> 
+              </div>
+            </div>
+            </div>
+          </div> 
+          {{{showReportt2 res notice}}} 
+
+       <!--    
+          <div class="col-xs-12">
+            <div class="row">
+              <div style="height:70px;"></div>
+              <table class="table"> 
+                <thead> 
+                  <tr> 
+                    <th class="text-center" style="width: 80px;">رقم المادة</th> 
+                    <th class="text-center">اسم المادة</th> 
+                    <th class="text-center" style="width: 80px;">الوحدات</th> 
+                    <th class="text-center" style="width: 80px;">الدرجة</th> 
+                    <th class="text-center" style="width: 80px;">ألنقاط</th> 
+                    <th class="text-center">ملاحظات</th> 
+                  </tr> 
+                </thead> 
+                <tbody>
+
+
+
+
+                  <tr>
+                    
+                    <td class="text-center">122</td> 
+                    <td class="text-center">رياضة</td> 
+                    <td class="text-center">2</td> 
+                    <td class="text-center">1</td> 
+                    <td class="text-center">1</td> 
+                    <td class="text-center">تكميلي</td> 
+                  </tr>  
+                  <tr>
+                    <td class="text-center">122</td> 
+                    <td class="text-center">رياضة</td> 
+                    <td class="text-center">2</td> 
+                    <td class="text-center">1</td> 
+                    <td class="text-center">1</td> 
+                    <td class="text-center">تكميلي</td> 
+                  </tr>
+                  <tr>
+                    <td class="text-center">122</td> 
+                    <td class="text-center">رياضة</td> 
+                    <td class="text-center">2</td> 
+                    <td class="text-center">1</td> 
+                    <td class="text-center">1</td> 
+                    <td class="text-center">تكميلي</td> 
+                  </tr>
+                </tbody>  
+              </table>
+              <div style="height: 0px;"></div>
+              <table class="table"> 
+                <tbody>
+                  
+                  <tr>  
+                    <td class="text-center" style="border: 0px;"></td> 
+                    <td class="text-center" style="width: 100px;">الوحدات الفصلية</td> 
+                    <td class="text-center" style="width: 70px;">22</td> 
+                    <td class="text-center" style="width: 100px;">النقاط الفصلية</td> 
+                    <td class="text-center" style="width: 70px;">635</td> 
+                    <td class="text-center" style="width: 100px;">المعدل الفصلي</td> 
+                    <td class="text-center" style="width: 67px;">635</td>
+                  </tr>
+                  <tr>  
+                    <td class="text-center" style="border: 0px;"></td> 
+                    <td class="text-center" style="width: 100px;">الوحدات التراكمية</td> 
+                    <td class="text-center" style="width: 70px;">78</td> 
+                    <td class="text-center" style="width: 100px;">النقاط التراكمية</td> 
+                    <td class="text-center" style="width: 70px;">3555</td> 
+                    <td class="text-center" style="width: 100px;">الوحدات المنجزة</td> 
+                    <td class="text-center" style="width: 67px;">56</td>
+                  </tr>
+                  <tr>  
+                    <td class="text-center" style="border: 0px;"></td> 
+                    <td class="text-center" style="border: 0px;"></td>
+                    <td class="text-center" style="border: 0px;"></td> 
+                    <td class="text-center" style="border: 0px;"></td> 
+                    <td class="text-center" style="border: 0px;"></td> 
+                    <td class="text-center" style="width: 100px;">المعدل التراكمي</td> 
+                    <td class="text-center" style="width: 67px;">45.85</td>
+
+                  </tr>
+                </tbody>  
+              </table>
+            </div>
+          </div>
+
+          <div style="height: 20px;"></div>
+          <div class="row">
+            <div class="col-xs-5 col-xs-offset-1">
+                <div style="height: 30px;"></div>
+                <span>أعتماد رئيس وحدة المنظومة</span>
+            </div>    
+
+            <div class="col-xs-2"></div>
+
+            <div class="col-xs-4 col-xs-offset-2">
+              <div style="height: 30px;"></div>
+              <span>أعتماد رئيس القسم</span>
+            </div>
+          </div>  
+  
+        </div>
+      </div>  
+    </div>
+  </body>
+</html> -->

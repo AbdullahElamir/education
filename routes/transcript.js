@@ -10,147 +10,6 @@ var path = require("path");
 var Math = require("math");
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-var obj = {
-  subjects: [{
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }, {
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }, {
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }],
-  classes: [{
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 2,
-    class_name: 'الثاني',
-    subjects: [{
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }]
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 3,
-    class_name: 'الاول',
-    subjects: [{
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }]
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 3,
-    class_name: 'الثالث'
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 4,
-    class_name: 'الرابع'
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 5,
-    class_name: 'الخامس'
-  }],
-}
 
 router.get('/', userHelpers.isLogin, function (req, res) {
   var page = userHelpers.getPage(req);
@@ -1760,8 +1619,9 @@ router.get('/academicTranscripts', userHelpers.isLogin, function (req, res) {
         nats: nationality,
         student: student.rows,
         pagination: pagination,
-        collapseFive: 'collapse in',
-        activeFiveOne: 'active',
+        collapseSeven: 'collapse in',
+        activeSevenOne: 'active',
+        name: req.session.name,
         q: q
       });
     });
@@ -1962,8 +1822,10 @@ getRatioForALlSemester = function (mix) {
                             replacements: [idstudent]
                           })
                           .then(function (mix) {
+          
                             // this is for semester Ratio
                             var array = getRatioForSemester(mix);
+                            console.log(array);
                             // this is for all semester ratio
                             var arrayy = getRatioForALlSemester(mix);
                             if (arrayy != undefined) {
@@ -2013,10 +1875,114 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                   replacements: [objStudent.SemesterId,objStudent.StudentId]
                 })
                 .then(function (semster) {
+
                   if(semster[0][0] == undefined ){
                     models.SemesterStudent.create(req.body)
                     .then(function (result) {
-                    res.send(true);
+
+                      models.Sub_group.findAll({
+                      where: {
+                        SemesterId: objStudent.SemesterId,
+                        DivisionId: objStudent.DivisionId,
+                        status: 1
+                      },
+                      include: [{
+                        model: models.Subject,
+                        required: false,
+                        where: {
+                          status: 1
+                        }
+                }]
+                    })
+                    .then(function (div) {
+                      models.SemesterStudent.findAll({
+                        where: { status: 1,
+                          StudentId:objStudent.StudentId
+                        },
+                        order: '`id` DESC',
+                        limit:2,
+                      }).then(function(semesterid){
+                        models.Academic_transcript.findAll({
+                          where:{
+                            SemesterStudentId:semesterid[1].id,
+                            sum_dagree:{$lt: 50}
+                          },
+                          include: [{
+                            model: models.Sub_group,
+                            where:{status: 1}
+                          }]
+                        }).then(function(ress){
+                          var id_subj=[];
+                          if(ress.length>0){
+                            for (i in ress){
+                            id_subj[i]=ress[i].Sub_group.SubjectId;
+                            }
+                            models.Sub_group.findAll({
+                              attributes: ['id'],
+                              where:{
+                                SubjectId:{
+                                  $in: id_subj,  
+                                },
+                                SemesterId: objStudent.SemesterId
+                              }
+                            }).then(function(subg){
+                              var listF = [];
+                      
+                              var k=0;
+                              for (i in subg){
+                                var academic_body={
+                                result_case:6,
+                                chapter_degree:0,
+                                sum_dagree:0,
+                                final_exam:0,
+                                final_practical:0,
+                                subject_status:0,
+                                notices:1,
+                                StudentId:objStudent.StudentId,
+                                SemesterStudentId:result.id,
+                                UserId:req.session.idu
+
+                              }
+                                academic_body.SubGroupId=subg[i].id;
+                                listF[j]= academic_body;
+                                j++;
+                               
+                              }
+                              models.Academic_transcript.bulkCreate(listF);
+                            });  
+                          }
+                          var list = [];
+                      
+                          var j=0;
+                          if(ress.length<3){
+                            for (i in div){
+                              var academic_body={
+                              result_case:6,
+                              chapter_degree:0,
+                              sum_dagree:0,
+                              final_exam:0,
+                              final_practical:0,
+                              subject_status:0,
+                              notices:1,
+                              StudentId:objStudent.StudentId,
+                              SemesterStudentId:result.id,
+                              UserId:req.session.idu
+
+                            }
+                              academic_body.SubGroupId=div[i].id;
+                              list[j]= academic_body;
+                              j++;
+                             
+                            }
+                            models.Academic_transcript.bulkCreate(list);
+                            
+                          }
+                          res.send(true);
+                        });
+                      });
+                      
+                      
+                    });
                   });
                   } else {
                      res.send(false);
@@ -2120,7 +2086,6 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
-      console.log(obj);
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.isPractical != undefined){
@@ -2244,6 +2209,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
 });
 
 router.get('/deletetranscript/:id', userHelpers.isLogin, function (req, res) {
+
   models.Academic_transcript.destroy({
     where: {
       id: req.params.id

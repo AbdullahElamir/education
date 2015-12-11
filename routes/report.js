@@ -7,6 +7,36 @@ var jsreport = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 
+router.get('/NumberOfStudents', userHelpers.isLogin, function (req, res) {
+   models.Semester.findAll({
+      where: {
+        status: 1
+      }
+    }).then(function (semester) {
+      models.Department.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function (department) {
+           models.Subject.findAll({
+          where: {
+            status: 1
+          }
+        }).then(function (subject) {
+    res.render('NumberOfStudents', {
+    title: 'طباعة تقارير',
+    name: req.session.name,
+    sem: semester,
+    dep: department,
+    sub:subject,
+    collapseEight: 'collapse in',
+    activeEightseven: 'active'
+    });
+    });
+  });
+});
+});
+
 router.get('/', userHelpers.isLogin, function (req, res) {
    models.Semester.findAll({
       where: {
@@ -131,7 +161,166 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
 return HTML;
 }
 
+function showReportt3(){
 
+
+  }
+
+ function showReportt2(res,notice){
+   var HTML=' ';
+  HTML=HTML+'<div class="col-xs-12"> \
+            <div class="row"> \
+              <div style="height:70px;"></div> \
+              <table class="table">  \
+                <thead> \
+                  <tr>  \
+                    <th class="text-center" style="width: 80px;">رقم المادة</th> \
+                    <th class="text-center">اسم المادة</th> \
+                    <th class="text-center" style="width: 80px;">الوحدات</th> \
+                    <th class="text-center" style="width: 80px;">الدرجة</th> \
+                    <th class="text-center" style="width: 80px;">ألنقاط</th> \
+                    <th class="text-center">ملاحظات</th> \
+                  </tr> \
+                </thead> \
+                <tbody>';
+              for(i in res){ 
+                var notice_string=' ';
+                if(notice[i]==1){
+
+                } else if(notice[i]==2){
+                  notice_string="إعادة";
+                } else if(notice[i]==3){
+                  notice_string="تكميلي";
+                }
+              /*  HTML=HTML+'<tr> \
+                        <td class="text-center">'+(parseInt(i)+1)+'</td>  \
+                        <td class="text-center">'+res[i].Sub_group.Subject.code+'</td>  \
+                        <td class="text-center">'+res[i].Sub_group.Subject.name+'</td>  \
+                        <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td>\
+                        <td class="text-center">'+notice_string+'</td> \
+                      </tr>';*/
+
+                HTML=HTML+'  <tr> \
+                    <td class="text-center">'+res[i].Sub_group.Subject.code+'</td> \
+                    <td class="text-center">'+res[i].Sub_group.Subject.name+'</td> \
+                    <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td> \
+                    <td class="text-center">1</td> \
+                    <td class="text-center">1</td> \
+                    <td class="text-center">'+notice_string+'</td> \
+                  </tr> '; 
+              }
+           HTML=HTML+' </tbody> \
+              </table> \
+              <div style="height: 0px;"></div> \
+              <table class="table"> \
+                <tbody>\
+                  <tr> \
+                    <td class="text-center" style="border: 0px;"></td> \
+                    <td class="text-center" style="width: 100px;">الوحدات الفصلية</td> \
+                    <td class="text-center" style="width: 70px;">22</td> \
+                    <td class="text-center" style="width: 100px;">النقاط الفصلية</td> \
+                    <td class="text-center" style="width: 70px;">635</td> \
+                    <td class="text-center" style="width: 100px;">المعدل الفصلي</td> \
+                    <td class="text-center" style="width: 67px;">635</td>\
+                  </tr>\
+                  <tr> \
+                    <td class="text-center" style="border: 0px;"></td> \
+                    <td class="text-center" style="width: 100px;">الوحدات التراكمية</td> \
+                    <td class="text-center" style="width: 70px;">78</td> \
+                    <td class="text-center" style="width: 100px;">النقاط التراكمية</td> \
+                    <td class="text-center" style="width: 70px;">3555</td> \
+                    <td class="text-center" style="width: 100px;">الوحدات المنجزة</td> \
+                    <td class="text-center" style="width: 67px;">56</td>\
+                  </tr>\
+                  <tr>  \
+                    <td class="text-center" style="border: 0px;"></td> \
+                    <td class="text-center" style="border: 0px;"></td>\
+                    <td class="text-center" style="border: 0px;"></td> \
+                    <td class="text-center" style="border: 0px;"></td> \
+                    <td class="text-center" style="border: 0px;"></td> \
+                    <td class="text-center" style="width: 100px;">المعدل التراكمي</td> \
+                    <td class="text-center" style="width: 67px;">45.85</td>\
+                  </tr> \
+                </tbody>  \
+              </table> \
+            </div> \
+          </div> \
+          <div style="height: 20px;"></div> \
+          <div class="row"> \
+            <div class="col-xs-5 col-xs-offset-1"> \
+                <div style="height: 30px;"></div> \
+                <span>أعتماد رئيس وحدة المنظومة</span> \
+            </div>     \
+            <div class="col-xs-2"></div>\
+            <div class="col-xs-4 col-xs-offset-2"> \
+              <div style="height: 30px;"></div> \
+              <span>أعتماد رئيس القسم</span> \
+            </div> \
+          </div>   \
+        </div> \
+      </div>   \
+    </div> \
+  </body> \
+</html>';
+return HTML;
+ }
+
+function showReport(res,notice){
+  var HTML=' ';
+  HTML=HTML+'<div class="col-xs-12"> \
+          <div class="row"> \
+            <div style="height:70px;"></div> \
+            <table class="table"> \
+              <thead>  \
+                <tr> \
+                  <th class="text-center" style="width: 40px;">ت</th>\
+                  <th class="text-center" style="width: 100px;">رقم المادة</th> \
+                  <th class="text-center">اسم المادة</th> \
+                  <th class="text-center" style="width: 100px;">عدد الوحدات</th> \
+                  <th class="text-center">ملاحظات</th> \
+                </tr> \
+              </thead> \
+              <tbody> ';
+              for(i in res){ 
+                var notice_string=' ';
+                if(notice[i]==1){
+
+                } else if(notice[i]==2){
+                  notice_string="إعادة";
+                } else if(notice[i]==3){
+                  notice_string="تكميلي";
+                }
+                HTML=HTML+'<tr> \
+                        <td class="text-center">'+(parseInt(i)+1)+'</td>  \
+                        <td class="text-center">'+res[i].Sub_group.Subject.code+'</td>  \
+                        <td class="text-center">'+res[i].Sub_group.Subject.name+'</td>  \
+                        <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td>\
+                        <td class="text-center">'+notice_string+'</td> \
+                      </tr>';
+              }
+           HTML=HTML+'</tbody>   \
+            </table> \
+          </div> \
+        </div> \
+        <div style="height: 10px;"></div> \
+          <div class="row"> \
+            <div class="col-xs-5 col-xs-offset-1"> \
+                <div style="height: 20px;"></div> \
+                <span>أعتماد رئيس وحدة المنظومة</span> \
+            </div> \
+          <div class="col-xs-2"></div> \
+          <div class="col-xs-4 col-xs-offset-2">\
+          <div style="height: 20px;"></div> \
+          <span>أعتماد رئيس القسم</span> \
+        </div> \
+      </div>  \
+    </div> \
+</div> \
+</div> \
+  </body> \
+</html>';
+return HTML;
+}
 
 
 
@@ -222,10 +411,15 @@ function presenceAbsenceSubject(obj,newObj) {
   return HTML;
   }
 
-
 var objReport={};
 router.post('/setData', userHelpers.isLogin, function (req, res, next) {
   objReport=req.body;
+  res.send(true);
+});
+
+var objReport2={};
+router.post('/setData2', userHelpers.isLogin, function (req, res, next) {
+  objReport2=req.body;
   res.send(true);
 });
 
@@ -552,15 +746,319 @@ router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
   });
 });
 
-router.get('/reportsNames', userHelpers.isLogin, function (req, res) {
+router.get('/resultsOfSubject', userHelpers.isLogin, function (req, res) {
   models.Department.findAll({
     where: {
       status: 1
     }
   }).then(function (department) {
-   res.render('reportsNames', { title: 'كشف المحاضرين',dep: department, collapseEight: 'collapse in', activeEightfive: 'active' });
+    models.Semester.findAll({
+      where: {
+        status: 1
+      }
+    })
+    .then(function (semester) {
+      res.render('resultsOfSubject', { title: 'كشف المحاضرين',dep: department,sem: semester, collapseEight: 'collapse in', activeEightfive: 'active' });
+    });
   });
 }); 
 
+router.get('/report1/:id', function(req, res) {
+  //select * from Semesters where id =(select SemesterId from SemesterStudents where id=5)
+  models.Academic_transcript.findAll({
+    where: {
+      SemesterStudentId: req.params.id,
+      status: 1
+    },
+    include: [{
+      model: models.Sub_group,
+      required: false,
+      where: {
+        status: 1
+      },
+      include: [{
+        model: models.Subject,
+        required: false,
+        where: {
+          status: 1
+        }
+      }]
+    }]
+  })
+  .then(function (result) {
+    models.sequelize.query('select * from Students where id =(SELECT StudentId FROM SemesterStudents WHERE id = ?)', {
+      replacements: [req.params.id]
+    }).then(function (studentReport) {
+      models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=?)', {
+      replacements: [req.params.id]
+    }).then(function (sem) {
+    /*models.sequelize.query('select * from Subjects where id in (select SubjectId from Sub_groups where SemesterId=(select SemesterId from SemesterStudents where id=?))', {
+      replacements: [req.params.id]
+    }).then(function (course) {*/
+    var year = sem[0][0].year.getFullYear();
+    var sem;
+    var semtype=sem[0][0].sem_type;
+    if(semtype==1){
+      sem="ربيع";
+    } else if(semtype==2){
+      sem="خريف";
+    } else if(semtype==3){
+      sem="صيف";
+    } 
+    var name = studentReport[0][0].first_name;
+    var father = studentReport[0][0].father_name;
+    var grand = studentReport[0][0].grand_name;
+    var last_name= studentReport[0][0].last_name;
+    var full_name= name+" "+father+" "+last_name;
+    var set_number=studentReport[0][0].set_number;
+    var notice=[];
+    for(i in result){
+    notice.push(result[i].dataValues.notices);
+  }
+    jsreport.render({
+      template: { 
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/report1.html"), "utf8"),
+        helpers: showReport.toString()
+      },
+       data: {
+          full_name:full_name,
+          set_number: set_number,
+          sem : sem,
+          year:year,
+          res:result,
+          notice:notice,
+        }
+    }).then(function (response) {
+      response.result.pipe(res);
+    });  }); });
+  });
+});
+
+router.get('/report2/:id', function(req, res) {
+   //select * from Semesters where id =(select SemesterId from SemesterStudents where id=5)
+  models.Academic_transcript.findAll({
+    where: {
+      SemesterStudentId: req.params.id,
+      status: 1
+    },
+    include: [{
+      model: models.Sub_group,
+      required: false,
+      where: {
+        status: 1
+      },
+      include: [{
+        model: models.Subject,
+        required: false,
+        where: {
+          status: 1
+        }
+      }]
+    }]
+  })
+  .then(function (result) {
+    models.sequelize.query('select * from Students where id =(SELECT StudentId FROM SemesterStudents WHERE id = ?)', {
+      replacements: [req.params.id]
+    }).then(function (studentReport) {
+      models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=?)', {
+      replacements: [req.params.id]
+    }).then(function (sem) {
+    /*models.sequelize.query('select * from Subjects where id in (select SubjectId from Sub_groups where SemesterId=(select SemesterId from SemesterStudents where id=?))', {
+      replacements: [req.params.id]
+    }).then(function (course) {*/
+    var year = sem[0][0].year.getFullYear();
+    var sem;
+    var semtype=sem[0][0].sem_type;
+    if(semtype==1){
+      sem="ربيع";
+    } else if(semtype==2){
+      sem="خريف";
+    } else if(semtype==3){
+      sem="صيف";
+    } 
+    var name = studentReport[0][0].first_name;
+    var father = studentReport[0][0].father_name;
+    var grand = studentReport[0][0].grand_name;
+    var last_name= studentReport[0][0].last_name;
+    var full_name= name+" "+father+" "+last_name;
+    var set_number=studentReport[0][0].set_number;
+    var notice=[];
+    for(i in result){
+    notice.push(result[i].dataValues.notices);
+  }
+    jsreport.render({
+      template: { 
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/report2.html"), "utf8"),
+        helpers: showReportt2.toString()
+      },
+       data: {
+          full_name:full_name,
+          set_number: set_number,
+          sem : sem,
+          year:year,
+          res:result,
+          notice:notice,
+        }
+    }).then(function (response) {
+      response.result.pipe(res);
+    });  }); });
+  });
+ 
+});
+
+  // this statisticalNumberOfStudents // widght A3
+  router.get('/statisticalNumberOfStudents', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
+        phantom:{
+          format: 'A3',
+          orientation: "landscape",
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  // this statisticalNumberOfStudentsNot // widght A4
+  router.get('/statisticalNumberOfStudentsNot', userHelpers.isLogin, function (req, res, next) {
+    console.log(objReport2.type);
+    console.log(objReport2.semester);
+    var date1 = objReport2.semester+"-01-01";
+    var date=date1.replace(" ","");
+    console.log(date);
+        models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
+      replacements: [objReport2.type,date]
+    }).then(function (studentReport) {
+      console.log(studentReport);
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
+        helpers: showReportt3.toString(),
+        phantom:{
+          format: 'A3',
+          orientation: "landscape"
+        },
+        data: {
+         
+        },
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+
+  });
+  });
+
+
+  router.get('/report3/:id', function(req, res) {
+    //select name from Departments where id =(select DepartmentId from SemesterStudents where id=5)
+     models.Academic_transcript.findAll({
+    where: {
+      SemesterStudentId: req.params.id,
+      status: 1
+    },
+    include: [{
+      model: models.Sub_group,
+      required: false,
+      where: {
+        status: 1
+      },
+      include: [{
+        model: models.Subject,
+        required: false,
+        where: {
+          status: 1
+        }
+      }]
+    }]
+  })
+  .then(function (result) {
+     models.sequelize.query('select name from Departments where id =(select DepartmentId from SemesterStudents where id=? and status=1) and status=1', {
+      replacements: [req.params.id]
+    }).then(function (department) {
+    models.sequelize.query('select * from Students where id =(SELECT StudentId FROM SemesterStudents WHERE id = ? and status=1) and status=1', {
+      replacements: [req.params.id]
+    }).then(function (studentReport) {
+      models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=? and status=1) and status=1', {
+      replacements: [req.params.id]
+    }).then(function (sem) {
+       
+
+    var year = sem[0][0].year.getFullYear();
+    var sem;
+    var semtype=sem[0][0].sem_type;
+    if(semtype==1){
+      sem="ربيع";
+    } else if(semtype==2){
+      sem="خريف";
+    } else if(semtype==3){
+      sem="صيف";
+    } 
+    var name = studentReport[0][0].first_name;
+    var father = studentReport[0][0].father_name;
+    var grand = studentReport[0][0].grand_name;
+    var last_name= studentReport[0][0].last_name;
+    var full_name= name+" "+father+" "+last_name;
+    var set_number=studentReport[0][0].set_number;
+    var notice=[];
+    for(i in result){
+    notice.push(result[i].dataValues.notices);
+  }
+    jsreport.render({
+      template: { 
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/report3.html"), "utf8"),
+       // helpers: showReportt2.toString()
+      },
+       data: {
+          full_name:full_name,
+          set_number: set_number,
+          sem : sem,
+          year:year,
+          dept:department[0][0].name,
+         /* res:result,
+          notice:notice,*/
+        }
+    }).then(function (response) {
+      response.result.pipe(res);
+    });  }); }); });
+  });
+ 
+  });
+
+  // this stopStudentID // widght A4
+  router.get('/stopStudentID', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/stopStudentID.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
+
+  
+  // this studentDefinition // widght A4
+  router.get('/studentDefinition', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/studentDefinition.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
 
 module.exports = router;
