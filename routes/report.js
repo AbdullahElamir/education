@@ -161,9 +161,53 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
 return HTML;
 }
 
-function showReportt3(){
-
-
+function showReportt3(objj,Bdate,gender){
+  var HTML=' ';
+ HTML='<table class="table table-bordered text-center fontSizeBody"> \
+      <tr>\
+        <th> رقم </th>\
+        <th> رقـم ورقـة الـعـائـلـة </th>\
+        <tH> قـيـد الـعـائـلـة </th>\
+        <th> اسـم الـطـالـب </th> \
+        <th> اسـم الـعـائـلـة </th> \
+        <th> تـاريـخ الـمـيـلاد </th> \
+        <th> مـكـان الـمـيـلاد </th> \
+        <th> الـجـنـس </th> \
+        <th> الـمـعـهـد الـعـالـي </th>\
+        <tH> رقـم الـقـيد </th> \
+        <th> الـقـسـم </th> \
+        <th> الـفـصـل </th> \
+        <th> الـمـصـرف </th> \
+        <th> الـفـرع </th> \
+        <th> رقـم الـحـسـاب </th> \
+        <th> الـرقـم الـوطـنـي </th> \
+      </tr>';
+     for(i in objj){
+      HTML=HTML+'\
+      <tr> \
+        <td> 1 </td> \
+        <td>'+objj[i].no_paper_family+'</td> \
+        <td>'+objj[i].no_reg_family+'</td> \
+        <td> '+objj[i].first_name+'</td> \
+        <td>'+objj[i].last_name+'</td> \
+        <td> '+Bdate[i]+'</td> \
+        <td> '+objj[i].place_birth+'</td>\
+        <td> '+gender[i]+'</td> \
+        <td> المعهد العالي للمهن الشاملة</td> \
+        <td> '+objj[i].set_number+'</td> \
+        <td>  </td> \
+        <td>  </td> \
+        <td>  </td> \
+        <td>  </td>  \
+        <td>  </td> \
+        <td> '+objj[i].nid+'</td> \
+      </tr> ';
+   }
+    HTML=HTML+'\
+    </table> \
+  </body> \
+</html>';
+  return HTML;
   }
 
  function showReportt2(res,notice){
@@ -680,22 +724,36 @@ router.get('/report2/:id', function(req, res) {
         models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
       replacements: [objReport2.type,date]
     }).then(function (studentReport) {
-      console.log(studentReport);
+      console.log(studentReport[0]);
+      Bdate=[];
+      gender=[];
+      for(i in studentReport[0]){
+        Bdate.push(studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay());
+        if(studentReport[0][i].gender==0){
+          gender.push('ذكر');
+        } else if(studentReport[0][i].gender==1){
+          gender.push('انثي');
+        }
+        
+      }
     jsreport.render({
-      template: {
-        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
+      template: { 
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
         helpers: showReportt3.toString(),
         phantom:{
           format: 'A3',
           orientation: "landscape"
         },
-        data: {
-         
-        },
-        recipe: "phantom-pdf"
       },
-      // data:{allResults : results , national:nationality}
-    }).then(function (response) {
+        data: {
+          objj:studentReport[0],
+          Bdate:Bdate,  
+          gender:gender,
+        }
+    })
+
+    .then(function (response) {
       response.result.pipe(res);
     });
 
