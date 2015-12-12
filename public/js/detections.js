@@ -8,12 +8,32 @@ $(document).ready(function(){
         }
     });
   });
+
+  $('body').on('change', '#Department', function(){
+    var id = $(this).val();
+    $('#Division').empty();
+    $.get('/transcript/division/'+id,function(data){
+      for(key in data){
+          $('#Division').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
+        }
+    });
+  });
   
   $('body').on('click', '#submit', function(){
     var isvalidate=$("#delectionsForm").valid();
     if(isvalidate){
       window.location.href='/transcript/detection/'+$('#semester').val()+'/'+$('#division').val()+'/'+$('#level').val();
     }
+  });
+
+  $('body').on('click', '#viweStudentp', function(){
+    obj={semester:$("#semester option:selected").text(),semesterId:$("#semester option:selected").val(),level:$("#level option:selected").val(),devId:$("#division option:selected").val(),departmentId:$("#department option:selected").val(),department:$("#department option:selected").text(),dev:$("#division option:selected").text()};
+    $.post('/transcript/setData/',obj,function(result){
+      var isvalidate=$("#delectionsForm").valid();
+      if(isvalidate){
+       window.location.href='/transcript/reportsNames';
+    }
+    });
   });
 
   // $('body').on('click', '#submit', function (e) {
