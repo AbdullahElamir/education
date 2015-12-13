@@ -27,8 +27,7 @@ block content
                     option(value="#{department.id}")|#{department.name}  
               .col-xs-6.col-md-6
                 label.h4 اسم الشعبة
-                select.form-control.selectpicker#Division(name="division", data-live-search="true", data-size=5)
-                  option(value="", style='color:grey; display:none;') اختر الشعبة...         
+                select.form-control.selectpicker#Division(name="division", data-live-search="true", data-size=5)        
           br
           hr
           .form-group
@@ -49,5 +48,5 @@ block content
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
   script(src='/js/helpers.js')
-  script(src='/js/detections.js')
+  script(src='/js/reportFormMember.js')
   script(src='/js/reports.js')  

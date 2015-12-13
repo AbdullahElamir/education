@@ -9,15 +9,15 @@ $(document).ready(function(){
     });
   });
 
-  $('body').on('change', '#Department', function(){
-    var id = $(this).val();
-    $('#Division').empty();
-    $.get('/transcript/division/'+id,function(data){
-      for(key in data){
-          $('#Division').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
-        }
-    });
-  });
+  // $('body').on('change', '#Department', function(){
+  //   var id = $(this).val();
+  //   $('#Division').empty();
+  //   $.get('/transcript/division/'+id,function(data){
+  //     for(key in data){
+  //         $('#Division').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
+  //       }
+  //   });
+  // });
   
   $('body').on('click', '#submit', function(){
     var isvalidate=$("#delectionsForm").valid();
