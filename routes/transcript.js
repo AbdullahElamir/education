@@ -2390,8 +2390,8 @@ function reportNamesOfstudents(obj,newObj) {
   }
 
 router.get('/reportsNames', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT S.id,S.set_number,S.first_name,S.father_name,S.grand_name,S.last_name,SS.DivisionId,SS.StudentId,SS.DepartmentId,SS.SemesterId FROM `SemesterStudents`AS SS ,`Students` AS S WHERE SS.StudentId=S.id AND SS.DivisionId=? AND SS.DepartmentId=? AND SS.SemesterId=? ', {
-    replacements: [objReport.devId,objReport.departmentId,objReport.semesterId]
+  models.sequelize.query('SELECT S.id,S.set_number,S.first_name,S.father_name,S.grand_name,SS.level,S.last_name,SS.DivisionId,SS.StudentId,SS.DepartmentId,SS.SemesterId FROM `SemesterStudents`AS SS ,`Students` AS S WHERE SS.StudentId=S.id AND SS.DivisionId=? AND SS.DepartmentId=? AND SS.SemesterId=? AND SS.level=? ', {
+    replacements: [objReport.devId,objReport.departmentId,objReport.semesterId,objReport.levelid]
   }).then(function (result) {
     console.log(result[0]);
     jsr.render({

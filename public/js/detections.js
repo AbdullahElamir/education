@@ -3,6 +3,8 @@ $(document).ready(function(){
     var id = $(this).val();
     $('#division').empty();
     $.get('/transcript/division/'+id,function(data){
+      $('#division').empty();
+      $('#division').append('<option value="" style="color:grey; display:none;">اختر الشعبة...</option>');
       for(key in data){
           $('#division').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
         }
@@ -27,7 +29,7 @@ $(document).ready(function(){
   });
 
   $('body').on('click', '#viweStudentp', function(){
-    obj={semester:$("#semester option:selected").text(),semesterId:$("#semester option:selected").val(),level:$("#level option:selected").val(),devId:$("#division option:selected").val(),departmentId:$("#department option:selected").val(),department:$("#department option:selected").text(),dev:$("#division option:selected").text()};
+    obj={semester:$("#semester option:selected").text(),levelid:$("#level option:selected").val(),semesterId:$("#semester option:selected").val(),level:$("#level option:selected").val(),devId:$("#division option:selected").val(),departmentId:$("#department option:selected").val(),department:$("#department option:selected").text(),dev:$("#division option:selected").text()};
     $.post('/transcript/setData/',obj,function(result){
       var isvalidate=$("#delectionsForm").valid();
       if(isvalidate){

@@ -884,7 +884,6 @@ router.get('/reportresultsOfStudent', userHelpers.isLogin, function (req, res, n
   models.sequelize.query('SELECT Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.level,SS.StudentId,S.id,Act.SemesterStudentId,SS.id,Act.SubGroupId,Sg.id,S.first_name,SS.student_status,S.father_name,S.grand_name,S.last_name,F.name,Act.final_exam FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Semesters AS Sem,Academic_transcripts AS Act,Faculty_members AS F WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND Sg.FacultyMemberId =F.id AND SS.DivisionId= Sg.DivisionId AND SS.DepartmentId=? and SS.SemesterId=Sg.SemesterId and SS.level=? AND SS.StudentId=S.id AND Act.SemesterStudentId=SS.id and Act.SubGroupId=Sg.id ', {
     replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid,objReport.levelid]
   }).then(function (result) {
-    console.log(result[0]);
     jsreport.render({
       template: {
         content: fs.readFileSync(path.join(__dirname, "../views/reportresultsOfStudent.html"), "utf8"),
