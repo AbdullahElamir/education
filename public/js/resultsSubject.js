@@ -1,32 +1,54 @@
 $(document).ready(function(){
-  
-  // $('body').on('click', '#print', function(){
-  //   obj={devId:$("#Division option:selected").val(),department:$("#Department option:selected").text(),dev:$("#Division option:selected").text()};
-  //   $.post('/report/setData/',obj,function(result){
-  //     var isvalidate=$("#reportFormMember").valid();
-  //     if(isvalidate){
-  //     window.location.href='/report/facultyMemberReport';
-  //   }
-  //   });
-  // });
-
+ 
 $('body').on('change', '#Department', function(){
     var id = $(this).val();
     $('#Division').empty();
     $.get('/transcript/division/'+id,function(data){
+      $('#Division').empty();
+      $('#Division').append('<option value="" style="color:grey; display:none;">اختر الشعبة...</option>');
       for(key in data){
           $('#Division').append("<option value = '"+data[key].id+"'>"+data[key].name+"</option>").selectpicker('refresh');
         }
     });
   });
 
-  $("#reportsubject").validate({
+$('#Division').on('change', function(){
+  var idDivision = $(this).val();
+  $('#semester').on('change', function(){
+    var idSemester = $(this).val();
+     $('#level').on('change', function(){
+      var idlevel = $(this).val();
+      obj={idDivision,idSemester,idlevel};
+      $.post('/report/subject/',obj,function(data){
+        $('#subject').empty();
+        $('#subject').append('<option value="" style="color:grey; display:none;">اختر مادة...</option>');
+        for(key in data){
+            $('#subject').append("<option value = '"+data[key].Subject.id+"'>"+data[key].Subject.name+"</option>").selectpicker('refresh');
+          }
+        });
+      });
+    });
+  });
+
+ 
+$('body').on('click', '#ok', function(){
+  obj={devId:$("#Division option:selected").val(),depid:$("#Department option:selected").val(),department:$("#Department option:selected").text(),dev:$("#Division option:selected").text(),level:$("#level option:selected").text(),levelid:$("#level option:selected").val(),sem:$("#semester option:selected").text(),semid:$("#semester option:selected").val(),subname:$("#subject option:selected").text(),subid:$("#subject option:selected").val()};
+     console.log(obj);
+    $.post('/report/setData/',obj,function(result){
+      var isvalidate=$("#formResultsOfStudent").valid();
+      if(isvalidate){
+        window.location.href='/report/reportresultsOfStudent';
+      }
+    });
+  });
+
+  $("#formResultsOfStudent").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{
-      Department:{
+      department:{
         required: true,
       },
-      Division:{
+      division:{
         required: true,
       },
       semester:{
@@ -40,10 +62,10 @@ $('body').on('change', '#Department', function(){
       }
     },
     messages:{
-      Department:{
+      department:{
         required: "الرجاء اختيار اسم القسم!",
       },
-      Division:{
+      division:{
         required: "الرجاء اختيار اسم الشعبة!",
       },
       semester:{

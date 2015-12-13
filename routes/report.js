@@ -746,6 +746,25 @@ router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
   });
 });
 
+router.post('/subject', userHelpers.isLogin, function (req, res) {
+   obj=req.body;
+  models.Sub_group.findAll({
+      include: [{
+        model: models.Subject,
+        where: {
+          status: 1,
+        }
+      }],
+        where: {
+          status: 1,
+          DivisionId: obj.idDivision,
+          SemesterId: obj.idSemester
+        }
+    }).then(function (sub) {
+        res.send(sub);
+    });
+});
+
 router.get('/resultsOfSubject', userHelpers.isLogin, function (req, res) {
   models.Department.findAll({
     where: {
@@ -762,6 +781,125 @@ router.get('/resultsOfSubject', userHelpers.isLogin, function (req, res) {
     });
   });
 }); 
+
+function reportresultsOfStudent(obj,newObj) {
+  var level = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
+  var  studentStatus = ['نظامي','غير نظامي','ايقاف قيد','منقطع'];
+  HTML=' ';
+  HTML=' \
+  <body> \
+    <div class="container"> \
+      <div class="row"> \
+        <div class="col-xs-12"> \
+          <h5 class="text-center">  \
+              الهيئة الوطنية للتعليم التقني والفني \
+          </h5> \
+          <h5 class="text-center">  \
+              المعهد العالي للمهن الشاملة \
+          </h5> \
+          <h5 class="text-center">  \
+              القره بوللــــي \
+          </h5> \
+          <h5 class="text-center">  \
+            كشف بالمواد الدراسية لقسم '+newObj.department+' \
+          </h5> \
+          <h5> \
+            الشعبة <span>/</span> '+newObj.dev+' \
+          </h5> \
+          <h5> \
+            المادة <span>/</span> '+newObj.subname+' \
+          </h5> \
+          <h5> \
+            المحاضر <span>/</span> '+obj[0].name+' \
+          </h5> \
+          <table class="table condensed"> \
+            <thead> \
+              <tr> \
+                <th class="text-center" width="7%">ت</th> \
+                <th class="text-center" width="20%">أســم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="7%">الامتحان الاول</th> \
+                <th class="text-center" width="7%">الامتحان التاني</th> \
+                <th class="text-center" width="7%">الامتحان النهائي</th> \
+                <th class="text-center" width="20%">ملاحظات</th> \
+              </tr> \
+            </thead> \
+            <tbody> ';
+            var rowcounter=0;
+            var count=0;
+            for(i in obj){
+              var ss =obj[i].student_status;
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td>';
+                  HTML=HTML+'<td class="text-center"></td>';
+                  HTML=HTML+'<td class="text-center"></td> \
+                  <td class="text-center">'+obj[i].final_exam+'</td> \
+                  <td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
+                </tr> ';
+            }
+            var emptyRecord = 23-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
+            HTML=HTML+'</tbody> \
+          <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
+        </div> \
+      </body> \
+    </html>';
+  return HTML;
+  }
+
+router.get('/reportresultsOfStudent', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('SELECT Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.level,SS.StudentId,S.id,Act.SemesterStudentId,SS.id,Act.SubGroupId,Sg.id,S.first_name,SS.student_status,S.father_name,S.grand_name,S.last_name,F.name,Act.final_exam FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Semesters AS Sem,Academic_transcripts AS Act,Faculty_members AS F WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND Sg.FacultyMemberId =F.id AND SS.DivisionId= Sg.DivisionId AND SS.DepartmentId=? and SS.SemesterId=Sg.SemesterId and SS.level=? AND SS.StudentId=S.id AND Act.SemesterStudentId=SS.id and Act.SubGroupId=Sg.id ', {
+    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid,objReport.levelid]
+  }).then(function (result) {
+    console.log(result[0]);
+    jsreport.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/reportresultsOfStudent.html"), "utf8"),
+        recipe: "phantom-pdf",
+        helpers: reportresultsOfStudent.toString()
+      },
+      data: {
+        obj:result[0],
+        newObj:objReport
+      }
+      }).then(function (response) {
+        response.result.pipe(res);
+      }); 
+  });
+});
 
 router.get('/report1/:id', function(req, res) {
   //select * from Semesters where id =(select SemesterId from SemesterStudents where id=5)

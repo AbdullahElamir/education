@@ -14,7 +14,7 @@ block content
       br
       br
       .col-md-6.col-md-offset-2
-        form.form#reportsubject(action="", method="", accept-charset="utf-8", role="form")
+        form.form#formResultsOfStudent(action="", method="", accept-charset="utf-8", role="form")
           legend  طباعة نتائج مادة دراسية ..
 
           .form-group
@@ -27,8 +27,7 @@ block content
                     option(value="#{department.id}")|#{department.name}  
               .col-xs-6.col-md-6
                 label.h4 اسم الشعبة
-                select.form-control.selectpicker#Division(name="division", data-live-search="true", data-size=5)
-                  option(value="", style='color:grey; display:none;') اختر الشعبة...         
+                select.form-control.selectpicker#Division(name="division", data-live-search="true", data-size=5)       
           .form-group
             .row   
               .col-xs-6.col-md-6
@@ -66,13 +65,13 @@ block content
             .row         
               .col-xs-6.col-md-6
                 label.h4 المواد الدراسية
-                select.form-control.selectpicker#subject(name="level", data-size=5)
+                select.form-control.selectpicker#subject(name="subject", data-live-search="true", data-size=5)
           br
           hr
           .form-group
             .row
               .col-xs-4.col-xs-offset-1.col-md-4.col-md-offset-2
-                button#print.btn.btn-primary(target="_blank", type="button")
+                button#ok.btn.btn-primary(target="_blank", type="button")
                   i.fa.fa-eye
                   span  كشف النتيجة
 
