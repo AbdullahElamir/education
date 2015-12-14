@@ -2299,6 +2299,7 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
     });
 });
 
+
 var objReport={};
 router.post('/setData', userHelpers.isLogin, function (req, res, next) {
   objReport=req.body;

@@ -6,6 +6,8 @@ var userHelpers = require('../app/userHelpers');
 var jsreport = require("jsreport");
 var fs = require("fs");
 var path = require("path");
+var Step = require('step');
+var nationality = require('../Nationality');
 
 router.get('/NumberOfStudents', userHelpers.isLogin, function (req, res) {
    models.Semester.findAll({
@@ -1090,20 +1092,10 @@ router.get('/report2/:id', function(req, res) {
 });
 
   // this statisticalNumberOfStudents // widght A3
-  router.get('/statisticalNumberOfStudents', userHelpers.isLogin, function (req, res, next) {
-    jsreport.render({
-      template: {
-        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
-        phantom:{
-          format: 'A3',
-          orientation: "landscape",
-        },
-        recipe: "phantom-pdf"
-      },
-      // data:{allResults : results , national:nationality}
-    }).then(function (response) {
-      response.result.pipe(res);
-    });
+  router.get('/statisticalNumberOfStudents',  function (req, res, next) {
+    model_step(10,req, res);
+   
+    
   });
 
   // this statisticalNumberOfStudentsNot // widght A4
@@ -1255,5 +1247,91 @@ router.get('/report2/:id', function(req, res) {
       response.result.pipe(res);
     });
   });
+
+
+function model_step(id,req, res){
+  Step(
+    /* SELECT OLD VALUE FROM DB */
+    function SelectStu() {
+      selectStu(id,this);
+    },
+    /* UPDATE VALUE */
+    function Updatephone(err,result) {
+      rat(result,this);
+      
+    },
+    function rend(err,result) {
+      jsreport.render({
+        template: {
+          content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
+          
+          phantom:{
+            format: 'A3',
+            orientation: "landscape",
+          },
+          recipe: "phantom-pdf"
+        },
+        data:{data : result }
+      }).then(function (response) {
+        response.result.pipe(res);
+      });
+    }
+  );
+}
+function selectStu(id,cb){
+  models.sequelize.query('SELECT * FROM `Students` stu,`SemesterStudents` ss,`Semesters` sem WHERE `stu`.`id`=`ss`.`StudentId` AND `ss`.`level`=6 AND `ss`.`SemesterId`=`sem`.`id` AND `sem`.`id`=? AND ((SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? )=(SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? AND `ac`.`sum_dagree`>=50))', {
+    replacements: [id,id,id]
+  })
+  .then(function (stu) {
+    cb(null,stu[0]);
+  });
+}
+function rat(result,cb){
+  for(i in result){
+    models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date', {
+      replacements: [result[i].id]
+    })
+    .then(function (mix) {
+      var array = getRatioForALlSemester(mix);
+      var rat = array[array.length - 1];
+      result[i]['rat']=[];
+      result[i]['rat'].push(rat);
+      result[i]['date']='';
+      result[i].date=result[i].birth_date.getFullYear()+'/'+result[i].birth_date.getMonth()+1+'/'+result[i].birth_date.getDate();
+      if (rat >= 85) {
+        statusrat = "ممتاز";
+      } else if (rat >= 75 && rat < 85) {
+        statusrat = "جيدجدا";
+      } else if (rat >= 65 && rat < 75) {
+        statusrat = "جيد";
+      } else if (rat >= 50 && rat < 65) {
+        statusrat = "مقبول";
+      } else if (rat >= 35 && rat < 50) {
+        statusrat = "ضعيـف";
+      } else if (rat >= 0 && rat < 35) {
+        statusrat = "ضعيف جدا";
+      }
+      result[i]['statusrat']=statusrat;
+      result[i]['nat']=nationality[result[i]['nationality']-1].name;
+      var year = result[i].year.getFullYear();
+      var sem;
+      var semtype=result[i].sem_type;
+      if(semtype==1){
+        sem="ربيع "+year;
+      } else if(semtype==2){
+        sem="خريف "+year;
+      } else if(semtype==3){
+        sem="صيف "+year;
+      } 
+      result[i]['semyear']=sem;
+      if(i==result.length-1){
+        cb(null,result);  
+      }
+    });
+
+  }
+
+  
+}
 
 module.exports = router;

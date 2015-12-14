@@ -25,6 +25,7 @@
     "redis": "^0.12.1",
     "redis-connect": "^0.2.0",
     "sequelize": "^3.10.0",
-    "static-favicon": "~1.0.0"
+    "static-favicon": "~1.0.0",
+    "step": "0.0.6"
   }
 }
