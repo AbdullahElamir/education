@@ -67,7 +67,6 @@
         <th> مـكـان الـمـيـلاد </th>
         <th> الـجـنـسـيـة </th>
         <th> الـقـسـم </th>
-        <th> الـتـخـصـص </th>
         <th> رقـم الـقـيـد </th>
         <th> الـتـقـديـر الـعـام </th>
         <th> الـنـسـبـة الـمئـويـة </th>    
@@ -78,19 +77,22 @@
         <th> الام </th>
         <th> الـرقـم الـوطـنـي </th>
       </tr>
+      <script type="text/javascript">
+        var i =1;
+      </script>
       {{#each data}}
         <tr>
-        <td> 1 </td>
+        <td> <script type="text/javascript"> document.write(i++); 
+        </script> </td>
         <td> {{first_name}} {{father_name}} {{grand_name}} {{last_name}}</td>
         <td> {{date}} </td>
         <td> {{place_birth}} </td>
         <td> {{nat}} </td>
-        <td> اسنان </td>
-        <td> خلع وحشو </td>    
+        <td> {{dname}} </td>
         <td> {{set_number}} </td>
         <td> {{statusrat}} </td>
         <td> {{rat}}</td>
-        <td> 12/11/2011 </td>
+        <td> {{stuAtd}} </td>
         <td> الاول </td>
         <td> {{semyear}} </td>
         <td> {{last_cert}} </td>
@@ -98,6 +100,7 @@
         <td> {{nid}} </td>
       </tr>
       {{/each}}
+ 
       <!-- <tr>
         <td> 1 </td>
         <td> محمد احمد محمود احمد </td>
@@ -279,5 +282,5 @@
         <td> 119890002159 </td>
       </tr> -->
     </table>
-  </body>
+    
 </html>

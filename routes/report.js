@@ -472,9 +472,7 @@ router.post('/setData2', userHelpers.isLogin, function (req, res, next) {
 router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, next) {
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
-  console.log(dateSem);
   var date=new Date(dateSem);
-  console.log(date);
   models.sequelize.query('select  std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1))) and status=1', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
   }).then(function (studentReport) {
@@ -497,7 +495,6 @@ router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, n
 router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, next) {
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
-  console.log(dateSem);
   var date=new Date(dateSem);
   models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1))) and status=1', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
@@ -514,7 +511,6 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
       models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=? and s.DivisionId=?', {
       replacements: [objReport.courseId,semId,objReport.devId]
       }).then(function (subg) {
-        console.log(subg);
         var su;
         var subString='';
         if(subg[0][0]== undefined){
@@ -1090,25 +1086,36 @@ router.get('/report2/:id', function(req, res) {
   });
  
 });
-
+  router.get('/sticalNumberOfStudents', userHelpers.isLogin ,function (req, res, next) {
+    models.Semester.findAll({
+      where:{
+        status:1
+      },
+      order: '`id` DESC'
+    }).then(function(result){
+      res.render('statisticalNumberOfStudents', {
+      title: 'طباعة تقارير',
+      name: req.session.name,
+      sem: result,
+      collapseEight: 'collapse in',
+      activeEightThree: 'active'
+      });
+    });    
+  });
   // this statisticalNumberOfStudents // widght A3
-  router.get('/statisticalNumberOfStudents',  function (req, res, next) {
-    model_step(10,req, res);
+  router.get('/statisticalNumberOfStudents/:id', userHelpers.isLogin,  function (req, res, next) {
+    model_step(req.params.id,req, res);
    
     
   });
 
   // this statisticalNumberOfStudentsNot // widght A4
   router.get('/statisticalNumberOfStudentsNot', userHelpers.isLogin, function (req, res, next) {
-    console.log(objReport2.type);
-    console.log(objReport2.semester);
     var date1 = objReport2.semester+"-01-01";
     var date=date1.replace(" ","");
-    console.log(date);
         models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
       replacements: [objReport2.type,date]
     }).then(function (studentReport) {
-      console.log(studentReport[0]);
       Bdate=[];
       gender=[];
       for(i in studentReport[0]){
@@ -1279,7 +1286,7 @@ function model_step(id,req, res){
   );
 }
 function selectStu(id,cb){
-  models.sequelize.query('SELECT * FROM `Students` stu,`SemesterStudents` ss,`Semesters` sem WHERE `stu`.`id`=`ss`.`StudentId` AND `ss`.`level`=6 AND `ss`.`SemesterId`=`sem`.`id` AND `sem`.`id`=? AND ((SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? )=(SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? AND `ac`.`sum_dagree`>=50))', {
+  models.sequelize.query('SELECT *,`d`.`name` as dname ,`stu`.`createdAt` as stuAt  FROM `SemesterStudents` ss,`Semesters` sem ,`Departments` d,`Students` stu WHERE `ss`.`DepartmentId`=`d`.`id` AND`stu`.`id`=`ss`.`StudentId` AND `ss`.`level`=6 AND `ss`.`SemesterId`=`sem`.`id` AND `sem`.`id`=? AND ((SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? )=(SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? AND `ac`.`sum_dagree`>=50))', {
     replacements: [id,id,id]
   })
   .then(function (stu) {
@@ -1298,6 +1305,8 @@ function rat(result,cb){
       result[i]['rat'].push(rat);
       result[i]['date']='';
       result[i].date=result[i].birth_date.getFullYear()+'/'+result[i].birth_date.getMonth()+1+'/'+result[i].birth_date.getDate();
+      result[i]['stuAtd']='';
+      result[i].stuAtd=result[i].stuAt.getFullYear()+'/'+result[i].stuAt.getMonth()+1+'/'+result[i].stuAt.getDate();
       if (rat >= 85) {
         statusrat = "ممتاز";
       } else if (rat >= 75 && rat < 85) {
