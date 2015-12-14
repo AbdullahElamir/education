@@ -32,7 +32,7 @@ router.get('/NumberOfStudents', userHelpers.isLogin, function (req, res) {
     dep: department,
     sub:subject,
     collapseEight: 'collapse in',
-    activeEightThree: 'active'
+    activeEightseven: 'active'
     });
     });
   });
@@ -163,9 +163,53 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
 return HTML;
 }
 
-function showReportt3(){
-
-
+function showReportt3(objj,Bdate,gender){
+  var HTML=' ';
+ HTML='<table class="table table-bordered text-center fontSizeBody"> \
+      <tr>\
+        <th> رقم </th>\
+        <th> رقـم ورقـة الـعـائـلـة </th>\
+        <tH> قـيـد الـعـائـلـة </th>\
+        <th> اسـم الـطـالـب </th> \
+        <th> اسـم الـعـائـلـة </th> \
+        <th> تـاريـخ الـمـيـلاد </th> \
+        <th> مـكـان الـمـيـلاد </th> \
+        <th> الـجـنـس </th> \
+        <th> الـمـعـهـد الـعـالـي </th>\
+        <tH> رقـم الـقـيد </th> \
+        <th> الـقـسـم </th> \
+        <th> الـفـصـل </th> \
+        <th> الـمـصـرف </th> \
+        <th> الـفـرع </th> \
+        <th> رقـم الـحـسـاب </th> \
+        <th> الـرقـم الـوطـنـي </th> \
+      </tr>';
+     for(i in objj){
+      HTML=HTML+'\
+      <tr> \
+        <td> 1 </td> \
+        <td>'+objj[i].no_paper_family+'</td> \
+        <td>'+objj[i].no_reg_family+'</td> \
+        <td> '+objj[i].first_name+'</td> \
+        <td>'+objj[i].last_name+'</td> \
+        <td> '+Bdate[i]+'</td> \
+        <td> '+objj[i].place_birth+'</td>\
+        <td> '+gender[i]+'</td> \
+        <td> المعهد العالي للمهن الشاملة</td> \
+        <td> '+objj[i].set_number+'</td> \
+        <td>  </td> \
+        <td>  </td> \
+        <td>  </td> \
+        <td>  </td>  \
+        <td>  </td> \
+        <td> '+objj[i].nid+'</td> \
+      </tr> ';
+   }
+    HTML=HTML+'\
+    </table> \
+  </body> \
+</html>';
+  return HTML;
   }
 
  function showReportt2(res,notice){
@@ -510,6 +554,398 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
   });
 });
 
+function facultyMemberReport(obj,newObj) {
+  var level = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
+  HTML=' ';
+  HTML=' \
+  <body> \
+    <div class="container"> \
+      <div class="row"> \
+        <div class="col-xs-12"> \
+          <h5 class="text-center">  \
+              الهيئة الوطنية للتعليم التقني والفني \
+          </h5> \
+          <h5 class="text-center">  \
+              المعهد العالي للمهن الشاملة \
+          </h5> \
+          <h5 class="text-center">  \
+              القره بوللــــي \
+          </h5> \
+          <h5 class="text-center">  \
+            كشف بساعات اعضاء هيئة التدريس بقسم '+newObj.department+' \
+          </h5> \
+          <h5> \
+            الشعبة <span>/</span> '+newObj.dev+' \
+          </h5> \
+          <table class="table condensed"> \
+            <thead> \
+              <tr> \
+                <th class="text-center" width="7%">ت</th> \
+                <th class="text-center">الاســــــم<span>/</span>ة</th> \
+                <th class="text-center" width="20%">المـــادة</th> \
+                <th class="text-center" width="10%">الـفصل</th> \
+                <th class="text-center" width="10%">الـوحدات</th> \
+                <th class="text-center" width="10%">الـنظرية</th> \
+                <th class="text-center" width="10%">الـعملية</th> \
+                <th class="text-center" width="10%">عدد الـطلبة</th> \
+              </tr> \
+            </thead> \
+            <tbody> ';
+            var rowcounter=0;
+            var count=0;
+            for(i in obj){
+              rowcounter++;
+              count++;
+              var sum = obj[i].no_pr_unit+obj[i].no_th_unit;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].nameF+'</td>';
+                  HTML=HTML+'<td class="text-center">'+obj[i].nameC+'</td>';
+                  HTML=HTML+'<td class="text-center">'+level[obj[i].level-1]+'</td> \
+                  <td class="text-center">'+sum+'</td> \
+                  <td class="text-center">'+obj[i].no_th_unit+'</td> \
+                  <td class="text-center">'+obj[i].no_pr_unit+'</td> \
+                  <td class="text-center">'+obj[i].num+'</td> \
+                </tr> ';
+            }
+            var emptyRecord = 26-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
+            HTML=HTML+'</tbody> \
+          <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
+        </div> \
+      </body> \
+    </html>';
+  return HTML;
+  }
+
+ router.get('/reportFacultyMemer', userHelpers.isLogin, function (req, res) {
+  models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function (department) {
+   res.render('reportFacultyMemer', { title: 'كشف المحاضرين',dep: department, collapseEight: 'collapse in', activeEightfour: 'active' });
+  });
+}); 
+
+router.get('/facultyMemberReport', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('select count(*) as num,SU.name as nameC,f.name as nameF,SU.no_th_unit,SU.no_pr_unit,Ss.level from Academic_transcripts as ac,Faculty_members as f ,SemesterStudents as Ss ,Semesters as Se ,Subjects as SU ,Sub_groups as S WHERE  S.SubjectId=SU.id and S.FacultyMemberId=f.id and Ss.SemesterId=S.SemesterId and S.DivisionId=? and S.id = ac.SubGroupId GROUP BY S.id ', {
+    replacements: [objReport.devId]
+  }).then(function (result) {
+    jsreport.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/facultyMemberReport.html"), "utf8"),
+        recipe: "phantom-pdf",
+        helpers: facultyMemberReport.toString()
+      },
+      data: {
+        obj:result[0],
+        newObj:objReport
+      }
+      }).then(function (response) {
+        response.result.pipe(res);
+      }); 
+  });
+});
+
+function SubjectReport(obj,newObj) {
+  var level = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
+  HTML=' ';
+  HTML=' \
+  <body> \
+    <div class="container"> \
+      <div class="row"> \
+        <div class="col-xs-12"> \
+          <h5 class="text-center">  \
+              الهيئة الوطنية للتعليم التقني والفني \
+          </h5> \
+          <h5 class="text-center">  \
+              المعهد العالي للمهن الشاملة \
+          </h5> \
+          <h5 class="text-center">  \
+              القره بوللــــي \
+          </h5> \
+          <h5 class="text-center">  \
+            كشف بالمواد الدراسية لقسم '+newObj.department+' \
+          </h5> \
+          <h5> \
+            الشعبة <span>/</span> '+newObj.dev+' \
+          </h5> \
+          <table class="table condensed"> \
+            <thead> \
+              <tr> \
+                <th class="text-center" width="7%">ت</th> \
+                <th class="text-center" width="20%">المـــادة</th> \
+                <th class="text-center" width="10%">عدد الـوحدات</th> \
+                <th class="text-center" width="10%">الـفصل</th> \
+                <th class="text-center">اسم عضو هيئة التدريس</th> \
+                <th class="text-center" width="20%">ملاحظات</th> \
+              </tr> \
+            </thead> \
+            <tbody> ';
+            var rowcounter=0;
+            var count=0;
+            for(i in obj){
+              rowcounter++;
+              count++;
+              var sum = obj[i].no_pr_unit+obj[i].no_th_unit;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].nameC+'</td>';
+                  HTML=HTML+'<td class="text-center">'+sum+'</td>';
+                  HTML=HTML+'<td class="text-center">'+level[obj[i].level-1]+'</td> \
+                  <td class="text-center">'+obj[i].nameF+'</td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+            var emptyRecord = 26-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
+            HTML=HTML+'</tbody> \
+          <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
+        </div> \
+      </body> \
+    </html>';
+  return HTML;
+  }
+
+router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('SELECT SU.name as nameC,f.name as nameF,SU.no_th_unit,SU.no_pr_unit,Ss.level from Faculty_members as f ,SemesterStudents as Ss ,Semesters as Se ,Subjects as SU ,Sub_groups as S WHERE S.SubjectId=SU.id and S.FacultyMemberId=f.id and Ss.SemesterId=S.SemesterId and S.DivisionId=? ', {
+    replacements: [objReport.devId]
+  }).then(function (result) {
+    jsreport.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/SubjectReport.html"), "utf8"),
+        recipe: "phantom-pdf",
+        helpers: SubjectReport.toString()
+      },
+      data: {
+        obj:result[0],
+        newObj:objReport
+      }
+      }).then(function (response) {
+        response.result.pipe(res);
+      }); 
+  });
+});
+
+router.post('/subject', userHelpers.isLogin, function (req, res) {
+   obj=req.body;
+  models.Sub_group.findAll({
+      include: [{
+        model: models.Subject,
+        where: {
+          status: 1,
+        }
+      }],
+        where: {
+          status: 1,
+          DivisionId: obj.idDivision,
+          SemesterId: obj.idSemester
+        }
+    }).then(function (sub) {
+        res.send(sub);
+    });
+});
+
+router.get('/resultsOfSubject', userHelpers.isLogin, function (req, res) {
+  models.Department.findAll({
+    where: {
+      status: 1
+    }
+  }).then(function (department) {
+    models.Semester.findAll({
+      where: {
+        status: 1
+      }
+    })
+    .then(function (semester) {
+      res.render('resultsOfSubject', { title: 'كشف المحاضرين',dep: department,sem: semester, collapseEight: 'collapse in', activeEightfive: 'active' });
+    });
+  });
+}); 
+
+function reportresultsOfStudent(obj,newObj) {
+  var level = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
+  var  studentStatus = ['نظامي','غير نظامي','ايقاف قيد','منقطع'];
+  HTML=' ';
+  HTML=' \
+  <body> \
+    <div class="container"> \
+      <div class="row"> \
+        <div class="col-xs-12"> \
+          <h5 class="text-center">  \
+              الهيئة الوطنية للتعليم التقني والفني \
+          </h5> \
+          <h5 class="text-center">  \
+              المعهد العالي للمهن الشاملة \
+          </h5> \
+          <h5 class="text-center">  \
+              القره بوللــــي \
+          </h5> \
+          <h5 class="text-center">  \
+            كشف بالمواد الدراسية لقسم '+newObj.department+' \
+          </h5> \
+          <h5> \
+            الشعبة <span>/</span> '+newObj.dev+' \
+          </h5> \
+          <h5> \
+            المادة <span>/</span> '+newObj.subname+' \
+          </h5> \
+          <h5> \
+            المحاضر <span>/</span> '+obj[0].name+' \
+          </h5> \
+          <table class="table condensed"> \
+            <thead> \
+              <tr> \
+                <th class="text-center" width="7%">ت</th> \
+                <th class="text-center" width="20%">أســم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="7%">الامتحان الاول</th> \
+                <th class="text-center" width="7%">الامتحان التاني</th> \
+                <th class="text-center" width="7%">الامتحان النهائي</th> \
+                <th class="text-center" width="20%">ملاحظات</th> \
+              </tr> \
+            </thead> \
+            <tbody> ';
+            var rowcounter=0;
+            var count=0;
+            for(i in obj){
+              var ss =obj[i].student_status;
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td>';
+                  HTML=HTML+'<td class="text-center"></td>';
+                  HTML=HTML+'<td class="text-center"></td> \
+                  <td class="text-center">'+obj[i].final_exam+'</td> \
+                  <td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
+                </tr> ';
+            }
+            var emptyRecord = 23-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
+            HTML=HTML+'</tbody> \
+          <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
+        </div> \
+      </body> \
+    </html>';
+  return HTML;
+  }
+
+router.get('/reportresultsOfStudent', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('SELECT Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.level,SS.StudentId,S.id,Act.SemesterStudentId,SS.id,Act.SubGroupId,Sg.id,S.first_name,SS.student_status,S.father_name,S.grand_name,S.last_name,F.name,Act.final_exam FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Semesters AS Sem,Academic_transcripts AS Act,Faculty_members AS F WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND Sg.FacultyMemberId =F.id AND SS.DivisionId= Sg.DivisionId AND SS.DepartmentId=? and SS.SemesterId=Sg.SemesterId and SS.level=? AND SS.StudentId=S.id AND Act.SemesterStudentId=SS.id and Act.SubGroupId=Sg.id ', {
+    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid,objReport.levelid]
+  }).then(function (result) {
+    jsreport.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/reportresultsOfStudent.html"), "utf8"),
+        recipe: "phantom-pdf",
+        helpers: reportresultsOfStudent.toString()
+      },
+      data: {
+        obj:result[0],
+        newObj:objReport
+      }
+      }).then(function (response) {
+        response.result.pipe(res);
+      }); 
+  });
+});
+
 router.get('/report1/:id', function(req, res) {
   //select * from Semesters where id =(select SemesterId from SemesterStudents where id=5)
   models.Academic_transcript.findAll({
@@ -672,22 +1108,36 @@ router.get('/report2/:id', function(req, res) {
         models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
       replacements: [objReport2.type,date]
     }).then(function (studentReport) {
-      console.log(studentReport);
+      console.log(studentReport[0]);
+      Bdate=[];
+      gender=[];
+      for(i in studentReport[0]){
+        Bdate.push(studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay());
+        if(studentReport[0][i].gender==0){
+          gender.push('ذكر');
+        } else if(studentReport[0][i].gender==1){
+          gender.push('انثي');
+        }
+        
+      }
     jsreport.render({
-      template: {
-        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
+      template: { 
+        recipe: "phantom-pdf",
+        content: fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudentsNot.html"), "utf8"),
         helpers: showReportt3.toString(),
         phantom:{
           format: 'A3',
           orientation: "landscape"
         },
-        data: {
-         
-        },
-        recipe: "phantom-pdf"
       },
-      // data:{allResults : results , national:nationality}
-    }).then(function (response) {
+        data: {
+          objj:studentReport[0],
+          Bdate:Bdate,  
+          gender:gender,
+        }
+    })
+
+    .then(function (response) {
       response.result.pipe(res);
     });
 
@@ -784,9 +1234,19 @@ router.get('/report2/:id', function(req, res) {
     });
   });
 
-  // router.get('/stopStudentID', function(req, res) {
-  //   userHelpers.printReport("stopStudentID.html",res);
-  // });
+  
+  // this studentDefinition // widght A4
+  router.get('/studentDefinition', userHelpers.isLogin, function (req, res, next) {
+    jsreport.render({
+      template: {
+        content:  fs.readFileSync(path.join(__dirname, "../views/studentDefinition.html"), "utf8"),
+        recipe: "phantom-pdf"
+      },
+      // data:{allResults : results , national:nationality}
+    }).then(function (response) {
+      response.result.pipe(res);
+    });
+  });
 
 
 function model_step(id,req, res){

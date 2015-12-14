@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>كشف بأسماء الطلبة</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
+    <style>
+      .break { 
+        page-break-before: always; 
+      }
+      @media print {
+        footer { 
+          page-break-after: always;
+        }
+      }
+      @font-face {
+        font-family: 'Droid Arabic Kufi';
+        src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
+      }
+      body {
+        font-family: 'Droid Arabic Kufi';
+      }
+      .table,.table>thead>tr>th,.table>tbody>tr>td{
+        font-size: 12px;
+        border: 1px solid #000;
+      }
+      .condensed>thead>tr>th, .condensed>tbody>tr>td {
+        padding: 5px;
+      }
+      .condensed>tbody>tr>td {
+        padding: 3px;
+      }
+      .number {
+        font-family: Times, "Times New Roman", Georgia, serif;
+        font-size: 14px !important;
+      }
+    </style>
+    <meta charset="utf-8"/>
+  </head>
+  {{{reportresultsOfStudent obj newObj}}}

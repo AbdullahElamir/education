@@ -9,15 +9,27 @@ block content
           .btn-group.btn-breadcrumb
               a.btn.btn-default(href="/cPanel")
                 i.glyphicon.glyphicon-home
-              .btn.btn-default.active عرض نتائج وأسماء الطلبة
+              .btn.btn-default.active طباعة نتائج مادة دراسية .. 
       br
       br
       br
       .col-md-6.col-md-offset-2
-        form.form#delectionsForm(action="", method="", accept-charset="utf-8", role="form")
-          legend  عرض نتائج وأسماء الطلبة
+        form.form#formResultsOfStudent(action="", method="", accept-charset="utf-8", role="form")
+          legend  طباعة نتائج مادة دراسية ..
+
           .form-group
             .row
+              .col-xs-6.col-md-6
+                label.h4 اسم القسم
+                select.form-control.selectpicker#Department(name="department", data-live-search="true", data-size=5)
+                  option(value="", style='color:grey; display:none;') اختر القسم...
+                  for department in dep
+                    option(value="#{department.id}")|#{department.name}  
+              .col-xs-6.col-md-6
+                label.h4 اسم الشعبة
+                select.form-control.selectpicker#Division(name="division", data-live-search="true", data-size=5)       
+          .form-group
+            .row   
               .col-xs-6.col-md-6
                 label.h4 النظام الدراسي
                 select.form-control.selectpicker#semester(name="semester", data-live-search="true", data-size=5)
@@ -50,35 +62,25 @@ block content
                   option(value="11") الحادي عشر
                   option(value="12") الثاني عشر
           .form-group
-            .row
+            .row         
               .col-xs-6.col-md-6
-                label.h4 اسم القسم
-                select.form-control.selectpicker#department(name="department", data-live-search="true", data-size=5)
-                  option(value="", style='color:grey; display:none;') اختر القسم...
-                  for department in dep
-                    option(value="#{department.id}")|#{department.name}
-              .col-xs-6.col-md-6
-                label.h4 اسم الشعبة
-                select.form-control.selectpicker#division(name="division", data-live-search="true", data-size=5)
+                label.h4 المواد الدراسية
+                select.form-control.selectpicker#subject(name="subject", data-live-search="true", data-size=5)
           br
           hr
           .form-group
             .row
               .col-xs-4.col-xs-offset-1.col-md-4.col-md-offset-2
-                button#submit.btn.btn-primary(type="button")
+                button#ok.btn.btn-primary(target="_blank", type="button")
                   i.fa.fa-eye
-                  span  عرض نتائج الطلبة
-              .col-xs-4.col-md-4
-                button#viweStudentp.btn.btn-primary(type="button")
-                  i.fa.fa-eye
-                  span  عرض أسماء الطلبة    
-  br
+                  span  كشف النتيجة
+
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-select.min.js')
   script(src='/js/jquery.validate.min.js')
   script(src='/js/bootstrap-notify.min.js')
   script(src='/js/backToTop.js')
-  script(src='/js/reports.js')
   script(src='/js/helpers.js')
-  script(src='/js/detections.js')  
+  script(src='/js/resultsSubject.js')
+  script(src='/js/reports.js')  

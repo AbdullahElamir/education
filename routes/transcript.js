@@ -2299,4 +2299,116 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
     });
 });
 
+
+var objReport={};
+router.post('/setData', userHelpers.isLogin, function (req, res, next) {
+  objReport=req.body;
+  res.send(true);
+});
+
+function reportNamesOfstudents(obj,newObj) {
+  var level = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
+  HTML=' ';
+  HTML=' \
+  <body> \
+    <div class="container"> \
+      <div class="row"> \
+        <div class="col-xs-12"> \
+          <h5 class="text-center">  \
+              الهيئة الوطنية للتعليم التقني والفني \
+          </h5> \
+          <h5 class="text-center">  \
+              المعهد العالي للمهن الشاملة \
+          </h5> \
+          <h5 class="text-center">  \
+              القره بوللــــي \
+          </h5> \
+          <h5 class="text-center">  \
+            كشف باسماء طلبة قسم '+newObj.department+' شعبة '+newObj.dev+' \
+          </h5> \
+          <h5> \
+            الفصل <span>/</span> '+level[newObj.level-1]+'  '+newObj.semester+' \
+          </h5> \
+          <table class="table condensed"> \
+            <thead> \
+              <tr> \
+                <th class="text-center" width="7%">ت</th> \
+                <th class="text-center" width="30%">أسم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="17%">رقم القيد</th> \
+                <th class="text-center" width="25%">ملاحظات</th> \
+              </tr> \
+            </thead> \
+            <tbody> ';
+            var rowcounter=0;
+            var count=0;
+            for(i in obj){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td> \
+                  <td class="text-center">'+obj[i].set_number+'</td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+            var emptyRecord = 26-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
+            HTML=HTML+'</tbody> \
+          <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
+        </div> \
+      </body> \
+    </html>';
+  return HTML;
+  }
+
+router.get('/reportsNames', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('SELECT S.id,S.set_number,S.first_name,S.father_name,S.grand_name,SS.level,S.last_name,SS.DivisionId,SS.StudentId,SS.DepartmentId,SS.SemesterId FROM `SemesterStudents`AS SS ,`Students` AS S WHERE SS.StudentId=S.id AND SS.DivisionId=? AND SS.DepartmentId=? AND SS.SemesterId=? AND SS.level=? ', {
+    replacements: [objReport.devId,objReport.departmentId,objReport.semesterId,objReport.levelid]
+  }).then(function (result) {
+    console.log(result[0]);
+    jsr.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/reportNamesOfStudents.html"), "utf8"),
+        recipe: "phantom-pdf",
+        helpers: reportNamesOfstudents.toString()
+      },
+      data: {
+        obj:result[0],
+        newObj:objReport
+      }
+      }).then(function (response) {
+        response.result.pipe(res);
+      }); 
+  });
+});
+
 module.exports = router;

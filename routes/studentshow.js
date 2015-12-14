@@ -48,8 +48,8 @@ router.get('/', userHelpers.isLogin, function (req, res) {
         nats: nationality,
         student: student.rows,
         pagination: pagination,
-        collapseSeven: 'collapse in',
-        activeSevenOne: 'active',
+        collapseEight: 'collapse in',
+        activeEightsix: 'active',
         name: req.session.name,
         q: q
       });
