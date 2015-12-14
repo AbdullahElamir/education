@@ -137,6 +137,8 @@ router.get('/studentSem/:id', userHelpers.isLogin, function (req, res) {
                               sem: semester,
                               dept: department,
                               dev: Division,
+                              collapseEight: 'collapse in',
+                              activeEightsix: 'active',
                               semStudent: semstudent,
                               semty: semesterTy
                             });

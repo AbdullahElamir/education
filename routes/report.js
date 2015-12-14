@@ -789,7 +789,7 @@ router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
 });
 
 router.post('/subject', userHelpers.isLogin, function (req, res) {
-   obj=req.body;
+  obj=req.body;
   models.Sub_group.findAll({
       include: [{
         model: models.Subject,
@@ -1106,7 +1106,6 @@ router.get('/report2/:id', function(req, res) {
   router.get('/statisticalNumberOfStudents/:id', userHelpers.isLogin,  function (req, res, next) {
     model_step(req.params.id,req, res);
    
-    
   });
 
   // this statisticalNumberOfStudentsNot // widght A4
