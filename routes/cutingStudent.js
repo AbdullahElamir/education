@@ -57,7 +57,7 @@ router.get('/', userHelpers.isLogin, function (req, res) {
           student: student.rows,
           pagination: pagination,
           collapseFive: 'collapse in',
-          activeFiveOne: 'active',
+          activeFivethree: 'active',
           name: req.session.name,
           year:year[0],
           dept:dept[0],

@@ -791,7 +791,7 @@ router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
 });
 
 router.post('/subject', userHelpers.isLogin, function (req, res) {
-   obj=req.body;
+  obj=req.body;
   models.Sub_group.findAll({
       include: [{
         model: models.Subject,
