@@ -2298,4 +2298,5 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
       }); //has foreign-key restriction
     });
 });
+
 module.exports = router;
