@@ -1263,7 +1263,11 @@ function model_step(id,req, res){
     },
     /* UPDATE VALUE */
     function Updatephone(err,result) {
-      rat(result,this);
+      if(result.length>0){
+        rat(result,this);
+      }else{
+        res.redirect('/report/sticalNumberOfStudents?msg=1');
+      }
       
     },
     function rend(err,result) {
