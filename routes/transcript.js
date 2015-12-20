@@ -1902,6 +1902,10 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                         order: '`id` DESC',
                         limit:2,
                       }).then(function(semesterid){
+                        if(semesterid[1]==undefined){
+                          semesterid[1]=[];
+                          semesterid[1]['id']=-99;
+                        }
                         models.Academic_transcript.findAll({
                           where:{
                             SemesterStudentId:semesterid[1].id,
@@ -1949,7 +1953,9 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                                
                               }
                               models.Academic_transcript.bulkCreate(listF);
-                            });  
+                            }); 
+
+
                           }
                           var list = [];
                       
