@@ -769,9 +769,10 @@ function SubjectReport(obj,newObj) {
   }
 
 router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT SU.name as nameC,f.name as nameF,SU.no_th_unit,SU.no_pr_unit,Ss.level from Faculty_members as f ,SemesterStudents as Ss ,Semesters as Se ,Subjects as SU ,Sub_groups as S WHERE S.SubjectId=SU.id and S.FacultyMemberId=f.id and Ss.SemesterId=S.SemesterId and S.DivisionId=? ', {
+  models.sequelize.query('SELECT SU.name as nameC,f.name as nameF,SU.status,SU.no_th_unit,SU.no_pr_unit,Ss.level from Faculty_members as f ,SemesterStudents as Ss ,Semesters as Se ,Subjects as SU ,Sub_groups as S WHERE S.SubjectId=SU.id and S.FacultyMemberId=f.id and Ss.SemesterId=S.SemesterId and S.DivisionId=? and SU.status=1', {
     replacements: [objReport.devId]
   }).then(function (result) {
+    console.log(result[0]);
     jsreport.render({
       template: {
         content: fs.readFileSync(path.join(__dirname, "../views/SubjectReport.html"), "utf8"),
