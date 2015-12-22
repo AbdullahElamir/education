@@ -72,7 +72,7 @@ $('#Division').on('change', function(){
 
   if(qs["msg"]==1){
     custNotify("success","نجح","تمت عملية رصد الدرجات بنجاح","ok-sign","bounceInDown","bounceOutUp");
-    var pageUrl = '/subject'
+    var pageUrl = '/subjectOfDagree'
     window.history.pushState("","",pageUrl);
   }
 
