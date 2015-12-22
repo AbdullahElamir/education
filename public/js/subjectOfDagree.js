@@ -16,7 +16,7 @@ $('#Division').on('change', function(){
   var idDivision = $(this).val();
   $('#Semester').on('change', function(){
     var idSemester = $(this).val();
-      obj={idDivision,idSemester};
+      obj={idDivision:idDivision,idSemester:idSemester};
       $.post('/subjectOfDagree/subject/',obj,function(data){
         $('#Subject').empty();
         $('#Subject').append('<option value="" style="color:grey; display:none;">اختر مادة...</option>');
@@ -27,28 +27,96 @@ $('#Division').on('change', function(){
     });
   });
 
+ $('body').on('click', '#saveDegree', function(){
+    //gets table
+    var oTable = document.getElementById('tbody');
+    //gets rows of table
+    var rowLength = oTable.rows.length;
+    //loops through rows   
+    var static_row = oTable.rows.item(0).cells;
+    /* get your cell info here */
+    var oCells = oTable.rows.item(0).cells;
+    var div = oCells.item(0).innerHTML; 
+    var sem = oCells.item(1).innerHTML; 
+    var sub = oCells.item(2).innerHTML; 
+    var studentdata=[];
+    for (i = 0; i < rowLength; i++){
+      var oCells = oTable.rows.item(i).cells;
+      /* get your cell info here */
+      var id = oCells.item(3).innerHTML;
+      var grade = $('#grade'+i).val();
+      obj={idstudent:id,grade:grade} ;
+      studentdata.push(obj);
+    }
+    update={allIds:{div:div,sem:sem,sub:sub},student:studentdata};
+     $.post("/subjectOfDagree/updateGrade",update, function(data, error){
+      
+      window.location.href='/subjectOfDagree?msg=1';
+
+     });
+  
+  });
+
+   var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i) {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+
+  if(qs["msg"]==1){
+    custNotify("success","نجح","تمت عملية رصد الدرجات بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    var pageUrl = '/subject'
+    window.history.pushState("","",pageUrl);
+  }
+
+ 
+
+
+
 $('#Division').on('change', function(){
+  $("#tbody").empty();
   var idDivision = $(this).val();
   $('#Semester').on('change', function(){
+    $("#tbody").empty();
     var idSemester = $(this).val();
       $('#Subject').on('change', function(){
         var idSubject = $(this).val();
-         obj={idDivision,idSemester,idSubject};
-      //   $.post("/link", obj, function(data, error){
-      //   if(data.stat !=true){
-      //     alert("no");
-      //   } 
-      //   else {
-          $("#tbody").empty();
-      //    for (var i = 0; i < data.result.length; i++) {
-          $("#tbody").append('<tr>'+
-            '<td class="text-center">name</td>'+
-            '<td class="text-center">id</td>'+
-            '<td class="text-center"><input style="width:100px;" type="text" value="", name="sum"></input></td>'+
+         obj={idDivision:idDivision,idSemester:idSemester,idSubject:idSubject};
+        
+        $.post("/subjectOfDagree/getStudentNames",obj, function(data, error){
+         $("#tbody").empty();
+          for(i in data){
+            var color=' ';
+            if(data[i].grade<50){
+              color='style=\'background-color:#ee9ca7\'';
+            }
+          $("#tbody").append('<tr '+color+'>'+
+            '<td hidden>'+idDivision+'</td>'+
+            '<td hidden>'+idSemester+'</td>'+
+            '<td hidden>'+idSubject+'</td>'+
+            '<td hidden>'+data[i].id+'</td>'+
+            '<td class="text-center">'+data[i].first_name+" "+data[i].father_name+" "+data[i].last_name+'</td>'+
+            '<td class="text-center">'+data[i].set_number+'</td>'+
+            '<td class="text-center"><input  id="grade'+i+'" style="width:100px;" type="text" value='+data[i].grade+'></input></td>'+
             '</td>');
-         // };
-      //   }
-      // });
+        }
+
+        $("#tbody").append('<div class="form-group"> \
+          <div class="row">\
+          <div class="col-xs-4 col-xs-offset-1 col-md-4 col-md-offset-2">\
+            <button id="saveDegree" target="_blank" type="button" class="btn btn-primary"><i class="fa fa-eye"></i><span> حفظ الدرجات النهائية للطلبة</span></button>\
+          </div>\
+        </div>\
+        </div>');
+        }); 
+
     });
   });
 });

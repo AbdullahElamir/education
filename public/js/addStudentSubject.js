@@ -71,13 +71,13 @@ $(document).ready(function(){
       degreeSum=$("#degree #summm"+i).text();
       RatioSum=$("#degree #summ"+i).text();
       var pass=0,fail=0;
-      if(degreeFinal<parseInt((0.55*ratioDegreFinal))){
+      if(degreeFinal<parseInt((0.50*ratioDegreFinal))){
         $("#degree #final"+i).css({ 'background-color' : '  #ee9ca7'});
         pass=1; 
       } else {
         pass=0;
       } 
-      if(degreeSum<parseInt((RatioSum*0.55))){
+      if(degreeSum<parseInt((RatioSum*0.50))){
         $("#degree #sum"+i).css({ 'background-color' : '  #ee9ca7'});  
         fail=1;
       } else {

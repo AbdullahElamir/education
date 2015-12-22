@@ -34,6 +34,48 @@ router.get('/division/:id', userHelpers.isLogin, function (req, res) {
     });
 });
 
+//updateGrade
+router.post('/updateGrade', userHelpers.isLogin, function (req, res) {
+  console.log(req.body);
+  for(i in req.body.student){
+  models.sequelize.query('Update Academic_transcripts set sum_dagree=? where StudentId=? and SubGroupId in (select id from Sub_groups where DivisionId=? and SubjectId=? and SemesterId=? and status=1)', {
+      replacements: [req.body.student[i].grade,req.body.student[i].idstudent,req.body.allIds.div,req.body.allIds.sub,req.body.allIds.sem]
+     })
+    .then(function (update) {
+      res.send(true);  
+    });
+  }
+
+  
+
+
+
+  
+});
+
+//getStudentNames
+router.post('/getStudentNames', userHelpers.isLogin, function (req, res) {
+  console.log(req.body);
+  //select * from Students where id in (select StudentId from Academic_transcripts where SubGroupId in (select id from Sub_groups where SubjectId=4 and SemesterId=2 and status=1) and status=1)
+  models.sequelize.query('select * from Students where id in (select StudentId from Academic_transcripts where SubGroupId in (select id from Sub_groups where DivisionId=? and SubjectId=? and SemesterId=? and status=1) and status=1)', {
+      replacements: [req.body.idDivision,req.body.idSubject,req.body.idSemester]
+    })
+    .then(function (obj) {
+      models.sequelize.query('select StudentId,sum_dagree,SubGroupId,SemesterStudentId from Academic_transcripts where SubGroupId in (select id from Sub_groups where DivisionId=? and SubjectId=? and SemesterId=? and status=1)', {
+      replacements: [req.body.idDivision,req.body.idSubject,req.body.idSemester]
+    })
+    .then(function (std) {
+      console.log(std[0]);
+      for(i in std[0]){
+      if(obj[0][i].id==std[0][i].StudentId){
+        obj[0][i].grade= std[0][i].sum_dagree;
+      }
+      }
+      console.log(obj[0]);
+      res.send(obj[0]);
+    });});
+});
+
 router.post('/subject', userHelpers.isLogin, function (req, res) {
   obj=req.body;
   models.Sub_group.findAll({

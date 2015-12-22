@@ -2168,7 +2168,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
         // most has practical exam 
         if(req.body.isPractical != undefined){
           //console.log("do practical exam ");
-          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) + parseFloat(req.body.final_practical);
           } else {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree);
@@ -2182,7 +2182,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       if(obj[0][0].has_practical==1){
         // dont has practical exam 
         //console.log("the subject dont has practical exam");
-         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) ;
           } else {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree);
@@ -2237,7 +2237,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.body.isPractical != undefined){
-          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) + parseFloat(req.body.body.final_practical);
           } else {
             req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
@@ -2249,7 +2249,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
       }
       if(obj[0][0].has_practical==1){
         // dont has practical exam 
-        if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+        if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) ;
         } else {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
