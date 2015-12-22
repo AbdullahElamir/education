@@ -51,17 +51,22 @@ block content
                     label.h4 المواد الدراسية
                     select.form-control.selectpicker#Subject(name="subject", data-live-search="true", data-size=5)
         
-        br
-        .panel.panel-default
-        .panel-heading
-          .row
-            .pull-right(style="margin-right: 14px;")
-              h2.panel-title عرض الطــــلبــة
-    
-        .panel-body(style="")
-          form.form(action="", method="", accept-charset="utf-8", role="form")  
-            .form-group
-              
+        form.form#form(action="", method="", accept-charset="utf-8", role="form")  
+              .form-group
+                .table-responsive
+                  table.table.table-bordred.table-striped.table-condensed
+                    thead
+                      tr.info
+                        th.text-center الاسم 
+                        th.text-center رقم القيد
+                        th.text-center الدرجة
+                    tbody#tbody
+                      tr
+                        td.text-center 
+                        td.text-center 
+                        td.text-center 
+            
+
   script(src='/js/jquery-2.1.1.min.js')
   script(src='/js/bootstrap.min.js')
   script(src='/js/bootstrap-toggle.min')
