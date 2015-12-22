@@ -6,6 +6,8 @@ var userHelpers = require('../app/userHelpers');
 var jsreport = require("jsreport");
 var fs = require("fs");
 var path = require("path");
+var Step = require('step');
+var nationality = require('../Nationality');
 
 router.get('/NumberOfStudents', userHelpers.isLogin, function (req, res) {
    models.Semester.findAll({
@@ -470,9 +472,7 @@ router.post('/setData2', userHelpers.isLogin, function (req, res, next) {
 router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, next) {
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
-  console.log(dateSem);
   var date=new Date(dateSem);
-  console.log(date);
   models.sequelize.query('select  std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1))) and status=1', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
   }).then(function (studentReport) {
@@ -495,7 +495,6 @@ router.get('/presenceAbsenceSubject', userHelpers.isLogin, function (req, res, n
 router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, next) {
   var dateSem=objReport.semester+"-01-01"
   dateSem = dateSem.replace(/\s/g, '');
-  console.log(dateSem);
   var date=new Date(dateSem);
   models.sequelize.query('select std.first_name,std.father_name,std.grand_name,std.last_name,std.set_number from Students as std where std.id in (select at.StudentId from Academic_transcripts as at where at.SubGroupId in (select subg.id from Subjects as sub,Sub_groups as subg where sub.id=? and sub.id=subg.SubjectId) and at.SemesterStudentId in (select ss.id from SemesterStudents as ss where ss.DivisionId=? and ss.level=? and ss.SemesterId in (SELECT sem.id FROM `Semesters` as sem where sem.year=? and sem.sem_type=? and sem.system_type=1))) and status=1', {
     replacements: [objReport.courseId,objReport.devId,objReport.level,date,objReport.semType]
@@ -512,7 +511,6 @@ router.get('/PresenceAbsenceLectures', userHelpers.isLogin, function (req, res, 
       models.sequelize.query('select s.FacultyMemberId,s.sub_group_name from Sub_groups as s where s.SubjectId=? and SemesterId=? and s.DivisionId=?', {
       replacements: [objReport.courseId,semId,objReport.devId]
       }).then(function (subg) {
-        console.log(subg);
         var su;
         var subString='';
         if(subg[0][0]== undefined){
@@ -771,6 +769,7 @@ router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
   models.sequelize.query('SELECT f.name as nameF,SU.name as nameC,SU.no_th_unit,SU.no_pr_unit from Subjects AS SU, Faculty_members as f ,Sub_groups as S WHERE S.SubjectId=SU.id AND S.FacultyMemberId=f.id and S.DivisionId=? ', {
     replacements: [objReport.devId]
   }).then(function (result) {
+    console.log(result[0]);
     jsreport.render({
       template: {
         content: fs.readFileSync(path.join(__dirname, "../views/SubjectReport.html"), "utf8"),
@@ -1085,35 +1084,35 @@ router.get('/report2/:id', function(req, res) {
   });
  
 });
-
-  // this statisticalNumberOfStudents // widght A3
-  router.get('/statisticalNumberOfStudents', userHelpers.isLogin, function (req, res, next) {
-    jsreport.render({
-      template: {
-        content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
-        phantom:{
-          format: 'A3',
-          orientation: "landscape",
-        },
-        recipe: "phantom-pdf"
+  router.get('/sticalNumberOfStudents', userHelpers.isLogin ,function (req, res, next) {
+    models.Semester.findAll({
+      where:{
+        status:1
       },
-      // data:{allResults : results , national:nationality}
-    }).then(function (response) {
-      response.result.pipe(res);
-    });
+      order: '`id` DESC'
+    }).then(function(result){
+      res.render('statisticalNumberOfStudents', {
+      title: 'طباعة تقارير',
+      name: req.session.name,
+      sem: result,
+      collapseEight: 'collapse in',
+      activeEightThree: 'active'
+      });
+    });    
+  });
+  // this statisticalNumberOfStudents // widght A3
+  router.get('/statisticalNumberOfStudents/:id', userHelpers.isLogin,  function (req, res, next) {
+    model_step(req.params.id,req, res);
+   
   });
 
   // this statisticalNumberOfStudentsNot // widght A4
   router.get('/statisticalNumberOfStudentsNot', userHelpers.isLogin, function (req, res, next) {
-    console.log(objReport2.type);
-    console.log(objReport2.semester);
     var date1 = objReport2.semester+"-01-01";
     var date=date1.replace(" ","");
-    console.log(date);
         models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
       replacements: [objReport2.type,date]
     }).then(function (studentReport) {
-      console.log(studentReport[0]);
       Bdate=[];
       gender=[];
       for(i in studentReport[0]){
@@ -1252,5 +1251,97 @@ router.get('/report2/:id', function(req, res) {
       response.result.pipe(res);
     });
   });
+
+
+function model_step(id,req, res){
+  Step(
+    /* SELECT OLD VALUE FROM DB */
+    function SelectStu() {
+      selectStu(id,this);
+    },
+    /* UPDATE VALUE */
+    function Updatephone(err,result) {
+      if(result.length>0){
+        rat(result,this);
+      }else{
+        res.redirect('/report/sticalNumberOfStudents?msg=1');
+      }
+      
+    },
+    function rend(err,result) {
+      jsreport.render({
+        template: {
+          content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
+          
+          phantom:{
+            format: 'A3',
+            orientation: "landscape",
+          },
+          recipe: "phantom-pdf"
+        },
+        data:{data : result }
+      }).then(function (response) {
+        response.result.pipe(res);
+      });
+    }
+  );
+}
+function selectStu(id,cb){
+  models.sequelize.query('SELECT *,`d`.`name` as dname ,`stu`.`createdAt` as stuAt  FROM `SemesterStudents` ss,`Semesters` sem ,`Departments` d,`Students` stu WHERE `ss`.`DepartmentId`=`d`.`id` AND`stu`.`id`=`ss`.`StudentId` AND `ss`.`level`=6 AND `ss`.`SemesterId`=`sem`.`id` AND `sem`.`id`=? AND ((SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? )=(SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? AND `ac`.`sum_dagree`>=50))', {
+    replacements: [id,id,id]
+  })
+  .then(function (stu) {
+    cb(null,stu[0]);
+  });
+}
+function rat(result,cb){
+  for(i in result){
+    models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date', {
+      replacements: [result[i].id]
+    })
+    .then(function (mix) {
+      var array = getRatioForALlSemester(mix);
+      var rat = array[array.length - 1];
+      result[i]['rat']=[];
+      result[i]['rat'].push(rat);
+      result[i]['date']='';
+      result[i].date=result[i].birth_date.getFullYear()+'/'+result[i].birth_date.getMonth()+1+'/'+result[i].birth_date.getDate();
+      result[i]['stuAtd']='';
+      result[i].stuAtd=result[i].stuAt.getFullYear()+'/'+result[i].stuAt.getMonth()+1+'/'+result[i].stuAt.getDate();
+      if (rat >= 85) {
+        statusrat = "ممتاز";
+      } else if (rat >= 75 && rat < 85) {
+        statusrat = "جيدجدا";
+      } else if (rat >= 65 && rat < 75) {
+        statusrat = "جيد";
+      } else if (rat >= 50 && rat < 65) {
+        statusrat = "مقبول";
+      } else if (rat >= 35 && rat < 50) {
+        statusrat = "ضعيـف";
+      } else if (rat >= 0 && rat < 35) {
+        statusrat = "ضعيف جدا";
+      }
+      result[i]['statusrat']=statusrat;
+      result[i]['nat']=nationality[result[i]['nationality']-1].name;
+      var year = result[i].year.getFullYear();
+      var sem;
+      var semtype=result[i].sem_type;
+      if(semtype==1){
+        sem="ربيع "+year;
+      } else if(semtype==2){
+        sem="خريف "+year;
+      } else if(semtype==3){
+        sem="صيف "+year;
+      } 
+      result[i]['semyear']=sem;
+      if(i==result.length-1){
+        cb(null,result);  
+      }
+    });
+
+  }
+
+  
+}
 
 module.exports = router;
