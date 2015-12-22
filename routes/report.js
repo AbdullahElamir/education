@@ -769,7 +769,6 @@ router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
   models.sequelize.query('SELECT f.name as nameF,SU.name as nameC,SU.no_th_unit,SU.no_pr_unit from Subjects AS SU, Faculty_members as f ,Sub_groups as S WHERE S.SubjectId=SU.id AND S.FacultyMemberId=f.id and S.DivisionId=? ', {
     replacements: [objReport.devId]
   }).then(function (result) {
-    console.log(result[0]);
     jsreport.render({
       template: {
         content: fs.readFileSync(path.join(__dirname, "../views/SubjectReport.html"), "utf8"),
@@ -1096,7 +1095,7 @@ router.get('/report2/:id', function(req, res) {
       name: req.session.name,
       sem: result,
       collapseEight: 'collapse in',
-      activeEightThree: 'active'
+      activeEighteight: 'active'
       });
     });    
   });

@@ -33,7 +33,34 @@ $('#Division').on('change', function(){
     var idSemester = $(this).val();
       $('#Subject').on('change', function(){
         var idSubject = $(this).val();
-        alert("ok");
+
+      //   $.post("/searchMarriage", $("#search_marriage").serializeObject(), function(data, error){
+      //   if(data.stat !=true){
+      //     alert("no");
+      //   } 
+      //   else {
+      //    $("#tbody").empty();
+      //    for (var i = 0; i < data.result.length; i++) {
+      //     date = new Date(data.result[i].Personal.Birth_Date);
+      //     var day = date.getDate();
+      //     var monthIndex = date.getMonth()+1;
+      //     var year = date.getFullYear();
+      //     $("#tbody").append('<tr>'+
+      //       '<td class="text-center">'+data.result[i].Personal.Arabic_Familyname+' '+data.result[i].Personal.Arabic_Grandfathername+' '+data.result[i].Personal.Arabic_Fathername+' '+data.result[i].Personal.Arabic_Firstname+'</td>'+
+      //       '<td class="text-center">'+year+"-"+monthIndex+"-"+day+'</td>'+
+      //       '<td class="text-center">'+data.result[i].Kinship.kinship_name+'</td>'+
+      //       '<td class="text-center" >'+
+      //       '<p data-placement="top", data-toggle="tooltip", title="تحديد">'+
+      //       '<input id='+"mariag"+data.result[i].PersonalId+' name="Familidm" type="hidden" value="'+data.result[i].FamilyId+'"></input>'+
+      //       '<input id='+"Social"+data.result[i].PersonalId+' name="Socialstatus" type="hidden" value="'+data.result[i].Personal.Socialstatus_Id+'"></input>'+
+      //       '<input id='+"Recordnumber"+data.result[i].PersonalId+' name="Recordnumber" type="hidden" value="'+data.result[i].Family.Recordnumber+'"></input>'+
+      //       '<input id='+"FamilyRecordDate"+data.result[i].PersonalId+' name="FamilyRecordDate" type="hidden" value="'+data.result[i].Family.FamilyRecordDate+'"></input>'+
+      //       '<input id='+"Registrynumber"+data.result[i].PersonalId+' name="Registrynumber" type="hidden" value="'+data.result[i].Family.Registrynumber+'"></input>'+
+      //       '<input id='+"maria"+data.result[i].PersonalId+' name="OfficeId" type="hidden" value="'+data.result[i].Family.OfficeId+'"></input>'+
+      //       '<input class="radioBtn" id="mariag" type="radio" value="'+data.result[i].PersonalId+'", name="radio_M"></input></p></td>');
+      //    };
+      //   }
+      // });
     });
   });
 });
