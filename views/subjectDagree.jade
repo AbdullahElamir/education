@@ -1,0 +1,64 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          .btn.btn-default.active رصــــــد الدرجــــات
+        br
+        br
+        .panel.panel-default
+          .panel-heading
+            .row
+              .pull-right(style="margin-right: 14px;")
+                h2.panel-title عرض الطــــلبــة
+      
+          .panel-body(style="")
+            form.form(action="", method="", accept-charset="utf-8", role="form")  
+              .form-group
+                .row
+                  .col-xs-3.col-md-3
+                    label.h4 اسم القسم
+                    select.form-control.selectpicker#Department(name="department", data-live-search="true", data-size=5)
+                      option(value="", style='color:grey; display:none;') اختر القسم...
+                      for department in dept
+                        option(value="#{department.id}")|#{department.name}  
+                  .col-xs-3.col-md-3
+                    label.h4 اسم الشعبة
+                    select.form-control.selectpicker#Division(name="division", data-live-search="true", data-size=5)       
+                 
+                  .col-xs-3.col-md-3
+                    label.h4 النظام الدراسي
+                    select.form-control.selectpicker#Semester(name="semester", data-live-search="true", data-size=5)
+                      option(value="", style='color:grey; display:none;') اختر النظام الدراسي...
+                      for s in sem
+                        option(value="#{s.id}") 
+                          if s.system_type==1
+                            if s.sem_type == 1
+                              | ربيع #{s.year.getFullYear()}
+                            if s.sem_type == 2
+                              | خريف #{s.year.getFullYear()}
+                            if s.sem_type == 3
+                              | صيف #{s.year.getFullYear()}
+                          if s.system_type==2
+                            | سنة #{s.year.getFullYear()}
+                       
+                  .col-xs-3.col-md-3
+                    label.h4 المواد الدراسية
+                    select.form-control.selectpicker#Subject(name="subject", data-live-search="true", data-size=5)
+
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-toggle.min')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/subjectOfDagree.js')

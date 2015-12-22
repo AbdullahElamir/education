@@ -708,7 +708,6 @@ function SubjectReport(obj,newObj) {
                 <th class="text-center" width="7%">ت</th> \
                 <th class="text-center" width="20%">المـــادة</th> \
                 <th class="text-center" width="10%">عدد الـوحدات</th> \
-                <th class="text-center" width="10%">الـفصل</th> \
                 <th class="text-center">اسم عضو هيئة التدريس</th> \
                 <th class="text-center" width="20%">ملاحظات</th> \
               </tr> \
@@ -722,9 +721,8 @@ function SubjectReport(obj,newObj) {
               var sum = obj[i].no_pr_unit+obj[i].no_th_unit;
               HTML=HTML+' <tr> \
                   <td class="text-center number">'+count+'</td> \
-                  <td class="text-center">'+obj[i].nameC+'</td>';
-                  HTML=HTML+'<td class="text-center">'+sum+'</td>';
-                  HTML=HTML+'<td class="text-center">'+level[obj[i].level-1]+'</td> \
+                  <td class="text-center">'+obj[i].nameC+'</td> \
+                  <td class="text-center">'+sum+'</td> \
                   <td class="text-center">'+obj[i].nameF+'</td> \
                   <td class="text-center"></td> \
                 </tr> ';
@@ -735,7 +733,6 @@ function SubjectReport(obj,newObj) {
               count++;
               HTML=HTML+' <tr> \
                   <td class="text-center number">'+count+'</td> \
-                  <td class="text-center"></td> \
                   <td class="text-center"></td> \
                   <td class="text-center"></td> \
                   <td class="text-center"></td> \
@@ -771,7 +768,7 @@ function SubjectReport(obj,newObj) {
   }
 
 router.get('/subjectReport', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT SU.name as nameC,f.name as nameF,SU.no_th_unit,SU.no_pr_unit,Ss.level from Faculty_members as f ,SemesterStudents as Ss ,Semesters as Se ,Subjects as SU ,Sub_groups as S WHERE S.SubjectId=SU.id and S.FacultyMemberId=f.id and Ss.SemesterId=S.SemesterId and S.DivisionId=? ', {
+  models.sequelize.query('SELECT f.name as nameF,SU.name as nameC,SU.no_th_unit,SU.no_pr_unit from Subjects AS SU, Faculty_members as f ,Sub_groups as S WHERE S.SubjectId=SU.id AND S.FacultyMemberId=f.id and S.DivisionId=? ', {
     replacements: [objReport.devId]
   }).then(function (result) {
     jsreport.render({
