@@ -2,9 +2,16 @@ $(document).ready(function(){
   $('body').on('click', '#normal', function(){
     var isvalidate=$("#reportForm").valid();
     if(isvalidate){
-    window.location.href='/report/statisticalNumberOfStudents/'+$('#semester').val();
+    window.location.href='/report/statisticalNumberOfStudents/'+$('#semester').val()+'?p=1';
     }
   });
+  $('body').on('click', '#csv', function(){
+    var isvalidate=$("#reportForm").valid();
+    if(isvalidate){
+     window.location.href='/report/statisticalNumberOfStudents/'+$('#semester').val()+'?p=2';
+    }
+  });
+
   $("#reportForm").validate({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     rules:{

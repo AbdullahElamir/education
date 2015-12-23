@@ -7,6 +7,7 @@ var jsreport = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 var Step = require('step');
+var json2csv = require('json2csv');
 var nationality = require('../Nationality');
 
 router.get('/NumberOfStudents', userHelpers.isLogin, function (req, res) {
@@ -1104,7 +1105,11 @@ router.get('/report2/:id', function(req, res) {
   });
   // this statisticalNumberOfStudents // widght A3
   router.get('/statisticalNumberOfStudents/:id', userHelpers.isLogin,  function (req, res, next) {
-    model_step(req.params.id,req, res);
+    var p = userHelpers.getPage(req);
+    if(p>2 || p<1){
+      p=1;
+    }
+    model_step(req.params.id,p,req, res);
    
   });
 
@@ -1255,14 +1260,14 @@ router.get('/report2/:id', function(req, res) {
   });
 
 
-function model_step(id,req, res){
+function model_step(id,p,req, res){
   Step(
     /* SELECT OLD VALUE FROM DB */
     function SelectStu() {
       selectStu(id,this);
     },
     /* UPDATE VALUE */
-    function Updatephone(err,result) {
+    function getrat(err,result) {
       if(result.length>0){
         rat(result,this);
       }else{
@@ -1271,7 +1276,8 @@ function model_step(id,req, res){
       
     },
     function rend(err,result) {
-      jsreport.render({
+      if(p==1){
+        jsreport.render({
         template: {
           content:  fs.readFileSync(path.join(__dirname, "../views/statisticalNumberOfStudents.html"), "utf8"),
           
@@ -1285,6 +1291,17 @@ function model_step(id,req, res){
       }).then(function (response) {
         response.result.pipe(res);
       });
+      }else{
+        var fields = ['first_name','father_name','grand_name','last_name','date','place_birth','nat' ,'dname','set_number','statusrat', 'rat','stuAtd','semyear','last_cert','mother_name','nid',];
+        var fieldNames = ['الاســــــم', 'الاب', 'الجد','اللقب','تـاريـخ الـمـيـلاد','مـكـان الـمـيـلاد','الـجـنـسـيـة' ,'الـقـسـم','رقـم الـقـيـد ','الـتـقـديـر الـعـام', 'الـنـسـبـة الـمئـويـة','تـاريـخ الالـتـحـاق بـالـمـركـز','تـاريـخ الـتـخرج مـحـدد بـالـفـصـل ','الـمـؤهـل الـسـابـق للاـتـحـاق بـالـمـركـز ','الام ','الـرقـم الـوطـنـي',];
+        json2csv({ data: result, fields: fields, fieldNames : fieldNames }, function(err, csv) {
+          if (err) console.log(err);
+          res.attachment('data.csv');
+          res.send(csv);
+        });
+      }
+      
+
     }
   );
 }
@@ -1304,8 +1321,8 @@ function rat(result,cb){
     .then(function (mix) {
       var array = getRatioForALlSemester(mix);
       var rat = array[array.length - 1];
-      result[i]['rat']=[];
-      result[i]['rat'].push(rat);
+      result[i]['rat']='';
+      result[i]['rat']=rat;
       result[i]['date']='';
       result[i].date=result[i].birth_date.getFullYear()+'/'+result[i].birth_date.getMonth()+1+'/'+result[i].birth_date.getDate();
       result[i]['stuAtd']='';
