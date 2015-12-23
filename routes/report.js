@@ -87,7 +87,7 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
       <div class="row"> \
         <div class="col-xs-12"> \
           <h5 class="text-center">  \
-            المعهد العالي للمهن الطبية القره بوللي \
+            المعهد‪ العالي للـــمهن الشاملة القره بوللي \
           </h5> \
           <h5 class="text-center">  \
            كشف حضور وغياب المحاضرات للفصل '+level[newObj.level-1]+' '+newObj.dev+' للفصل الدراسي '+semText+'  \
@@ -388,7 +388,7 @@ function presenceAbsenceSubject(obj,newObj) {
       <div class="row"> \
         <div class="col-xs-12"> \
           <h5 class="text-center">  \
-            المعهد العالي للمهن الطبية القره بوللي \
+            المعهد‪ العالي للـــمهن الشاملة القره بوللي \
           </h5> \
           <h5 class="text-center">  \
             كشف حضور وغياب الامتحان النهائي للفصل '+level[newObj.level-1]+' '+newObj.dev+' للفصل الدراسي '+semText+'  \

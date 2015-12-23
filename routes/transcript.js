@@ -921,7 +921,7 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
                 <div class="space"></div>\
                 الهيئـة الوطنيـة للتعليـم التقنـــي والفنـــي\
                 <div class="space"></div>\
-                المعهد العالي للمهن الطبية القره بوللي</h4>\
+                المعهد‪ العالي للــمهن الشاملة القره بوللي</h4>\
               </div>\
             </div>\
             <div class="col-xs-5">\
