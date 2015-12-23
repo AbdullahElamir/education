@@ -1535,6 +1535,78 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
 });
 
 
+router.get('/studentDefinition/:id', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('select * from Students where id=? and status=1', {
+    replacements: [req.params.id]
+  }).then(function (std) {
+    models.sequelize.query('select SemesterId,level,DivisionId,DepartmentId from SemesterStudents where StudentId=? and status=1 order by level', {
+      replacements: [req.params.id]
+    }).then(function (dept) {
+      var level='';
+      var semId=0;
+      var depId=0;
+      if(dept[0]!=0){
+      var array=["الأول","الثاني","التالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر"];
+      level=array[(dept[0][dept[0].length-1].level)-1];
+      semId=dept[0][dept[0].length-1].SemesterId;
+      depId=dept[0][0].DepartmentId;
+      }
+      var full_name=std[0][0].first_name+" "+std[0][0].father_name+" "+std[0][0].last_name;
+      var set_number=std[0][0].set_number;
+      models.sequelize.query('select dep.name as depname,dev.name as devname from Departments as dep,Divisions as dev where dep.id=? and dep.id=dev.DepartmentId', {
+        replacements: [depId]
+      }).then(function (depname) {
+        models.sequelize.query('select * from Semesters where id=?', {
+          replacements: [semId]
+        }).then(function (sem) {
+          var cuyear,curyearF,semtype,sem_string,year,yearOnly,yearP;
+          if(sem[0][0]!=undefined){
+            cuyear=sem[0][0].starting_date
+            curyearF=cuyear.getFullYear()+"/"+(cuyear.getMonth()+1)+"/"+cuyear.getDate();
+            semtype=sem[0][0].sem_type;
+            sem_string=' ';
+            year;
+            year=sem[0][0].year;
+            yearF=year.getFullYear()+"/"+(year.getMonth()+1)+"/"+year.getDate();
+            yearOnly=year.getFullYear();
+            yearP=year.getFullYear()+1;
+            if(semtype==1){
+              sem_string='ربيعي';
+            } else if(semtype==2){
+              sem_string='خريف';
+            } else if(semtype==3){
+              sem_string='صيفي';
+            }
+          }
+          var dept="......................",div="........................";
+          if(depname[0]!=0){
+            dept=depname[0][0].depname;
+            div=depname[0][0].devname;
+          } 
+          jsr.render({
+            template: {
+              content: fs.readFileSync(path.join(__dirname, "../views/studentDefinition.html"), "utf8"),
+              recipe: "phantom-pdf",
+            },
+            data:{
+              full_name:full_name,
+              set_number:set_number,
+              dept:dept,
+              div:div,
+              level:level,
+              sem_string:sem_string,
+              yearF:curyearF,
+              yearOnly:yearOnly,
+              yearP:yearP
+            }
+          }).then(function (response) {
+            response.result.pipe(res);
+            }); 
+          });
+        });
+      });
+    });
+  });
 
 router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
   models.Subject.findOne({
@@ -2096,7 +2168,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
         // most has practical exam 
         if(req.body.isPractical != undefined){
           //console.log("do practical exam ");
-          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) + parseFloat(req.body.final_practical);
           } else {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree);
@@ -2110,7 +2182,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       if(obj[0][0].has_practical==1){
         // dont has practical exam 
         //console.log("the subject dont has practical exam");
-         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) ;
           } else {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree);
@@ -2165,7 +2237,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.body.isPractical != undefined){
-          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) + parseFloat(req.body.body.final_practical);
           } else {
             req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
@@ -2177,7 +2249,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
       }
       if(obj[0][0].has_practical==1){
         // dont has practical exam 
-        if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+        if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) ;
         } else {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
