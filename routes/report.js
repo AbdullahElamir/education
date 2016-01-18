@@ -875,7 +875,7 @@ function reportresultsOfStudent(obj,newObj) {
                   <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td>';
                   HTML=HTML+'<td class="text-center"></td>';
                   HTML=HTML+'<td class="text-center"></td> \
-                  <td class="text-center">'+obj[i].final_exam+'</td> \
+                  <td class="text-center"></td> \
                   <td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
                 </tr> ';
             }

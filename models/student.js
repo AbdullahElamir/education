@@ -29,6 +29,9 @@ module.exports = function(sequelize, DataTypes) {
     set_number: DataTypes.STRING(150),
     student_rate: DataTypes.FLOAT(),
     nid: DataTypes.TEXT(),
+    account_no: DataTypes.STRING(150),
+    bank: DataTypes.STRING(150),
+    bank_branch: DataTypes.STRING(150),
     status :{type: DataTypes.INTEGER(1),defaultValue:1}
   }, {
     classMethods: {

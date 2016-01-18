@@ -3,7 +3,6 @@ $(document).ready(function(){
   var nat = new Array();
 
   $('body').on('click', '#Deletee', function(){
-    alert("delete");
     $('#ok').val($(this).val());
   });
 
@@ -60,11 +59,14 @@ $(document).ready(function(){
     $('#last_cert').val($('[data-id = "'+myDataAttr+'"]').data('last_cert'));
     $('#cust_last_cert').val($('[data-id = "'+myDataAttr+'"]').data('cust_last_cert'));
     $('#birth_date').val(bb[3]);
-    $('#date_cert').val(cd[2]+"-"+cd[3]+"-"+cd[1]);
+    //$('#date_cert').val(cd[3]+"-"+cd[1]+"-"+cd[2]);
     $('#place_cert').val($('[data-id = "'+myDataAttr+'"]').data('place_cert'));
     $('#set_number').val($('[data-id = "'+myDataAttr+'"]').data('set_number'));
     $('#student_rate').val($('[data-id = "'+myDataAttr+'"]').data('student_rate'));
     $('#nid').val($('[data-id = "'+myDataAttr+'"]').data('nid'));
+    $('#bank').val($('[data-id = "'+myDataAttr+'"]').data('bank'));
+    $('#bank_branch').val($('[data-id = "'+myDataAttr+'"]').data('bank_branch'));
+    $('#account_no').val($('[data-id = "'+myDataAttr+'"]').data('account_no'));
   });
 
   $('body').on('click', '#save', function (e) {
@@ -74,7 +76,7 @@ $(document).ready(function(){
 
   $("#updateStudent").submit(function(e) {
     var isvalidate = $("#updateStudent").valid(),
-        obj = $("form").serializeObject();
+    obj = $("form").serializeObject();
     if(isvalidate){
       $.post("/student/updateStudent", obj, function(data, error){
         if(data !=true){
