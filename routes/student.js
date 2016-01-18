@@ -103,7 +103,6 @@ router.get('/deleteStudent/:id', userHelpers.isLogin, function (req, res) {
 router.post('/updateStudent', userHelpers.isLogin, function (req, res) {
   id = req.body.id;
   delete req.body.id;
-  console.log(req.body);
   models.Student.find({
       where: {
         id: id
