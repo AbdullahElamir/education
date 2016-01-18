@@ -1120,8 +1120,11 @@ router.get('/report2/:id', function(req, res) {
       Bdate=[];
       gender=[];
       for(i in studentReport[0]){
+        
+
         Bdate.push(studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay());
         if(studentReport[0][i].gender==0){
+
           gender.push('ذكر');
         } else if(studentReport[0][i].gender==1){
           gender.push('انثي');
@@ -1302,6 +1305,39 @@ function model_step(id,p,req, res){
     }
   );
 }
+router.get('/statisticalNumberOfStudentsNotcsv', userHelpers.isLogin, function (req, res, next) {
+    var date1 = objReport2.semester+"-01-01";
+    var date=date1.replace(" ","");
+        models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
+      replacements: [objReport2.type,date]
+    }).then(function (studentReport) {
+      Bdate=[];
+      gender=[];
+      for(i in studentReport[0]){
+        Bdate.push(studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay());
+        studentReport[0][i]['birth']=studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay();
+        studentReport[0][i]['col']='المعهد العالي للمهن الشاملة';
+        if(studentReport[0][i].gender==0){
+          studentReport[0][i]['gen']='ذكر';
+          gender.push('ذكر');
+        } else if(studentReport[0][i].gender==1){
+          studentReport[0][i]['gen']='انثي';
+          gender.push('انثي');
+        }
+        
+      }
+    var fields = ['no_paper_family','no_reg_family','first_name','last_name','birth','place_birth','gen','col','set_number','bank','bank_branch','account_no','nid',];
+    var fieldNames = ['رقـم ورقـة الـعـائـلـة','قـيـد الـعـائـلـة','اسـم الـطـالـب','اسـم الـعـائـلـة ','تـاريـخ الـمـيـلاد','مـكـان الـمـيـلاد','الـجـنـس','الـمـعـهـد الـعـالـي ','رقـم الـقـيد','الـمـصـرف','الـفـرع','رقـم الـحـسـاب','الـرقـم الـوطـنـي',];
+    json2csv({ data: studentReport[0], fields: fields, fieldNames : fieldNames }, function(err, csv) {
+      if (err) console.log(err);
+      res.attachment('Students.csv');
+      res.send(csv);
+    });
+
+  });
+  });
+
+      
 function selectStu(id,cb){
   models.sequelize.query('SELECT *,`d`.`name` as dname ,`stu`.`createdAt` as stuAt  FROM `SemesterStudents` ss,`Semesters` sem ,`Departments` d,`Students` stu WHERE `ss`.`DepartmentId`=`d`.`id` AND`stu`.`id`=`ss`.`StudentId` AND `ss`.`level`=6 AND `ss`.`SemesterId`=`sem`.`id` AND `sem`.`id`=? AND ((SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? )=(SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? AND `ac`.`sum_dagree`>=50))', {
     replacements: [id,id,id]
