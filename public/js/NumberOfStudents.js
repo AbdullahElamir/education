@@ -9,7 +9,15 @@ $(document).ready(function(){
       }
     });
   });
-
+  $('body').on('click', '#csv', function(){
+    obj={type:$('#semType').val(),semester:$("#semester option:selected").text()}
+    var isvalidate=$("#reportForm").valid();
+    if(isvalidate){
+      $.post('/report/setData2/',obj,function(todo){
+        window.location.href='/report/statisticalNumberOfStudentsNotcsv';
+      });
+    }
+  });
   $('body').on('click', '#test', function(){
     obj={devId:$("#division option:selected").val(),semType:$("#semType option:selected").val(),courseName:$("#course option:selected").text(),courseId:$("#course option:selected").val(),semester:$("#semester option:selected").text(),level:$("#level option:selected").val(),department:$("#department option:selected").text(),dev:$("#division option:selected").text()};
     $.post('/report/setData/',obj,function(todo){
