@@ -856,10 +856,10 @@ function reportresultsOfStudent(obj,newObj) {
             <thead> \
               <tr> \
                 <th class="text-center" width="7%">ت</th> \
-                <th class="text-center" width="20%">أســم الطالب<span>/</span>ة</th> \
-                <th class="text-center" width="7%">الامتحان الاول</th> \
-                <th class="text-center" width="7%">الامتحان التاني</th> \
-                <th class="text-center" width="7%">الامتحان النهائي</th> \
+                <th class="text-center" width="25%">أســم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="5%">الامتحان الاول</th> \
+                <th class="text-center" width="5%">الامتحان التاني</th> \
+                <th class="text-center" width="6%">الامتحان النهائي</th> \
                 <th class="text-center" width="20%">ملاحظات</th> \
               </tr> \
             </thead> \
@@ -879,7 +879,7 @@ function reportresultsOfStudent(obj,newObj) {
                   <td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
                 </tr> ';
             }
-            var emptyRecord = 23-rowcounter;
+            var emptyRecord = 21-rowcounter;
             for(i=0;i<emptyRecord;i++){
               rowcounter++;
               count++;
@@ -921,8 +921,8 @@ function reportresultsOfStudent(obj,newObj) {
   }
 
 router.get('/reportresultsOfStudent', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.level,SS.StudentId,S.id,Act.SemesterStudentId,SS.id,Act.SubGroupId,Sg.id,S.first_name,SS.student_status,S.father_name,S.grand_name,S.last_name,F.name,Act.final_exam FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Semesters AS Sem,Academic_transcripts AS Act,Faculty_members AS F WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND Sg.FacultyMemberId =F.id AND SS.DivisionId= Sg.DivisionId AND SS.DepartmentId=? and SS.SemesterId=Sg.SemesterId and SS.level=? AND SS.StudentId=S.id AND Act.SemesterStudentId=SS.id and Act.SubGroupId=Sg.id ', {
-    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid,objReport.levelid]
+  models.sequelize.query('SELECT DISTINCT S.id,Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.StudentId,SS.student_status,S.father_name,S.first_name,S.grand_name,S.last_name,F.name FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Faculty_members AS F,Semesters AS Se WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND SS.DepartmentId=? AND Sg.FacultyMemberId=F.id AND SS.StudentId=S.id AND SS.SemesterId=Sg.SemesterId ', {
+    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid]
   }).then(function (result) {
     jsreport.render({
       template: {
