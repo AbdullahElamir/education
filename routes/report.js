@@ -112,14 +112,24 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
                 <th class="text-center" rowspan="2" width="5%" style="line-height: 40px;">ت</th> \
                 <th class="text-center" rowspan="2" width="30%" style="line-height: 40px;">اســـــــــــــــــــــــم الطالب<span>/</span>ة</th> \
                 <th class="text-center" rowspan="2" width="1%" style="line-height: 40px;">رقم القيد</th> \
-                <th class="text-center" colspan="5">شهر <span>.............................</span></th> \
+                <th class="text-center" colspan="5">عدد المحاضرات</th> \
               </tr> \
               <tr> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
+                <th class="text-center">01</th> \
+                <th class="text-center">02</th> \
+                <th class="text-center">03</th> \
+                <th class="text-center">04</th> \
+                <th class="text-center">05</th> \
+                <th class="text-center">06</th> \
+                <th class="text-center">07</th> \
+                <th class="text-center">08</th> \
+                <th class="text-center">09</th> \
+                <th class="text-center">10</th> \
+                <th class="text-center">11</th> \
+                <th class="text-center">12</th> \
+                <th class="text-center">13</th> \
+                <th class="text-center">14</th> \
+                <th class="text-center">15</th> \
               </tr> \
             </thead> \
             <tbody> \
@@ -137,6 +147,16 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
                 </tr> ' ;
             }
             var x=count;
@@ -147,6 +167,16 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
                   <td class="text-center number">'+(count)+'</td>\
                   <td class="text-center"></td> \
                   <td class="text-center number"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
