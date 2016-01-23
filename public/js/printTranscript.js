@@ -2,10 +2,11 @@ $(document).ready(function(){
 
   $('body').on('click', '#arabic', function() {
     // select the student by id 
+    var idstudent=$(this).val();
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+id;
+        window.location.href="/transcript/arabicTranscript/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }
@@ -19,10 +20,11 @@ $(document).ready(function(){
 
 $('body').on('click', '#arabCertifcate', function() {
     // select the student by id 
+    var idstudent=$(this).val();
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+id;
+        window.location.href="/transcript/arabicTranscript/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }
@@ -32,10 +34,11 @@ $('body').on('click', '#arabCertifcate', function() {
 
 $('body').on('click', '#engCertifcate', function() {
     // select the student by id 
+    var idstudent=$(this).val();
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+id;
+        window.location.href="/transcript/arabicTranscript/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }
@@ -45,10 +48,11 @@ $('body').on('click', '#engCertifcate', function() {
 
 $('body').on('click', '#englishTranscript', function() {
     // select the student by id 
+    var idstudent=$(this).val();
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+id;
+        window.location.href="/transcript/arabicTranscript/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }

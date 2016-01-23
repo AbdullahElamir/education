@@ -1102,11 +1102,10 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
 
   
   router.post('/select_student', userHelpers.isLogin, function (req, res, next) {
-    console.log(req.body);
     models.sequelize.query('select level from SemesterStudents where StudentId=?', {
       replacements: [req.body.id]
     })
-    .then(function (std) {
+    .then(function (std){
       console.log(std);
       var flag={status:0};
       for(i in std[0]){
@@ -1124,6 +1123,7 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
 
 
   router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
+    console.log("std id "+req.params.id);
     models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
       replacements: [req.params.id]
     })
