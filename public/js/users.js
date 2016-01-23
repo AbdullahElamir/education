@@ -31,7 +31,7 @@ $(document).ready(function(){
   $("#formUsers").submit(function(e) {
     var isvalidate=$("#formUsers").valid();
     if(isvalidate){
-      $.post("/users/updateUser", $("form").serializeObject(), function(data, error){
+      $.post("/users/updateUser",$("form").serializeObject(), function(data, error){
         if(data.stat !=true){
 
         } 
