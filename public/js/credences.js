@@ -8,7 +8,7 @@ $(document).ready(function(){
     $.get('/credence/deleteCredence/'+$(this).val(),function(todo){
       switch(todo.msg){
         case "1" :
-          custNotify("success","نجح","لقد تم مسح المعتمد بنجاح","ok-sign","bounceInDown","bounceOutUp");
+          custNotify("success","نجح","لقد تم المسح بنجاح","ok-sign","bounceInDown","bounceOutUp");
           $('[data-id = "'+id+'"]').remove();
           break;
         default:

@@ -1405,7 +1405,6 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                 models.sequelize.query('SELECT * FROM `Credences` WHERE status=1 LIMIT 3', {
                 })
                 .then(function (credences) {
-                  console.log(credences[0]);
                 var array = getRatioForALlSemester(mix);
                 var rat = array[array.length - 1];
                 if (rat >= 85) {
