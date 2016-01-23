@@ -856,10 +856,10 @@ function reportresultsOfStudent(obj,newObj) {
             <thead> \
               <tr> \
                 <th class="text-center" width="7%">ت</th> \
-                <th class="text-center" width="20%">أســم الطالب<span>/</span>ة</th> \
-                <th class="text-center" width="7%">الامتحان الاول</th> \
-                <th class="text-center" width="7%">الامتحان التاني</th> \
-                <th class="text-center" width="7%">الامتحان النهائي</th> \
+                <th class="text-center" width="25%">أســم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="5%">الامتحان الاول</th> \
+                <th class="text-center" width="5%">الامتحان التاني</th> \
+                <th class="text-center" width="6%">الامتحان النهائي</th> \
                 <th class="text-center" width="20%">ملاحظات</th> \
               </tr> \
             </thead> \
@@ -875,11 +875,11 @@ function reportresultsOfStudent(obj,newObj) {
                   <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td>';
                   HTML=HTML+'<td class="text-center"></td>';
                   HTML=HTML+'<td class="text-center"></td> \
-                  <td class="text-center">'+obj[i].final_exam+'</td> \
+                  <td class="text-center"></td> \
                   <td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
                 </tr> ';
             }
-            var emptyRecord = 23-rowcounter;
+            var emptyRecord = 21-rowcounter;
             for(i=0;i<emptyRecord;i++){
               rowcounter++;
               count++;
@@ -921,8 +921,8 @@ function reportresultsOfStudent(obj,newObj) {
   }
 
 router.get('/reportresultsOfStudent', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.level,SS.StudentId,S.id,Act.SemesterStudentId,SS.id,Act.SubGroupId,Sg.id,S.first_name,SS.student_status,S.father_name,S.grand_name,S.last_name,F.name,Act.final_exam FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Semesters AS Sem,Academic_transcripts AS Act,Faculty_members AS F WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND Sg.FacultyMemberId =F.id AND SS.DivisionId= Sg.DivisionId AND SS.DepartmentId=? and SS.SemesterId=Sg.SemesterId and SS.level=? AND SS.StudentId=S.id AND Act.SemesterStudentId=SS.id and Act.SubGroupId=Sg.id ', {
-    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid,objReport.levelid]
+  models.sequelize.query('SELECT DISTINCT S.id,Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.StudentId,SS.student_status,S.father_name,S.first_name,S.grand_name,S.last_name,F.name FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Faculty_members AS F,Semesters AS Se WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND SS.DepartmentId=? AND Sg.FacultyMemberId=F.id AND SS.StudentId=S.id AND SS.SemesterId=Sg.SemesterId ', {
+    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid]
   }).then(function (result) {
     jsreport.render({
       template: {
@@ -1120,8 +1120,11 @@ router.get('/report2/:id', function(req, res) {
       Bdate=[];
       gender=[];
       for(i in studentReport[0]){
+        
+
         Bdate.push(studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay());
         if(studentReport[0][i].gender==0){
+
           gender.push('ذكر');
         } else if(studentReport[0][i].gender==1){
           gender.push('انثي');
@@ -1302,6 +1305,39 @@ function model_step(id,p,req, res){
     }
   );
 }
+router.get('/statisticalNumberOfStudentsNotcsv', userHelpers.isLogin, function (req, res, next) {
+    var date1 = objReport2.semester+"-01-01";
+    var date=date1.replace(" ","");
+        models.sequelize.query('select * from Students where id in (select StudentId from SemesterStudents where SemesterId=(select id from Semesters where sem_type=? and year=? and status=1) and status=1) and status=1', {
+      replacements: [objReport2.type,date]
+    }).then(function (studentReport) {
+      Bdate=[];
+      gender=[];
+      for(i in studentReport[0]){
+        Bdate.push(studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay());
+        studentReport[0][i]['birth']=studentReport[0][i].birth_date.getFullYear()+"/"+(studentReport[0][i].birth_date.getDate()+1)+"/"+studentReport[0][i].birth_date.getDay();
+        studentReport[0][i]['col']='المعهد العالي للمهن الشاملة';
+        if(studentReport[0][i].gender==0){
+          studentReport[0][i]['gen']='ذكر';
+          gender.push('ذكر');
+        } else if(studentReport[0][i].gender==1){
+          studentReport[0][i]['gen']='انثي';
+          gender.push('انثي');
+        }
+        
+      }
+    var fields = ['no_paper_family','no_reg_family','first_name','last_name','birth','place_birth','gen','col','set_number','bank','bank_branch','account_no','nid',];
+    var fieldNames = ['رقـم ورقـة الـعـائـلـة','قـيـد الـعـائـلـة','اسـم الـطـالـب','اسـم الـعـائـلـة ','تـاريـخ الـمـيـلاد','مـكـان الـمـيـلاد','الـجـنـس','الـمـعـهـد الـعـالـي ','رقـم الـقـيد','الـمـصـرف','الـفـرع','رقـم الـحـسـاب','الـرقـم الـوطـنـي',];
+    json2csv({ data: studentReport[0], fields: fields, fieldNames : fieldNames }, function(err, csv) {
+      if (err) console.log(err);
+      res.attachment('Students.csv');
+      res.send(csv);
+    });
+
+  });
+  });
+
+      
 function selectStu(id,cb){
   models.sequelize.query('SELECT *,`d`.`name` as dname ,`stu`.`createdAt` as stuAt  FROM `SemesterStudents` ss,`Semesters` sem ,`Departments` d,`Students` stu WHERE `ss`.`DepartmentId`=`d`.`id` AND`stu`.`id`=`ss`.`StudentId` AND `ss`.`level`=6 AND `ss`.`SemesterId`=`sem`.`id` AND `sem`.`id`=? AND ((SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? )=(SELECT count(*) FROM `Academic_transcripts` ac,`SemesterStudents` ssa WHERE `ac`.`StudentId`=`stu`.`id` AND `ac`.`SemesterStudentId`=`ssa`.`id` AND `ssa`.`SemesterId`=? AND `ac`.`sum_dagree`>=50))', {
     replacements: [id,id,id]

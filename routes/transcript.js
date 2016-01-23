@@ -1425,6 +1425,10 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                 replacements: [req.params.id]
               })
               .then(function (mix) {
+                models.sequelize.query('SELECT * FROM `Credences` WHERE status=1 LIMIT 3', {
+                })
+                .then(function (credences) {
+                  console.log(credences[0]);
                 var array = getRatioForALlSemester(mix);
                 var rat = array[array.length - 1];
                 if (rat >= 85) {
@@ -1461,6 +1465,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                       status: status,
                       rat: rat,
                       sem_en: sem_en,
+                      credence: credences[0],
                       status_en: status_en
                     }
                   })
@@ -1468,6 +1473,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                     response.result.pipe(res);
                   });
               });
+            });
           } else {
             res.redirect('/transcript?msg=3');
           }
