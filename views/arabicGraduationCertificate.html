@@ -42,7 +42,7 @@
           </div>
           <div style="height: 10px;"></div>
           <div class="row text-center" >
-            <h2> إفادة تخرج </h2>
+            <h1> إفادة تخرج </h1>
           </div>
           <div style="height: 40px;"></div>
             <div class="fontSizeBody">
@@ -52,13 +52,13 @@
               {{else}}
                 الطالب
               {{/if}}<span>: {{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}} 
-              </span>والمسجل تحت رقم القيد<span> : {{st.set_number}} ,</span>
+              </span>والمسجل/ة تحت رقم القيد<span> : {{st.set_number}} ,</span>
               الجنسيه<span> : {{nat.name}} ,</span>
               الرقم الوطني <span> : {{st.nid}} </span>
               تاريـخ ومكان الميلاد <span> : {{st.place_birth}} / {{date}}</span> 
               <br/>
-              قد أنهى جميع متطلبات التخرج للـحصول على درجة الدبلوم العالي في تخصص
-              <span> : {{st.name}} ,</span> 
+              قد أنهى/ت جميع متطلبات التخرج للـحصول على درجة الدبلوم العالي في تخصص
+              <span> : {{st.named}} ,</span> 
               للفصل الدراسي <span> : {{sem}} {{year}} ,</span> 
               بتقدير عام <span> : {{status}} ,</span> 
               وبمعدل تراكمي <span> : {{rat}}%</span> 
