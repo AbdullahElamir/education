@@ -24,7 +24,7 @@ $('body').on('click', '#arabCertifcate', function() {
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+idstudent;
+        window.location.href="/transcript/arGradCert/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }
@@ -38,7 +38,7 @@ $('body').on('click', '#engCertifcate', function() {
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+idstudent;
+        window.location.href="/transcript/enGradCert/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }
@@ -52,7 +52,7 @@ $('body').on('click', '#englishTranscript', function() {
     $.post('/transcript/select_student/',{id:$(this).val()},function(result){
      var id=result.status;
       if(id!==0){
-        window.location.href="/transcript/arabicTranscript/"+idstudent;
+        window.location.href="/transcript/englishTranscript/"+idstudent;
       } else {
         custNotify("danger","خطأ","عفوا لايمكنك سحب كشف الدرجات هذا الطالب لم يتخرج بعد او يصل الي الفصل السادس","ok-sign","bounceIn","bounceOut");
       }
