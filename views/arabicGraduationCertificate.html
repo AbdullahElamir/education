@@ -69,16 +69,13 @@
             </div>
           <div style="height: 110px;"></div>
           <div class="row fontSizeBody" >
-            <div class="col-xs-7 text-center " >
-              <span> مدير مكتب التسجيل و الدراسة و الامتحانات </span>
-              <div style="height: 10px;"></div>
-              <span>...........................................</span>
-            </div>
-            <div class="col-xs-5 text-center" >
-              <span> مدير عام المعهد </span>
-              <div style="height: 10px;"></div>
-              <span>...........................................</span>
-            </div>
+            {{#each credence}}
+              <div class="col-xs-4 text-center " >
+                  <span>{{adjective}}</span>
+                  <div style="height: 10px;"></div>
+                  <span>{{name}}</span>
+              </div>
+            {{/each}}
           </div>
           <div style="height: 135px;"></div>
           <div class="row text-right" >
