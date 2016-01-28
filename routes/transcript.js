@@ -1100,7 +1100,30 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
     });
   });
 
+  
+  router.post('/select_student', userHelpers.isLogin, function (req, res, next) {
+    models.sequelize.query('select level from SemesterStudents where StudentId=?', {
+      replacements: [req.body.id]
+    })
+    .then(function (std){
+      console.log(std);
+      var flag={status:0};
+      for(i in std[0]){
+        console.log(std[0][i].level);
+        if(std[0][i].level==6){
+          flag={status:1};
+        }
+      }
+      res.send(flag);
+    });
+
+    
+  });
+
+
+
   router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
+    console.log("std id "+req.params.id);
     models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
       replacements: [req.params.id]
     })
@@ -1402,6 +1425,9 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                 replacements: [req.params.id]
               })
               .then(function (mix) {
+                models.sequelize.query('SELECT * FROM `Credences` WHERE status=1 LIMIT 3', {
+                })
+                .then(function (credences) {
                 var array = getRatioForALlSemester(mix);
                 var rat = array[array.length - 1];
                 if (rat >= 85) {
@@ -1438,6 +1464,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                       status: status,
                       rat: rat,
                       sem_en: sem_en,
+                      credence: credences[0],
                       status_en: status_en
                     }
                   })
@@ -1445,6 +1472,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                     response.result.pipe(res);
                   });
               });
+            });
           } else {
             res.redirect('/transcript?msg=3');
           }

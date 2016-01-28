@@ -112,14 +112,24 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
                 <th class="text-center" rowspan="2" width="5%" style="line-height: 40px;">ت</th> \
                 <th class="text-center" rowspan="2" width="30%" style="line-height: 40px;">اســـــــــــــــــــــــم الطالب<span>/</span>ة</th> \
                 <th class="text-center" rowspan="2" width="1%" style="line-height: 40px;">رقم القيد</th> \
-                <th class="text-center" colspan="5">شهر <span>.............................</span></th> \
+                <th class="text-center" colspan="5">عدد المحاضرات</th> \
               </tr> \
               <tr> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
-                <th class="text-center">.............</th> \
+                <th class="text-center">01</th> \
+                <th class="text-center">02</th> \
+                <th class="text-center">03</th> \
+                <th class="text-center">04</th> \
+                <th class="text-center">05</th> \
+                <th class="text-center">06</th> \
+                <th class="text-center">07</th> \
+                <th class="text-center">08</th> \
+                <th class="text-center">09</th> \
+                <th class="text-center">10</th> \
+                <th class="text-center">11</th> \
+                <th class="text-center">12</th> \
+                <th class="text-center">13</th> \
+                <th class="text-center">14</th> \
+                <th class="text-center">15</th> \
               </tr> \
             </thead> \
             <tbody> \
@@ -137,6 +147,16 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
                 </tr> ' ;
             }
             var x=count;
@@ -147,6 +167,16 @@ function PresenceAbsenceLectures(obj,newObj,sub,doct) {
                   <td class="text-center number">'+(count)+'</td>\
                   <td class="text-center"></td> \
                   <td class="text-center number"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
+                  <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
                   <td class="text-center"></td>\
@@ -856,10 +886,10 @@ function reportresultsOfStudent(obj,newObj) {
             <thead> \
               <tr> \
                 <th class="text-center" width="7%">ت</th> \
-                <th class="text-center" width="20%">أســم الطالب<span>/</span>ة</th> \
-                <th class="text-center" width="7%">الامتحان الاول</th> \
-                <th class="text-center" width="7%">الامتحان التاني</th> \
-                <th class="text-center" width="7%">الامتحان النهائي</th> \
+                <th class="text-center" width="25%">أســم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="5%">أعمال السنة</th> \
+                <th class="text-center" width="5%">الامتحان النهائي</th> \
+                <th class="text-center" width="6%">المجموع</th> \
                 <th class="text-center" width="20%">ملاحظات</th> \
               </tr> \
             </thead> \
@@ -873,44 +903,64 @@ function reportresultsOfStudent(obj,newObj) {
               HTML=HTML+' <tr> \
                   <td class="text-center number">'+count+'</td> \
                   <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td>';
-                  HTML=HTML+'<td class="text-center"></td>';
-                  HTML=HTML+'<td class="text-center"></td> \
-                  <td class="text-center">'+obj[i].final_exam+'</td> \
-                  <td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
+                  if(obj[i].chapter_degree == 0){
+                    HTML=HTML+'<td class="text-center"></td>';
+                  }else{
+                    HTML=HTML+'<td class="text-center">'+obj[i].chapter_degree+'</td>';
+                  }
+                  if(obj[i].final_exam == 0){
+                    HTML=HTML+'<td class="text-center"></td>';
+                  }else{
+                    HTML=HTML+'<td class="text-center">'+obj[i].final_exam+'</td>';
+                  }
+                  if(obj[i].sum_dagree == 0){
+                    HTML=HTML+'<td class="text-center"></td>';
+                  }else{
+                    HTML=HTML+'<td class="text-center">'+obj[i].sum_dagree+'</td>';
+                  }
+                  HTML=HTML+'<td class="text-center">'+studentStatus[obj[i].student_status-1]+'</td> \
                 </tr> ';
             }
-            var emptyRecord = 23-rowcounter;
-            for(i=0;i<emptyRecord;i++){
-              rowcounter++;
-              count++;
-              HTML=HTML+' <tr> \
-                  <td class="text-center number">'+count+'</td> \
-                  <td class="text-center"></td> \
-                  <td class="text-center"></td> \
-                  <td class="text-center"></td> \
-                  <td class="text-center"></td> \
-                  <td class="text-center"></td> \
-                </tr> ';
-            }
+            // var emptyRecord = 21-rowcounter;
+            // for(i=0;i<emptyRecord;i++){
+            //   rowcounter++;
+            //   count++;
+            //   HTML=HTML+' <tr> \
+            //       <td class="text-center number">'+count+'</td> \
+            //       <td class="text-center"></td> \
+            //       <td class="text-center"></td> \
+            //       <td class="text-center"></td> \
+            //       <td class="text-center"></td> \
+            //       <td class="text-center"></td> \
+            //     </tr> ';
+            // }
 
 
             HTML=HTML+'</tbody> \
           <table> \
             </div> \
-            <div class="col-xs-6"> \
+            <div class="col-xs-4"> \
               <h5 class="text-center"> \
-                اسم الملاحظ <span>/</span> \
+                توقيع أستاذ المقرر  \
               </h5> \
               <h5 class="text-center"> \
-                <span>..................................................</span> \
+                <span>...............</span> \
               </h5> \
             </div> \
-            <div class="col-xs-6"> \
+            <div class="col-xs-4"> \
               <h5 class="text-center"> \
-                التوقيع <span>/</span> \
+                رئيس قسم التسجيل والدراسة \
               </h5> \
               <h5 class="text-center"> \
-                <span>.............................</span> \
+                <span>...............</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-4"> \
+              <h5 class="text-center"> \
+                اعتماد مدير المركز \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>...............</span> \
               </h5> \
             </div> \
           </div> \
@@ -921,8 +971,8 @@ function reportresultsOfStudent(obj,newObj) {
   }
 
 router.get('/reportresultsOfStudent', userHelpers.isLogin, function (req, res, next) {
-  models.sequelize.query('SELECT Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.level,SS.StudentId,S.id,Act.SemesterStudentId,SS.id,Act.SubGroupId,Sg.id,S.first_name,SS.student_status,S.father_name,S.grand_name,S.last_name,F.name,Act.final_exam FROM Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Semesters AS Sem,Academic_transcripts AS Act,Faculty_members AS F WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND Sg.FacultyMemberId =F.id AND SS.DivisionId= Sg.DivisionId AND SS.DepartmentId=? and SS.SemesterId=Sg.SemesterId and SS.level=? AND SS.StudentId=S.id AND Act.SemesterStudentId=SS.id and Act.SubGroupId=Sg.id ', {
-    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid,objReport.levelid]
+  models.sequelize.query('SELECT DISTINCT S.id,Sg.SubjectId,Sg.SemesterId,Sg.DivisionId,Act.final_exam,Act.chapter_degree,Act.sum_dagree,Act.SubGroupId,Sg.id,Sg.FacultyMemberId,F.id,SS.DivisionId,SS.DepartmentId,SS.SemesterId,SS.StudentId,SS.student_status,S.father_name,S.first_name,S.grand_name,S.last_name,F.name FROM Academic_transcripts AS Act,Sub_groups AS Sg,Students AS S,SemesterStudents AS SS,Faculty_members AS F,Semesters AS Se WHERE Sg.SubjectId=? AND Sg.SemesterId=? AND Sg.DivisionId=? AND SS.DepartmentId=? AND Sg.FacultyMemberId=F.id AND SS.StudentId=S.id AND SS.SemesterId=Sg.SemesterId AND Act.SubGroupId=Sg.id ', {
+    replacements: [objReport.subid,objReport.semid,objReport.devId,objReport.depid]
   }).then(function (result) {
     jsreport.render({
       template: {

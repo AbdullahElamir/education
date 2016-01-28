@@ -1,0 +1,45 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-6
+        .pull-right
+          .btn-group.btn-breadcrumb
+              a.btn.btn-default(href="/cPanel")
+                i.glyphicon.glyphicon-home
+              a.btn.btn-default(href="/credence") عرض المعتمدين
+              .btn.btn-default.active إضافة معتمد جديد
+      br
+      br
+      br
+      .col-md-6.col-md-offset-2
+        form.form#newCredence(action="/credence/newCredence", method="post", accept-charset="utf-8", role="form")
+          legend  إضافة معتمد جديد
+            .pull-left
+              a.btn.btn-primary(href='/credence', role='button')
+                span.glyphicon.glyphicon-th-list
+                span  عرض المعتمدين
+          .form-group
+            .row
+              .col-xs-6.col-md-6
+                label.h4 اﻷســم
+                input#name.form-control(type="text", name="name", placeholder="اسم المعتمد")
+              .col-xs-6.col-md-6
+                label.h4 الصــفـة
+                input#adjective.form-control(type="text", name="adjective", placeholder="الصــفـة")
+          br
+          hr
+          .col-xs-2.col-xs-offset-5.col-md-2.col-md-offset-5
+            button.btn.btn-primary(type="submit")
+              | إضافة
+    br
+    br
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/newCredence.js')
