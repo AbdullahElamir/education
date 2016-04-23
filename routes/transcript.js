@@ -1895,7 +1895,7 @@ getRatioForALlSemester = function (mix) {
                     where: {
                       status: 1
                     },
-                    order: '`starting_date` DESC',
+                    order: '`starting_date` ASC',
                     limit: 5
                   })
                   .then(function (semester) {
@@ -1904,7 +1904,7 @@ getRatioForALlSemester = function (mix) {
                           status: 1,
                           StudentId: req.params.id
                         },
-                        order: '`starting_date` DESC',
+                        order: '`starting_date` ASC',
                         "include": [
                           {
                             "model": models.Division
