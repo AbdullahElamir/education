@@ -1232,6 +1232,10 @@ router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res
                 semester = ' ' + sem.year.getFullYear() + ' '
               }
               models.Division.findOne({
+                include: [{
+                  model: models.Department,
+                  where: { status: 1 }
+                }],
                   where: {
                     id: req.params.idv
                   }
