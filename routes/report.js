@@ -251,11 +251,11 @@ function showReportt3(objj,Bdate,gender){
               <table class="table">  \
                 <thead> \
                   <tr>  \
-                    <th class="text-center" style="width: 80px;">رقم المادة</th> \
+                    <th class="text-center" style="width: 80px;">رمز المادة</th> \
                     <th class="text-center">اسم المادة</th> \
                     <th class="text-center" style="width: 80px;">الوحدات</th> \
                     <th class="text-center" style="width: 80px;">الدرجة</th> \
-                    <th class="text-center" style="width: 80px;">ألنقاط</th> \
+                    <th class="text-center" style="width: 80px;">النقاط</th> \
                     <th class="text-center">ملاحظات</th> \
                   </tr> \
                 </thead> \
@@ -281,7 +281,7 @@ function showReportt3(objj,Bdate,gender){
                     <td class="text-center">'+res[i].Sub_group.Subject.code+'</td> \
                     <td class="text-center">'+res[i].Sub_group.Subject.name+'</td> \
                     <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td> \
-                    <td class="text-center">1</td> \
+                    <td class="text-center">'+res[i].sum_dagree+'</td> \
                     <td class="text-center">1</td> \
                     <td class="text-center">'+notice_string+'</td> \
                   </tr> '; 
@@ -860,7 +860,7 @@ function reportresultsOfStudent(obj,newObj) {
   <body> \
     <div class="container"> \
       <div class="row"> \
-        <div class="col-xs-12"> \
+        <div class="col-xs-12"> <br> \
           <h5 class="text-center">  \
               الهيئة الوطنية للتعليم التقني والفني \
           </h5> \
@@ -872,7 +872,7 @@ function reportresultsOfStudent(obj,newObj) {
           </h5> \
           <h5 class="text-center">  \
             كشف بالمواد الدراسية لقسم '+newObj.department+' \
-          </h5> \
+          </h5> <br> \
           <h5> \
             الشعبة <span>/</span> '+newObj.dev+' \
           </h5> \
@@ -1091,9 +1091,7 @@ router.get('/report2/:id', function(req, res) {
       models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=?)', {
       replacements: [req.params.id]
     }).then(function (sem) {
-    /*models.sequelize.query('select * from Subjects where id in (select SubjectId from Sub_groups where SemesterId=(select SemesterId from SemesterStudents where id=?))', {
-      replacements: [req.params.id]
-    }).then(function (course) {*/
+     
     var year = sem[0][0].year.getFullYear();
     var sem;
     var semtype=sem[0][0].sem_type;
@@ -1110,10 +1108,17 @@ router.get('/report2/:id', function(req, res) {
     var last_name= studentReport[0][0].last_name;
     var full_name= name+" "+father+" "+last_name;
     var set_number=studentReport[0][0].set_number;
+
     var notice=[];
     for(i in result){
     notice.push(result[i].dataValues.notices);
+    console.log(result[i].dataValues.notices);
   }
+   models.sequelize.query('select * from Divisions where id =(select DivisionId from SemesterStudents where id=?)', {
+      replacements: [req.params.id]
+    }).then(function (div) {
+      var div_name=div[0][0].name;
+
     jsreport.render({
       template: { 
         recipe: "phantom-pdf",
@@ -1127,10 +1132,11 @@ router.get('/report2/:id', function(req, res) {
           year:year,
           res:result,
           notice:notice,
+          div:div_name,
         }
     }).then(function (response) {
       response.result.pipe(res);
-    });  }); });
+    });  }); }); });
   });
  
 });
