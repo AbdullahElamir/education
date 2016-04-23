@@ -72,8 +72,11 @@ router.get('/newStudent', userHelpers.isLogin, function (req, res) {
 router.post('/newStudent', userHelpers.isLogin, function (req, res) {
   req.body.UserId = 1;
   models.Student.create(req.body)
-    .then(function () {
-      res.redirect('/student?msg=1');
+    .then(function (todo) {
+       res.redirect('/student?msg=1');
+    })
+    .catch(function (err) {
+      res.redirect('/student/newStudent?msg=2');  
     });
 });
 
