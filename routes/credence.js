@@ -50,21 +50,15 @@ var userHelpers = require('../app/userHelpers');
   });
    
   // delete Credence
-  // router.get('/deleteCredence/:id', userHelpers.isLogin,function(req, res) {
-  //   if (userHelpers.checkGeneral(req.params.id)){
-  //     models.Credence.destroy({
-  //       where: {
-  //         id: req.params.id
-  //       }      
-  //     }).then(function (todo) {
-  //       res.send({msg:"1"});//got deleted successfully
-  //     }).catch(function (err) {
-  //       res.send({msg:"2"});//has foreign-key restriction
-  //     });
-  //   } else {
-  //     res.send({msg:"3"});
-  //   }
-  // });
+  router.get('/deleteCredence/:id', userHelpers.isLogin,function(req, res) {
+    models.Credence.destroy({
+      where: {
+        id: req.params.id
+      }      
+    }).then(function (todo) {
+      res.send({msg:"1"});//got deleted successfully
+    });
+  });
 
   router.get('/newCredence',userHelpers.isLogin, function(req, res) {
     res.render('newCredence', { title: 'إضافة معتمد جديد', name:req.session.name,collapseSix: 'collapse in', activeSixThree: 'active' });

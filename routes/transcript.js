@@ -1232,6 +1232,10 @@ router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res
                 semester = ' ' + sem.year.getFullYear() + ' '
               }
               models.Division.findOne({
+                include: [{
+                  model: models.Department,
+                  where: { status: 1 }
+                }],
                   where: {
                     id: req.params.idv
                   }
@@ -1428,7 +1432,6 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                 models.sequelize.query('SELECT * FROM `Credences` WHERE status=1 LIMIT 3', {
                 })
                 .then(function (credences) {
-                  console.log(credences[0]);
                 var array = getRatioForALlSemester(mix);
                 var rat = array[array.length - 1];
                 if (rat >= 85) {
