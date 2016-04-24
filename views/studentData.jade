@@ -68,12 +68,12 @@ block content
                       if arr[u] ==Nan 
                         |0
                       else
-                        | #{arr[u]}
+                        | #{arr[arr.length-1-u]}
                     td.text-center 
                       if arr[u] ==Nan 
                         |0
                       else
-                        | #{ar[u]} 
+                        | #{ar[ar.length-1-u]} 
                     td.text-center
                       p(data-placement="top", data-toggle="tooltip", title="تعديل")
                         button#Editsem.btn.btn-primary.btn-xs.editDepartment(value='#{i.id}',data-title="Edit", data-toggle="modal", data-target="#edit")

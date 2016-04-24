@@ -44,7 +44,7 @@ $(document).ready(function(){
        window.location.href='/transcript/reportsNames';
     }
     });
-
+});
 
 
   // $('body').on('click', '#submit', function (e) {

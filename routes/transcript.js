@@ -1909,7 +1909,7 @@ getRatioForALlSemester = function (mix) {
                           status: 1,
                           StudentId: req.params.id
                         },
-                        order: '`starting_date` DESC',
+                        order: '`starting_date` ASC',
                         "include": [
                           {
                             "model": models.Division
@@ -2536,5 +2536,4 @@ router.get('/reportsNames', userHelpers.isLogin, function (req, res, next) {
   });
 });
 
->>>>>>> a55a2d2f44c70ec1d2b5f12f785ab482d27cabab
 module.exports = router;
