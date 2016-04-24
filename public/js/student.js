@@ -3,6 +3,7 @@ $(document).ready(function(){
   var nat = new Array();
 
   $('body').on('click', '#Deletee', function(){
+    alert("delete");
     $('#ok').val($(this).val());
   });
 
@@ -35,8 +36,7 @@ $(document).ready(function(){
     var myDataAttr = $(this).val();
     var bDate = $('[data-id = "'+myDataAttr+'"]').data('birth_date');
     var bb = bDate.split(" ");
-    var cdate = $('[data-id = "'+myDataAttr+'"]').data('date_cert')
-    var cd = cdate.split(" ");
+    var cdate = $('[data-id = "'+myDataAttr+'"]').data('date_cert');
     $('#first_name_edit').val($('[data-id = "'+myDataAttr+'"]').data('first_name'));
     $('#first_name_en').val($('[data-id = "'+myDataAttr+'"]').data('first_name_en'));
     $('#father_name_edit').val($('[data-id = "'+myDataAttr+'"]').data('father_name'));
@@ -59,11 +59,14 @@ $(document).ready(function(){
     $('#last_cert').val($('[data-id = "'+myDataAttr+'"]').data('last_cert'));
     $('#cust_last_cert').val($('[data-id = "'+myDataAttr+'"]').data('cust_last_cert'));
     $('#birth_date').val(bb[3]);
-    $('#date_cert').val(cd[2]+"-"+cd[3]+"-"+cd[1]);
     $('#place_cert').val($('[data-id = "'+myDataAttr+'"]').data('place_cert'));
     $('#set_number').val($('[data-id = "'+myDataAttr+'"]').data('set_number'));
     $('#student_rate').val($('[data-id = "'+myDataAttr+'"]').data('student_rate'));
     $('#nid').val($('[data-id = "'+myDataAttr+'"]').data('nid'));
+    $('#bank').val($('[data-id = "'+myDataAttr+'"]').data('bank'));
+    $('#bank_branch').val($('[data-id = "'+myDataAttr+'"]').data('bank_branch'));
+    $('#account_no').val($('[data-id = "'+myDataAttr+'"]').data('account_no'));
+    $('#date_cert').val(cdate.getFullYear()+"-"+cdate.getMonth()+1+"-"+cdate.getDate());
   });
 
   $('body').on('click', '#save', function (e) {
@@ -73,7 +76,7 @@ $(document).ready(function(){
 
   $("#updateStudent").submit(function(e) {
     var isvalidate = $("#updateStudent").valid(),
-        obj = $("form").serializeObject();
+    obj = $("form").serializeObject();
     if(isvalidate){
       $.post("/student/updateStudent", obj, function(data, error){
         if(data !=true){
@@ -87,7 +90,7 @@ $(document).ready(function(){
             }
           $('[data-id = "'+obj.id+'"]').remove();
           $("#tbody").prepend('<tr data-id="'+obj.id+'" data-first_name="'+obj.first_name+'" data-first_name_en="'+obj.first_name_en+'" data-father_name="'+obj.father_name+'" data-father_name_en="'+obj.father_name_en+'" data-grand_name="'+obj.grand_name+'" data-grand_name_en="'+obj.father_name_en+'" data-last_name="'+obj.last_name+'" data-last_name_en="'+obj.father_name_en+'" data-mother_name="'+obj.mother_name+'" data-mother_name_en="'+obj.father_name_en+'" data-birth_date="'+obj.birth_date+'" data-place_birth="'+obj.place_birth+'" data-nationality="'+obj.nationality+'" data-gender="'+obj.gender+'" data-no_paper_family="'+obj.no_paper_family+'" data-no_reg_family="'+obj.no_reg_family+'" data-physical_address="'+obj.physical_address+'" data-civil_reg="'+obj.civil_reg+'" data-phone="'+obj.phone+'" data-father_work_place="'+obj.father_work_place+'" data-last_cert="'+obj.last_cert+'" data-cust_last_cert="'+obj.cust_last_cert+'" data-date_cert="'+obj.date_cert+'" data-place_cert="'+obj.place_cert+'" data-set_number="'+obj.set_number+'" data-student_rate="'+obj.student_rate+'" data-nid="'+obj.nid+'">'+
-              '<td>'+
+              '<td class="text-center">'+
                 obj.set_number+
               '</td>'+
               '<td>'+
@@ -100,9 +103,6 @@ $(document).ready(function(){
                 gender+
               '</td><td>'+
                 obj.physical_address+
-              '</td>'+
-              '<td class="text-center">'+
-                obj.student_rate+
               '</td>'+
               '<td class="text-center">'+
                 nat[obj.nationality-1].text+
@@ -129,4 +129,23 @@ $(document).ready(function(){
     }
     return false;
   });
+var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+      var p=a[i].split('=', 2);
+      if (p.length == 1)
+        b[p[0]] = "";
+      else
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+  })(window.location.search.substr(1).split('&'));
+  
+if(qs["msg"]==1){
+    custNotify("success","نجح","تمت تسجيل طالب/ة جديد بنجاح","ok-sign","bounceInDown","bounceOutUp");
+    var pageUrl = '/student'
+    window.history.pushState("","",pageUrl);
+  }
 });

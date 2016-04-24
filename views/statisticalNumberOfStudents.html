@@ -1,0 +1,286 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jsreport <%= version %></title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/css/bootstrap-rtl.min.css">
+    <style>
+      .break { 
+        page-break-before: always; 
+      }
+      @media print {
+        footer { 
+          page-break-after: always;
+        }
+      }
+      @font-face {
+        font-family: 'Droid Arabic Kufi';
+        src : url("http://localhost:3000/fonts/DroidKufi-Regular.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: 'Droid Arabic Naskh';
+        src : url("http://localhost:3000/fonts/droidarabicnaskh/DroidNaskh-Regular.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: 'mushaf';
+        src : url("http://localhost:3000/fonts/Al_Mushaf.ttf") format("truetype");
+      }
+      body {
+        font-family: 'Droid Arabic Naskh', serif;
+        font-size: 12px;
+      }
+      .table,.table>thead>tr>th{
+        font-size: 14px;
+        border: 1px solid #000;
+      }
+      .table>tbody>tr>td{
+        font-size: 13px;
+        border: 1px solid #000;
+      }
+      .condensed>thead>tr>th, .condensed>tbody>tr>td {
+        padding: 3px;
+      }
+      .fontSizeBody{
+        font-size: 13px;
+      }
+      .fontSizeOfficeName{
+        font-size: 15px;
+      }
+    </style>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <div style="height: 23px;"></div>
+    <div class="row text-center fontSizeOfficeName">
+      الــمــعــهــد الــعــالـي لـلـمـهـن الــشــامـلـلة <span>/</span> الـقـره بــولـلــي
+    </div>
+    <div style="height: 9px;"></div>
+    <div class="row text-center fontSizeOfficeName">
+      كـشـف بـاسـمـاء الـطـلـبـة الـخـريـجـيـن لـجـمـيـع الاقـســام لـلــفـصـل خـريـف 2014 لـسـنـة 2014<span>/</span>2015
+    </div>
+    <div style="height: 35px;"></div>
+    <table class="table table-bordered text-center fontSizeBody">
+      <tr>
+        <th> مسلسل </th>
+        <th> الاسـم ربـاعـي </th>    
+        <tH> تـاريـخ الـمـيـلاد </th>
+        <th> مـكـان الـمـيـلاد </th>
+        <th> الـجـنـسـيـة </th>
+        <th> الـقـسـم </th>
+        <th> رقـم الـقـيـد </th>
+        <th> الـتـقـديـر الـعـام </th>
+        <th> الـنـسـبـة الـمئـويـة </th>    
+        <tH> تـاريـخ الالـتـحـاق بـالـمـركـز </th>
+        <th> الـدور </th>
+        <th> تـاريـخ الـتـخرج مـحـدد بـالـفـصـل </th>
+        <th> الـمـؤهـل الـسـابـق للاـتـحـاق بـالـمـركـز </th>
+        <th> الام </th>
+        <th> الـرقـم الـوطـنـي </th>
+      </tr>
+      <script type="text/javascript">
+        var i =1;
+      </script>
+      {{#each data}}
+        <tr>
+        <td> <script type="text/javascript"> document.write(i++); 
+        </script> </td>
+        <td> {{first_name}} {{father_name}} {{grand_name}} {{last_name}}</td>
+        <td> {{date}} </td>
+        <td> {{place_birth}} </td>
+        <td> {{nat}} </td>
+        <td> {{dname}} </td>
+        <td> {{set_number}} </td>
+        <td> {{statusrat}} </td>
+        <td> {{rat}}</td>
+        <td> {{stuAtd}} </td>
+        <td>  </td>
+        <td> {{semyear}} </td>
+        <td> {{last_cert}} </td>
+        <td> {{mother_name}}  </td>    
+        <td> {{nid}} </td>
+      </tr>
+      {{/each}}
+ 
+      <!-- <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr> -->
+      <!-- <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr>
+      <tr>
+        <td> 1 </td>
+        <td> محمد احمد محمود احمد </td>
+        <td> 10/7/1989 </td>
+        <td> طرابلس </td>
+        <td> ليبي </td>
+        <td> اسنان </td>
+        <td> خلع وحشو </td>    
+        <td> 20900246 </td>
+        <td> ممتاز </td>
+        <td> 89.97 </td>
+        <td> 12/11/2011 </td>
+        <td> الاول </td>
+        <td> ربيعي 2015 </td>
+        <td> ثانوية </td>
+        <td> نعيمة تراشرش </td>    
+        <td> 119890002159 </td>
+      </tr> -->
+    </table>
+    
+</html>

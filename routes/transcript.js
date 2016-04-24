@@ -15,147 +15,6 @@ var transform = require('stream-transform');
 
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
-var obj = {
-  subjects: [{
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }, {
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }, {
-    subject_ar: 'رياضيات',
-    subject_en: 'math',
-    subject_id: '5cs4',
-    degree: '60.6'
-  }],
-  classes: [{
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 2,
-    class_name: 'الثاني',
-    subjects: [{
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }]
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 3,
-    class_name: 'الاول',
-    subjects: [{
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }, {
-      subject_ar: 'رياضيات',
-      subject_en: 'math',
-      subject_id: '5cs4',
-      degree: '60.6'
-    }]
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 3,
-    class_name: 'الثالث'
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 4,
-    class_name: 'الرابع'
-  }, {
-    student: [{
-      name: 'محمد',
-      id: '123450',
-      name_en: 'mohammed'
-    }],
-    class_id: 5,
-    class_name: 'الخامس'
-  }],
-}
 
 router.get('/', userHelpers.isLogin, function (req, res) {
   var page = userHelpers.getPage(req);
@@ -1067,7 +926,7 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
                 <div class="space"></div>\
                 الهيئـة الوطنيـة للتعليـم التقنـــي والفنـــي\
                 <div class="space"></div>\
-                المعهد العالي للمهن الطبية القره بوللي</h4>\
+                المعهد‪ العالي للــمهن الشاملة القره بوللي</h4>\
               </div>\
             </div>\
             <div class="col-xs-5">\
@@ -1246,7 +1105,30 @@ function htmlTagsDrawDetection(data, stu,type, semester, level,name) {
     });
   });
 
+  
+  router.post('/select_student', userHelpers.isLogin, function (req, res, next) {
+    models.sequelize.query('select level from SemesterStudents where StudentId=?', {
+      replacements: [req.body.id]
+    })
+    .then(function (std){
+      console.log(std);
+      var flag={status:0};
+      for(i in std[0]){
+        console.log(std[0][i].level);
+        if(std[0][i].level==6){
+          flag={status:1};
+        }
+      }
+      res.send(flag);
+    });
+
+    
+  });
+
+
+
   router.get('/arabicTranscript/:id', userHelpers.isLogin, function (req, res, next) {
+    console.log("std id "+req.params.id);
     models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
       replacements: [req.params.id]
     })
@@ -1355,6 +1237,10 @@ router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res
                 semester = ' ' + sem.year.getFullYear() + ' '
               }
               models.Division.findOne({
+                include: [{
+                  model: models.Department,
+                  where: { status: 1 }
+                }],
                   where: {
                     id: req.params.idv
                   }
@@ -1548,6 +1434,9 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                 replacements: [req.params.id]
               })
               .then(function (mix) {
+                models.sequelize.query('SELECT * FROM `Credences` WHERE status=1 LIMIT 3', {
+                })
+                .then(function (credences) {
                 var array = getRatioForALlSemester(mix);
                 var rat = array[array.length - 1];
                 if (rat >= 85) {
@@ -1584,6 +1473,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                       status: status,
                       rat: rat,
                       sem_en: sem_en,
+                      credence: credences[0],
                       status_en: status_en
                     }
                   })
@@ -1591,6 +1481,7 @@ router.get('/arGradCert/:id', userHelpers.isLogin, function (req, res, next) {
                     response.result.pipe(res);
                   });
               });
+            });
           } else {
             res.redirect('/transcript?msg=3');
           }
@@ -1681,6 +1572,78 @@ router.get('/enGradCert/:id', userHelpers.isLogin, function (req, res, next) {
 });
 
 
+router.get('/studentDefinition/:id', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('select * from Students where id=? and status=1', {
+    replacements: [req.params.id]
+  }).then(function (std) {
+    models.sequelize.query('select SemesterId,level,DivisionId,DepartmentId from SemesterStudents where StudentId=? and status=1 order by level', {
+      replacements: [req.params.id]
+    }).then(function (dept) {
+      var level='';
+      var semId=0;
+      var depId=0;
+      if(dept[0]!=0){
+      var array=["الأول","الثاني","التالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر"];
+      level=array[(dept[0][dept[0].length-1].level)-1];
+      semId=dept[0][dept[0].length-1].SemesterId;
+      depId=dept[0][0].DepartmentId;
+      }
+      var full_name=std[0][0].first_name+" "+std[0][0].father_name+" "+std[0][0].last_name;
+      var set_number=std[0][0].set_number;
+      models.sequelize.query('select dep.name as depname,dev.name as devname from Departments as dep,Divisions as dev where dep.id=? and dep.id=dev.DepartmentId', {
+        replacements: [depId]
+      }).then(function (depname) {
+        models.sequelize.query('select * from Semesters where id=?', {
+          replacements: [semId]
+        }).then(function (sem) {
+          var cuyear,curyearF,semtype,sem_string,year,yearOnly,yearP;
+          if(sem[0][0]!=undefined){
+            cuyear=sem[0][0].starting_date
+            curyearF=cuyear.getFullYear()+"/"+(cuyear.getMonth()+1)+"/"+cuyear.getDate();
+            semtype=sem[0][0].sem_type;
+            sem_string=' ';
+            year;
+            year=sem[0][0].year;
+            yearF=year.getFullYear()+"/"+(year.getMonth()+1)+"/"+year.getDate();
+            yearOnly=year.getFullYear();
+            yearP=year.getFullYear()+1;
+            if(semtype==1){
+              sem_string='ربيعي';
+            } else if(semtype==2){
+              sem_string='خريف';
+            } else if(semtype==3){
+              sem_string='صيفي';
+            }
+          }
+          var dept="......................",div="........................";
+          if(depname[0]!=0){
+            dept=depname[0][0].depname;
+            div=depname[0][0].devname;
+          } 
+          jsr.render({
+            template: {
+              content: fs.readFileSync(path.join(__dirname, "../views/studentDefinition.html"), "utf8"),
+              recipe: "phantom-pdf",
+            },
+            data:{
+              full_name:full_name,
+              set_number:set_number,
+              dept:dept,
+              div:div,
+              level:level,
+              sem_string:sem_string,
+              yearF:curyearF,
+              yearOnly:yearOnly,
+              yearP:yearP
+            }
+          }).then(function (response) {
+            response.result.pipe(res);
+            }); 
+          });
+        });
+      });
+    });
+  });
 
 router.get('/getSubject/:id', userHelpers.isLogin, function (req, res) {
   models.Subject.findOne({
@@ -1765,8 +1728,9 @@ router.get('/academicTranscripts', userHelpers.isLogin, function (req, res) {
         nats: nationality,
         student: student.rows,
         pagination: pagination,
-        collapseFive: 'collapse in',
-        activeFiveOne: 'active',
+        collapseSeven: 'collapse in',
+        activeSevenOne: 'active',
+        name: req.session.name,
         q: q
       });
     });
@@ -1967,8 +1931,10 @@ getRatioForALlSemester = function (mix) {
                             replacements: [idstudent]
                           })
                           .then(function (mix) {
+          
                             // this is for semester Ratio
                             var array = getRatioForSemester(mix);
+                            console.log(array);
                             // this is for all semester ratio
                             var arrayy = getRatioForALlSemester(mix);
                             if (arrayy != undefined) {
@@ -2018,10 +1984,120 @@ router.post('/addSemesterStudent', userHelpers.isLogin, function (req, res) {
                   replacements: [objStudent.SemesterId,objStudent.StudentId]
                 })
                 .then(function (semster) {
+
                   if(semster[0][0] == undefined ){
                     models.SemesterStudent.create(req.body)
                     .then(function (result) {
-                    res.send(true);
+
+                      models.Sub_group.findAll({
+                      where: {
+                        SemesterId: objStudent.SemesterId,
+                        DivisionId: objStudent.DivisionId,
+                        status: 1
+                      },
+                      include: [{
+                        model: models.Subject,
+                        required: false,
+                        where: {
+                          status: 1
+                        }
+                }]
+                    })
+                    .then(function (div) {
+                      models.SemesterStudent.findAll({
+                        where: { status: 1,
+                          StudentId:objStudent.StudentId
+                        },
+                        order: '`id` DESC',
+                        limit:2,
+                      }).then(function(semesterid){
+                        if(semesterid[1]==undefined){
+                          semesterid[1]=[];
+                          semesterid[1]['id']=-99;
+                        }
+                        models.Academic_transcript.findAll({
+                          where:{
+                            SemesterStudentId:semesterid[1].id,
+                            sum_dagree:{$lt: 50}
+                          },
+                          include: [{
+                            model: models.Sub_group,
+                            where:{status: 1}
+                          }]
+                        }).then(function(ress){
+                          var id_subj=[];
+                          if(ress.length>0){
+                            for (i in ress){
+                            id_subj[i]=ress[i].Sub_group.SubjectId;
+                            }
+                            models.Sub_group.findAll({
+                              attributes: ['id'],
+                              where:{
+                                SubjectId:{
+                                  $in: id_subj,  
+                                },
+                                SemesterId: objStudent.SemesterId
+                              }
+                            }).then(function(subg){
+                              var listF = [];
+                      
+                              var k=0;
+                              for (i in subg){
+                                var academic_body={
+                                result_case:6,
+                                chapter_degree:0,
+                                sum_dagree:0,
+                                final_exam:0,
+                                final_practical:0,
+                                subject_status:0,
+                                notices:1,
+                                StudentId:objStudent.StudentId,
+                                SemesterStudentId:result.id,
+                                UserId:req.session.idu
+
+                              }
+                                academic_body.SubGroupId=subg[i].id;
+                                listF[j]= academic_body;
+                                j++;
+                               
+                              }
+                              models.Academic_transcript.bulkCreate(listF);
+                            }); 
+
+
+                          }
+                          var list = [];
+                      
+                          var j=0;
+                          if(ress.length<3){
+                            for (i in div){
+                              var academic_body={
+                              result_case:6,
+                              chapter_degree:0,
+                              sum_dagree:0,
+                              final_exam:0,
+                              final_practical:0,
+                              subject_status:0,
+                              notices:1,
+                              StudentId:objStudent.StudentId,
+                              SemesterStudentId:result.id,
+                              UserId:req.session.idu
+
+                            }
+                              academic_body.SubGroupId=div[i].id;
+                              list[j]= academic_body;
+                              j++;
+                             
+                            }
+                            models.Academic_transcript.bulkCreate(list);
+                            
+                          }
+                          res.send(true);
+                        });
+                      });
+                      
+                      
+                    });
                   });
                   } else {
                      res.send(false);
@@ -2125,12 +2201,11 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       replacements: [req.body.SubGroupId]
     })
     .then(function (obj) {
-      console.log(obj);
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.isPractical != undefined){
           //console.log("do practical exam ");
-          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+          if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) + parseFloat(req.body.final_practical);
           } else {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree);
@@ -2144,7 +2219,7 @@ router.post('/addStudentSubject', userHelpers.isLogin, function (req, res) {
       if(obj[0][0].has_practical==1){
         // dont has practical exam 
         //console.log("the subject dont has practical exam");
-         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+         if (parseFloat(req.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree) + parseFloat(req.body.final_exam) ;
           } else {
             req.body.sum_dagree = parseFloat(req.body.chapter_degree);
@@ -2199,7 +2274,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
       if(obj[0][0].has_practical==2){
         // most has practical exam 
         if(req.body.body.isPractical != undefined){
-          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+          if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
             req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) + parseFloat(req.body.body.final_practical);
           } else {
             req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
@@ -2211,7 +2286,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
       }
       if(obj[0][0].has_practical==1){
         // dont has practical exam 
-        if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.55)) {
+        if (parseFloat(req.body.body.final_exam) >= (obj[0][0].final_theor * 0.50)) {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree) + parseFloat(req.body.body.final_exam) ;
         } else {
           req.body.body.sum_dagree = parseFloat(req.body.body.chapter_degree);
@@ -2249,6 +2324,7 @@ router.post('/updateG', userHelpers.isLogin, function (req, res) {
 });
 
 router.get('/deletetranscript/:id', userHelpers.isLogin, function (req, res) {
+
   models.Academic_transcript.destroy({
     where: {
       id: req.params.id
@@ -2339,6 +2415,7 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
 });
 
 
+
 router.get('/csvone', userHelpers.isLogin, function (req, res) {
   csv.generate  ({seed: 1, columns: 2, length: 20}).pipe(
   csv.parse     ()).pipe(
@@ -2347,4 +2424,117 @@ router.get('/csvone', userHelpers.isLogin, function (req, res) {
                 })).pipe(
   csv.stringify ()).pipe(process.stdout)
 });
+
+var objReport={};
+router.post('/setData', userHelpers.isLogin, function (req, res, next) {
+  objReport=req.body;
+  res.send(true);
+});
+
+function reportNamesOfstudents(obj,newObj) {
+  var level = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
+  HTML=' ';
+  HTML=' \
+  <body> \
+    <div class="container"> \
+      <div class="row"> \
+        <div class="col-xs-12"> \
+          <h5 class="text-center">  \
+              الهيئة الوطنية للتعليم التقني والفني \
+          </h5> \
+          <h5 class="text-center">  \
+              المعهد العالي للمهن الشاملة \
+          </h5> \
+          <h5 class="text-center">  \
+              القره بوللــــي \
+          </h5> \
+          <h5 class="text-center">  \
+            كشف باسماء طلبة قسم '+newObj.department+' شعبة '+newObj.dev+' \
+          </h5> \
+          <h5> \
+            الفصل <span>/</span> '+level[newObj.level-1]+'  '+newObj.semester+' \
+          </h5> \
+          <table class="table condensed"> \
+            <thead> \
+              <tr> \
+                <th class="text-center" width="7%">ت</th> \
+                <th class="text-center" width="30%">أسم الطالب<span>/</span>ة</th> \
+                <th class="text-center" width="17%">رقم القيد</th> \
+                <th class="text-center" width="25%">ملاحظات</th> \
+              </tr> \
+            </thead> \
+            <tbody> ';
+            var rowcounter=0;
+            var count=0;
+            for(i in obj){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center">'+obj[i].first_name+' '+obj[i].father_name+' '+obj[i].grand_name+' '+obj[i].last_name+'</td> \
+                  <td class="text-center">'+obj[i].set_number+'</td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+            var emptyRecord = 26-rowcounter;
+            for(i=0;i<emptyRecord;i++){
+              rowcounter++;
+              count++;
+              HTML=HTML+' <tr> \
+                  <td class="text-center number">'+count+'</td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                  <td class="text-center"></td> \
+                </tr> ';
+            }
+
+
+            HTML=HTML+'</tbody> \
+          <table> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                اسم الملاحظ <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>..................................................</span> \
+              </h5> \
+            </div> \
+            <div class="col-xs-6"> \
+              <h5 class="text-center"> \
+                التوقيع <span>/</span> \
+              </h5> \
+              <h5 class="text-center"> \
+                <span>.............................</span> \
+              </h5> \
+            </div> \
+          </div> \
+        </div> \
+      </body> \
+    </html>';
+  return HTML;
+  }
+
+router.get('/reportsNames', userHelpers.isLogin, function (req, res, next) {
+  models.sequelize.query('SELECT S.id,S.set_number,S.first_name,S.father_name,S.grand_name,SS.level,S.last_name,SS.DivisionId,SS.StudentId,SS.DepartmentId,SS.SemesterId FROM `SemesterStudents`AS SS ,`Students` AS S WHERE SS.StudentId=S.id AND SS.DivisionId=? AND SS.DepartmentId=? AND SS.SemesterId=? AND SS.level=? ', {
+    replacements: [objReport.devId,objReport.departmentId,objReport.semesterId,objReport.levelid]
+  }).then(function (result) {
+    console.log(result[0]);
+    jsr.render({
+      template: {
+        content: fs.readFileSync(path.join(__dirname, "../views/reportNamesOfStudents.html"), "utf8"),
+        recipe: "phantom-pdf",
+        helpers: reportNamesOfstudents.toString()
+      },
+      data: {
+        obj:result[0],
+        newObj:objReport
+      }
+      }).then(function (response) {
+        response.result.pipe(res);
+      }); 
+  });
+});
+
+>>>>>>> a55a2d2f44c70ec1d2b5f12f785ab482d27cabab
 module.exports = router;

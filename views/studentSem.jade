@@ -1,0 +1,117 @@
+extends layout
+block authenticationStyle
+block errorStyle
+block content
+  .container
+    .row
+      .col-md-10
+        .btn-group.btn-breadcrumb
+          a.btn.btn-default(href="/cPanel")
+            i.glyphicon.glyphicon-home
+          a.btn.btn-default(href="/studentshow") تنزيل المواد للطلبة
+          .btn.btn-default.active عرض فصول الطالب/ة : #{student.first_name}  #{student.last_name}
+        br
+        br
+        #Semesters_teble  
+          .panel.panel-default
+            .panel-heading
+              .row
+                .pull-right(style="margin-right: 10px;")
+                  h3#h3.panel-title عرض فصول الطالب/ة : #{student.first_name}  #{student.last_name}
+                //- .col-xs-6.col-md-6
+                  .input-group
+                    input.form-control(type='text', placeholder='بحث...')
+                    .input-group-btn
+                      button.btn.btn-default
+                        i.glyphicon.glyphicon-search
+                .pull-left(style="margin-left: 15px;")
+                  a.btn.btn-success(href='/transcript/Academictranscripts/', role='button',data-toggle='modal')
+                    i.fa.fa-arrow-left
+                    span  رجوع          
+        
+            .table-responsive
+              table#hii.table.table-bordred.table-striped.text-right
+                thead
+                  th.text-center النظام الدراسي
+                  th.text-center السنة الدراسية
+                  th.text-center الترتيب
+                  th.text-center بداية الفصل 
+                  th.text-center نهاية الفصل
+                  th.text-center الشعــبة
+                  th.text-center المعدل الفصلي
+                  th.text-center المعدل التراكمي
+                  th.text-center سحب ملف 
+                  th.text-center نتيجة طالب  
+                  th.text-center استمارة تسجيل مواد 
+
+                  //- th.text-center تنزيل
+                  //- th.text-center إلغاء 
+                tbody
+                for i,u in semStudent
+                  tr(data-id = 'smst#{i.id}',data-stut='#{i.student_status}',data-dep='#{i.DepartmentId}',data-level='#{i.level}',data-divi='#{i.DivisionId}')
+                    td.text-center
+                      if i.Semester.system_type==1
+                        if i.Semester.sem_type==1
+                          | فصل ربيعي 
+                        if i.Semester.sem_type==2
+                          | فصل خريفي
+                        if i.Semester.sem_type==3
+                          | فصل صيفي
+                      if i.Semester.system_type ==2
+                        | سنة
+                    td.text-center #{i.Semester.year.getFullYear()}
+                    td(id="le#{i.id}").text-center #{semty[i.level-1]}
+                    td.text-center #{i.Semester.starting_date.getDate()} / #{i.Semester.starting_date.getMonth()+1} / #{i.Semester.starting_date.getFullYear()} 
+                    td.text-center #{i.Semester.ending_date.getDate()} / #{i.Semester.ending_date.getMonth()+1} / #{i.Semester.ending_date.getFullYear()} 
+                    td(id="div#{i.id}").text-center #{i.Division.name}
+                    td.text-center 
+                      if arr[u] ==Nan 
+                        |0
+                      else
+                        | #{arr[u]}
+                    td.text-center 
+                      if arr[u] ==Nan 
+                        |0
+                      else
+                        | #{ar[u]} 
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="سحب ملف")
+                        a#arabicTranscript.btn.btn-warning.btn-xs(href='/report/report3/#{i.id}')
+                          span.glyphicon.glyphicon-print
+
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="نتيجة طالب ")
+                        a#arabicTranscript.btn.btn-primary.btn-xs(href='/report/report2/#{i.id}/#{sId}')
+                          span.glyphicon.glyphicon-print
+                    td.text-center
+                      p(data-placement="top", data-toggle="tooltip", title="استمارة تسجيل مواد ")
+                        a#arabicTranscript.btn.btn-success.btn-xs(href='/report/report1/#{i.id}')
+                          span.glyphicon.glyphicon-print
+                    //- td.text-center
+                    //-   p(data-placement="top", data-toggle="tooltip", title="تعديل")
+                    //-     button#Editsem.btn.btn-primary.btn-xs.editDepartment(value='#{i.id}',data-title="Edit", data-toggle="modal", data-target="#edit")
+                    //-       span.glyphicon.glyphicon-pencil                   
+                    //- td.text-center
+                    
+                    //-   p(data-placement="top", data-toggle="tooltip", title="تنزيل المواد")  
+                    //-     button#std.btn.btn-primary.btn-xs(data-row='#{i.id}',value="#{i.id}",data-title="Delete", data-toggle="modal")
+                    //-       span.glyphicon.glyphicon-pencil 
+                    //- td.text-center
+                    //-   p(data-placement="top", data-toggle="tooltip", title="إلغاء")
+                    //-     button#Delete.btn.btn-danger.btn-xs(value='#{i.id}',data-title="Delete", data-toggle="modal", data-target="#delete")
+                    //-       span.glyphicon.glyphicon-trash       
+
+  script(src='/js/jquery-2.1.1.min.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/bootstrap-select.min.js')
+  script(src='/js/moment-with-locales.min.js')
+  script(src='/js/bootstrap-datetimepicker.min.js')
+  script(src='/js/jquery.validate.min.js')
+  script(src='/js/bootstrap-notify.min.js')
+  script(src='/js/backToTop.js')
+  script(src='/js/helpers.js')
+  script(src='/js/studentData.js')
+  script.
+    $(document).ready(function(){
+      $("[data-toggle=tooltip]").tooltip();
+    });

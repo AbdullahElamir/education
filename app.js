@@ -19,6 +19,11 @@ var transcript = require('./routes/transcript');
 var users = require('./routes/users');
 var cPanel = require('./routes/cPanel');
 var report = require('./routes/report');
+var cutingStudent = require('./routes/cutingStudent');
+var studentshow = require('./routes/studentshow');
+var subjectOfDagree = require('./routes/subjectOfDagree');
+var credence = require('./routes/credence');
+
 // var redis = require("redis"),
 //     client = redis.createClient();
 // var RedisStore = require('connect-redis')(session);
@@ -50,6 +55,10 @@ app.use('/transcript', transcript);
 app.use('/users', users);
 app.use('/cPanel', cPanel);
 app.use('/report', report);
+app.use('/cutingStudent', cutingStudent);
+app.use('/studentshow', studentshow);
+app.use('/subjectOfDagree', subjectOfDagree);
+app.use('/credence', credence);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

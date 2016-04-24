@@ -72,7 +72,7 @@ html
               //-                   | بحث!
             .col-md-4
               .navbar-brand
-                span.text-muted المعهد‪ ‬العالي‪ ‬للمهن‪ ‬الطبية‪ ‬القره‪ ‬بوللي‬
+                span.text-muted المعهد‪ العالي للمهن الشاملة القره بوللي
             ul.nav.navbar-nav.navbar-right
               li.dropdown
                 a.dropdown-toggle(href="#", data-toggle="dropdown")
@@ -208,12 +208,15 @@ html
                       tr
                         td(class=activeFiveTwo)
                           a(href="/student/newStudent")  تسجيل طالب/ة
+                      tr
+                        td(class=activeFivethree)
+                          a(href="/cutingStudent")  الطلبة المنقطعين
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title
                     a(data-toggle="collapse", data-parent="#accordion", href="#collapseSix")
                       span.fa.fa-users
-                      span  المحاضرين
+                      span  الأدلة
                 #collapseSix.panel-collapse.collapse(class=collapseSix)
                   .panel-body#panel-body
                     table.table
@@ -223,6 +226,9 @@ html
                       tr
                         td(class=activeSixTwo)
                           a(href="/facultyMember/newFacultyMember")  إضافة محاضر/ة
+                      tr
+                        td(class=activeSixThree)
+                          a(href="/credence")  المعتمدين
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title
@@ -235,6 +241,9 @@ html
                       tr
                         td(class=activeSevenOne)
                           a(href="/transcript/Academictranscripts")  تنزيل مواد للطلبة
+                      tr
+                        td(class=activeSeventwo)
+                          a(href="/subjectOfDagree")  رصــــد درجـــات
               .panel.panel-default.font
                 .panel-heading
                   h4.panel-title
@@ -249,13 +258,29 @@ html
                           a(href="/transcript")  اﻹفادات والشهائد
                       tr
                         td(class=activeEightTwo)
-                          a(href="/transcript/detections")  نتائج الطلبة
+                          a(href="/transcript/detections")  نتائج وأسماء الطلبة
                       tr
                         td(class=activeEightThree)
                           a(href="/report")  كشف الحضور والغياب
                       tr
                         td(class=activeEightfour)
+<<<<<<< HEAD
                           a(href="")  كشف المحاضرين    
+=======
+                          a(href="/report/reportFacultyMemer")  المحاضرين والمواد الدراسية       
+                      tr
+                        td(class=activeEightfive)
+                          a(href="/report/resultsOfSubject")  نتائج مادة دراسية           
+                      tr
+                        td(class=activeEightsix)
+                          a(href="/studentshow")  عرض المواد والدرجات و سحب الملف 
+                      tr
+                        td(class=activeEightseven)
+                          a(href="/report/NumberOfStudents") عرض الطلبة الغير مقيمين بالسكن الطلابي
+                      tr
+                        td(class=activeEighteight)
+                          a(href="/report/sticalNumberOfStudents") عرض الطلبة الخريجين
+>>>>>>> a55a2d2f44c70ec1d2b5f12f785ab482d27cabab
           block content
     block footer
       footer.footer.font

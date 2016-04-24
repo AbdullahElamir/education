@@ -2,6 +2,9 @@ var generatePassword = require('password-generator'),
   easyPbkdf2 = require("easy-pbkdf2")(),
   url=require('url');
 var models  = require('../models');
+var jsreport = require("jsreport");
+var fs = require("fs");
+var path = require("path");
 
 module.exports = {
 
@@ -145,6 +148,7 @@ module.exports = {
       return false;
     }
   },
+
 
 
 };
