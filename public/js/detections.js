@@ -16,6 +16,11 @@ $(document).ready(function(){
     }
   });
 
+
+  $('body').on('click', '#ok', function(){
+      window.location.href='/transcript/csvone';
+  });
+
   // $('body').on('click', '#submit', function (e) {
   //   e.preventDefault();
   //   $('#submit').submit();

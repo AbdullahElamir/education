@@ -8,6 +8,11 @@ var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 var Math = require("math");
+var csv = require('csv');
+var parse = require('csv-parse');
+var callback = require('../app/callback');
+var transform = require('stream-transform');
+
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
 var obj = {
@@ -2331,5 +2336,15 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
         msg: "2"
       }); //has foreign-key restriction
     });
+});
+
+
+router.get('/csvone', userHelpers.isLogin, function (req, res) {
+  csv.generate  ({seed: 1, columns: 2, length: 20}).pipe(
+  csv.parse     ()).pipe(
+  csv.transform (function(record){
+                  return record.map(function(value){return value.toUpperCase()});
+                })).pipe(
+  csv.stringify ()).pipe(process.stdout)
 });
 module.exports = router;
