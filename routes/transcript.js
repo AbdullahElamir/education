@@ -8,6 +8,11 @@ var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 var Math = require("math");
+var csv = require('csv');
+var parse = require('csv-parse');
+var callback = require('../app/callback');
+var transform = require('stream-transform');
+
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
 
@@ -1232,6 +1237,10 @@ router.get('/detection/:idse/:idv/:idl',userHelpers.isLogin,  function (req, res
                 semester = ' ' + sem.year.getFullYear() + ' '
               }
               models.Division.findOne({
+                include: [{
+                  model: models.Department,
+                  where: { status: 1 }
+                }],
                   where: {
                     id: req.params.idv
                   }
@@ -2406,6 +2415,16 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
 });
 
 
+
+router.get('/csvone', userHelpers.isLogin, function (req, res) {
+  csv.generate  ({seed: 1, columns: 2, length: 20}).pipe(
+  csv.parse     ()).pipe(
+  csv.transform (function(record){
+                  return record.map(function(value){return value.toUpperCase()});
+                })).pipe(
+  csv.stringify ()).pipe(process.stdout)
+});
+
 var objReport={};
 router.post('/setData', userHelpers.isLogin, function (req, res, next) {
   objReport=req.body;
@@ -2517,4 +2536,5 @@ router.get('/reportsNames', userHelpers.isLogin, function (req, res, next) {
   });
 });
 
+>>>>>>> a55a2d2f44c70ec1d2b5f12f785ab482d27cabab
 module.exports = router;

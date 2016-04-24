@@ -207,10 +207,4 @@ $(document).ready(function(){
     }
     return b;
   })(window.location.search.substr(1).split('&'));
-
-  if(qs["msg"]==1){
-    custNotify("success","نجح","تمت تسجيل طالب/ة جديد بنجاح","ok-sign","bounceInDown","bounceOutUp");
-    var pageUrl = '/student'
-    window.history.pushState("","",pageUrl);
-  }
 });

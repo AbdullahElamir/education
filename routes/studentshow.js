@@ -128,6 +128,7 @@ router.get('/studentSem/:id', userHelpers.isLogin, function (req, res) {
                             }
                             var semesterTy = ['الاول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادي العاشر', 'الثاني عشر'];
                             res.render('studentSem', {
+                              sId:req.params.id,
                               ar: arrayy,
                               arr: array,
                               title: 'Student Data',

@@ -243,7 +243,7 @@ function showReportt3(objj,Bdate,gender){
   return HTML;
   }
 
- function showReportt2(res,notice){
+ function showReportt2(res,resAll,notice){
    var HTML=' ';
   HTML=HTML+'<div class="col-xs-12"> \
             <div class="row"> \
@@ -251,15 +251,17 @@ function showReportt3(objj,Bdate,gender){
               <table class="table">  \
                 <thead> \
                   <tr>  \
-                    <th class="text-center" style="width: 80px;">رقم المادة</th> \
+                    <th class="text-center" style="width: 80px;">رمز المادة</th> \
                     <th class="text-center">اسم المادة</th> \
                     <th class="text-center" style="width: 80px;">الوحدات</th> \
                     <th class="text-center" style="width: 80px;">الدرجة</th> \
-                    <th class="text-center" style="width: 80px;">ألنقاط</th> \
+                    <th class="text-center" style="width: 80px;">النقاط</th> \
                     <th class="text-center">ملاحظات</th> \
                   </tr> \
                 </thead> \
                 <tbody>';
+                var ratio=0,ratioCount=0;
+                var ratioGrad=0.0;
               for(i in res){ 
                 var notice_string=' ';
                 if(notice[i]==1){
@@ -276,16 +278,38 @@ function showReportt3(objj,Bdate,gender){
                         <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td>\
                         <td class="text-center">'+notice_string+'</td> \
                       </tr>';*/
-
                 HTML=HTML+'  <tr> \
                     <td class="text-center">'+res[i].Sub_group.Subject.code+'</td> \
                     <td class="text-center">'+res[i].Sub_group.Subject.name+'</td> \
                     <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td> \
-                    <td class="text-center">1</td> \
+                    <td class="text-center">'+res[i].sum_dagree+'</td> \
                     <td class="text-center">1</td> \
                     <td class="text-center">'+notice_string+'</td> \
                   </tr> '; 
+                  ratio=ratio+res[i].Sub_group.Subject.no_th_unit;
+                  ratioGrad=ratioGrad+(res[i].sum_dagree * res[i].Sub_group.Subject.no_th_unit);
+                  ratioCount++;
               }
+          // get the 2 digits only 
+          var yy = (ratioGrad/ratio);
+          var n = 10;
+          for (var i = 1; i < 2; i++) {
+            n *= 10;
+          }
+          if (!2 || 2 <= 0)
+            yy = Math.round(yy);
+          else
+            yy = Math.round(yy * n) / n;
+          var allunit=0;
+          var allpass=0;
+          for(i in resAll){
+            allunit=allunit+res[i].Sub_group.Subject.no_th_unit
+            if(res[i].sum_dagree>=50){
+              allpass=allpass+res[i].Sub_group.Subject.no_th_unit
+            }
+          }
+
+
            HTML=HTML+' </tbody> \
               </table> \
               <div style="height: 0px;"></div> \
@@ -294,20 +318,20 @@ function showReportt3(objj,Bdate,gender){
                   <tr> \
                     <td class="text-center" style="border: 0px;"></td> \
                     <td class="text-center" style="width: 100px;">الوحدات الفصلية</td> \
-                    <td class="text-center" style="width: 70px;">22</td> \
+                    <td class="text-center" style="width: 70px;">'+ratio+'</td> \
                     <td class="text-center" style="width: 100px;">النقاط الفصلية</td> \
-                    <td class="text-center" style="width: 70px;">635</td> \
+                    <td class="text-center" style="width: 70px;">'+ratio+'</td> \
                     <td class="text-center" style="width: 100px;">المعدل الفصلي</td> \
-                    <td class="text-center" style="width: 67px;">635</td>\
+                    <td class="text-center" style="width: 67px;">'+yy+'</td>\
                   </tr>\
                   <tr> \
                     <td class="text-center" style="border: 0px;"></td> \
                     <td class="text-center" style="width: 100px;">الوحدات التراكمية</td> \
-                    <td class="text-center" style="width: 70px;">78</td> \
+                    <td class="text-center" style="width: 70px;">'+allunit+'</td> \
                     <td class="text-center" style="width: 100px;">النقاط التراكمية</td> \
-                    <td class="text-center" style="width: 70px;">3555</td> \
+                    <td class="text-center" style="width: 70px;">'+ratio+'</td> \
                     <td class="text-center" style="width: 100px;">الوحدات المنجزة</td> \
-                    <td class="text-center" style="width: 67px;">56</td>\
+                    <td class="text-center" style="width: 67px;">'+allpass+'</td>\
                   </tr>\
                   <tr>  \
                     <td class="text-center" style="border: 0px;"></td> \
@@ -315,8 +339,6 @@ function showReportt3(objj,Bdate,gender){
                     <td class="text-center" style="border: 0px;"></td> \
                     <td class="text-center" style="border: 0px;"></td> \
                     <td class="text-center" style="border: 0px;"></td> \
-                    <td class="text-center" style="width: 100px;">المعدل التراكمي</td> \
-                    <td class="text-center" style="width: 67px;">45.85</td>\
                   </tr> \
                 </tbody>  \
               </table> \
@@ -860,7 +882,7 @@ function reportresultsOfStudent(obj,newObj) {
   <body> \
     <div class="container"> \
       <div class="row"> \
-        <div class="col-xs-12"> \
+        <div class="col-xs-12"> <br> \
           <h5 class="text-center">  \
               الهيئة الوطنية للتعليم التقني والفني \
           </h5> \
@@ -872,7 +894,7 @@ function reportresultsOfStudent(obj,newObj) {
           </h5> \
           <h5 class="text-center">  \
             كشف بالمواد الدراسية لقسم '+newObj.department+' \
-          </h5> \
+          </h5> <br> \
           <h5> \
             الشعبة <span>/</span> '+newObj.dev+' \
           </h5> \
@@ -1062,7 +1084,34 @@ router.get('/report1/:id', function(req, res) {
   });
 });
 
-router.get('/report2/:id', function(req, res) {
+router.get('/report2/:id/:std', function(req, res) {
+  console.log("req.params.std");
+  console.log(req.params.std);
+
+  models.Academic_transcript.findAll({
+    where: {
+      StudentId:req.params.std,
+      status: 1
+    },
+    include: [{
+      model: models.Sub_group,
+      required: false,
+      where: {
+        status: 1
+      },
+      include: [{
+        model: models.Subject,
+        required: false,
+        where: {
+          status: 1
+        }
+      }]
+    }]
+  })
+  .then(function (resultAll) {
+
+
+
    //select * from Semesters where id =(select SemesterId from SemesterStudents where id=5)
   models.Academic_transcript.findAll({
     where: {
@@ -1091,9 +1140,7 @@ router.get('/report2/:id', function(req, res) {
       models.sequelize.query('select * from Semesters where id =(select SemesterId from SemesterStudents where id=?)', {
       replacements: [req.params.id]
     }).then(function (sem) {
-    /*models.sequelize.query('select * from Subjects where id in (select SubjectId from Sub_groups where SemesterId=(select SemesterId from SemesterStudents where id=?))', {
-      replacements: [req.params.id]
-    }).then(function (course) {*/
+     
     var year = sem[0][0].year.getFullYear();
     var sem;
     var semtype=sem[0][0].sem_type;
@@ -1110,10 +1157,19 @@ router.get('/report2/:id', function(req, res) {
     var last_name= studentReport[0][0].last_name;
     var full_name= name+" "+father+" "+last_name;
     var set_number=studentReport[0][0].set_number;
+
     var notice=[];
     for(i in result){
     notice.push(result[i].dataValues.notices);
+    //console.log(result[i].dataValues.notices);
   }
+   models.sequelize.query('select * from Divisions where id =(select DivisionId from SemesterStudents where id=?)', {
+      replacements: [req.params.id]
+    }).then(function (div) {
+      var div_name=div[0][0].name;
+      console.log(resultAll[0].dataValues);
+      console.log(resultAll[1].dataValues);
+      console.log(resultAll[2].dataValues);
     jsreport.render({
       template: { 
         recipe: "phantom-pdf",
@@ -1126,11 +1182,13 @@ router.get('/report2/:id', function(req, res) {
           sem : sem,
           year:year,
           res:result,
+          resAll:resultAll,
           notice:notice,
+          div:div_name,
         }
     }).then(function (response) {
       response.result.pipe(res);
-    });  }); });
+    });  }); }); }); });
   });
  
 });
