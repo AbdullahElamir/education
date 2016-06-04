@@ -42,11 +42,29 @@
           </div>
           <div style="height: 10px;"></div>
           <div class="row text-center" >
-            <h1> إفادة تخرج </h1>
+            <h1> { إفادة تخرج } </h1>
           </div>
           <div style="height: 40px;"></div>
             <div class="fontSizeBody">
-              يفيدكم, مكتب التسجيل والدراسة والامتحانات بان 
+              <span style="font-weight:bold;">يفيدكم...  المعهد العالي للمهن الشاملة بالقره بوللي بأن
+              </span>
+              {{#if st.gender}}
+                السيد 
+              {{else}}
+                السيدة 
+              <span style="font-weight:bold;">: {{st.first_name}} {{st.father_name}} {{st.grand_name}} {{st.last_name}} 
+              </span>
+              والمســـــــــجل تحت رقـــــــــــم قيــــــــــــــــد<span style="font-weight:bold;"> : {{st.set_number}} ,</span> الجنســـــية<span style="font-weight:bold;"> : {{nat.name}} ,</span>
+               تاريخ و مكان الميلاد <span style="font-weight:bold;"> : {{st.place_birth}} / {{date}} ,</span>  الرقـــــــــــم الوطـــــــني<span style="font-weight:bold;"> : {{st.nid}} </span>
+              قد تحصـــــــــل على درجــــــــة <span style="font-weight:bold;">الدبلـــوم  العـــــــــــــــالي</span>
+               في مجال   <span style="font-weight:bold;"> : {{st.named}} ,</span> 
+              للفصــل الدراســـــــــــي<span style="font-weight:bold;"> : {{sem}} {{year}} ,</span> 
+              <br/>
+              <div style="height: 35px;" ></div>
+              <div class="text-center">
+              أعطيت هذه الإفادة  بعد الاطلاع على الملف العلمي للمعني لاستعمالها فيما يخوله القانون .
+              </div>
+           <!--    يفيدكم, مكتب التسجيل والدراسة والامتحانات بان 
               {{#if st.gender}}
                 الطالبه 
               {{else}}
@@ -65,7 +83,7 @@
               <div style="height: 35px;" ></div>
               <div class="text-center">
                 أعطيت هذه اﻹفادة بعد الاطلاع على الملف العـلـمي للـمعـنى لاستعمالها فيما يخوله القانون .
-              </div>
+              </div> -->
             </div>
           <div style="height: 110px;"></div>
           <div class="row fontSizeBody" >
