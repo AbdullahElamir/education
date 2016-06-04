@@ -262,6 +262,10 @@ function showReportt3(objj,Bdate,gender){
                 <tbody>';
                 var ratio=0,ratioCount=0;
                 var ratioGrad=0.0;
+                var point=0;
+              var allPoint=res.y;
+              var allu=res.z;
+              res=res.x;
               for(i in res){ 
                 var notice_string=' ';
                 if(notice[i]==1){
@@ -283,9 +287,10 @@ function showReportt3(objj,Bdate,gender){
                     <td class="text-center">'+res[i].Sub_group.Subject.name+'</td> \
                     <td class="text-center">'+res[i].Sub_group.Subject.no_th_unit+'</td> \
                     <td class="text-center">'+res[i].sum_dagree+'</td> \
-                    <td class="text-center">1</td> \
+                    <td class="text-center">'+(res[i].sum_dagree*res[i].Sub_group.Subject.no_th_unit)+'</td> \
                     <td class="text-center">'+notice_string+'</td> \
                   </tr> '; 
+                  point=point+(res[i].sum_dagree*res[i].Sub_group.Subject.no_th_unit);
                   ratio=ratio+res[i].Sub_group.Subject.no_th_unit;
                   ratioGrad=ratioGrad+(res[i].sum_dagree * res[i].Sub_group.Subject.no_th_unit);
                   ratioCount++;
@@ -320,16 +325,16 @@ function showReportt3(objj,Bdate,gender){
                     <td class="text-center" style="width: 100px;">الوحدات الفصلية</td> \
                     <td class="text-center" style="width: 70px;">'+ratio+'</td> \
                     <td class="text-center" style="width: 100px;">النقاط الفصلية</td> \
-                    <td class="text-center" style="width: 70px;">'+ratio+'</td> \
+                    <td class="text-center" style="width: 70px;">'+point+'</td> \
                     <td class="text-center" style="width: 100px;">المعدل الفصلي</td> \
                     <td class="text-center" style="width: 67px;">'+yy+'</td>\
                   </tr>\
                   <tr> \
                     <td class="text-center" style="border: 0px;"></td> \
                     <td class="text-center" style="width: 100px;">الوحدات التراكمية</td> \
-                    <td class="text-center" style="width: 70px;">'+allunit+'</td> \
+                    <td class="text-center" style="width: 70px;">'+allPoint+'</td> \
                     <td class="text-center" style="width: 100px;">النقاط التراكمية</td> \
-                    <td class="text-center" style="width: 70px;">'+ratio+'</td> \
+                    <td class="text-center" style="width: 70px;">'+allu+'</td> \
                     <td class="text-center" style="width: 100px;">الوحدات المنجزة</td> \
                     <td class="text-center" style="width: 67px;">'+allpass+'</td>\
                   </tr>\
@@ -1085,8 +1090,72 @@ router.get('/report1/:id', function(req, res) {
 });
 
 router.get('/report2/:id/:std', function(req, res) {
-  console.log("req.params.std");
-  console.log(req.params.std);
+  console.log("semester id");
+  console.log(req.params.id);
+ console.log(req.params.std);
+
+   models.sequelize.query('SELECT st.gender,ss.level,at.notices,at.`sum_dagree`,at.`SemesterStudentId`,st.set_number,st.`first_name`,st.`father_name`,st.`grand_name`,st.`last_name`,sb.`no_th_unit`,sb.`code`,sb.`name`,sb.`code`,sb.`no_th_unit`,dd.name as deptName,dev.id as idDev,dev.name as devName,s.system_type,s.sem_type,s.year FROM Departments as dd,Divisions as dev, SemesterStudents AS ss LEFT JOIN Semesters AS s ON ( ss.semesterId = s.id ) left JOIN Students AS st ON ( ss.studentId = st.id ) left JOIN Academic_transcripts AS at ON ( ss.id = at.SemesterStudentId AND at.status = 1) left JOIN Sub_groups AS sg ON ( at.SubGroupId = sg.id ) left JOIN Subjects AS sb ON ( sg.SubjectId = sb.id) WHERE st.`id`=? and ss.DepartmentId=dd.id and ss.DivisionId=dev.id   order by s.`starting_date`', {
+      replacements: [req.params.std]
+    })
+    .then(function (arabic) {
+      models.sequelize.query('select subjj.id as idsubject,subjj.name, SemS.StudentId,Sem.starting_date,acad.SemesterStudentId,acad.sum_dagree,SemS.SemesterId,subjj.no_th_unit from `SemesterStudents` as SemS ,`Semesters` as Sem ,`Academic_transcripts` as acad , `Sub_groups` as sub ,`Subjects` as subjj where acad.status=1 and SemS.StudentId=? and Sem.id = SemS.SemesterId and acad.SemesterStudentId = SemS.id and sub.id=acad.SubGroupId and subjj.id=sub.SubjectId order by Sem.starting_date', {
+        replacements: [req.params.std]
+      })
+      .then(function (mix) {
+
+        //console.log(arabic[0]);
+        sumRatio=0;
+          course=[];
+        for(i in arabic[0]){
+          console.log(arabic[0][i]);
+          
+          if(arabic[0][i].SemesterStudentId<=req.params.id)
+            if(arabic[0][i].sum_dagree>=50){
+              course.push(arabic[0][i].code);
+            sumRatio=sumRatio+arabic[0][i].no_th_unit;
+          }
+          //console.log(arabic[0][i].SemesterStudentId);
+        }
+  var seen = [], result = [];
+    for(var len = course.length, i = len-1; i >= 0; i--){
+        if(!seen[course[i]]){
+            seen[course[i]] = true;
+            result.push(course[i]);
+        }
+    }
+        console.log(result);
+        allPoint=0;
+        allUnitpoint=0;
+        for(i in result){
+          x=0;
+          y=0;
+          t=0;
+          for(j in arabic[0]){
+            if(result[i] == arabic[0][j].code){
+              if(arabic[0][j].SemesterStudentId<=req.params.id){
+              t=arabic[0][j].no_th_unit;
+              
+              /*console.log(arabic[0][j].sum_dagree);
+              console.log(arabic[0][j].no_th_unit);
+              console.log(arabic[0][j].no_th_unit*arabic[0][j].sum_dagree);*/
+              
+              x=arabic[0][j].no_th_unit;
+              y=arabic[0][j].sum_dagree;
+              //break;
+            }
+            }
+          }
+          console.log(x);
+          console.log(y);
+          allUnitpoint=allUnitpoint+ (x*y);
+          allPoint=allPoint + t;
+
+        }
+        console.log(allPoint);
+
+
+        /*console.log('mix');
+        console.log(mix);*/
 
   models.Academic_transcript.findAll({
     where: {
@@ -1163,13 +1232,11 @@ router.get('/report2/:id/:std', function(req, res) {
     notice.push(result[i].dataValues.notices);
     //console.log(result[i].dataValues.notices);
   }
+
    models.sequelize.query('select * from Divisions where id =(select DivisionId from SemesterStudents where id=?)', {
       replacements: [req.params.id]
     }).then(function (div) {
       var div_name=div[0][0].name;
-      console.log(resultAll[0].dataValues);
-      console.log(resultAll[1].dataValues);
-      console.log(resultAll[2].dataValues);
     jsreport.render({
       template: { 
         recipe: "phantom-pdf",
@@ -1181,14 +1248,14 @@ router.get('/report2/:id/:std', function(req, res) {
           set_number: set_number,
           sem : sem,
           year:year,
-          res:result,
+          res:{x:result,y:allPoint,z:allUnitpoint},
           resAll:resultAll,
           notice:notice,
-          div:div_name,
+          div:div_name
         }
     }).then(function (response) {
       response.result.pipe(res);
-    });  }); }); }); });
+    });  }); }); }); }); }); });
   });
  
 });
