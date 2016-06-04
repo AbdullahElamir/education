@@ -8,6 +8,11 @@ var jsr = require("jsreport");
 var fs = require("fs");
 var path = require("path");
 var Math = require("math");
+var csv = require('csv');
+var parse = require('csv-parse');
+var callback = require('../app/callback');
+var transform = require('stream-transform');
+
 var nationality = require('../Nationality');
 var ratioo = require('../app/ratio');
 
@@ -1904,7 +1909,7 @@ getRatioForALlSemester = function (mix) {
                           status: 1,
                           StudentId: req.params.id
                         },
-                        order: '`starting_date` DESC',
+                        order: '`starting_date` ASC',
                         "include": [
                           {
                             "model": models.Division
@@ -2409,6 +2414,16 @@ router.get('/deleteSemStu/:id', userHelpers.isLogin, function (req, res) {
     });
 });
 
+
+
+router.get('/csvone', userHelpers.isLogin, function (req, res) {
+  csv.generate  ({seed: 1, columns: 2, length: 20}).pipe(
+  csv.parse     ()).pipe(
+  csv.transform (function(record){
+                  return record.map(function(value){return value.toUpperCase()});
+                })).pipe(
+  csv.stringify ()).pipe(process.stdout)
+});
 
 var objReport={};
 router.post('/setData', userHelpers.isLogin, function (req, res, next) {

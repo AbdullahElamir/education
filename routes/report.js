@@ -1503,6 +1503,8 @@ router.get('/statisticalNumberOfStudentsNotcsv', userHelpers.isLogin, function (
       }
     var fields = ['no_paper_family','no_reg_family','first_name','last_name','birth','place_birth','gen','col','set_number','bank','bank_branch','account_no','nid',];
     var fieldNames = ['رقـم ورقـة الـعـائـلـة','قـيـد الـعـائـلـة','اسـم الـطـالـب','اسـم الـعـائـلـة ','تـاريـخ الـمـيـلاد','مـكـان الـمـيـلاد','الـجـنـس','الـمـعـهـد الـعـالـي ','رقـم الـقـيد','الـمـصـرف','الـفـرع','رقـم الـحـسـاب','الـرقـم الـوطـنـي',];
+    fields =fields.reverse();
+    fieldNames =fieldNames.reverse();
     json2csv({ data: studentReport[0], fields: fields, fieldNames : fieldNames }, function(err, csv) {
       if (err) console.log(err);
       res.attachment('Students.csv');
