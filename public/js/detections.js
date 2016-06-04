@@ -21,6 +21,7 @@ $(document).ready(function(){
   //   });
   // });
   
+
   $('body').on('click', '#submit', function(){
     var isvalidate=$("#delectionsForm").valid();
     if(isvalidate){
@@ -28,6 +29,13 @@ $(document).ready(function(){
     }
   });
 
+
+
+  $('body').on('click', '#ok', function(){
+      window.location.href='/transcript/csvone';
+
+
+});
   $('body').on('click', '#viweStudentp', function(){
     obj={semester:$("#semester option:selected").text(),levelid:$("#level option:selected").val(),semesterId:$("#semester option:selected").val(),level:$("#level option:selected").val(),devId:$("#division option:selected").val(),departmentId:$("#department option:selected").val(),department:$("#department option:selected").text(),dev:$("#division option:selected").text()};
     $.post('/transcript/setData/',obj,function(result){
@@ -36,7 +44,8 @@ $(document).ready(function(){
        window.location.href='/transcript/reportsNames';
     }
     });
-  });
+});
+
 
   // $('body').on('click', '#submit', function (e) {
   //   e.preventDefault();
